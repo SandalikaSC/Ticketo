@@ -10,7 +10,7 @@ import {
   FaSignOutAlt  
 }from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
-import Logo from './logoText.png';
+import Logo from '../common/logoText.png';
 
 
 const Sidebar = ({children}) => {

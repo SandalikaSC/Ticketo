@@ -6,12 +6,12 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 
 //Control center imports for testing purposes only
 import Sidebar from './components/controlCenter/CCSidebar';
-import TrainInfo from './pages/ControlCentre/TrainInfo.jsx';
-import AssignGuards from './pages/ControlCentre/AssignGuards';
-import Delays from './pages/ControlCentre/Delays';
-import TrackTrains from './pages/ControlCentre/TrackTrains.jsx';
-import Stations from './pages/ControlCentre/Stations.jsx';
-import Settings from './pages/ControlCentre/Settings.jsx';
+import TrainInfo from './pages/controlCenter/TrainInfo.jsx';
+import AssignGuards from './pages/controlCenter/AssignGuards';
+import Delays from './pages/controlCenter/Delays';
+import TrackTrains from './pages/controlCenter/TrackTrains.jsx';
+import Stations from './pages/controlCenter/Stations.jsx';
+import Settings from './pages/controlCenter/Settings.jsx';
 
 function App()
 {
