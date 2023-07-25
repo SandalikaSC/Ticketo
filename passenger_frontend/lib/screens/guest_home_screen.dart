@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class GuestHomeScreen extends StatelessWidget {
+  const GuestHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
