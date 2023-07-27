@@ -11,7 +11,7 @@ class GuestHomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // Add this line
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Container(
@@ -56,7 +56,8 @@ class GuestHomeScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Padding(
-                              padding:const EdgeInsets.symmetric(horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Add your onPressed function here
@@ -106,20 +107,72 @@ class GuestHomeScreen extends StatelessWidget {
               alignment: Alignment.topCenter,
               child: FractionalTranslation(
                 translation: const Offset(0, 0.45),
-              child: Container(
-                width: 350, // Set the width of the child container
-                height: 400, // Set the height of the child container
-                decoration: BoxDecoration(
-                  color: Styles.backgroundColor, // Customize the color and opacity of the layer
-                  borderRadius: BorderRadius.circular(20), // Add rounded corner border if needed
-                ),
-                child: const Center(
-                  child: Text(
-                    'Aligned Container',
-                    style: TextStyle(color: Colors.black),
+                child: Container(
+                  width: 350,
+                  // Set the width of the child container
+                  height: 400,
+                  // Set the height of the child container
+                  decoration: BoxDecoration(
+                    color: Styles.backgroundColor,
+                    // Customize the color and opacity of the layer
+                    borderRadius: BorderRadius.circular(
+                        20), // Add rounded corner border if needed
+                  ),
+                  padding: const EdgeInsets.all(16.0),
+                  child: const Column(
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.location_on_outlined),
+                          Gap(10),
+                          Expanded(
+                            child: TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'Start Station'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.location_on),
+                          Gap(10),
+                          Expanded(
+                            child: TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'End Station'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.edit_calendar_outlined),
+                          Gap(10),
+                          Expanded(
+                            child: TextField(
+                              decoration:
+                                  InputDecoration(labelText: 'Journey Date'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          TextField(
+                            decoration:
+                                InputDecoration(labelText: 'Start Station'),
+                          ),
+                          TextField(
+                            decoration:
+                            InputDecoration(labelText: 'Start Station'),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),),
+              ),
             ),
           ),
         ],
