@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
-import 'package:passenger_frontend/screens/bottom_bar.dart';
+// import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'begin.dart';
 
-Future<void> main() async {
+// Future<void> main() async {
+//
+//   // await Future.delayed(const Duration(seconds:10));
+//   runApp(const MyApp());
+// }
 
-  // await Future.delayed(const Duration(seconds:10));
+void main(){
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,7 +26,7 @@ class MyApp extends StatelessWidget {
         // useMaterial3: true,
         primaryColor: primary,
       ),
-      home: const BottomBar(),
+      home: const BeginApp(),
       debugShowCheckedModeBanner: false,
     );
   }

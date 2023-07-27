@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'login.dart';
 
 class GuestHomeScreen extends StatelessWidget {
   const GuestHomeScreen({super.key});
@@ -57,15 +58,22 @@ class GuestHomeScreen extends StatelessWidget {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              const EdgeInsets.symmetric(horizontal: 16),
                               child: ElevatedButton(
                                 onPressed: () {
                                   // Add your onPressed function here
+                                  // Navigating to LoginPage when "Login" button is pressed
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPage(),
+                                    ),
+                                  );
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.transparent),
+                                  MaterialStateProperty.all<Color>(
+                                      Colors.transparent),
                                   // No color background
                                   shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
@@ -128,7 +136,7 @@ class GuestHomeScreen extends StatelessWidget {
                           Expanded(
                             child: TextField(
                               decoration:
-                                  InputDecoration(labelText: 'Start Station'),
+                              InputDecoration(labelText: 'Start Station'),
                             ),
                           ),
                         ],
@@ -140,7 +148,7 @@ class GuestHomeScreen extends StatelessWidget {
                           Expanded(
                             child: TextField(
                               decoration:
-                                  InputDecoration(labelText: 'End Station'),
+                              InputDecoration(labelText: 'End Station'),
                             ),
                           ),
                         ],
@@ -152,7 +160,7 @@ class GuestHomeScreen extends StatelessWidget {
                           Expanded(
                             child: TextField(
                               decoration:
-                                  InputDecoration(labelText: 'Journey Date'),
+                              InputDecoration(labelText: 'Journey Date'),
                             ),
                           ),
                         ],
@@ -161,7 +169,7 @@ class GuestHomeScreen extends StatelessWidget {
                         children: [
                           TextField(
                             decoration:
-                                InputDecoration(labelText: 'Start Station'),
+                            InputDecoration(labelText: 'Start Station'),
                           ),
                           TextField(
                             decoration:
