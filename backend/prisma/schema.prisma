@@ -3,17 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = "postgresql://postgres:n99d10W05.@localhost:5432/Ticketo" // add your password and database name
-}
-
-//model User {
-//  id       Int    @id @default(autoincrement())
-//  name     String @unique
-//  email    String @unique
-//  password String @default("")
-//}
-
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+} 
+ 
 // User table
 model User {
   userId           String       @id @default(uuid()) // Primary Key
