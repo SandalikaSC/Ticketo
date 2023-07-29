@@ -11,14 +11,14 @@ const updateToken = async (id, refreshToken) =>
   return await prisma.user.update({ where: { id: id }, data: { token: refreshToken } });
 }
 
-const insertUser = async (name, email, hashPassword, usertype) =>
+const insertUser = async (firstName, email, hashPassword, userType) =>
 {
   return await prisma.user.create({
     data: {
-      name,
+      firstName,
       email,
       password: hashPassword,
-      usertype,
+      userType,
       token: ""
     }
   })

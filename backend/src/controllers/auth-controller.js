@@ -12,17 +12,18 @@ const prisma = new PrismaClient();
 //POST Request - Add user to a database
 const signup = async (req, res) =>
 {
-  const { name, email, password, usertype } = req.body;
+  const { firstName, email, password, userType } = req.body;
 
-  if (!(name && email && password && usertype))
-  {
-    res.status(400).json("All input is required");
-    return;
-  }
+  // if (!(firstName && email && password && userType))
+  // {
+  //   res.status(400).json("All input is required");
+  //   return;
+  // }
 
+  console.log(userType);
   try
   {
-    const existingUser = await AuthService.signup(name, email, password, usertype);
+    const existingUser = await AuthService.signup(firstName, email, password, userType);
 
     if (existingUser)
     {
@@ -72,21 +73,25 @@ const getUser = async (req, res) =>
     // Find the user in the database based on their user ID
     const user = await prisma.user.findUnique({
       where: { id: userID },
-      select: { id: true, name: true, email: true },
+      select: { id: true, firstName: true, email: true },
     });
 
-    console.log(user.email);
+    // Check if the user exists
     if (!user)
     {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Log the user's email after the null check
+    console.log(user.email);
+
     // Return the user details in the response
     return res.status(200).json({ user });
   } catch (err)
   {
-    console.log(err);
-    return res.status(500).json({ message: "Internal Server Error" });
+    // Handle the error if any occurred during the database query
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

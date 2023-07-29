@@ -7,7 +7,7 @@ const JWT_SECRET_KEY = "TicketoSSSKPN";
 const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN";
 const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN";
 
-const signup = async (name, email, password, usertype) =>
+const signup = async (firstName, email, password, userType) =>
 {
   try
   {
@@ -20,7 +20,7 @@ const signup = async (name, email, password, usertype) =>
     }
 
     const hashPassword = bcrypt.hashSync(password, 10);
-    const newUser = await insertUser(name, email, hashPassword, usertype);
+    const newUser = await insertUser(firstName, email, hashPassword, userType);
     if (!newUser)
     {
       console.log("User not updated");
@@ -54,12 +54,12 @@ const login = async (email, password) =>
     }
 
     const accessToken = jwt.sign({
-      id: existingUser.id, usertype: existingUser.usertype
+      id: existingUser.id, userType: existingUser.userType
     }, ACCESS_TOKEN_SECRET, {
       expiresIn: "15m",
     });
 
-    const refreshToken = jwt.sign({ id: existingUser.id, usertype: existingUser.usertype, type: "refresh" }, REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ id: existingUser.id, userType: existingUser.userType, type: "refresh" }, REFRESH_TOKEN_SECRET, {
       expiresIn: "7d",
     });
 

@@ -4,14 +4,21 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:n99d10W05.@localhost:5432/TicketoTry"
+  url      = env("DATABASE_URL")
 }
 
+// User table
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String @unique
-  email    String @unique
-  password String @default("")
-  usertype String
-  token    String
+  userId    String @id @default(uuid()) // Primary Key
+  email     String @unique
+  password  String
+  firstName String
+  userType  String
+  token     String @default("")
+  // Relationships
+  // employees      Employee[]
+  // dependents     Dependent[]
+  // wallets        Wallet[]
+  // seasonCards    SeasonCard[]
+  // tickets        Ticket[]
 }

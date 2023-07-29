@@ -9,21 +9,21 @@ const Welcome = () =>
 {
     const [user, setUser] = useState();
 
-    const refreshToken = async () =>
-    {
-        try
-        {
-            const res = await axios.get("http://localhost:5000/api/auth/refresh", {
-                withCredentials: true,
-            });
-            const data = res.data;
-            return data;
-        } catch (err)
-        {
-            console.log(err);
-            throw err; // Rethrow the error to handle it outside the function if needed
-        }
-    };
+    // const refreshToken = async () =>
+    // {
+    //     try
+    //     {
+    //         const res = await axios.get("http://localhost:5000/api/auth/refresh", {
+    //             withCredentials: true,
+    //         });
+    //         const data = res.data;
+    //         return data;
+    //     } catch (err)
+    //     {
+    //         console.log(err);
+    //         throw err; // Rethrow the error to handle it outside the function if needed
+    //     }
+    // };
 
 
     const sendRequest = async () =>
@@ -65,13 +65,13 @@ const Welcome = () =>
                 }
             });
         }
-        let interval = setInterval(() =>
-        {
-            refreshToken().then(data => setUser(data.user));
-        }, 1000 * 28);
+        // let interval = setInterval(() =>
+        // {
+        //     refreshToken().then(data => setUser(data.user));
+        // }, 1000 * 28);
 
 
-        return () => clearInterval(interval);
+        // return () => clearInterval(interval);
 
     }, []);
 
@@ -80,7 +80,7 @@ const Welcome = () =>
         <header>
             <Header />
         </header>
-        {user && <h1>Welome {user.email}</h1>}
+        {user && <h1>Welome {user.email}. Your userType is {user.usertype}</h1>}
         hiiii
     </div>;
 };
