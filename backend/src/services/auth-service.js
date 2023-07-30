@@ -1,11 +1,10 @@
 const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const cookieParser = require("cookie-parser");
-// Secret key for JWT
-const JWT_SECRET_KEY = "TicketoSSSKPN";
-const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN";
-const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN";
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+
+// Now you can use the ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET variables in your code.
 
 
 const signup = async (firstName, email, password, userType) =>
@@ -40,20 +39,17 @@ const login = async (email, password) =>
   try
   {
     const existingUser = await getUserByEmail(email);
-
-
     if (!existingUser)
     {
-      console.log("hi");
       throw new Error("User not found. Signup Please");
     }
 
     const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
     if (!isPasswordCorrect)
     {
+
       throw new Error("Invalid password");
     }
-
     const accessToken = jwt.sign({
       id: existingUser.id, userType: existingUser.userType
     }, ACCESS_TOKEN_SECRET, {
@@ -65,21 +61,10 @@ const login = async (email, password) =>
     });
 
     await updateToken(existingUser.id, refreshToken);
-
-    // Set the HttpOnly cookie for the accessToken
-    // res.cookie("accessToken", accessToken, {
-    //   httpOnly: true, // Set the HttpOnly flag to true
-    //   secure: true, // Set the secure flag to true for HTTPS-only cookie
-    //   sameSite: "strict", // Set the SameSite attribute to strict for added security
-    //   // Optionally, you can set an expiration for the cookie if needed
-    //   // maxAge: 15 * 60 * 1000, // 15 minutes in milliseconds
-    // });
-
-    return { accessToken, refreshToken };
+    userType = existingUser.userType;
+    return { accessToken, refreshToken, userType };
   } catch (error)
   {
-    // If an error occurs during the asynchronous operations, it will be caught here.
-    // You can log the error or handle it as needed.
     console.error(error);
     throw new Error("An error occurred during login");
   }
@@ -89,18 +74,18 @@ const login = async (email, password) =>
 const verifyToken = async (token) =>
 {
   const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
+  console.log("her inside verifytoken");
+  Console.log(decodedToken);
   return decodedToken;
 }
-const logout = async (accessToken) =>
+const logout = async (id) =>
 {
-  payload = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
-  await updateToken(payload.id, "");
-  if (!payload)
+  await updateToken(id, "");
+  if (!id)
   {
     console.log("logout unsuccessful");
   }
-  return payload;
-
+  return id;
 }
 
 const refreshToken = async (refreshToken) =>
