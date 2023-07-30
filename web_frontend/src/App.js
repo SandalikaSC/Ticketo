@@ -12,6 +12,7 @@ import Delays from './pages/controlCenter/Delays';
 import TrackTrains from './pages/controlCenter/TrackTrains.jsx';
 import Stations from './pages/controlCenter/Stations.jsx';
 import Settings from './pages/controlCenter/Settings.jsx';
+import AddCheckerClerk from './pages/controlCenter/AddCheckerClerk.jsx';
 
 const App = () => {
   // const isLoggedIn = useSelector(state => state.isLoggedIn);
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/assignGuards" element={<AssignGuards />} />
           <Route path="/stations" element={<Stations />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/AddCheckerClerk" element={<AddCheckerClerk />} />
         </Routes>
       </Sidebar>
     </BrowserRouter>
