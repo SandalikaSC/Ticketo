@@ -1,8 +1,8 @@
 // Import required modules and packages
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcrypt");
+// const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-const { existsSync } = require("fs");
+// const { existsSync } = require("fs");
 // const { login } = require("../services/auth-service");
 const AuthService = require("../services/auth-service");
 
@@ -13,12 +13,6 @@ const prisma = new PrismaClient();
 const signup = async (req, res) =>
 {
   const { firstName, email, password, userType } = req.body;
-
-  // if (!(firstName && email && password && userType))
-  // {
-  //   res.status(400).json("All input is required");
-  //   return;
-  // }
 
   console.log(userType);
   try
@@ -53,7 +47,10 @@ const login = async (req, res) =>
   try
   {
     const { accessToken, refreshToken } = await AuthService.login(email, password);
-    console.log(accessToken);
+    // console.log(accessToken);
+
+
+
     return res.status(200).json({ accessToken, refreshToken });
   } catch (error)
   {
@@ -62,18 +59,43 @@ const login = async (req, res) =>
   }
 };
 
+const verifyToken = async (req, res, next) =>
+{
+  const token = req.headers.authorization;
+  console.log(token);
+  if (!token)
+  {
+    return res.status(400).json({ message: 'Authorization header missing' });
+  }
 
+  try
+  {
+    const decodedToken = await AuthService.verifyToken(token);
+
+    const id = decodedToken.id;
+
+    req.id = id;
+    console.log(req.id);
+    next();
+  } catch (err)
+  {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+}
 
 // GET Request - Get user details using the JWT token
 const getUser = async (req, res) =>
 {
-  const userID = req.id;
+  // console.log("request body is here");
+  // console.log(req.headers.authorization);
+  const id = req.id;
+  console.log(req.id);
   try
   {
     // Find the user in the database based on their user ID
     const user = await prisma.user.findUnique({
-      where: { id: userID },
-      select: { id: true, firstName: true, email: true },
+      where: { id: id },
+      select: { id: true, firstName: true, email: true, userType: true },
     });
 
     // Check if the user exists
@@ -124,6 +146,7 @@ const logout = async (req, res, next) =>
 {
   const { accessToken } = req.body;
 
+  console.log(accessToken);
   if (!accessToken)
   {
     res.status(400).json("Access token is require");
@@ -149,5 +172,6 @@ module.exports = {
   getUser,
   refreshToken,
   logout,
-  signup
+  signup,
+  verifyToken
 };

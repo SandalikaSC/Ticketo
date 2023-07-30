@@ -30,14 +30,21 @@ const Welcome = () =>
     {
         try
         {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken)
+            {
+                throw new Error('Access token not found in local storage');
+            }
             const res = await axios.get('http://localhost:5000/api/auth/user', {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Include the JWT token in the Authorization header
+                },
             });
             const data = await res.data;
 
             console.log('Response data:', data); // Log the response data for debugging
 
-            if (data && data.user && data.user.name)
+            if (data && data.user)
             {
                 return data;
             } else
@@ -80,7 +87,7 @@ const Welcome = () =>
         <header>
             <Header />
         </header>
-        {user && <h1>Welome {user.email}. Your userType is {user.usertype}</h1>}
+        {user && <h1>Welome {user.email}. Your userType is {user.userType}</h1>}
         hiiii
     </div>;
 };

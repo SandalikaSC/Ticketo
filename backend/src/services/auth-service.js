@@ -1,11 +1,12 @@
 const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-
+const cookieParser = require("cookie-parser");
 // Secret key for JWT
 const JWT_SECRET_KEY = "TicketoSSSKPN";
 const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN";
 const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN";
+
 
 const signup = async (firstName, email, password, userType) =>
 {
@@ -64,6 +65,16 @@ const login = async (email, password) =>
     });
 
     await updateToken(existingUser.id, refreshToken);
+
+    // Set the HttpOnly cookie for the accessToken
+    // res.cookie("accessToken", accessToken, {
+    //   httpOnly: true, // Set the HttpOnly flag to true
+    //   secure: true, // Set the secure flag to true for HTTPS-only cookie
+    //   sameSite: "strict", // Set the SameSite attribute to strict for added security
+    //   // Optionally, you can set an expiration for the cookie if needed
+    //   // maxAge: 15 * 60 * 1000, // 15 minutes in milliseconds
+    // });
+
     return { accessToken, refreshToken };
   } catch (error)
   {
@@ -74,6 +85,12 @@ const login = async (email, password) =>
   }
 };
 
+
+const verifyToken = async (token) =>
+{
+  const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
+  return decodedToken;
+}
 const logout = async (accessToken) =>
 {
   payload = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
@@ -98,5 +115,6 @@ module.exports = {
   login,
   logout,
   refreshToken,
-  signup
+  signup,
+  verifyToken
 };
