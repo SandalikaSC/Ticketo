@@ -9,35 +9,42 @@ const Welcome = () =>
 {
     const [user, setUser] = useState();
 
-    const refreshToken = async () =>
-    {
-        try
-        {
-            const res = await axios.get("http://localhost:5000/api/auth/refresh", {
-                withCredentials: true,
-            });
-            const data = res.data;
-            return data;
-        } catch (err)
-        {
-            console.log(err);
-            throw err; // Rethrow the error to handle it outside the function if needed
-        }
-    };
+    // const refreshToken = async () =>
+    // {
+    //     try
+    //     {
+    //         const res = await axios.get("http://localhost:5000/api/auth/refresh", {
+    //             withCredentials: true,
+    //         });
+    //         const data = res.data;
+    //         return data;
+    //     } catch (err)
+    //     {
+    //         console.log(err);
+    //         throw err; // Rethrow the error to handle it outside the function if needed
+    //     }
+    // };
 
 
     const sendRequest = async () =>
     {
         try
         {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken)
+            {
+                throw new Error('Access token not found in local storage');
+            }
             const res = await axios.get('http://localhost:5000/api/auth/user', {
-                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Include the JWT token in the Authorization header
+                },
             });
             const data = await res.data;
 
             console.log('Response data:', data); // Log the response data for debugging
 
-            if (data && data.user && data.user.name)
+            if (data && data.user)
             {
                 return data;
             } else
@@ -65,13 +72,13 @@ const Welcome = () =>
                 }
             });
         }
-        let interval = setInterval(() =>
-        {
-            refreshToken().then(data => setUser(data.user));
-        }, 1000 * 28);
+        // let interval = setInterval(() =>
+        // {
+        //     refreshToken().then(data => setUser(data.user));
+        // }, 1000 * 28);
 
 
-        return () => clearInterval(interval);
+        // return () => clearInterval(interval);
 
     }, []);
 
@@ -80,7 +87,7 @@ const Welcome = () =>
         <header>
             <Header />
         </header>
-        {user && <h1>Welome {user.email}</h1>}
+        {user && <h1>Welome {user.email}. Your userType is {user.userType}</h1>}
         hiiii
     </div>;
 };

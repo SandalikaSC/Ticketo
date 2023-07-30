@@ -8,8 +8,9 @@ const Signup = () =>
     const history = useNavigate();
     console.log(history);
     const [inputs, setInputs] = useState({
-        name: "",
+        firstName: "",
         email: "",
+        userType: "",
         password: ""
     });
     const sendRequest = async () =>
@@ -17,8 +18,9 @@ const Signup = () =>
         try
         {
             const res = await axios.post('http://localhost:5000/api/auth/signup', {
-                name: inputs.name,
+                firstName: inputs.firstName,
                 email: inputs.email,
+                userType: inputs.userType,
                 password: inputs.password
             });
 
@@ -44,7 +46,7 @@ const Signup = () =>
             ...prev,
             [e.target.name]: e.target.value
         }));
-        // console.log(e.target.name, "value", e.target.value)
+        // console.log(e.target.firstName, "value", e.target.value)
     }
     return (
         <div>
@@ -60,10 +62,10 @@ const Signup = () =>
                 >
                     <Typography variant='h3'>Signup</Typography>
                     <TextField
-                        name="name"
-                        value={inputs.name}
+                        name="firstName"
+                        value={inputs.firstName}
                         variant='outlined'
-                        placeholder='Name'
+                        placeholder='firstName'
                         margin="normal"
                         onChange={handleChange}
                     />
@@ -74,6 +76,14 @@ const Signup = () =>
                         value={inputs.email}
                         variant='outlined'
                         placeholder='Email'
+                        margin="normal"
+                    />
+                    <TextField
+                        name='userType'
+                        onChange={handleChange}
+                        value={inputs.userType}
+                        variant='outlined'
+                        placeholder='userType'
                         margin="normal"
                     />
                     <TextField

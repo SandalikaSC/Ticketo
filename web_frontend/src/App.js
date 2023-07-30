@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import './App.css';
 import Login from "./pages/LoginPage";
 import Signup from "./pages/Signup";
@@ -18,9 +18,10 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 //import Stations from './pages/controlCenter/Stations.jsx';
 //import Settings from './pages/controlCenter/Settings.jsx';
 
-const App = () => {
-   const isLoggedIn = useSelector(state => state.isLoggedIn);
-   console.log(isLoggedIn);
+const App = () =>
+{
+  const isLoggedIn = useSelector(state => state.isLoggedIn);
+  console.log(isLoggedIn);
 
   return (
 
@@ -30,22 +31,22 @@ const App = () => {
     //    <Routes>
 
     //Parindi
-         // <Route path="/" element={<Dashboard />} />
-          //<Route path="/Dashboard" element={<Dashboard />} />
-            //Kaveesha
-         // <Route path="/" element={<Delays />} />
-         // <Route path="/delays" element={<Delays />} />
-        //  <Route path="/tracktrains" element={<TrackTrains />} />
-        //  <Route path="/traininfo" element={<TrainInfo />} />
-        //  <Route path="/assignGuards" element={<AssignGuards />} />
-        //  <Route path="/stations" element={<Stations />} />
-         // <Route path="/settings" element={<Settings />} />
+    // <Route path="/" element={<Dashboard />} />
+    //<Route path="/Dashboard" element={<Dashboard />} />
+    //Kaveesha
+    // <Route path="/" element={<Delays />} />
+    // <Route path="/delays" element={<Delays />} />
+    //  <Route path="/tracktrains" element={<TrackTrains />} />
+    //  <Route path="/traininfo" element={<TrainInfo />} />
+    //  <Route path="/assignGuards" element={<AssignGuards />} />
+    //  <Route path="/stations" element={<Stations />} />
+    // <Route path="/settings" element={<Settings />} />
     //    </Routes>
     //  </Sidebar>
-   // </BrowserRouter>
-    
-     <React.Fragment>
-       <main>
+    // </BrowserRouter>
+
+    <React.Fragment>
+      <main>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

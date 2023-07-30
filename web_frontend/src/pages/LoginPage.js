@@ -22,12 +22,15 @@ const LoginPage = () =>
     {
         try
         {
+            console.log("inside login send request");
             const res = await axios.post('http://localhost:5000/api/auth/login', {
                 email: inputs.email,
                 password: inputs.password
             });
 
             const data = res.data;
+            console.log("in send request function");
+            console.log(data);
             return data;
         } catch (error)
         {
@@ -37,12 +40,36 @@ const LoginPage = () =>
     };
 
     // Function to handle form submission
-    const handleSubmit = (e) =>
+    const handleSubmit = async (e) =>
     {
         e.preventDefault();
         console.log(inputs);
         // Send HTTP request to login the user and dispatch the login action
-        sendRequest().then(() => dispatch(authActions.login())).then(() => history("/user"));
+        try
+        {
+            const data = await sendRequest();
+            const { accessToken, refreshToken } = data;
+
+            console.log(accessToken);
+            console.log(refreshToken);
+            localStorage.setItem('accessToken', accessToken);
+            dispatch(authActions.login());
+
+            // console.log(usertype)
+            history("/user");
+        } catch (err)
+        {
+            console.log(err);
+        }
+        // sendRequest().then((data) =>
+        // {
+        //     const { accessToken, refreshToken } = data;
+        //     console.log("Here is access token");
+        //     console.log(accessToken);
+        //     history("/user");
+
+        // });
+        // dispatch(authActions.login())).then(() => history("/user"));
     };
 
     // Function to handle input changes and update state
