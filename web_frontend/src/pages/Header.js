@@ -12,14 +12,30 @@ const Header = () =>
     const isLoggedIn = useSelector(state => state.isLoggedIn);
     const sendLogoutReq = async () =>
     {
-        const res = await axios.post("http://localhost:5000/api/auth/logout", null, {
-            withCredentials: true
-        });
-        if (res.status === 200)
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken)
         {
-            return res;
+            throw new Error('Access token not found in local storage');
         }
-        return new Error("Unable to logout. Please try again");
+        try
+        {
+            const res = await axios.post('http://localhost:5000/api/logout', null, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, // Include the JWT token in the Authorization header
+                },
+            });
+            // const data = await res.data;
+            // const res = await axios.post("http://localhost:5000/api/auth/logout", null, {
+            //     withCredentials: true
+            // });
+
+            localStorage.removeItem('accessToken');
+            return res;
+        } catch (err)
+        {
+            return Promise.reject(err);
+        }
+        // return new Error("Unable to logout. Please try again");
     }
 
     const handleLogout = () =>

@@ -12,10 +12,7 @@ const LoginPageStyles = {
     fontFamily: 'Poppins',
     container: {
         height: '100vh',
-        // width: '94%',
         boxShadow: '0px 2px 8px black',
-        // outline: '2px solid #000000',
-        // margin: '3%',
     },
     firstColumn: {
         width: '4%',
