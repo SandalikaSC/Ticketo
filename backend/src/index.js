@@ -17,7 +17,7 @@ app.use(cors({
 }));
 
 // Routes
-app.use("/api/auth", authRouter);
+app.use("/api", authRouter);
 
 // Start the server
 app.listen(port, () =>
@@ -25,16 +25,3 @@ app.listen(port, () =>
   console.log(`Server is running on port ${port}`);
 });
 
-// Async function example
-// async function main() {
-//   try {
-//     const user1 = await prisma.user.create({ data: { username: "frcdscsdcfdvdr" } });
-//     console.log(user1);
-//   } catch (error) {
-//     console.error(error.message);
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// }
-
-// main();

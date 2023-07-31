@@ -1,13 +1,7 @@
-// Import required modules and packages
-// const bcrypt = require("bcrypt");
-// const jwt = require("jsonwebtoken");
 const { PrismaClient } = require("@prisma/client");
-// const { existsSync } = require("fs");
-// const { login } = require("../services/auth-service");
 const AuthService = require("../services/auth-service");
 
 const prisma = new PrismaClient();
-
 
 //POST Request - Add user to a database
 const signup = async (req, res) =>
@@ -46,15 +40,10 @@ const login = async (req, res) =>
 
   try
   {
-    const { accessToken, refreshToken } = await AuthService.login(email, password);
-    // console.log(accessToken);
-
-
-
-    return res.status(200).json({ accessToken, refreshToken });
+    const { accessToken, refreshToken, userType } = await AuthService.login(email, password);
+    return res.status(200).json({ accessToken, refreshToken, userType });
   } catch (error)
   {
-    console.log("hi");
     return res.status(400).json({ message: error.message });
   }
 };
@@ -71,9 +60,7 @@ const verifyToken = async (req, res, next) =>
   try
   {
     const decodedToken = await AuthService.verifyToken(token);
-
     const id = decodedToken.id;
-
     req.id = id;
     console.log(req.id);
     next();
@@ -86,8 +73,6 @@ const verifyToken = async (req, res, next) =>
 // GET Request - Get user details using the JWT token
 const getUser = async (req, res) =>
 {
-  // console.log("request body is here");
-  // console.log(req.headers.authorization);
   const id = req.id;
   console.log(req.id);
   try
@@ -103,10 +88,6 @@ const getUser = async (req, res) =>
     {
       return res.status(404).json({ message: "User not found" });
     }
-
-    // Log the user's email after the null check
-    console.log(user.email);
-
     // Return the user details in the response
     return res.status(200).json({ user });
   } catch (err)
@@ -144,24 +125,20 @@ const refreshToken = async (req, res, next) =>
 // POST Request - Logout user and clear the JWT token from the cookie
 const logout = async (req, res, next) =>
 {
-  const { accessToken } = req.body;
-
-  console.log(accessToken);
-  if (!accessToken)
+  const id = req.id;
+  if (!id)
   {
     res.status(400).json("Access token is require");
     return;
   }
-
   let payload;
   try
   {
-    payload = await AuthService.logout(accessToken);
+    payload = await AuthService.logout(id);
   } catch (e)
   {
     res.status(403).json("Invalid access token");
   }
-
   console.log("logout successfull");
   res.sendStatus(204);
 };
