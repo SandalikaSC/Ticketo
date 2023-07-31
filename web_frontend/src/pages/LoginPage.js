@@ -58,16 +58,16 @@ const LoginPage = () =>
             dispatch(authActions.login());
 
             // history("/user");
-            if (userType === 'admin')
+            if (userType[0] === 'ADMIN')
             {
                 history("/admin"); // Replace 'admin' with the appropriate URL for the admin page
-            } else if (userType === 'control_centre')
+            } else if (userType[0] === 'CONTROL_CENTRE')
             {
                 history("/cc"); // Replace 'user' with the appropriate URL for the user page
-            } else if (userType === 'station_master')
+            } else if (userType[0] === 'STATION_MASTER')
             {
                 history("/ss"); // Replace 'user' with the appropriate URL for the user page
-            } else if (userType === 'ticket_clerk')
+            } else if (userType[0] === 'TICKET_CLERK')
             {
                 history("/tc"); // Replace 'user' with the appropriate URL for the user page
             } else 

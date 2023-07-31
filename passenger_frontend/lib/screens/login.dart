@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:logger/logger.dart';
+import 'home_page.dart';
+
+final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,21 +16,63 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  bool isUsernameFocused = false;
+  bool isEmailFocused = false;
   bool isPasswordFocused = false;
   bool isPasswordVisible = false;
   late TextEditingController passwordController;
+  late TextEditingController emailController;
 
   @override
   void initState() {
     super.initState();
     passwordController = TextEditingController();
+    emailController = TextEditingController();
   }
 
   @override
   void dispose() {
     passwordController.dispose();
+    emailController.dispose();
     super.dispose();
+  }
+
+  Future<void> loginUser(String email, String password) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.8.158:5000/api/login'), // Replace with your Node.js server address
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Login successful
+        // Handle the response data as needed
+        logger.i('Login successful');
+        logger.d(response.body);
+
+        // Navigate to the home page after successful login
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()), // Replace `HomePage` with your actual home page widget
+        );
+      } else {
+        // Login failed
+        // Handle the error response as needed
+        logger.e('Login failed. Status Code: ${response.statusCode}');
+        logger.d(response.body);
+      }
+    } catch (e, stackTrace) {
+      // Handle any network or server-related errors
+      logger.e('Error: $e', e, stackTrace);
+      if (e is http.ClientException) {
+        logger.w('Network or Client Exception occurred.');
+      } else {
+        logger.w('Unknown Error occurred.');
+      }
+    }
   }
 
   @override
@@ -41,8 +89,7 @@ class LoginPageState extends State<LoginPage> {
                   width: 400,
                   height: 400,
                   child: Image.asset(
-                    'assets/logo.png',
-                    // Replace with the path to your logo image file
+                    'assets/logo.png', // Replace with the path to your logo image file
                   ),
                 ),
               ),
@@ -50,12 +97,13 @@ class LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
-                      Icons.person,
-                      color: isUsernameFocused ? const Color(0xFF3D50AC) : Colors.grey,
+                      Icons.email,
+                      color: isEmailFocused ? const Color(0xFF3D50AC) : Colors.grey,
                     ),
-                    hintText: 'Username',
+                    hintText: 'Email',
                     filled: true,
                     fillColor: Colors.grey[200],
                     border: OutlineInputBorder(
@@ -65,7 +113,7 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   onTap: () {
                     setState(() {
-                      isUsernameFocused = true;
+                      isEmailFocused = true;
                       isPasswordFocused = false;
                     });
                   },
@@ -103,7 +151,7 @@ class LoginPageState extends State<LoginPage> {
                   ),
                   onTap: () {
                     setState(() {
-                      isUsernameFocused = false;
+                      isEmailFocused = false;
                       isPasswordFocused = true;
                     });
                   },
@@ -131,8 +179,10 @@ class LoginPageState extends State<LoginPage> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Add login logic
+                    onPressed: () async {
+                      String email = emailController.text; // Get the entered email
+                      String password = passwordController.text; // Get the entered password
+                      loginUser(email, password);
                     },
                     style: ElevatedButton.styleFrom(
                       primary: const Color(0xFF3D50AC),

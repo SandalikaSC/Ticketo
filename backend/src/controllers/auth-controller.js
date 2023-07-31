@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 //POST Request - Add user to a database
 const signup = async (req, res) =>
 {
-  const { firstName, email, password, userType } = req.body;
+  const { firstName, lastName, email, password, userType, nic, mobileNumber } = req.body;
 
-  console.log(userType);
+  // console.log(userType);
   try
   {
-    const existingUser = await AuthService.signup(firstName, email, password, userType);
+    const existingUser = await AuthService.signup(firstName, lastName, email, password, userType, nic, mobileNumber);
 
     if (existingUser)
     {
