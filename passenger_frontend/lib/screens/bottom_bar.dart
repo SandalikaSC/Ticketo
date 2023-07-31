@@ -1,5 +1,5 @@
-import 'package:fluentui_icons/fluentui_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/screens/guest_home_screen.dart';
 import 'package:passenger_frontend/screens/profile_screen.dart';
@@ -21,48 +21,56 @@ class _BottomBarState extends State<BottomBar> {
     const WalletScreen(),
     const ProfileScreen(),
   ];
-void _onItemTapped(int index){
-  setState(() {
-    _selectedIndex=index;
-  });
-}
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(child: _widgetOptions[_selectedIndex]),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        elevation: 10,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        selectedItemColor: primary,
-        unselectedItemColor: Colors.blueGrey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_home_filled),
-              label: "Home",
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_home_filled)),
-          BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_ticket_regular),
-              label: "Ticket",
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_ticket_filled),
-          ),
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          // Define the text theme for BottomNavigationBar
+          textTheme: Theme.of(context)
+              .textTheme
+              .copyWith(bodySmall: Styles.fontFamily),
+        ),
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          elevation: 10,
+          showSelectedLabels: true,
+          // Show labels for selected items
+          showUnselectedLabels: true,
+          // Show labels for unselected items
+          selectedItemColor: primary,
+          unselectedItemColor: Colors.blueGrey,
+          type: BottomNavigationBarType.fixed,
 
-          BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_data_usage_regular),
-              label: "Wallet",
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_data_usage_filled),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(FluentSystemIcons.ic_fluent_person_regular),
-              label: "Profile",
-              activeIcon: Icon(FluentSystemIcons.ic_fluent_person_filled),
-          ),
-
-        ],
+          items: const [
+            BottomNavigationBarItem(
+              // ignore: deprecated_member_use
+              icon: Icon(Icons.home),
+              label: "Home", // Custom label for the Home item
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.ticketSimple),
+              label: "Ticket", // Custom label for the Ticket item
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.wallet),
+              label: "Wallet", // Custom label for the Wallet item
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_circle_outlined),
+              label: "Profile", // Custom label for the Profile item
+            ),
+          ],
+        ),
       ),
     );
   }
