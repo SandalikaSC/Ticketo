@@ -1,51 +1,85 @@
-// Import required modules and components from Material-UI and other packages
 import React, { useState } from 'react';
 import { Box, Grid, Typography, TextField, Button, Link, InputAdornment } from '@mui/material';
-import LoginPageStyles from '../styles/LoginStyles'; // Import custom styles for this component
-import { useNavigate } from "react-router-dom"; // Import hook for programmatic navigation
-import axios from 'axios'; // Import axios for making HTTP requests
-import { useDispatch } from 'react-redux'; // Import useDispatch from react-redux to dispatch actions
-import { authActions } from '../store'; // Import authActions from the Redux store to handle authentication actions
+import LoginPageStyles from '../styles/LoginStyles';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { authActions } from '../store';
 
 const LoginPage = () =>
 {
-    // Initialize state variables using useState hook
-    const dispatch = useDispatch(); // Get the dispatch function from react-redux
-    const history = useNavigate(); // Get the navigate function from react-router-dom
+    const dispatch = useDispatch();
+    const history = useNavigate();
     const [inputs, setInputs] = useState({
         email: "",
         password: "",
     });
 
-    // Function to send login request to the server
+    const [loginError, setLoginError] = useState(""); // State variable for login error message
+
     const sendRequest = async () =>
     {
         try
         {
-            const res = await axios.post('http://localhost:5000/api/auth/login', {
+            const res = await axios.post('http://localhost:5000/api/login', {
                 email: inputs.email,
                 password: inputs.password
             });
 
+            // Request was successful, clear any previous login error
+            setLoginError("");
+
             const data = res.data;
+            console.log(data);
             return data;
         } catch (error)
         {
-            console.log(error);
-            // Handle the error or return an appropriate value
+            // Handle the login error and set the error message state variable
+            setLoginError("Invalid credentials");
         }
     };
 
-    // Function to handle form submission
-    const handleSubmit = (e) =>
+    const handleSubmit = async (e) =>
     {
         e.preventDefault();
-        console.log(inputs);
-        // Send HTTP request to login the user and dispatch the login action
-        sendRequest().then(() => dispatch(authActions.login())).then(() => history("/user"));
+
+        try
+        {
+            const data = await sendRequest();
+            if (data === null)
+            {
+                console.log("there is an error in API request");
+                // There was an error in the API request, so do not proceed further
+                return;
+            }
+            const { accessToken, userType } = data;
+
+            localStorage.setItem('accessToken', accessToken);
+            dispatch(authActions.login());
+
+            // history("/user");
+            if (userType[0] === 'ADMIN')
+            {
+                history("/admin"); // Replace 'admin' with the appropriate URL for the admin page
+            } else if (userType[0] === 'CONTROL_CENTRE')
+            {
+                history("/cc"); // Replace 'user' with the appropriate URL for the user page
+            } else if (userType[0] === 'STATION_MASTER')
+            {
+                history("/ss"); // Replace 'user' with the appropriate URL for the user page
+            } else if (userType[0] === 'TICKET_CLERK')
+            {
+                history("/tc"); // Replace 'user' with the appropriate URL for the user page
+            } else 
+            {
+                console.log("Unknown userType:", userType);
+            }
+        } catch (err)
+        {
+            console.log(err);
+        }
     };
 
-    // Function to handle input changes and update state
     const handleChange = (e) =>
     {
         setInputs(prev => ({
@@ -54,16 +88,11 @@ const LoginPage = () =>
         }));
     }
 
-    // Get the custom styles for this component
     const styles = LoginPageStyles;
 
-    // Render the login page layout
     return (
         <Grid container spacing={0} style={styles.container}>
-            {/* First Column */}
             <Grid item sx={styles.firstColumn} />
-
-            {/* Second Column */}
             <Grid item xs={5} sx={styles.secondColumn}>
                 <Box>
                     <img src="images/logo.png" alt="logo" style={styles.logo} />
@@ -72,21 +101,15 @@ const LoginPage = () =>
                     </Typography>
                 </Box>
             </Grid>
-
-            {/* Vertical Line */}
             <Grid item xs={1} sx={styles.verticalLine}>
                 <div style={styles.line}></div>
             </Grid>
-
-            {/* Third Column */}
             <Grid item xs={5} sx={styles.thirdColumn}>
-                {/* Form for user login */}
                 <form onSubmit={handleSubmit}>
                     <Box sx={styles.textFieldContainer}>
                         <Typography variant="h3" align="center" sx={styles.title}>
                             Login
                         </Typography>
-                        {/* Input field for email */}
                         <TextField
                             placeholder="email"
                             name="email"
@@ -100,12 +123,10 @@ const LoginPage = () =>
                                         <img src="images/usericon.png" alt="User Icon" style={styles.icon} />
                                     </InputAdornment>
                                 ),
-                                autocomplete: 'off', // Disable autofill
+                                autoComplete: 'off', // Disable autofill
                             }}
                             sx={styles.textField}
                         />
-
-                        {/* Input field for password */}
                         <TextField
                             name='password'
                             onChange={handleChange}
@@ -120,17 +141,16 @@ const LoginPage = () =>
                                         <img src="images/passwordicon.png" alt="User Icon" style={styles.icon} />
                                     </InputAdornment>
                                 ),
-                                autocomplete: 'off', // Disable autofill
+                                autoComplete: 'off', // Disable autofill
                             }}
                             sx={styles.textField}
                         />
-
-                        {/* Button to submit the login form */}
                         <Button type='submit' variant="h1" color="primary" fullWidth sx={styles.loginButton}>
                             Login
                         </Button>
-
-                        {/* Forgot password link */}
+                        {loginError && ( // Render error message in red if loginError is not empty
+                            <Box sx={{ ...styles.errorMessage, color: 'red' }}>{loginError}</Box>
+                        )}
                         <Box sx={styles.forgotPassword}>
                             <Typography sx={styles.forgotPasswordText}>Forgot Password?</Typography>
                             <Link href="#" color="textSecondary" sx={styles.recoverLink}>
