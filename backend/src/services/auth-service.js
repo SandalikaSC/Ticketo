@@ -7,7 +7,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 // Now you can use the ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET variables in your code.
 
 
-const signup = async (firstName, email, password, userType) =>
+const signup = async (firstName, lastName, email, password, userType, nic, mobileNumber) =>
 {
   try
   {
@@ -20,7 +20,16 @@ const signup = async (firstName, email, password, userType) =>
     }
 
     const hashPassword = bcrypt.hashSync(password, 10);
-    const newUser = await insertUser(firstName, email, hashPassword, userType);
+
+    // Extract the birth year, month, and date from the NIC number
+    const birthYear = parseInt(nic.substring(0, 2), 10) + 1900; // Assume 1900 for the 20th century and 2000 for the 21st century. You can modify this logic based on your use case.
+    const birthDayOfYear = parseInt(nic.substring(2, 5), 10);
+    const birthDate = new Date(birthYear, 0); // January 1st of the birth year
+    birthDate.setDate(birthDate.getDate() + birthDayOfYear - 1); // Set the date based on the day of the year
+
+    console.log(birthDate);
+
+    const newUser = await insertUser(firstName, lastName, email, hashPassword, userType, nic, mobileNumber, birthDate);
     if (!newUser)
     {
       console.log("User not updated");
