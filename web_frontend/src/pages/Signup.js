@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,17 +8,35 @@ const Signup = () =>
     const history = useNavigate();
     console.log(history);
     const [inputs, setInputs] = useState({
-        name: "",
+        firstName: "",
+        lastName: "",
         email: "",
+        userType: "",
+        nic: "",
+        mobileNumber: "",
         password: ""
     });
+
+    const userType = [
+        'ADMIN',
+        'CONTROL_CENTRE',
+        'STATION_MASTER',
+        'DRIVER',
+        'TICKET_CLERK',
+        'TICKET_CHECKER',
+        'PASSENGER'
+    ];
     const sendRequest = async () =>
     {
         try
         {
-            const res = await axios.post('http://localhost:5000/api/auth/signup', {
-                name: inputs.name,
+            const res = await axios.post('http://localhost:5000/api/signup', {
+                firstName: inputs.firstName,
+                lastName: inputs.lastName,
                 email: inputs.email,
+                userType: inputs.userType,
+                nic: inputs.nic,
+                mobileNumber: inputs.mobileNumber,
                 password: inputs.password
             });
 
@@ -44,7 +62,7 @@ const Signup = () =>
             ...prev,
             [e.target.name]: e.target.value
         }));
-        // console.log(e.target.name, "value", e.target.value)
+        // console.log(e.target.firstName, "value", e.target.value)
     }
     return (
         <div>
@@ -60,10 +78,18 @@ const Signup = () =>
                 >
                     <Typography variant='h3'>Signup</Typography>
                     <TextField
-                        name="name"
-                        value={inputs.name}
+                        name="firstName"
+                        value={inputs.firstName}
                         variant='outlined'
-                        placeholder='Name'
+                        placeholder='firstName'
+                        margin="normal"
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        name="lastName"
+                        value={inputs.lastName}
+                        variant='outlined'
+                        placeholder='lastName'
                         margin="normal"
                         onChange={handleChange}
                     />
@@ -75,6 +101,45 @@ const Signup = () =>
                         variant='outlined'
                         placeholder='Email'
                         margin="normal"
+                    />
+                    {/* <TextField
+                        name='userType'
+                        onChange={handleChange}
+                        value={inputs.userType}
+                        variant='outlined'
+                        placeholder='userType'
+                        margin="normal"
+                    /> */}
+                    <TextField
+                        name="userType"
+                        select
+                        value={inputs.userType}
+                        variant="outlined"
+                        placeholder="User Type"
+                        margin="normal"
+                        onChange={handleChange}
+                    >
+                        {userType.map((type) => (
+                            <MenuItem key={type} value={type}>
+                                {type}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        name="nic"
+                        value={inputs.nic}
+                        variant='outlined'
+                        placeholder='NIC'
+                        margin="normal"
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        name="mobileNumber"
+                        value={inputs.mobileNumber}
+                        variant='outlined'
+                        placeholder='Mobile Number'
+                        margin="normal"
+                        onChange={handleChange}
                     />
                     <TextField
                         name='password'

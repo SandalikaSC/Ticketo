@@ -34,7 +34,7 @@ model User {
 
 enum userType {
   ADMIN
-  CONTROL_CENTER
+  CONTROL_CENTRE
   STATION_MASTER
   DRIVER
   TICKET_CLERK

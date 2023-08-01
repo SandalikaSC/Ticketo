@@ -1,6 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
+import 'home_page.dart';
+import '../services/api_service.dart'; // Import the ApiService
+import 'package:logger/logger.dart';
+import '../utils/error_handler.dart'; // Import the ErrorHandler
+import '../utils/input_validations.dart'; // Import the Input Validations
+
+final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,21 +18,67 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  bool isUsernameFocused = false;
-  bool isPasswordFocused = false;
   bool isPasswordVisible = false;
-  late TextEditingController passwordController;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final ApiService apiService = ApiService('http://192.168.8.158:5000'); // Replace with your Node.js server address
 
-  @override
-  void initState() {
-    super.initState();
-    passwordController = TextEditingController();
-  }
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loginUser() async {
+    if (_formKey.currentState!.validate()) {
+      String email = _emailController.text.trim();
+      String password = _passwordController.text.trim();
+
+      try {
+        final response = await apiService.loginUser(email, password);
+
+        if (response.statusCode == 200) {
+          // Login successful
+          // Handle the response data as needed
+          logger.i('Login successful');
+          logger.d(response.body);
+
+          // Navigate to the home page after successful login
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else {
+          // Login failed
+          // Handle the error response as needed
+          logger.e('Login failed. Status Code: ${response.statusCode}');
+          logger.d(response.body);
+
+          // Show a login error message using the ErrorHandler
+          // ErrorHandler.showLoginErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Login failed. Please check your email and password.');
+        }
+      } catch (e, stackTrace) {
+        // Handle any network or server-related errors
+        logger.e('Error: $e', e, stackTrace);
+        if (e is HttpException) {
+          logger.w('Network Error occurred.');
+
+          // Show a network error message using the ErrorHandler
+          // ErrorHandler.showNetworkErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Network error occurred. Please try again later.');
+        } else {
+          logger.w('Unknown Error occurred.');
+
+          // Show an unknown error message using the ErrorHandler
+          // ErrorHandler.showUnknownErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Unknown error occurred. Please try again later.');
+        }
+      }
+    }
   }
 
   @override
@@ -32,156 +86,164 @@ class LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: SizedBox(
-                  width: 400,
-                  height: 400,
-                  child: Image.asset(
-                    'assets/logo.png',
-                    // Replace with the path to your logo image file
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.person,
-                      color: isUsernameFocused ? const Color(0xFF3D50AC) : Colors.grey,
-                    ),
-                    hintText: 'Username',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(25),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: SizedBox(
+                    width: 400,
+                    height: 400,
+                    child: Image.asset(
+                      'assets/logo.png', // Replace with the path to your logo image file
                     ),
                   ),
-                  onTap: () {
-                    setState(() {
-                      isUsernameFocused = true;
-                      isPasswordFocused = false;
-                    });
-                  },
                 ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  obscureText: !isPasswordVisible,
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: isPasswordFocused ? const Color(0xFF3D50AC) : Colors.grey,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.email,
                         color: Colors.grey,
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isPasswordVisible = !isPasswordVisible;
-                        });
-                      },
+                      hintText: 'Email',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
                     ),
-                    hintText: 'Password',
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  onTap: () {
-                    setState(() {
-                      isUsernameFocused = false;
-                      isPasswordFocused = true;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 25),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
-                  );
-                },
-                child: const Text(
-                  'Forgot Password?',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Add login logic
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!InputValidations.isValidEmail(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF3D50AC),
-                      padding: const EdgeInsets.all(12.0),
-                      minimumSize: const Size.fromHeight(60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(35),
-                      ),
-                    ),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 24,
-                      ),
-                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Don\'t have an account? ',
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    obscureText: !isPasswordVisible,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        color: Colors.grey,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                      ),
+                      hintText: 'Password',
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      }
+                      if (!InputValidations.isValidPassword(value)) {
+                        return 'Password must be at least 6 characters long';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(height: 25),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+                    );
+                  },
+                  child: const Text(
+                    'Forgot Password?',
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 22,
+                      fontSize: 20,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SignupPage()),
-                      );
-                    },
-                    child: const Text(
-                      'Signup',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        decoration: TextDecoration.underline,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _loginUser,
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF3D50AC),
+                        padding: const EdgeInsets.all(12.0),
+                        minimumSize: const Size.fromHeight(60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                      ),
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 24,
+                        ),
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Don\'t have an account? ',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 22,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignupPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Signup',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
