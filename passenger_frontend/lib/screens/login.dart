@@ -1,11 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
 import 'home_page.dart';
 import '../services/api_service.dart'; // Import the ApiService
 import 'package:logger/logger.dart';
+import '../utils/error_handler.dart'; // Import the ErrorHandler
+import '../utils/input_validations.dart'; // Import the Input Validations
 
 final Logger logger = Logger();
 
@@ -56,19 +57,9 @@ class LoginPageState extends State<LoginPage> {
           logger.e('Login failed. Status Code: ${response.statusCode}');
           logger.d(response.body);
 
-          // Show an error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Center(
-                child: Text(
-                  'Login failed. Please check your email and password.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              backgroundColor: Color(0xFFFA6F5D),
-            ),
-          );
+          // Show a login error message using the ErrorHandler
+          // ErrorHandler.showLoginErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Login failed. Please check your email and password.');
         }
       } catch (e, stackTrace) {
         // Handle any network or server-related errors
@@ -76,35 +67,15 @@ class LoginPageState extends State<LoginPage> {
         if (e is HttpException) {
           logger.w('Network Error occurred.');
 
-          // Show a network error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Center(
-                child: Text(
-                  'Network error occurred. Please try again later.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              backgroundColor: Color(0xFFFA6F5D),
-            ),
-          );
+          // Show a network error message using the ErrorHandler
+          // ErrorHandler.showNetworkErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Network error occurred. Please try again later.');
         } else {
           logger.w('Unknown Error occurred.');
 
-          // Show an unknown error message
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Center(
-                child: Text(
-                  'Unknown error occurred. Please try again later.',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              backgroundColor: Color(0xFFFA6F5D),
-            ),
-          );
+          // Show an unknown error message using the ErrorHandler
+          // ErrorHandler.showUnknownErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(context, 'Unknown error occurred. Please try again later.');
         }
       }
     }
@@ -153,7 +124,7 @@ class LoginPageState extends State<LoginPage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
                       }
-                      if (!value.contains('@') || !value.contains('.')) {
+                      if (!InputValidations.isValidEmail(value)) {
                         return 'Please enter a valid email address';
                       }
                       return null;
@@ -193,6 +164,9 @@ class LoginPageState extends State<LoginPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
+                      }
+                      if (!InputValidations.isValidPassword(value)) {
+                        return 'Password must be at least 6 characters long';
                       }
                       return null;
                     },
