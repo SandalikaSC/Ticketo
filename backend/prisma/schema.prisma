@@ -1,4 +1,19 @@
+<<<<<<< Updated upstream
 // User table
+=======
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+>>>>>>> Stashed changes
 model User {
   userId           String       @id @default(uuid()) // Primary Key
   nic              String       @unique
