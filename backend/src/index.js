@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: '*', // Replace with the actual origin of your frontend
+  origin: ['http://localhost:3000', '*'], // Replace with the actual origin of your frontend
   credentials: true, // Allow cookies to be sent along with the request
 }));
 

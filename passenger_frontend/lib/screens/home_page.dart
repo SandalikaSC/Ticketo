@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'login.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,137 +7,313 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Digital Wallet'),
-        backgroundColor: const Color(0xFF3D50AC), // Use the primary color here
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Expanded(
-          //   flex: 2,
-          //   child: Container(
-          //     color: Colors.white,
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Expanded(
-          //           child: Container(
-          //             color: const Color(0xFF3D50AC),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const Card(
-                    color: Color(0xFFFA6F5D),
+          Padding(
+            padding: const EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0,bottom:10.0), // Set the desired margin values
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(width: 30.0),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hello,', // Replace this with your desired text
+                              style: TextStyle(
+                                color: Colors.black45,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                              ),
+                            ),
+                            SizedBox(height: 8.0),
+                            Text(
+                              'Motta Sandalika', // Replace this with the user's name
+                              style: TextStyle(
+                                color: Color(0xFF3D50AC),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        CircleAvatar(
+                          // Replace this with the user's profile picture
+                          backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
+                          radius: 30,
+                        ),
+                        SizedBox(width: 10),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 150, // Set the desired height here
+                  child: Card(
+                    color: const Color(0xFFFA6F5D),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Current Balance',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                          const Column(
+                            mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Current Balance',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 22,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Rs:2000.00',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            '\$500.00',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  // Add your topup wallet logic here
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: const Color(0xFF3D50AC),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Top Up Wallet ',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_outward,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ),
                   ),
-                  const SizedBox(
+                )
+
+              ],
+            ),
+          ),
+
+          Expanded(
+            flex: 3,
+            child: Container(
+              color: Colors.white,
+              // padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(top:10.0,left: 20.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
                     height: 80,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Column(
                           children: [
-                            Icon(
-                              Icons.account_balance_wallet,
-                              size: 30,
-                              color: Color(0xFF3D50AC),
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFF3D50AC),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  // Add your topup wallet logic here
+                                },
+                                icon: const Icon(
+                                  Icons.account_balance_wallet,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            Text('Topup Wallet'),
+                            const Text('Topup Wallet'),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(
-                              Icons.show_chart,
-                              size: 30,
-                              color: Color(0xFF3D50AC),
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFF3D50AC),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  // Add your statistics logic here
+                                },
+                                icon: const Icon(
+                                  Icons.show_chart,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            Text('Statistics'),
+                            const Text('Statistics'),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(
-                              Icons.history,
-                              size: 30,
-                              color: Color(0xFF3D50AC),
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFF3D50AC),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  // Add your history logic here
+                                },
+                                icon: const Icon(
+                                  Icons.history,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            Text('History'),
+                            const Text('History'),
                           ],
                         ),
                         Column(
                           children: [
-                            Icon(
-                              Icons.settings,
-                              size: 30,
-                              color: Color(0xFF3D50AC),
+                            Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFF3D50AC),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  // Add your settings logic here
+                                },
+                                icon: const Icon(
+                                  Icons.settings,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                            Text('Settings'),
+                            const Text('Settings'),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 10),
                   const Text(
                     'Transaction History',
                     style: TextStyle(
                       color: Color(0xFF3D50AC),
+                      // color:Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: 5, // Replace with the actual number of transactions
-                      itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 2,
-                          child: ListTile(
-                            title: Text('Transaction Name $index'),
-                            subtitle: Text('Date: ${DateTime.now().toString()}'),
-                            trailing: const Text('\$50.00'),
-                          ),
-                        );
-                      },
+                    child: Padding(
+                      padding: const EdgeInsets.only( ), // Add horizontal padding here
+                      child: ListView.builder(
+                        itemCount: 5, // Replace with the actual number of transactions
+                        itemBuilder: (context, index) {
+                          return ClipRRect( // Wrap Card with ClipRRect for border radius
+                            borderRadius: BorderRadius.circular(32.0), // Set the desired border radius
+                            child: Card(
+                              elevation: 2,
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.account_balance_wallet,
+                                      size: 30,
+                                      // color: Color(0xFFFA6F5D),
+                                      color:Colors.grey,
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Normal Ticket',
+                                            style: TextStyle(
+                                              color: Colors.black, // Change the color as desired
+                                              fontWeight: FontWeight.bold, // Bold the text
+                                              fontSize: 18, // Increase the font size as desired
+                                            ),
+                                          ),
+                                          Text(
+                                            'Date: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}',
+                                            style: const TextStyle(
+                                              color: Colors.black38,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Text(
+                                      'Rs:500.00',
+                                      style: TextStyle(
+                                        color: Color(0xFF3D50AC),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
+                  )
+
+
                 ],
               ),
             ),
@@ -147,4 +322,10 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: HomePage(),
+  ));
 }

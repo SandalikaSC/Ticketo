@@ -4,10 +4,10 @@ const {
   signup,
   getUser,
   refreshToken,
-  logout,
-  verifyToken
+  logout
 } = require("../controllers/auth-controller");
 
+const { verifyToken } = require("../middleware/authenticate");
 const router = express.Router();
 
 router.post("/login", login);
