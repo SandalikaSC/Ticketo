@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'password_reset.dart';
+import 'package:passenger_frontend/screens/password_reset.dart';
+import 'reset_password.dart';
 
 class OtpEntryPage extends StatefulWidget {
   final String email;
@@ -21,6 +22,9 @@ class OtpEntryPage extends StatefulWidget {
 class _OtpEntryPageState extends State<OtpEntryPage> {
   int _remainingSeconds = 120; // Change to 2 minutes
   bool _isTimerExpired = false;
+  bool _isVerifyingOtp = false; // Added
+  bool _isRegeneratingOtp = false; // Added
+
   final List<TextEditingController> _otpControllers = List.generate(
     4,
         (index) => TextEditingController(),
@@ -42,6 +46,8 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
           _isTimerExpired = true;
         }
         startCountdown();
+      } else {
+        _isTimerExpired = true;
       }
     });
   }
@@ -55,6 +61,10 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
   }
 
   Future<void> _verifyOtp() async {
+    setState(() {
+      _isVerifyingOtp = true;
+    });
+
     final enteredOtp = _otpControllers.map((controller) => controller.text).join();
 
     try {
@@ -89,10 +99,18 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to verify OTP")),
       );
+    } finally {
+      setState(() {
+        _isVerifyingOtp = false;
+      });
     }
   }
 
   Future<void> _regenerateOtp() async {
+    setState(() {
+      _isRegeneratingOtp = true;
+    });
+
     try {
       final response = await http.post(
         Uri.parse("http://192.168.8.158:5000/api/generate-otp"), // Replace with your backend URL
@@ -109,6 +127,14 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
           _remainingSeconds = 120;
           _isTimerExpired = false;
         });
+
+        // Navigate to ResetPasswordPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ResetPasswordPage(),
+          ),
+        );
       } else {
         final responseData = json.decode(response.body);
         final errorMessage = responseData["message"];
@@ -120,6 +146,10 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Failed to regenerate OTP")),
       );
+    } finally {
+      setState(() {
+        _isRegeneratingOtp = false;
+      });
     }
   }
 
@@ -138,7 +168,7 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
               'Time Remaining: $_remainingSeconds seconds',
               style: TextStyle(
                 fontSize: 16,
-                color: _isTimerExpired && _remainingSeconds <= 15 ? Colors.red : Colors.black,
+                color: _isTimerExpired ? Colors.red : Colors.black,
               ),
             ),
             const SizedBox(height: 20),
@@ -148,23 +178,28 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
                 4,
                     (index) => SizedBox(
                   width: 60,
-                  child: TextField(
-                    controller: _otpControllers[index],
-                    keyboardType: TextInputType.number,
-                    maxLength: 1,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20),
-                    decoration: const InputDecoration(
-                      counterText: '',
-                      border: OutlineInputBorder(),
-                    ),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _otpControllers[index],
+                        keyboardType: TextInputType.number,
+                        maxLength: 1,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 20),
+                        decoration: const InputDecoration(
+                          counterText: '',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: _isTimerExpired ? null : _verifyOtp,
+              onPressed: _isVerifyingOtp || _remainingSeconds <= 0 ? null : _verifyOtp,
               style: ElevatedButton.styleFrom(
                 primary: const Color(0xFF3D50AC),
                 padding: const EdgeInsets.all(16.0),
@@ -173,16 +208,29 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              child: const Text(
+              child: _isVerifyingOtp
+                  ? const CircularProgressIndicator() // Show CircularProgressIndicator while verifying OTP
+                  : const Text(
                 'Verify OTP',
                 style: TextStyle(
                   fontSize: 20,
                 ),
               ),
             ),
-            if (_remainingSeconds > 120) // Display "Regenerate OTP" button when time exceeds 2 minutes
+            if (_remainingSeconds <= 0) // Display "Time has ended" message when time expires
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  'Time has ended',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            if (_remainingSeconds <= 0) // Display "Regenerate OTP" button when time exceeds 2 minutes
               ElevatedButton(
-                onPressed: _regenerateOtp,
+                onPressed: _isRegeneratingOtp ? null : _regenerateOtp,
                 style: ElevatedButton.styleFrom(
                   primary: const Color(0xFF3D50AC),
                   padding: const EdgeInsets.all(16.0),
@@ -191,7 +239,9 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text(
+                child: _isRegeneratingOtp
+                    ? const CircularProgressIndicator() // Show CircularProgressIndicator while regenerating OTP
+                    : const Text(
                   'Regenerate OTP',
                   style: TextStyle(
                     fontSize: 20,

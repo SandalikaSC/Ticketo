@@ -57,13 +57,36 @@ const insertUser = async (firstName, lastName, email, hashPassword, userType, ni
     }
   })
 }
+
+const updatePassword = async (email, mobileNumber, hashPassword) =>
+{
+  if (email)
+  {
+    return await prisma.user.update({
+      where: { email: email },
+      data: { password: hashPassword },
+    });
+  } else if (mobileNumber)
+  {
+    return await prisma.user.update({
+      where: { mobileNumber: mobileNumber },
+      data: { password: hashPassword },
+    });
+  } else
+  {
+    throw new Error('Neither email nor mobileNumber provided.');
+  }
+};
+
+
 module.exports = {
   getUserByEmail,
   getUserByMobile,
   updateToken,
   insertUser,
   getOTP,
-  updateOTP
+  updateOTP,
+  updatePassword
 };
 
 

@@ -22,18 +22,19 @@ CREATE TYPE "WorkingDays" AS ENUM ('WEEKDAYS', 'WEEKENDS', 'SUNDAY', 'HOLIDAY');
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "nic" TEXT,
     "email" TEXT NOT NULL,
-    "dob" TIMESTAMP(3) NOT NULL,
     "password" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
+    "dob" TIMESTAMP(3) NOT NULL,
+    "nic" TEXT,
+    "userType" "userType"[],
+    "token" TEXT NOT NULL DEFAULT '',
     "loginStatus" BOOLEAN NOT NULL DEFAULT false,
     "accountStatus" BOOLEAN NOT NULL DEFAULT false,
-    "registeredDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "mobileNumber" TEXT NOT NULL,
-    "token" TEXT NOT NULL DEFAULT '',
-    "userType" "userType"[],
+    "otp" TEXT DEFAULT '',
+    "otpGenerateTime" TIMESTAMP(3),
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -276,10 +277,10 @@ CREATE TABLE "_RouteLineToSchedule" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Wallet_userId_key" ON "Wallet"("userId");
