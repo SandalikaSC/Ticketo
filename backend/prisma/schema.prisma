@@ -9,18 +9,20 @@ datasource db {
 
 // User table
 model User {
-  id            String     @id @default(uuid()) // Primary Key
-  email         String     @unique
-  password      String
-  firstName     String
-  lastName      String
-  dob           DateTime
-  nic           String?    @unique
-  userType      userType[]
-  token         String     @default("")
-  loginStatus   Boolean    @default(false)
-  accountStatus Boolean    @default(false)
-  mobileNumber  String
+  id              String     @id @default(uuid()) // Primary Key
+  email           String     @unique
+  password        String
+  firstName       String
+  lastName        String
+  dob             DateTime
+  nic             String?    @unique
+  userType        userType[]
+  token           String     @default("")
+  loginStatus     Boolean    @default(false)
+  accountStatus   Boolean    @default(false)
+  mobileNumber    String
+  otp             String?    @default("")
+  otpGenerateTime DateTime?
 }
 
 enum userType {
