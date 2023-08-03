@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
-// Now you can use the ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET variables in your code.
-
 
 const signup = async (firstName, lastName, email, password, userType, nic, mobileNumber) =>
 {
@@ -103,10 +101,7 @@ const refreshToken = async (refreshToken) =>
 
   return payload;
 }
-
-
-
-
+ 
 module.exports = {
   login,
   logout,
@@ -114,3 +109,4 @@ module.exports = {
   signup,
   verifyToken
 };
+
