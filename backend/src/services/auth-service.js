@@ -1,11 +1,8 @@
 const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-// const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-// const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN"
-const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN"
-// Now you can use the ACCESS_TOKEN_SECRET and REFRESH_TOKEN_SECRET variables in your code.
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 
 const signup = async (firstName, lastName, email, password, userType, nic, mobileNumber) =>
@@ -105,9 +102,6 @@ const refreshToken = async (refreshToken) =>
   return payload;
 }
 
-
-
-
 module.exports = {
   login,
   logout,
@@ -115,3 +109,4 @@ module.exports = {
   signup,
   verifyToken
 };
+

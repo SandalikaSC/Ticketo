@@ -2,7 +2,6 @@ import React from 'react';
 import Sidebar from '../../components/admin/adminsidebar';
 import Dashboard from '../admin/Dashboard';
 import StationMaster from '../admin/StationMaster';
-
 import { Route, Routes } from "react-router-dom";
 
 const admin_home = () =>

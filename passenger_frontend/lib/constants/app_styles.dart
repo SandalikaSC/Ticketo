@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color primary = Color(0xFF3D50ac);
+const Color primary = Color(0xff3d60ac);
 
 class Styles {
   static const Color primaryColor = primary;
@@ -11,6 +11,8 @@ class Styles {
 
   static const Color textColor1 = Color(0xffffffff);
   static const Color textColor2 = Color(0xff0e0707);
+
+  static TextStyle fontFamily = const TextStyle(fontFamily: 'Poppins');
 
   static TextStyle textStyle = const TextStyle(
       fontSize: 16, color: textColor2, fontWeight: FontWeight.w500);

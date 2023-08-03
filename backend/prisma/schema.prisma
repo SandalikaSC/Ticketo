@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-// User table
-=======
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,305 +7,351 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
-
->>>>>>> Stashed changes
 model User {
-  userId           String       @id @default(uuid()) // Primary Key
-  nic              String       @unique
-  email            String       @unique
-  dob              DateTime
-  password         String
-  firstName        String
-  lastName         String
-  loginStatus      Boolean
-  accountStatus    Boolean?
-  registeredDate   DateTime
-  mobileNumber     String
-  userType         String
-  // Relationships
-  employees        Employee[]
-  dependents       Dependent[]
-  wallets          Wallet[]
-  seasonCards      SeasonCard[]
-  tickets          Ticket[]
+  id             String     @id @default(uuid()) // Primary Key
+  nic            String?    @unique
+  email          String     @unique
+  dob            DateTime
+  password       String
+  firstName      String
+  lastName       String
+  loginStatus    Boolean    @default(false)
+  accountStatus  Boolean    @default(false)
+  registeredDate DateTime   @default(now())
+  mobileNumber   String
+  token          String     @default("")
+  userType       userType[] // Array of roles that a user can have
+
+  // Relationships 
+
+  dependent      Dependent[] // One-to-one relationship with Dependent model (a user can have one dependent)
+  addedEmployees Employee[]   @relation("AddedByEmployee") // One-to-many relationship with Employee model (added by a user)
+  Employee       Employee[]   @relation("employee")
+  wallet         Wallet?      @relation("walletBelong")
+  SeasonCard     SeasonCard[] @relation("seasonCard")
+  ticket         Ticket[]     @relation("ticketBooked")
 }
 
-// Employee table
+enum userType {
+  ADMIN
+  CONTROL_CENTRE
+  STATION_MASTER
+  DRIVER
+  TICKET_CLERK
+  TICKET_CHECKER
+  PASSENGER
+}
+
 model Employee {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  userId           String       // Foreign Key to User
-  addedDate        DateTime?
-  addedBy          User?        @relation("AddedBy", fields: [addedByUserId], references: [userId])
-  addedByUserId    String?
-  stationId        String?      @relation(fields: [stationId], references: [stationId])
-  station          Station?     @relation("EmployeeStation", fields: [stationId], references: [stationId])
+  employeeId    String     @id // Primary Key
+  Employee      User       @relation("employee", fields: [employeeId], references: [id])
+  addedDate     DateTime   @default(now())
+  addedByUserId String?
+  stationId     Int?
+  addedBy       User?      @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
+  station       Station?   @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
+  schedules     Schedule[] @relation("employeeSchedules")
+  scanedTickets Ticket[]   @relation("ticketScanner")
 }
 
-// Station table
-model Station {
-  stationId        Int          @id @default(autoincrement()) // Primary Key
-  name             String
-  geoLocation      String
-  contactNumber    String
-  // Relationships
-  employees        Employee[]
-  schedules        Schedule[]
-}
-
-// User Role table
-model UserRole {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  userRole         String
-  slugs            String
-}
-
-// Dependent table
 model Dependent {
-  dependentId      Int          @id @default(autoincrement()) // Primary Key
-  userId           String       // Foreign Key to User
-  user             User?        @relation(fields: [userId], references: [userId])
+  dependentId Int    @id @default(autoincrement()) // Primary Key
+  user        User[] // many to many relationship with User model
 }
 
 // Wallet table
 model Wallet {
-  walletId         String       @id // Primary Key
-  userId           String       // Foreign Key to User
-  walletBalance    Float
-  holdValue        Float
+  walletId      String    @id // Primary Key
+  userId        String    @unique // Foreign Key to User 
+  walletBalance Float
+  holdValue     Float
   // Relationships
-  user             User         @relation(fields: [userId], references: [userId])
-  payments         Payment[]
+  user          User      @relation("walletBelong", fields: [userId], references: [id]) // One-to-one relationship with user model
+  payment       Payment[] @relation(name: "paywallet")
 }
 
 // SeasonCard table
 model SeasonCard {
-  seasonId         String       @id // Primary Key
-  seasonStartDate  DateTime?
-  seasonEndDate    DateTime?
-  duration         Int
-  startStation     String       @relation("SeasonCardStartStation", fields: [startStation], references: [stationId])
-  endStation       String       @relation("SeasonCardEndStation", fields: [endStation], references: [stationId])
-  dateIssued       DateTime?
-  approvedStatus   Int
-  certifiedBy      User?        @relation("CertifiedBy", fields: [certifiedByUserId], references: [userId])
-  certifiedByUserId String?
-  price            Float
-  userId           String       // Foreign Key to User
-  user             User         @relation(fields: [userId], references: [userId])
-  paymentId        String       // Foreign Key to Payment
-  payment          Payment      @relation(fields: [paymentId], references: [paymentId])
+  seasonId        String    @id @default(uuid()) // Primary Key
+  seasonStartDate DateTime?
+  seasonEndDate   DateTime?
+  duration        Int
+  startStation    Int
+  endStation      Int
+  dateIssued      DateTime?
+  approvedStatus  Boolean   @default(false)
+  certifiedBy     String?
+  price           Float
+  userId          String
+
+  // Relationships
+
+  user    User      @relation(name: "seasonCard", fields: [userId], references: [id])
+  start   Station   @relation(name: "seasonStartStation", fields: [startStation], references: [stationId])
+  end     Station   @relation(name: "seasonEndStation", fields: [endStation], references: [stationId])
+  Payment Payment[] @relation(name: "seasonPay")
 }
 
 // Payment table
 model Payment {
-  paymentId        String       @id // Primary Key
-  amount           Float
-  date             DateTime
-  payCategoryId    Int          @relation(fields: [payCategoryId], references: [categoryId])
-  payCategory      PayCategory  @relation(fields: [payCategoryId], references: [categoryId])
-  walletId         String       @relation(fields: [walletId], references: [walletId])
-  wallet           Wallet       @relation(fields: [walletId], references: [walletId])
-  // Relationships
-  tickets          Ticket[]
-  fines            Fine[]
-}
-
-// Pay Category table
-model PayCategory {
-  categoryId       Int          @id @default(autoincrement()) // Primary Key
-  description      String
-  // Relationships
-  payments         Payment[]
-}
-
-// Ticket table
-model Ticket {
-  ticketId         String       @id // Primary Key
-  startStation     String       @relation("TicketStartStation", fields: [startStation], references: [stationId])
-  endStation       String       @relation("TicketEndStation", fields: [endStation], references: [stationId])
-  noOfPassengers   Int
-  ticketStatus     Boolean
-  purchasedDate    DateTime
-  journeyState     Int
-  price            Float
-  journeyDate      DateTime
-  scannerId        String       @relation("TicketScanner", fields: [scannerId], references: [userId])
-  scanner          User?        @relation("ScannerUser", fields: [scannerId], references: [userId])
-  ticketType       String
-  userId           String       // Foreign Key to User
-  user             User         @relation(fields: [userId], references: [userId])
-  paymentId        String       // Foreign Key to Payment
-  payment          Payment?     @relation("TicketPayment", fields: [paymentId], references: [paymentId])
-  classId          Int          @relation(fields: [classId], references: [classId])
-  class            Class        @relation(fields: [classId], references: [classId])
-  // Relationships
-  fines            Fine[]
-  seatReservations SeatReservation[]
+  paymentId      String          @id @default(uuid()) // Primary Key
+  amount         Float
+  date           DateTime
+  payment_method PaymentMethod
+  walletId       String?
+  relatedId      String?
+  RelatedName    payRelatedType?
+  // Relationships  
+  wallet         Wallet?         @relation(name: "paywallet", fields: [walletId], references: [walletId])
+  SeasonCard     SeasonCard?     @relation(name: "seasonPay", fields: [relatedId], references: [seasonId], map: "seasonPay")
+  fine           Fine?           @relation(name: "finePay", fields: [relatedId], references: [fineId], map: "finePay")
+  ticket         Ticket?         @relation(name: "ticketPay", fields: [relatedId], references: [ticketId], map: "ticketPay")
 }
 
 // Fine table
 model Fine {
-  fineId           String       @id // Primary Key
-  amount           Float
-  payStatus        Boolean
-  paymentId        String?      // Foreign Key to Payment
-  payment          Payment?     @relation(fields: [paymentId], references: [paymentId])
-  ticketId         String       // Foreign Key to Ticket
-  ticket           Ticket       @relation(fields: [ticketId], references: [ticketId])
+  fineId    String  @id @default(uuid()) // Primary Key
+  amount    Float
+  payStatus Boolean @default(false)
+  ticketId  String  @unique
+
+  //relationships
+  Payment Payment[] @relation(name: "finePay")
+  ticket  Ticket    @relation("ticketFine", fields: [ticketId], references: [ticketId])
 }
 
-// Schedule table
-model Schedule {
-  scheduleId       Int          @id @default(autoincrement()) // Primary Key
-  startTime        DateTime
-  endTime          DateTime
-  startStation     String       @relation("ScheduleStartStation", fields: [startStation], references: [stationId])
-  endStation       String       @relation("ScheduleEndStation", fields: [endStation], references: [stationId])
-  status           Boolean
-  trainId          Int          @relation(fields: [trainId], references: [trainId])
-  train            Train        @relation(fields: [trainId], references: [trainId])
-  driverId         String       @relation("ScheduleDriver", fields: [driverId], references: [userId])
-  driver           User?        @relation("DriverUser", fields: [driverId], references: [userId])
+enum PaymentMethod {
+  Wallet
+  Online
+}
+
+// Pay Category table
+enum payRelatedType {
+  Fine
+  Ticket
+  SeasonCard
+  Refund
+}
+
+model Station {
+  stationId     Int    @id @default(autoincrement()) // Primary Key
+  name          String
+  geoLocation   String
+  contactNumber String
+
   // Relationships
-  workingDays      ScheduleWorkingDays[]
-  stops            Stops[]
-  schedulesRoutes  ScheduleRoutes[]
+  employees       Employee[] // One-to-many relationship with Employee model (an employee can be associated with one station)
+  seasonStart     SeasonCard[]      @relation("seasonStartStation")
+  seasonEnd       SeasonCard[]      @relation("seasonEndStation")
+  ticketStart     Ticket[]          @relation("ticketStartStation")
+  ticketEnd       Ticket[]          @relation("ticketEndStation")
+  journeyStart    Journey[]         @relation("journeyStart")
+  journeyEnd      Journey[]         @relation("journeyEnd")
+  scheduleStart   Schedule[]        @relation("scheduleStart")
+  scheduleEnd     Schedule[]        @relation("scheduleEnd")
+  StationSchedule StationSchedule[] @relation("stationOn")
 }
 
-// Schedule Working Days table
-model ScheduleWorkingDays {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  scheduleId       Int          // Foreign Key to Schedule
-  day              String
-  schedule         Schedule     @relation(fields: [scheduleId], references: [scheduleId])
-}
-
-// Stops table
-model Stops {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  scheduleId       Int          // Foreign Key to Schedule
-  stationId        Int          @relation(fields: [stationId], references: [stationId])
-  arrivalTime      DateTime
-  waitingTime      Float?
-  departureTime    DateTime
+// Ticket table
+model Ticket {
+  ticketId       String       @id @default(uuid()) // Primary Key 
+  noOfPassengers Int
+  ticketStatus   Boolean      @default(false)
+  purchasedDate  DateTime     @default(now())
+  journeyState   Int          @default(0)
+  price          Float
+  journeyDate    DateTime
+  ticketType     ticketType
+  userId         String // Foreign Key to User 
+  startStation   Int
+  endStation     Int
+  classId        Int
+  scannedBy      String?
   // Relationships
-  schedule         Schedule     @relation(fields: [scheduleId], references: [scheduleId])
-  station          Station      @relation(fields: [stationId], references: [stationId])
+  start          Station      @relation(name: "ticketStartStation", fields: [startStation], references: [stationId])
+  end            Station      @relation(name: "ticketEndStation", fields: [endStation], references: [stationId])
+  Payment        Payment[]    @relation("ticketPay")
+  bookedBy       User         @relation("ticketBooked", fields: [userId], references: [id])
+  fine           Fine?        @relation("ticketFine")
+  class          Class        @relation("classTickets", fields: [classId], references: [classId])
+  reservation    Reservation? @relation("ticketReservation")
+  ticketChecker  Employee?    @relation("ticketScanner", fields: [scannedBy], references: [employeeId])
 }
 
-// RouteLine table
-model RouteLine {
-  routeId          Int          @id @default(autoincrement()) // Primary Key
-  routeName        String
-  // Relationships
-  scheduleRoutes   ScheduleRoutes[]
-}
+model Reservation {
+  ticketId   String @id
+  scheduleId Int?
 
-// ScheduleRoutes table
-model ScheduleRoutes {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  scheduleId       Int          // Foreign Key to Schedule
-  routeId          Int          // Foreign Key to RouteLine
-  // Relationships
-  schedule         Schedule     @relation(fields: [scheduleId], references: [scheduleId])
-  route            RouteLine    @relation(fields: [routeId], references: [routeId])
-}
-
-// Train table
-model Train {
-  trainId          Int          @id @default(autoincrement()) // Primary Key
-  trainName        String
-  trainNumber      Int
-  // Relationships
-  schedules        Schedule[]
-  coachArrangements CoachArrangement[]
-}
-
-// Class table
-model Class {
-  classId          Int          @id @default(autoincrement()) // Primary Key
-  className        String
-  // Relationships
-  seatsReservations SeatReservation[]
-  journeyPrices    JourneyPrice[]
-  coachArrangements CoachArrangement[]
-}
-
-// Traveler table
-model Traveler {
-  travelerId       Int          @id @default(autoincrement()) // Primary Key
-  name             String
-  nic              String      @unique
-  seatNumber       String
-  gender           Int
-  // Relationships
-  travelerReservations TravelerReservation[]
+  //relationships
+  ticket              Ticket                @relation("ticketReservation", fields: [ticketId], references: [ticketId])
+  travelerReservation TravelerReservation[] @relation("reservationTicket")
+  Schedule            Schedule?             @relation("scheduleReservations", fields: [scheduleId], references: [scheduleId])
+  seatReservation     SeatReservation[]     @relation("reservationSeats")
 }
 
 // TravelerReservation table
 model TravelerReservation {
-  id               Int          @id @default(autoincrement()) // Primary Key
-  travelerId       Int          // Foreign Key to Traveler
-  ticketId         String       // Foreign Key to Ticket
-  // Relationships
-  traveler         Traveler     @relation(fields: [travelerId], references: [travelerId])
-  ticket           Ticket       @relation(fields: [ticketId], references: [ticketId])
+  id          Int          @id @default(autoincrement()) // Primary Key 
+  seatNumber  String
+  ticketId    String?
+  travelerId  Int?
+  // Relationships 
+  reservation Reservation? @relation("reservationTicket", fields: [ticketId], references: [ticketId])
+  Traveler    Traveler?    @relation("reservationTraveler", fields: [travelerId], references: [travelerId])
 }
 
-// Journey table
-model Journey {
-  journeyId        Int          @id @default(autoincrement()) // Primary Key
-  startId          Int          @relation("JourneyStartStation", fields: [startId], references: [stationId])
-  endId            Int          @relation("JourneyEndStation", fields: [endId], references: [stationId])
+// Traveler table
+model Traveler {
+  travelerId Int    @id @default(autoincrement()) // Primary Key
+  name       String
+  nic        String
+  gender     gender
+
+  // Relationships
+  travelerReservation TravelerReservation[] @relation("reservationTraveler")
 }
 
-// JourneyPrice table
-model JourneyPrice {
-  journeyPriceId   Int          @id @default(autoincrement()) // Primary Key
-  journeyId        Int          // Foreign Key to Journey
-  classId          Int          // Foreign Key to Class
-  amount           Float
-  seasonPrice      Float?
+enum ticketType {
+  NORMAL
+  RESERVATION
+}
+
+enum gender {
+  MALE
+  FEMALE
+}
+
+// Class table
+model Class {
+  classId   Int        @id @default(autoincrement()) // Primary Key
+  className String
+  code      classCode?
+  // Relationships 
+  tickets   Ticket[]   @relation("classTickets")
+  coach     Coach[]    @relation("coachClass")
+}
+
+enum classCode {
+  OFV //observation
+  SLEEP //sleeep
+  FCR //firstclass a/c
+  SCR //second class reserve
+  TCR //thirdclass reserve
+}
+
+// Train table
+model Train {
+  trainId          Int                @id @default(autoincrement()) // Primary Key
+  trainName        String
+  trainNumber      String
   // Relationships
-  journey          Journey     @relation(fields: [journeyId], references: [journeyId])
-  class            Class       @relation(fields: [classId], references: [classId])
+  coachArrangement CoachArrangement[] @relation("arrangmentTrain")
+  schedule         Schedule[]         @relation("trainSchedule")
+}
+
+// Schedule table
+model Schedule {
+  scheduleId      Int               @id @default(autoincrement()) // Primary Key
+  startTime       DateTime
+  endTime         DateTime
+  start           Int?
+  end             Int?
+  driverId        String
+  trainId         Int
+  WorkingDays     WorkingDays[]
+  notWorking      WorkingDays[]
+  // Relationships 
+  Train           Train?            @relation("trainSchedule", fields: [trainId], references: [trainId])
+  startStation    Station?          @relation("scheduleStart", fields: [start], references: [stationId])
+  endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
+  routeLine       RouteLine[]
+  StationSchedule StationSchedule[] @relation("scheduleOn")
+  employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
+  reservations    Reservation[]     @relation("scheduleReservations")
+  seatReservation SeatReservation[] @relation("reservationSchedule")
+}
+
+// StationSchedule table
+model StationSchedule {
+  id            Int       @id @default(autoincrement()) // Primary Key  
+  arrivalTime   DateTime
+  waitingTime   Decimal
+  departureTime DateTime
+  delayTime     Decimal
+  scheduleId    Int?
+  stationId     Int?
+  // Relationships  
+  Station       Station?  @relation("stationOn", fields: [stationId], references: [stationId])
+  Schedule      Schedule? @relation("scheduleOn", fields: [scheduleId], references: [scheduleId])
+}
+
+enum WorkingDays {
+  WEEKDAYS
+  WEEKENDS
+  SUNDAY
+  HOLIDAY
+  // Add more working day patterns as needed
+}
+
+// RouteLine table
+model RouteLine {
+  routeId   Int        @id @default(autoincrement()) // Primary Key
+  routeName String
+  schedule  Schedule[]
+  // Relationships 
 }
 
 // Coach table
 model Coach {
-  coachId          Int          @id @default(autoincrement()) // Primary Key
-  coachCode        String
+  coachId          Int                @id @default(autoincrement()) // Primary Key
+  coachCode        String             @unique
   seatCapacity     Int
-  category         String       // Sleeper, General
-  // Relationships
-  coachArrangements CoachArrangement[]
+  seatArrangement  Int //5,4,0 
+  classId          Int
+  reservable       Boolean            @default(false)
+  // Relationships 
+  coachArrangement CoachArrangement[] @relation("arrangmentCoach")
+  class            Class              @relation("coachClass", fields: [classId], references: [classId])
 }
 
 // CoachArrangement table
 model CoachArrangement {
-  arrangementId    Int          @id @default(autoincrement()) // Primary Key
-  classId          Int          // Foreign Key to Class
-  Code             Int
-  coachId          Int          // Foreign Key to Coach
-  trainId          Int          // Foreign Key to Train
-  // Relationships
-  class            Class       @relation(fields: [classId], references: [classId])
-  coach            Coach       @relation(fields: [coachId], references: [coachId])
-  train            Train       @relation(fields: [trainId], references: [trainId])
-  seatReservations  SeatReservation[]
+  arrangementId Int    @id @default(autoincrement()) // Primary Key 
+  Code          String //A B C ...
+  coachId       Int // Foreign Key to Coach
+  trainId       Int // Foreign Key to Train
+  // Relationship 
+
+  Train           Train?            @relation("arrangmentTrain", fields: [trainId], references: [trainId])
+  Coach           Coach?            @relation("arrangmentCoach", fields: [coachId], references: [coachId])
+  seatReservation SeatReservation[] @relation("reservationCoachArrange")
+}
+
+// Journey table
+model Journey {
+  journeyId    Int     @id @default(autoincrement()) // Primary Key
+  start        Int
+  end          Int
+  firstClass   Decimal
+  secondClass  Decimal
+  thirdClass   Decimal
+  seasonClass  Decimal
+  //relationships
+  // class        Class[]
+  startStation Station @relation(name: "journeyStart", fields: [start], references: [stationId])
+  endStation   Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
 }
 
 // SeatReservation table
 model SeatReservation {
-  ticketId         String       // Foreign Key to Ticket
-  scheduleId       Int          // Foreign Key to Schedule
-  arrangementId    Int          // Foreign Key to CoachArrangement
-  date             DateTime
-  noOfSeat         Int
-  // Relationships
-  ticket           Ticket      @relation(fields: [ticketId], references: [ticketId])
-  schedule         Schedule    @relation(fields: [scheduleId], references: [scheduleId])
-  coachArrangement CoachArrangement @relation(fields: [arrangementId], references: [arrangementId])
+  id                 Int               @id @default(autoincrement()) // Primary Key 
+  reserveDate        DateTime
+  noOfSeat           Int
+  ticketId           String?
+  scheduleId         Int?
+  coachArrangementId Int?
+  // // Relationships  
+  Reservation        Reservation?      @relation("reservationSeats", fields: [ticketId], references: [ticketId])
+  Schedule           Schedule?         @relation("reservationSchedule", fields: [scheduleId], references: [scheduleId])
+  CoachArrangement   CoachArrangement? @relation("reservationCoachArrange", fields: [coachArrangementId], references: [arrangementId])
 }
