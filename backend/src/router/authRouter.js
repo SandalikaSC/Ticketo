@@ -11,6 +11,7 @@ const {
 const { verifyToken } = require("../middleware/authenticate");
 
 const { verifyOtp } = require("../util/otp");
+const { resetPassword } = require("../services/auth-service");
 const router = express.Router();
 
 router.post("/login", login);
@@ -20,4 +21,6 @@ router.get("/refresh", refreshToken);
 router.post("/logout", verifyToken, logout);
 router.post("/generate-otp", generateOtp);
 router.post("/verify-otp", verifyOtp);
+
+router.post("/reset-password", resetPassword);
 module.exports = router;

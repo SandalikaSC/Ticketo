@@ -1,4 +1,4 @@
-const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
+const { getUserByEmail, updateToken, insertUser, updatePassword } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -101,12 +101,38 @@ const refreshToken = async (refreshToken) =>
 
   return payload;
 }
- 
+
+const resetPassword = async (req, res) =>
+{
+  const { email, mobileNumber, password, confirmPassword } = req.body;
+
+  try
+  {
+    if (password !== confirmPassword)
+    {
+      return res.status(400).json({ error: 'Passwords do not match' });
+    }
+
+    const hashPassword = bcrypt.hashSync(password, 10);
+    console.log("hashpassword", hashPassword);
+    await updatePassword(email, mobileNumber, hashPassword);
+
+    return res.status(200).json({ message: 'Password updated successfully' });
+
+  } catch (error)
+  {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
+
 module.exports = {
   login,
   logout,
   refreshToken,
   signup,
-  verifyToken
+  verifyToken,
+  resetPassword
 };
 
