@@ -7,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User table
 model User {
   id              String     @id @default(uuid()) // Primary Key
   email           String     @unique
@@ -23,6 +22,16 @@ model User {
   mobileNumber    String
   otp             String?    @default("")
   otpGenerateTime DateTime?
+
+  // Relationships 
+
+  dependent      Dependent[] // One-to-one relationship with Dependent model (a user can have one dependent)
+  addedEmployees Employee[]   @relation("AddedByEmployee") // One-to-many relationship with Employee model (added by a user)
+  Employee       Employee[]   @relation("employee")
+  wallet         Wallet?      @relation("walletBelong")
+  SeasonCard     SeasonCard[] @relation("seasonCard")
+  ticket         Ticket[]     @relation("ticketBooked")
+
 }
 
 enum userType {
@@ -33,4 +42,318 @@ enum userType {
   TICKET_CLERK
   TICKET_CHECKER
   PASSENGER
+}
+
+model Employee {
+  employeeId    String     @id // Primary Key
+  Employee      User       @relation("employee", fields: [employeeId], references: [id])
+  addedDate     DateTime   @default(now())
+  addedByUserId String?
+  stationId     Int?
+  addedBy       User?      @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
+  station       Station?   @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
+  schedules     Schedule[] @relation("employeeSchedules")
+  scanedTickets Ticket[]   @relation("ticketScanner")
+}
+
+model Dependent {
+  dependentId Int    @id @default(autoincrement()) // Primary Key
+  user        User[] // many to many relationship with User model
+}
+
+// Wallet table
+model Wallet {
+  walletId      String    @id // Primary Key
+  userId        String    @unique // Foreign Key to User 
+  walletBalance Float
+  holdValue     Float
+  // Relationships
+  user          User      @relation("walletBelong", fields: [userId], references: [id]) // One-to-one relationship with user model
+  payment       Payment[] @relation(name: "paywallet")
+}
+
+// SeasonCard table
+model SeasonCard {
+  seasonId        String    @id @default(uuid()) // Primary Key
+  seasonStartDate DateTime?
+  seasonEndDate   DateTime?
+  duration        Int
+  startStation    Int
+  endStation      Int
+  dateIssued      DateTime?
+  approvedStatus  Boolean   @default(false)
+  certifiedBy     String?
+  price           Float
+  userId          String
+
+  // Relationships
+
+  user    User      @relation(name: "seasonCard", fields: [userId], references: [id])
+  start   Station   @relation(name: "seasonStartStation", fields: [startStation], references: [stationId])
+  end     Station   @relation(name: "seasonEndStation", fields: [endStation], references: [stationId])
+  Payment Payment[] @relation(name: "seasonPay")
+}
+
+// Payment table
+model Payment {
+  paymentId      String          @id @default(uuid()) // Primary Key
+  amount         Float
+  date           DateTime
+  payment_method PaymentMethod
+  walletId       String?
+  relatedId      String?
+  RelatedName    payRelatedType?
+  // Relationships  
+  wallet         Wallet?         @relation(name: "paywallet", fields: [walletId], references: [walletId])
+  SeasonCard     SeasonCard?     @relation(name: "seasonPay", fields: [relatedId], references: [seasonId], map: "seasonPay")
+  fine           Fine?           @relation(name: "finePay", fields: [relatedId], references: [fineId], map: "finePay")
+  ticket         Ticket?         @relation(name: "ticketPay", fields: [relatedId], references: [ticketId], map: "ticketPay")
+}
+
+// Fine table
+model Fine {
+  fineId    String  @id @default(uuid()) // Primary Key
+  amount    Float
+  payStatus Boolean @default(false)
+  ticketId  String  @unique
+
+  //relationships
+  Payment Payment[] @relation(name: "finePay")
+  ticket  Ticket    @relation("ticketFine", fields: [ticketId], references: [ticketId])
+}
+
+enum PaymentMethod {
+  Wallet
+  Online
+}
+
+// Pay Category table
+enum payRelatedType {
+  Fine
+  Ticket
+  SeasonCard
+  Refund
+}
+
+model Station {
+  stationId     Int    @id @default(autoincrement()) // Primary Key
+  name          String
+  geoLocation   String
+  contactNumber String
+
+  // Relationships
+  employees       Employee[] // One-to-many relationship with Employee model (an employee can be associated with one station)
+  seasonStart     SeasonCard[]      @relation("seasonStartStation")
+  seasonEnd       SeasonCard[]      @relation("seasonEndStation")
+  ticketStart     Ticket[]          @relation("ticketStartStation")
+  ticketEnd       Ticket[]          @relation("ticketEndStation")
+  journeyStart    Journey[]         @relation("journeyStart")
+  journeyEnd      Journey[]         @relation("journeyEnd")
+  scheduleStart   Schedule[]        @relation("scheduleStart")
+  scheduleEnd     Schedule[]        @relation("scheduleEnd")
+  StationSchedule StationSchedule[] @relation("stationOn")
+}
+
+// Ticket table
+model Ticket {
+  ticketId       String       @id @default(uuid()) // Primary Key 
+  noOfPassengers Int
+  ticketStatus   Boolean      @default(false)
+  purchasedDate  DateTime     @default(now())
+  journeyState   Int          @default(0)
+  price          Float
+  journeyDate    DateTime
+  ticketType     ticketType
+  userId         String // Foreign Key to User 
+  startStation   Int
+  endStation     Int
+  classId        Int
+  scannedBy      String?
+  // Relationships
+  start          Station      @relation(name: "ticketStartStation", fields: [startStation], references: [stationId])
+  end            Station      @relation(name: "ticketEndStation", fields: [endStation], references: [stationId])
+  Payment        Payment[]    @relation("ticketPay")
+  bookedBy       User         @relation("ticketBooked", fields: [userId], references: [id])
+  fine           Fine?        @relation("ticketFine")
+  class          Class        @relation("classTickets", fields: [classId], references: [classId])
+  reservation    Reservation? @relation("ticketReservation")
+  ticketChecker  Employee?    @relation("ticketScanner", fields: [scannedBy], references: [employeeId])
+}
+
+model Reservation {
+  ticketId   String @id
+  scheduleId Int?
+
+  //relationships
+  ticket              Ticket                @relation("ticketReservation", fields: [ticketId], references: [ticketId])
+  travelerReservation TravelerReservation[] @relation("reservationTicket")
+  Schedule            Schedule?             @relation("scheduleReservations", fields: [scheduleId], references: [scheduleId])
+  seatReservation     SeatReservation[]     @relation("reservationSeats")
+}
+
+// TravelerReservation table
+model TravelerReservation {
+  id          Int          @id @default(autoincrement()) // Primary Key 
+  seatNumber  String
+  ticketId    String?
+  travelerId  Int?
+  // Relationships 
+  reservation Reservation? @relation("reservationTicket", fields: [ticketId], references: [ticketId])
+  Traveler    Traveler?    @relation("reservationTraveler", fields: [travelerId], references: [travelerId])
+}
+
+// Traveler table
+model Traveler {
+  travelerId Int    @id @default(autoincrement()) // Primary Key
+  name       String
+  nic        String
+  gender     gender
+
+  // Relationships
+  travelerReservation TravelerReservation[] @relation("reservationTraveler")
+}
+
+enum ticketType {
+  NORMAL
+  RESERVATION
+}
+
+enum gender {
+  MALE
+  FEMALE
+}
+
+// Class table
+model Class {
+  classId   Int        @id @default(autoincrement()) // Primary Key
+  className String
+  code      classCode?
+  // Relationships 
+  tickets   Ticket[]   @relation("classTickets")
+  coach     Coach[]    @relation("coachClass")
+}
+
+enum classCode {
+  OFV //observation
+  SLEEP //sleeep
+  FCR //firstclass a/c
+  SCR //second class reserve
+  TCR //thirdclass reserve
+}
+
+// Train table
+model Train {
+  trainId          Int                @id @default(autoincrement()) // Primary Key
+  trainName        String
+  trainNumber      String
+  // Relationships
+  coachArrangement CoachArrangement[] @relation("arrangmentTrain")
+  schedule         Schedule[]         @relation("trainSchedule")
+}
+
+// Schedule table
+model Schedule {
+  scheduleId      Int               @id @default(autoincrement()) // Primary Key
+  startTime       DateTime
+  endTime         DateTime
+  start           Int?
+  end             Int?
+  driverId        String
+  trainId         Int
+  WorkingDays     WorkingDays[]
+  notWorking      WorkingDays[]
+  // Relationships 
+  Train           Train?            @relation("trainSchedule", fields: [trainId], references: [trainId])
+  startStation    Station?          @relation("scheduleStart", fields: [start], references: [stationId])
+  endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
+  routeLine       RouteLine[]
+  StationSchedule StationSchedule[] @relation("scheduleOn")
+  employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
+  reservations    Reservation[]     @relation("scheduleReservations")
+  seatReservation SeatReservation[] @relation("reservationSchedule")
+}
+
+// StationSchedule table
+model StationSchedule {
+  id            Int       @id @default(autoincrement()) // Primary Key  
+  arrivalTime   DateTime
+  waitingTime   Decimal
+  departureTime DateTime
+  delayTime     Decimal
+  scheduleId    Int?
+  stationId     Int?
+  // Relationships  
+  Station       Station?  @relation("stationOn", fields: [stationId], references: [stationId])
+  Schedule      Schedule? @relation("scheduleOn", fields: [scheduleId], references: [scheduleId])
+}
+
+enum WorkingDays {
+  WEEKDAYS
+  WEEKENDS
+  SUNDAY
+  HOLIDAY
+  // Add more working day patterns as needed
+}
+
+// RouteLine table
+model RouteLine {
+  routeId   Int        @id @default(autoincrement()) // Primary Key
+  routeName String
+  schedule  Schedule[]
+  // Relationships 
+}
+
+// Coach table
+model Coach {
+  coachId          Int                @id @default(autoincrement()) // Primary Key
+  coachCode        String             @unique
+  seatCapacity     Int
+  seatArrangement  Int //5,4,0 
+  classId          Int
+  reservable       Boolean            @default(false)
+  // Relationships 
+  coachArrangement CoachArrangement[] @relation("arrangmentCoach")
+  class            Class              @relation("coachClass", fields: [classId], references: [classId])
+}
+
+// CoachArrangement table
+model CoachArrangement {
+  arrangementId Int    @id @default(autoincrement()) // Primary Key 
+  Code          String //A B C ...
+  coachId       Int // Foreign Key to Coach
+  trainId       Int // Foreign Key to Train
+  // Relationship 
+
+  Train           Train?            @relation("arrangmentTrain", fields: [trainId], references: [trainId])
+  Coach           Coach?            @relation("arrangmentCoach", fields: [coachId], references: [coachId])
+  seatReservation SeatReservation[] @relation("reservationCoachArrange")
+}
+
+// Journey table
+model Journey {
+  journeyId    Int     @id @default(autoincrement()) // Primary Key
+  start        Int
+  end          Int
+  firstClass   Decimal
+  secondClass  Decimal
+  thirdClass   Decimal
+  seasonClass  Decimal
+  //relationships
+  // class        Class[]
+  startStation Station @relation(name: "journeyStart", fields: [start], references: [stationId])
+  endStation   Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
+}
+
+// SeatReservation table
+model SeatReservation {
+  id                 Int               @id @default(autoincrement()) // Primary Key 
+  reserveDate        DateTime
+  noOfSeat           Int
+  ticketId           String?
+  scheduleId         Int?
+  coachArrangementId Int?
+  // // Relationships  
+  Reservation        Reservation?      @relation("reservationSeats", fields: [ticketId], references: [ticketId])
+  Schedule           Schedule?         @relation("reservationSchedule", fields: [scheduleId], references: [scheduleId])
+  CoachArrangement   CoachArrangement? @relation("reservationCoachArrange", fields: [coachArrangementId], references: [arrangementId])
 }
