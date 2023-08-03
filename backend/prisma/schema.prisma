@@ -8,19 +8,20 @@ datasource db {
 }
 
 model User {
-  id             String     @id @default(uuid()) // Primary Key
-  nic            String?    @unique
-  email          String     @unique
-  dob            DateTime
-  password       String
-  firstName      String
-  lastName       String
-  loginStatus    Boolean    @default(false)
-  accountStatus  Boolean    @default(false)
-  registeredDate DateTime   @default(now())
-  mobileNumber   String
-  token          String     @default("")
-  userType       userType[] // Array of roles that a user can have
+  id              String     @id @default(uuid()) // Primary Key
+  email           String     @unique
+  password        String
+  firstName       String
+  lastName        String
+  dob             DateTime
+  nic             String?    @unique
+  userType        userType[]
+  token           String     @default("")
+  loginStatus     Boolean    @default(false)
+  accountStatus   Boolean    @default(false)
+  mobileNumber    String
+  otp             String?    @default("")
+  otpGenerateTime DateTime?
 
   // Relationships 
 
@@ -30,6 +31,7 @@ model User {
   wallet         Wallet?      @relation("walletBelong")
   SeasonCard     SeasonCard[] @relation("seasonCard")
   ticket         Ticket[]     @relation("ticketBooked")
+
 }
 
 enum userType {

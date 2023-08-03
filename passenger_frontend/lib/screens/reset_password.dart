@@ -1,81 +1,168 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
+import 'dart:convert';
 
-class ResetPasswordPage extends StatelessWidget {
+import 'otp_entry.dart';
+
+final Logger logger = Logger();
+
+class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);
+
+  @override
+  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+}
+
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _mobileNumberController = TextEditingController();
+
+  bool _isSendingOtp = false;
+
+  Future<void> _sendOtp() async {
+    final email = _emailController.text;
+    final mobileNumber = _mobileNumberController.text;
+
+    if (_isSendingOtp) {
+      return;
+    }
+
+    setState(() {
+      _isSendingOtp = true;
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse("http://192.168.8.158:5000/api/generate-otp"),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "email": email,
+          "mobileNumber": mobileNumber,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OtpEntryPage(
+              email: email,
+              mobileNumber: mobileNumber,
+            ),
+          ),
+        );
+      } else {
+        final responseData = json.decode(response.body);
+        final errorMessage = responseData["message"];
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
+    } catch (error) {
+      logger.d(error);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to send OTP")),
+      );
+    } finally {
+      setState(() {
+        _isSendingOtp = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Reset Password'),
         backgroundColor: const Color(0xFF3D50AC),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navigate back to the login page
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'Reset Password',
-          style: TextStyle(fontSize: 24),
-        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Enter the email associated with your account',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'Email address',
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(height: 40),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[200],
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            const SizedBox(height: 40),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add logic for sending reset password email
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: const Color(0xFF3D50AC),
-                  padding: const EdgeInsets.all(16.0),
-                  minimumSize: const Size(100, 0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Enter the email or mobile number associated with your account',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: const Text(
-                  'Send',
+                const SizedBox(height: 20),
+                const Text(
+                  'Email address',
                   style: TextStyle(
                     fontSize: 20,
                   ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Mobile number',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _mobileNumberController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _isSendingOtp ? null : _sendOtp,
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF3D50AC),
+                    padding: const EdgeInsets.all(16.0),
+                    minimumSize: const Size(100, 0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Send',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          if (_isSendingOtp)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: ResetPasswordPage(),
+  ));
 }
