@@ -33,13 +33,20 @@ dependencies:
   cupertino_icons: ^1.0.2
   qr_code_scanner: ^1.0.1
   intl: ^0.17.0
+  http: ^0.13.3
+  logger: ^1.0.0
   flutter_local_notifications: ^15.1.0
   flutter_native_splash: ^2.2.0
+  fluentui_icons: ^1.0.0
+  font_awesome_flutter: ^10.5.0
+  gap: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
