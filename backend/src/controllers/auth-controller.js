@@ -5,58 +5,111 @@ const middlewareService = require("../middleware/authenticate");
 const prisma = new PrismaClient();
 
 //POST Request - Add user to a database
-const signup = async (req, res) =>
-{
-  const { firstName, lastName, email, password, userType, nic, mobileNumber } = req.body;
+const signup = async (req, res) => {
+  const { firstName, lastName, phoneNumber, nic, email, password } = req.body;
 
-  // console.log(userType);
-  try
-  {
-    const existingUser = await AuthService.signup(firstName, lastName, email, password, userType, nic, mobileNumber);
+  //field validation
 
-    if (existingUser)
-    {
-      return res.status(400).json({ message: "User already exists! Login instead" });
+  if (!firstName) {
+    return res.status(400).json({ message: "First name is required" });
+  }
+  if (!lastName) {
+    return res.status(400).json({ message: "Last name is required" });
+  }
+  if (!/^[A-Za-z]+$/.test(firstName) || !/^[A-Za-z]+$/.test(lastName)) {
+    return res.status(400).json({ message: "Invalid name details" });
+  }
+  if (!phoneNumber) {
+    return res.status(400).json({ message: "Phone number is required" });
+  } else if (!/^\d{10}$/.test(phoneNumber)) {
+    return res.status(400).json({ message: "Phone number is invalid" });
+  }
+  if (!nic) {
+    return res.status(400).json({ message: "NIC is required" });
+  } else if (!/^(?:\d{9}[v|V]|\d{12})$/.test(nic)) {
+    return res.status(400).json({ message: "Invalid NIC" });
+  }
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: "Invalid Email" });
+  }
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  } else {
+    if (password.length < 8) {
+      return res.status(400).json({ message: "Password must be at least 8 letters" });
     }
 
-    return res.status(200).json({ message: "User adding successful" });
+    // Contains at least one uppercase letter
+    if (!/[A-Z]/.test(password)) {
+      return res.status(400).json({ message: "Password must be Contains at least one uppercase letter" });
+    }
 
-  } catch (err)
-  {
+    // Contains at least one lowercase letter
+    if (!/[a-z]/.test(password)) {
+      return res.status(400).json({ message: "Password must be Contains at least one lowercase letter" });;
+    }
+
+    // Contains at least one digit (number)
+    if (!/\d/.test(password)) {
+      return res.status(400).json({ message: "Password must be Contains at least one digit" });
+    }
+
+  }
+
+
+  try {
+    const existingUser = await AuthService.isExistPassenger(nic);
+
+    if (existingUser && existingUser.userType.includes('PASSENGER')) {
+      return res.status(400).json({ message: "User already exists! Login instead" });
+
+    } else if (existingUser && existingUser.userType.some(role => role !== 'PASSENGER')) {
+
+      await AuthService.employeeToPassenger(nic);
+
+      return res.status(200).json({ message: "You are already registered as employee. Please log in with the same credentials." });
+
+
+
+
+    }
+
+
+    await AuthService.signup(firstName, lastName, phoneNumber, nic, email, password);
+    return res.status(200).json({ message: "Registration successfull" });
+
+  } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
+
 // POST Request - Login existing user
-const login = async (req, res) =>
-{
+const login = async (req, res) => {
   const { email, password } = req.body;
   // email and password validations gone here
-  if (!(email && password))
-  {
+  if (!(email && password)) {
     res.status(400).json("All input is required");
     return;
   }
 
-  try
-  {
+  try {
     const { accessToken, refreshToken, userType } = await AuthService.login(email, password);
     return res.status(200).json({ accessToken, refreshToken, userType });
-  } catch (error)
-  {
+  } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 };
 
 
 // GET Request - Get user details using the JWT token
-const getUser = async (req, res) =>
-{
+const getUser = async (req, res) => {
   const id = req.id;
   console.log(req.id);
-  try
-  {
+  try {
     // Find the user in the database based on their user ID
     const user = await prisma.user.findUnique({
       where: { id: id },
@@ -64,26 +117,22 @@ const getUser = async (req, res) =>
     });
 
     // Check if the user exists
-    if (!user)
-    {
+    if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     // Return the user details in the response
     return res.status(200).json({ user });
-  } catch (err)
-  {
+  } catch (err) {
     // Handle the error if any occurred during the database query
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-const refreshToken = async (req, res, next) =>
-{
+const refreshToken = async (req, res, next) => {
   const { refreshToken } = req.body;
 
-  if (!refreshToken)
-  {
+  if (!refreshToken) {
     console.log("refresh token not found");
     res.status(400).json("refresh token not found");
     return;
@@ -91,11 +140,9 @@ const refreshToken = async (req, res, next) =>
 
   let payload;
 
-  try
-  {
+  try {
     payload = await AuthService.refreshToken(accessToken);
-  } catch (e)
-  {
+  } catch (e) {
     res.status(403).json("Invalid refresh token");
   }
 
@@ -103,20 +150,16 @@ const refreshToken = async (req, res, next) =>
 }
 
 // POST Request - Logout user and clear the JWT token from the cookie
-const logout = async (req, res, next) =>
-{
+const logout = async (req, res, next) => {
   const id = req.id;
-  if (!id)
-  {
+  if (!id) {
     res.status(400).json("Access token is require");
     return;
   }
   let payload;
-  try
-  {
+  try {
     payload = await AuthService.logout(id);
-  } catch (e)
-  {
+  } catch (e) {
     res.status(403).json("Invalid access token");
   }
   console.log("logout successfull");
@@ -138,22 +181,18 @@ const logout = async (req, res, next) =>
 //   const otp = await OTPService.sendOTP(email, mobileNumber);
 // }
 
-const generateOtp = async (req, res) =>
-{
+const generateOtp = async (req, res) => {
   const { email, mobileNumber } = req.body;
 
   const userExists = await OTPService.checkUserExists(email, mobileNumber);
 
-  if (!userExists)
-  {
+  if (!userExists) {
     return res.status(400).json({ message: "User not found" });
   }
 
-  try
-  {
+  try {
     await OTPService.sendOTP(email, mobileNumber, res); // Pass 'res' as a parameter
-  } catch (err)
-  {
+  } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }

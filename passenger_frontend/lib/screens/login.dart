@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:passenger_frontend/screens/bottom_bar.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
 import 'home_page.dart';
@@ -20,7 +21,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService('http://192.168.8.158:5000'); // Replace with your Node.js server address
+  final ApiService apiService = ApiService(
+      'http://192.168.8.158:5000'); // Replace with your Node.js server address
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -49,7 +51,7 @@ class LoginPageState extends State<LoginPage> {
           // Navigate to the home page after successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => const BottomBar()),
           );
         } else {
           // Login failed
@@ -59,7 +61,8 @@ class LoginPageState extends State<LoginPage> {
 
           // Show a login error message using the ErrorHandler
           // ErrorHandler.showLoginErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(context, 'Login failed. Please check your email and password.');
+          ErrorHandler.showErrorSnackBar(
+              context, 'Login failed. Please check your email and password.');
         }
       } catch (e, stackTrace) {
         // Handle any network or server-related errors
@@ -69,13 +72,15 @@ class LoginPageState extends State<LoginPage> {
 
           // Show a network error message using the ErrorHandler
           // ErrorHandler.showNetworkErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(context, 'Network error occurred. Please try again later.');
+          ErrorHandler.showErrorSnackBar(
+              context, 'Network error occurred. Please try again later.');
         } else {
           logger.w('Unknown Error occurred.');
 
           // Show an unknown error message using the ErrorHandler
           // ErrorHandler.showUnknownErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(context, 'Unknown error occurred. Please try again later.');
+          ErrorHandler.showErrorSnackBar(
+              context, 'Unknown error occurred. Please try again later.');
         }
       }
     }
@@ -144,7 +149,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -177,7 +184,8 @@ class LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const ResetPasswordPage()),
                     );
                   },
                   child: const Text(
@@ -228,7 +236,8 @@ class LoginPageState extends State<LoginPage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SignupPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const SignupPage()),
                         );
                       },
                       child: const Text(
