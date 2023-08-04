@@ -6,9 +6,39 @@ const getUserByEmail = async (email) =>
   return await prisma.user.findUnique({ where: { email: email } });
 };
 
+const getUserByMobile = async (mobileNumber) =>
+{
+  return await prisma.user.findUnique({ where: { mobileNumber: mobileNumber } });
+}
+
 const updateToken = async (id, refreshToken) =>
 {
   return await prisma.user.update({ where: { id: id }, data: { token: refreshToken } });
+}
+
+const updateOTP = async (email, otp, otpGenerateTime) =>
+{
+  return await prisma.user.update({ where: { email: email }, data: { otp: otp, otpGenerateTime: otpGenerateTime } });
+}
+
+const getOTP = async (email, mobileNumber) =>
+{
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { email: email },
+        {
+          mobileNumber: mobileNumber
+        }
+      ]
+    },
+    select: {
+      otp: true,
+      otpGenerateTime: true
+    }
+  });
+
+  return user;
 }
 
 const insertUser = async (firstName, lastName, email, hashPassword, userType, nic, mobileNumber, dob) =>
@@ -27,10 +57,36 @@ const insertUser = async (firstName, lastName, email, hashPassword, userType, ni
     }
   })
 }
+
+const updatePassword = async (email, mobileNumber, hashPassword) =>
+{
+  if (email)
+  {
+    return await prisma.user.update({
+      where: { email: email },
+      data: { password: hashPassword },
+    });
+  } else if (mobileNumber)
+  {
+    return await prisma.user.update({
+      where: { mobileNumber: mobileNumber },
+      data: { password: hashPassword },
+    });
+  } else
+  {
+    throw new Error('Neither email nor mobileNumber provided.');
+  }
+};
+
+
 module.exports = {
   getUserByEmail,
+  getUserByMobile,
   updateToken,
-  insertUser
+  insertUser,
+  getOTP,
+  updateOTP,
+  updatePassword
 };
 
 

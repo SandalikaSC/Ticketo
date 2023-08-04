@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const AuthService = require("../services/auth-service");
-
+const OTPService = require("../services/otp-service");
+const middlewareService = require("../middleware/authenticate");
 const prisma = new PrismaClient();
 
 //POST Request - Add user to a database
@@ -48,27 +49,6 @@ const login = async (req, res) =>
   }
 };
 
-const verifyToken = async (req, res, next) =>
-{
-  const token = req.headers.authorization;
-  console.log(token);
-  if (!token)
-  {
-    return res.status(400).json({ message: 'Authorization header missing' });
-  }
-
-  try
-  {
-    const decodedToken = await AuthService.verifyToken(token);
-    const id = decodedToken.id;
-    req.id = id;
-    console.log(req.id);
-    next();
-  } catch (err)
-  {
-    return res.status(401).json({ message: "Invalid token" });
-  }
-}
 
 // GET Request - Get user details using the JWT token
 const getUser = async (req, res) =>
@@ -143,6 +123,42 @@ const logout = async (req, res, next) =>
   res.sendStatus(204);
 };
 
+
+// const generateOtp = async (req, res) =>
+// {
+//   const { email, mobileNumber } = req.body;
+
+//   const userExists = await OTPService.checkUserExists(email, mobileNumber);
+
+//   if (!userExists)
+//   {
+//     return res.status(400).json({ message: "User not found" });
+//   }
+
+//   const otp = await OTPService.sendOTP(email, mobileNumber);
+// }
+
+const generateOtp = async (req, res) =>
+{
+  const { email, mobileNumber } = req.body;
+
+  const userExists = await OTPService.checkUserExists(email, mobileNumber);
+
+  if (!userExists)
+  {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  try
+  {
+    await OTPService.sendOTP(email, mobileNumber, res); // Pass 'res' as a parameter
+  } catch (err)
+  {
+    console.error(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+
 // Export the functions for use in other modules
 module.exports = {
   login,
@@ -150,5 +166,5 @@ module.exports = {
   refreshToken,
   logout,
   signup,
-  verifyToken
+  generateOtp
 };
