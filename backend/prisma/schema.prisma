@@ -138,10 +138,11 @@ enum payRelatedType {
 }
 
 model Station {
-  stationId     Int    @id @default(autoincrement()) // Primary Key
+  stationId     Int     @id @default(autoincrement()) // Primary Key
   name          String
-  geoLocation   String
-  contactNumber String
+  latitude      Float
+  longitude     Float
+  contactNumber String? @default("")
 
   // Relationships
   employees       Employee[] // One-to-many relationship with Employee model (an employee can be associated with one station)
