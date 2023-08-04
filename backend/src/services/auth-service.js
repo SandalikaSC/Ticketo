@@ -1,8 +1,10 @@
 const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+// const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+// const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN"
+const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN"
 
 
 const signup = async (firstName, lastName, email, password, userType, nic, mobileNumber) =>
