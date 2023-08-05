@@ -244,6 +244,9 @@ enum classCode {
   FCR //firstclass a/c
   SCR //second class reserve
   TCR //thirdclass reserve
+  FC
+  SC
+  TC
 }
 
 // Train table
