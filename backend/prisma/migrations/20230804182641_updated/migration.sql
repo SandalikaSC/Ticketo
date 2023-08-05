@@ -8,7 +8,7 @@ CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
 
 -- CreateEnum
-CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION');
+CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON');
 
 -- CreateEnum
 CREATE TYPE "gender" AS ENUM ('MALE', 'FEMALE');
@@ -22,19 +22,21 @@ CREATE TYPE "WorkingDays" AS ENUM ('WEEKDAYS', 'WEEKENDS', 'SUNDAY', 'HOLIDAY');
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "nic" TEXT,
     "email" TEXT NOT NULL,
+    "dob" TIMESTAMP(3) NOT NULL,
     "password" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
-    "dob" TIMESTAMP(3) NOT NULL,
-    "nic" TEXT,
-    "userType" "userType"[],
-    "token" TEXT NOT NULL DEFAULT '',
     "loginStatus" BOOLEAN NOT NULL DEFAULT false,
     "accountStatus" BOOLEAN NOT NULL DEFAULT false,
+    "registeredDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "mobileNumber" TEXT NOT NULL,
+    "token" TEXT NOT NULL DEFAULT '',
     "otp" TEXT DEFAULT '',
+    "accessToken" TEXT DEFAULT '',
     "otpGenerateTime" TIMESTAMP(3),
+    "userType" "userType"[],
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -79,6 +81,7 @@ CREATE TABLE "SeasonCard" (
     "certifiedBy" TEXT,
     "price" DOUBLE PRECISION NOT NULL,
     "userId" TEXT NOT NULL,
+    "seasonToken" TEXT DEFAULT '',
 
     CONSTRAINT "SeasonCard_pkey" PRIMARY KEY ("seasonId")
 );
@@ -110,8 +113,9 @@ CREATE TABLE "Fine" (
 CREATE TABLE "Station" (
     "stationId" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "geoLocation" TEXT NOT NULL,
-    "contactNumber" TEXT NOT NULL,
+    "latitude" DOUBLE PRECISION NOT NULL,
+    "longitude" DOUBLE PRECISION NOT NULL,
+    "contactNumber" TEXT DEFAULT '',
 
     CONSTRAINT "Station_pkey" PRIMARY KEY ("stationId")
 );
@@ -131,6 +135,7 @@ CREATE TABLE "Ticket" (
     "endStation" INTEGER NOT NULL,
     "classId" INTEGER NOT NULL,
     "scannedBy" TEXT,
+    "ticketToken" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "Ticket_pkey" PRIMARY KEY ("ticketId")
 );
@@ -277,10 +282,10 @@ CREATE TABLE "_RouteLineToSchedule" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Wallet_userId_key" ON "Wallet"("userId");
