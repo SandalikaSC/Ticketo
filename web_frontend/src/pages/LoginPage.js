@@ -9,7 +9,7 @@ import { authActions } from '../store';
 const LoginPage = () =>
 {
     const dispatch = useDispatch();
-    const history = useNavigate();
+    const history = useNavigate(); 
     const [inputs, setInputs] = useState({
         email: "",
         password: "",
