@@ -10,7 +10,6 @@ import Delays from "../controlCenter/Delays";
 import TrackTrains from "../controlCenter/TrackTrains";
 import Stations from "../controlCenter/Stations";
 import Settings from "../controlCenter/Settings";
-import AddTrain from "../controlCenter/AddTrain";
 import { Route, Routes } from "react-router-dom";
 import "../../css/controlcenter.css";
 
@@ -25,7 +24,6 @@ const controlCentre_home = () => {
         <Route path="/assignGuards" element={<AssignGuards />} />
         <Route path="/stations" element={<Stations />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/addtrain" element={<AddTrain />} />
       </Routes>
     </Sidebar>
   );

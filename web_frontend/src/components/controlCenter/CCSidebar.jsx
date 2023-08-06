@@ -42,11 +42,6 @@ const Sidebar = ({ children }) => {
       icon: <FaLocationArrow />,
     },
     {
-      path: "/cc/addtrain",
-      name: "Add Trains",
-      icon: <FaLocationArrow />,
-    },
-    {
       path: "/cc/settings",
       name: "Settings",
       icon: <FaCog />,
