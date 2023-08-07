@@ -25,19 +25,19 @@ const App = () =>
           {isLoggedIn && <Route path="/user" element={<Welcome />} />}
 
           <Route
-            path="/admin"
+            path="/admin/*"
             element={<ProtectedRoute element={<AdminPage />} />}
           />
           <Route
-            path="/cc"
+            path="/cc/*"
             element={<ProtectedRoute element={<ControlCentrePage />} />}
           />
           <Route
-            path="/ss"
+            path="/ss/*"
             element={<ProtectedRoute element={<StationMasterPage />} />}
           />
           <Route
-            path="/tc"
+            path="/tc/*"
             element={<ProtectedRoute element={<TicketClerkPage />} />}
           />
         </Routes>

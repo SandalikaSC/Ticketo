@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+
+
 
 const Form = () => {
   const [formData, setFormData] = useState({
     name: '',
     station: '',
-    phone: '',
+    mobileNumber: '',
     email: '',
     nic: '',
+    password: '', // New password field
   });
 
   const handleChange = (event) => {
@@ -17,10 +21,18 @@ const Form = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add your form submission logic here
-    console.log('Form data submitted:', formData);
+    try {
+      
+      const response = await axios.post('http://localhost:5000/api/add-station-master', formData);
+
+    
+      console.log('Form data submitted:', response.data);
+    } catch (error) {
+      
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
@@ -35,23 +47,14 @@ const Form = () => {
           onChange={handleChange}
         />
       </div>
+    
       <div>
-        <label htmlFor="station">Station:</label>
-        <input
-          type="text"
-          id="station"
-          name="station"
-          value={formData.station}
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="phone">Phone Number:</label>
+        <label htmlFor="mobileNumber">Phone Number:</label>
         <input
           type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
+          id="mobileNumber"
+          name="mobileNumber"
+          value={formData.mobileNumber}
           onChange={handleChange}
         />
       </div>
@@ -75,6 +78,7 @@ const Form = () => {
           onChange={handleChange}
         />
       </div>
+     
       <button type="submit">Submit</button>
     </form>
   );

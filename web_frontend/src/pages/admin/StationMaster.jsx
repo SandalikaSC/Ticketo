@@ -1,19 +1,25 @@
 import React from 'react';
 import Form from '../../components/admin/Form';
-import '../../form.css';
-
+// import Sidebar from '../../components/admin/adminsidebar';
+import '../../css/admin.css';
 
 const StationMaster = () => {
-    return (
+  return (
+    // <div>
+    //   {/* Sidebar */}
+    //   <Sidebar />
+
+      
       <div>
-        {/* Other content of your StationMaster page */}
-        <h1>Station Master Page</h1>
-        <p>Welcome to the Station Master page!</p>
-  
+        <br></br>
+        <h1>Add station masters</h1><br></br>
+        
+
         {/* Render the Form component */}
         <Form />
       </div>
-    );
-  };
-  
-  export default StationMaster;
+    //</div>
+  );
+};
+
+export default StationMaster;
