@@ -3,7 +3,7 @@ const AuthService = require("../services/auth-service");
 const OTPService = require("../services/otp-service");
 const middlewareService = require("../middleware/authenticate");
 const prisma = new PrismaClient();
-
+const bcrypt = require('bcrypt');
 //POST Request - Add user to a database
 const signup = async (req, res) =>
 {
@@ -31,6 +31,11 @@ const signup = async (req, res) =>
 // POST Request - Login existing user
 const login = async (req, res) =>
 {
+const p = 'ticketo123';
+const costFactor = 10;
+
+const hashPassword = bcrypt.hashSync(p, costFactor);
+console.log(hashPassword);
   const { email, password } = req.body;
   // email and password validations gone here
   if (!(email && password))

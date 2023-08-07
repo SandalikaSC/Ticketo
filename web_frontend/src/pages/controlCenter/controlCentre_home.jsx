@@ -4,12 +4,12 @@ import React from 'react';
 // import Sidebar from './admin/adminsidebar';
 // import Dashboard from './pages/admin/Dashboard';
 import Sidebar from '../../components/controlCenter/CCSidebar';
-import TrainInfo from '../controlCenter/TrainInfo';
-import AssignGuards from '../controlCenter/AssignGuards';
-import Delays from '../controlCenter/Delays';
-import TrackTrains from '../controlCenter/TrackTrains';
-import Stations from '../controlCenter/Stations';
-import Settings from '../controlCenter/Settings';
+import TrainInfo from './TrainInfo';
+import AssignGuards from './AssignGuards';
+import Delays from './Delays';
+import TrackTrains from './TrackTrains';
+import Stations from './Stations';
+import Settings from './Settings';
 import { Route, Routes } from "react-router-dom";
 import '../../css/controlcenter.css';
 
@@ -21,7 +21,8 @@ const controlCentre_home = () =>
             <Routes>
 
                 {/* Parindi
-                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/" e
+                    lement={<Dashboard />} />
                     <Route path="/Dashboard" element={<Dashboard />} /> */}
                 { }
                 <Route path="/" element={<Delays />} />

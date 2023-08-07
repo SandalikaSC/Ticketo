@@ -18,32 +18,32 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/",
+            path:"/cc/delays",
             name:"Delays",
             icon:<FaBell/>
         },
         {
-            path:"/tracktrains",
+            path:"/cc/tracktrains",
             name:"Track trains",
             icon:<FaMapMarkedAlt/>
         },
         {
-            path:"/traininfo",
+            path:"/cc/traininfo",
             name:"Train info",
             icon:<FaTrain/>
         },
         {
-            path:"/assignGuards",
+            path:"/cc/assignGuards",
             name:"Assign Guards",
             icon:<FaPersonBooth/>
         },
         {
-            path:"/stations",
+            path:"/cc/stations",
             name:"Stations",
             icon:<FaLocationArrow/>
         },
         {
-            path:"/settings",
+            path:"/cc/settings",
             name:"Settings",
             icon:<FaCog/>
         }
