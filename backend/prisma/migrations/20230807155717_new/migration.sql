@@ -14,7 +14,7 @@ CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON');
 CREATE TYPE "gender" AS ENUM ('MALE', 'FEMALE');
 
 -- CreateEnum
-CREATE TYPE "classCode" AS ENUM ('OFV', 'SLEEP', 'FCR', 'SCR', 'TCR');
+CREATE TYPE "classCode" AS ENUM ('OFV', 'SLEEP', 'FCR', 'SCR', 'TCR', 'FC', 'SC', 'TC');
 
 -- CreateEnum
 CREATE TYPE "WorkingDays" AS ENUM ('WEEKDAYS', 'WEEKENDS', 'SUNDAY', 'HOLIDAY');
@@ -262,7 +262,8 @@ CREATE TABLE "Journey" (
     "firstClass" DECIMAL(65,30) NOT NULL,
     "secondClass" DECIMAL(65,30) NOT NULL,
     "thirdClass" DECIMAL(65,30) NOT NULL,
-    "seasonClass" DECIMAL(65,30) NOT NULL,
+    "seasonSecond" DECIMAL(65,30) NOT NULL,
+    "seasonThird" DECIMAL(65,30) NOT NULL,
 
     CONSTRAINT "Journey_pkey" PRIMARY KEY ("journeyId")
 );
