@@ -38,7 +38,7 @@ const Sidebar = ({children}) => {
             icon:<FaBook/>
         },
         {
-            path:"/settings",
+            path:"/admin/ComplaintsPage",
             name:"Complaints",
             icon:<FaStickyNote/>
         }
