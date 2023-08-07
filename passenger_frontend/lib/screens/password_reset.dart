@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert'; // Import jsonEncode
+import 'login.dart';
 
 class PasswordResetPage extends StatefulWidget {
   final String email;
@@ -14,12 +17,72 @@ class PasswordResetPage extends StatefulWidget {
 class _PasswordResetPageState extends State<PasswordResetPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  bool _passwordsMatch = true;
+  bool _showPassword = false;
 
   @override
   void dispose() {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _resetPassword() async {
+    String newPassword = _passwordController.text;
+    String confirmPassword = _confirmPasswordController.text;
+
+    if (newPassword == confirmPassword) {
+      bool passwordUpdatedSuccessfully = await sendPasswordToBackend(newPassword, confirmPassword);
+
+      if (passwordUpdatedSuccessfully) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()), // Navigate to LoginPage
+        );
+      } else {
+        // Handle the error or show an error message to the user
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Failed to update password. Please try again later.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } else {
+      setState(() {
+        _passwordsMatch = false;
+      });
+    }
+  }
+
+  Future<bool> sendPasswordToBackend(String newPassword, String confirmPassword) async {
+    final response = await http.post(
+      Uri.parse('http://192.168.8.158:5000/api/reset-password'),
+      headers: {'Content-Type': 'application/json'}, // Set the content type to JSON
+      body: jsonEncode({
+        'email': widget.email,
+        'mobileNumber': widget.mobileNumber,
+        'password': newPassword,
+        'confirmPassword': confirmPassword,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -43,27 +106,48 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
             const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
+              obscureText: !_showPassword,
+              decoration: InputDecoration(
                 labelText: 'New Password',
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _showPassword = !_showPassword;
+                    });
+                  },
+                  child: Icon(
+                    _showPassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _confirmPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(
+              obscureText: !_showPassword,
+              onChanged: (_) {
+                setState(() {
+                  _passwordsMatch = _passwordController.text == _confirmPasswordController.text;
+                });
+              },
+              decoration: InputDecoration(
                 labelText: 'Confirm Password',
+                errorText: _passwordsMatch ? null : 'Passwords do not match',
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _showPassword = !_showPassword;
+                    });
+                  },
+                  child: Icon(
+                    _showPassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Implement logic to reset password
-
-                // For demonstration purposes, navigate back to OTP entry page
-                Navigator.pop(context);
-              },
+              onPressed: _resetPassword,
               style: ElevatedButton.styleFrom(
                 primary: const Color(0xFF3D50AC),
                 padding: const EdgeInsets.all(16.0),

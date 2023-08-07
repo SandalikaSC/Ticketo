@@ -9,20 +9,24 @@ url      = env("DATABASE_URL")
 }
 
 model User {
+
   id              String     @id @default(uuid()) // Primary Key
+  nic             String?    @unique
   email           String     @unique
+  dob             DateTime
   password        String
   firstName       String
   lastName        String
-  dob             DateTime
-  nic             String?    @unique
-  userType        userType[]
-  token           String     @default("")
   loginStatus     Boolean    @default(false)
   accountStatus   Boolean    @default(false)
+  registeredDate  DateTime   @default(now())
   mobileNumber    String
+  token           String     @default("")
   otp             String?    @default("")
+  accessToken     String?    @default("")
   otpGenerateTime DateTime?
+  userType        userType[] // Array of roles that a user can have
+
 
   // Relationships 
 
@@ -32,7 +36,6 @@ model User {
   wallet         Wallet?      @relation("walletBelong")
   SeasonCard     SeasonCard[] @relation("seasonCard")
   ticket         Ticket[]     @relation("ticketBooked")
-
 }
 
 enum userType {
@@ -86,6 +89,7 @@ model SeasonCard {
   certifiedBy     String?
   price           Float
   userId          String
+  seasonToken     String?   @default("")
 
   // Relationships
 
@@ -137,10 +141,11 @@ enum payRelatedType {
 }
 
 model Station {
-  stationId     Int    @id @default(autoincrement()) // Primary Key
+  stationId     Int     @id @default(autoincrement()) // Primary Key
   name          String
-  geoLocation   String
-  contactNumber String
+  latitude      Float
+  longitude     Float
+  contactNumber String? @default("")
 
   // Relationships
   employees       Employee[] // One-to-many relationship with Employee model (an employee can be associated with one station)
@@ -170,6 +175,7 @@ model Ticket {
   endStation     Int
   classId        Int
   scannedBy      String?
+  ticketToken    String       @default("")
   // Relationships
   start          Station      @relation(name: "ticketStartStation", fields: [startStation], references: [stationId])
   end            Station      @relation(name: "ticketEndStation", fields: [endStation], references: [stationId])
@@ -217,6 +223,7 @@ model Traveler {
 enum ticketType {
   NORMAL
   RESERVATION
+  SEASON
 }
 
 enum gender {
@@ -240,6 +247,9 @@ enum classCode {
   FCR //firstclass a/c
   SCR //second class reserve
   TCR //thirdclass reserve
+  FC
+  SC
+  TC
 }
 
 // Train table

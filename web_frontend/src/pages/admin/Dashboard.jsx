@@ -5,7 +5,7 @@ import RevenueChart from '../../components/admin/RevenueChart';
 import MonthlyUsageGraph from '../../components/admin/MonthlyUsageGraph';
 import StationMastersList from '../../components/admin/StationMastersList';
 import TrainGuardsList from '../../components/admin/TrainGuardsList';
-import '../../dashboard.css';
+import '../../css/admin.css';
 
 
 const Dashboard = () => {
