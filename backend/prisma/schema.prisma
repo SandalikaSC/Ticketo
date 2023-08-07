@@ -8,21 +8,7 @@ datasource db {
 }
 
 model User {
-<<<<<<< Updated upstream
-  id             String     @id @default(uuid()) // Primary Key
-  nic            String?    @unique
-  email          String     @unique
-  dob            DateTime
-  password       String
-  firstName      String
-  lastName       String
-  loginStatus    Boolean    @default(false)
-  accountStatus  Boolean    @default(false)
-  registeredDate DateTime   @default(now())
-  mobileNumber   String
-  token          String     @default("")
-  userType       userType[] // Array of roles that a user can have
-=======
+
   id              String     @id @default(uuid()) // Primary Key
   nic             String?    @unique
   email           String     @unique
@@ -39,7 +25,7 @@ model User {
   accessToken     String?    @default("")
   otpGenerateTime DateTime?
   userType        userType[] // Array of roles that a user can have
->>>>>>> Stashed changes
+
 
   // Relationships 
 

@@ -22,6 +22,11 @@ const verifyToken = async (req, res, next) =>
     }
 }
 
+
+const generateRandomOtp = async () =>
+{
+
+}
 module.exports = {
     verifyToken
 };

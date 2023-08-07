@@ -1,4 +1,4 @@
-const { getUserByEmail, updateToken, insertUser } = require("../reposiotries/user-repository");
+const { getUserByEmail, getUserByNic, addEmployeeAsPassenger, updateToken, insertUser, updatePassword } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 // const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -6,56 +6,87 @@ const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN"
 const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN"
 
+const employeeToPassenger = async (nic) => {
 
-const signup = async (firstName, lastName, email, password, userType, nic, mobileNumber) =>
-{
-  try
-  {
-    const existingUser = await getUserByEmail(email);
-
-    if (existingUser)
-    {
-      console.log("user exists");
-      return existingUser;
+  try {
+    const updatedUser = await addEmployeeAsPassenger(nic);
+    if (updatedUser) {
+      return updatedUser;
+    } else {
+      throw new Error("An error occurred update");
     }
+  } catch (error) {
+    console.error(error);
+    throw new Error("An error occurred during login");
+  }
 
+
+}
+const signup = async (firstName, lastName, phoneNumber, nic, email, password) => {
+  try {
     const hashPassword = bcrypt.hashSync(password, 10);
 
     // Extract the birth year, month, and date from the NIC number
-    const birthYear = parseInt(nic.substring(0, 2), 10) + 1900; // Assume 1900 for the 20th century and 2000 for the 21st century. You can modify this logic based on your use case.
-    const birthDayOfYear = parseInt(nic.substring(2, 5), 10);
-    const birthDate = new Date(birthYear, 0); // January 1st of the birth year
-    birthDate.setDate(birthDate.getDate() + birthDayOfYear - 1); // Set the date based on the day of the year
+    const birthDate = getBirthDateFromNIC(nic);
 
     console.log(birthDate);
 
-    const newUser = await insertUser(firstName, lastName, email, hashPassword, userType, nic, mobileNumber, birthDate);
-    if (!newUser)
-    {
-      console.log("User not updated");
-    }
-    console.log(newUser);
+    const newUser = await insertUser(nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber);
 
-  } catch (err)
-  {
+
+    return newUser;
+
+  } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+function getBirthDateFromNIC(nic) {
 
-const login = async (email, password) =>
-{
-  try
-  {
+  if (nic.length == 10) {
+    new_nic = "19" + nic;
+    nic = new_nic.slice(0, -1);
+  }
+  const year = parseInt(nic.substring(0, 4));
+  var dayOfBirth = parseInt(nic.substring(4, 7))
+  if (dayOfBirth > 500) {
+    dayOfBirth = dayOfBirth - 500;
+  }
+
+  const { month, day } = getMonthAndDayFromTotalDays(dayOfBirth);
+  // console.log(`Month: ${month}, Day: ${day}`);
+
+  // console.log(year + " " + month + " " + day)
+  return new Date(year, month - 1, day);
+}
+function getMonthAndDayFromTotalDays(totalDays) {
+  const startOfYear = new Date(new Date().getFullYear(), 0, 0); // January 1st of the current year
+  const targetDate = new Date(startOfYear.getTime() + totalDays * 24 * 60 * 60 * 1000);
+
+  const month = targetDate.getMonth() + 1; // getMonth() returns 0-11, so we add 1 to get the actual month number.
+  const day = targetDate.getDate();
+  return { month, day };
+}
+
+const isExistPassenger = async (nic) => {
+  try {
+    const existingUser = await getUserByNic(nic);
+    return existingUser;
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+const login = async (email, password) => {
+  try {
     const existingUser = await getUserByEmail(email);
-    if (!existingUser)
-    {
+    if (!existingUser) {
       throw new Error("User not found. Signup Please");
     }
 
     const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
-    if (!isPasswordCorrect)
-    {
+    if (!isPasswordCorrect) {
 
       throw new Error("Invalid password");
     }
@@ -72,43 +103,62 @@ const login = async (email, password) =>
     await updateToken(existingUser.id, refreshToken);
     userType = existingUser.userType;
     return { accessToken, refreshToken, userType };
-  } catch (error)
-  {
+  } catch (error) {
     console.error(error);
     throw new Error("An error occurred during login");
   }
 };
 
 
-const verifyToken = async (token) =>
-{
+const verifyToken = async (token) => {
   const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
   console.log("her inside verifytoken");
   Console.log(decodedToken);
   return decodedToken;
 }
-const logout = async (id) =>
-{
+const logout = async (id) => {
   await updateToken(id, "");
-  if (!id)
-  {
+  if (!id) {
     console.log("logout unsuccessful");
   }
   return id;
 }
 
-const refreshToken = async (refreshToken) =>
-{
+const refreshToken = async (refreshToken) => {
   payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
 
   return payload;
 }
+
+const resetPassword = async (req, res) => {
+  const { email, mobileNumber, password, confirmPassword } = req.body;
+
+  try {
+    if (password !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match' });
+    }
+
+    const hashPassword = bcrypt.hashSync(password, 10);
+    console.log("hashpassword", hashPassword);
+    await updatePassword(email, mobileNumber, hashPassword);
+
+    return res.status(200).json({ message: 'Password updated successfully' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+}
+
 
 module.exports = {
   login,
   logout,
   refreshToken,
   signup,
-  verifyToken
+  verifyToken,
+  resetPassword,
+  employeeToPassenger,
+  isExistPassenger
 };
 

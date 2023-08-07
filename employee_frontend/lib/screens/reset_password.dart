@@ -11,10 +11,10 @@ class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
-  _ResetPasswordPageState createState() => _ResetPasswordPageState();
+  ResetPasswordPageState createState() => ResetPasswordPageState();
 }
 
-class _ResetPasswordPageState extends State<ResetPasswordPage> {
+class ResetPasswordPageState extends State<ResetPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _mobileNumberController = TextEditingController();
   bool _showMobileInput = false;

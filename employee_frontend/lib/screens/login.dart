@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:passenger_frontend/screens/bottom_bar.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
-import 'signup.dart';
-import 'home_page.dart';
 import '../services/api_service.dart'; // Import the ApiService
 import 'package:logger/logger.dart';
-import '../utils/error_handler.dart'; // Import the ErrorHandler
+//import '../utils/error_handler.dart'; // Import the ErrorHandler
 import '../utils/input_validations.dart'; // Import the Input Validations
-
+import 'landing_page.dart';
 final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
@@ -21,8 +18,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService(
-      'http://192.168.8.158:5000'); // Replace with your Node.js server address
+  final ApiService apiService = ApiService('http://192.168.8.158:5000'); // Replace with your Node.js server address
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -51,7 +47,7 @@ class LoginPageState extends State<LoginPage> {
           // Navigate to the home page after successful login
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const BottomBar()),
+            MaterialPageRoute(builder: (context) => const LandingPage()),
           );
         } else {
           // Login failed
@@ -59,10 +55,8 @@ class LoginPageState extends State<LoginPage> {
           logger.e('Login failed. Status Code: ${response.statusCode}');
           logger.d(response.body);
 
-          // Show a login error message using the ErrorHandler
-          // ErrorHandler.showLoginErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(
-              context, 'Login failed. Please check your email and password.');
+          // Show a login error message
+          _showSnackBar('Login failed. Please check your email and password.');
         }
       } catch (e, stackTrace) {
         // Handle any network or server-related errors
@@ -70,20 +64,25 @@ class LoginPageState extends State<LoginPage> {
         if (e is HttpException) {
           logger.w('Network Error occurred.');
 
-          // Show a network error message using the ErrorHandler
-          // ErrorHandler.showNetworkErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(
-              context, 'Network error occurred. Please try again later.');
+          // Show a network error message
+          _showSnackBar('Network error occurred. Please try again later.');
         } else {
           logger.w('Unknown Error occurred.');
 
-          // Show an unknown error message using the ErrorHandler
-          // ErrorHandler.showUnknownErrorSnackBar(context);
-          ErrorHandler.showErrorSnackBar(
-              context, 'Unknown error occurred. Please try again later.');
+          // Show an unknown error message
+          _showSnackBar('Unknown error occurred. Please try again later.');
         }
       }
     }
+  }
+
+  // Function to show a snack-bar
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -149,9 +148,7 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          isPasswordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -184,8 +181,7 @@ class LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const ResetPasswordPage()),
+                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
                     );
                   },
                   child: const Text(
@@ -220,36 +216,6 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Don\'t have an account? ',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 22,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupPage()),
-                        );
-                      },
-                      child: const Text(
-                        'Signup',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
