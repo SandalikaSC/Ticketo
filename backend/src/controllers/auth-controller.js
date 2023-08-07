@@ -5,6 +5,7 @@ const middlewareService = require("../middleware/authenticate");
 const emailSender = require("../middleware/sendEmail");
 const prisma = new PrismaClient();
 const randToken = require('rand-token');
+const bcrypt = require('bcrypt');
 
 //POST Request - Add user to a database
 const signup = async (req, res) => {
@@ -124,6 +125,7 @@ const verifyAccount = async (req, res) => {
 }
 
 // POST Request - Login existing user
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   // email and password validations gone here
