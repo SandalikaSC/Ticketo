@@ -23,7 +23,7 @@ const Sidebar = ({children}) => {
             icon:<FaTh/>
         },
         {
-            path:"../StationMaster",
+            path:"/admin/StationMaster",
             name:"Station Masters",
             icon:<FaUserNurse/>
         },

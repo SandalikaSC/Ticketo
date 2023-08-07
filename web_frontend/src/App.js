@@ -25,7 +25,7 @@ const App = () =>
           {isLoggedIn && <Route path="/user" element={<Welcome />} />}
 
           <Route
-            path="/admin"
+            path="/admin/*"
             element={<ProtectedRoute element={<AdminPage />} />}
           />
           <Route
