@@ -1,0 +1,56 @@
+/* Dashboard */
+.dashboard {
+    padding: 20px;
+  }
+  
+  /* Flex Cards */
+  .flex-cards-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-card {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Charts */
+  .charts-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .chart-card {
+    width: 48%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Table */
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  .table {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table table th,
+  .table table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  /* Add more custom styles as needed */
+  
+  
