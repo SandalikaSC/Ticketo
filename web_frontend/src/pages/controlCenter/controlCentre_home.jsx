@@ -1,8 +1,11 @@
-import React from "react";
+
+import React from 'react';
+
 //Control center imports for testing purposes only
 
 // import Sidebar from './admin/adminsidebar';
 // import Dashboard from './pages/admin/Dashboard';
+
 import Sidebar from "../../components/controlCenter/CCSidebar";
 import TrainInfo from "../controlCenter/TrainInfo";
 import AssignGuards from "../controlCenter/AssignGuards";
@@ -30,3 +33,4 @@ const controlCentre_home = () => {
 };
 
 export default controlCentre_home;
+

@@ -3,7 +3,7 @@ const AuthService = require("../services/auth-service");
 const OTPService = require("../services/otp-service");
 const middlewareService = require("../middleware/authenticate");
 const prisma = new PrismaClient();
-
+const bcrypt = require('bcrypt');
 //POST Request - Add user to a database
 const signup = async (req, res) => {
   const { firstName, lastName, phoneNumber, nic, email, password } = req.body;
@@ -88,6 +88,7 @@ const signup = async (req, res) => {
 
 
 // POST Request - Login existing user
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   // email and password validations gone here
