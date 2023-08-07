@@ -21,9 +21,8 @@ const Sidebar = ({children}) => {
             name:"Dashboard",
             icon:<FaTh/>
         },
-        { 
+        {
             path:"/admin/StationMastersPage",
- 
             name:"Station Masters",
             icon:<FaUserNurse/>
         },
