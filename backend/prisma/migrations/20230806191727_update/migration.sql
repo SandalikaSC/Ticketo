@@ -42,6 +42,16 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "verificationOtp" (
+    "id" TEXT NOT NULL,
+    "nic" TEXT NOT NULL,
+    "otp" TEXT NOT NULL,
+    "time" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "verificationOtp_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Employee" (
     "employeeId" TEXT NOT NULL,
     "addedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

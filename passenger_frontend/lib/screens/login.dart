@@ -22,7 +22,7 @@ class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ApiService apiService = ApiService(
-      'http://192.168.8.158:5000'); // Replace with your Node.js server address
+      'http://192.168.138.116:5000'); // Replace with your Node.js server address
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();

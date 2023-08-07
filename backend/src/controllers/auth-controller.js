@@ -2,10 +2,43 @@ const { PrismaClient } = require("@prisma/client");
 const AuthService = require("../services/auth-service");
 const OTPService = require("../services/otp-service");
 const middlewareService = require("../middleware/authenticate");
+const emailSender = require("../middleware/sendEmail");
 const prisma = new PrismaClient();
+const randToken = require('rand-token');
 const bcrypt = require('bcrypt');
+
 //POST Request - Add user to a database
 const signup = async (req, res) => {
+  const { firstName, lastName, phoneNumber, nic, email, password, otp } = req.body;
+
+  //field validation
+
+  if (!otp) {
+    return res.status(400).json({ message: "invalid otp" });
+  }
+
+
+  try {
+    const existingUser = await AuthService.isExistPassenger(nic, email);
+
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exist. Please log in instead." });
+    }
+
+
+    const newUser = await AuthService.signup(firstName, lastName, phoneNumber, nic, email, password, otp);
+    if (newUser) {
+      return res.status(200).json({ message: "Registration successfull" });
+    }
+
+    return res.status(400).json({ message: "Registration  failed" });
+
+  } catch (err) {
+    // console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+}
+const verifyAccount = async (req, res) => {
   const { firstName, lastName, phoneNumber, nic, email, password } = req.body;
 
   //field validation
@@ -16,8 +49,11 @@ const signup = async (req, res) => {
   if (!lastName) {
     return res.status(400).json({ message: "Last name is required" });
   }
-  if (!/^[A-Za-z]+$/.test(firstName) || !/^[A-Za-z]+$/.test(lastName)) {
-    return res.status(400).json({ message: "Invalid name details" });
+  if (!/^[A-Za-z]+$/.test(firstName)) {
+    return res.status(400).json({ message: "Invalid first name details" });
+  }
+  if (!/^[A-Za-z]+$/.test(lastName)) {
+    return res.status(400).json({ message: "Invalid last name details" });
   }
   if (!phoneNumber) {
     return res.status(400).json({ message: "Phone number is required" });
@@ -58,34 +94,35 @@ const signup = async (req, res) => {
 
   }
 
-
   try {
-    const existingUser = await AuthService.isExistPassenger(nic);
+    const existingUser = await AuthService.isExistPassenger(nic, email);
 
     if (existingUser && existingUser.userType.includes('PASSENGER')) {
-      return res.status(400).json({ message: "User already exists! Login instead" });
-
+      return res.status(400).json({ message: "User already exists as a passenger. Please log in instead." });
     } else if (existingUser && existingUser.userType.some(role => role !== 'PASSENGER')) {
-
       await AuthService.employeeToPassenger(nic);
 
-      return res.status(200).json({ message: "You are already registered as employee. Please log in with the same credentials." });
-
-
-
-
+      return res.status(201).json({ message: "You are already registered as an employee. Please log in with the same credentials." });
     }
 
+    const otp = randToken.generate(4, nic);
+    const emailResult = await emailSender.sendEmail(email, "Account Verification OTP", `Hi ${firstName},\nWelcome to Ticketo!Please use the following OTP to verify your account:\nOTP: [${otp}] \n\nThis OTP is valid for a limited time.Complete the verification process to get started. \n\nIf you didn't sign up for Ticketo, please disregard this email. \n\nBest regards, Ticketo Team`);
 
-    await AuthService.signup(firstName, lastName, phoneNumber, nic, email, password);
-    return res.status(200).json({ message: "Registration successfull" });
+    if (emailResult.success) {
+      const otpInsertResult = await AuthService.insertTempOtp(nic, otp);
 
+      if (otpInsertResult) {
+        return res.status(200).json({ message: "OTP sent to " + email });
+      } else {
+        return res.status(500).json({ message: "Failed to save OTP. Please try again later." });
+      }
+    } else {
+      return res.status(500).json({ message: "Error occurred while sending email. Please try again later." });
+    }
   } catch (err) {
-    console.log(err);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
 
 // POST Request - Login existing user
 
@@ -206,5 +243,6 @@ module.exports = {
   refreshToken,
   logout,
   signup,
-  generateOtp
+  generateOtp,
+  verifyAccount
 };

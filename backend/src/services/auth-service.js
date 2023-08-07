@@ -1,45 +1,63 @@
-const { getUserByEmail, getUserByNic, addEmployeeAsPassenger, updateToken, insertUser, updatePassword } = require("../reposiotries/user-repository");
+const { getTempOtp, insertTemperyOtp, getUserByEmail, addEmployeeAsPassenger, updateToken, insertUser, updatePassword, getUserByNicEmail } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-// const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
-// const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN"
-const REFRESH_TOKEN_SECRET = "refresh-token-secret-ticketo-SSSKPN"
+const { verifyOtp } = require("../util/otp");
+const { error } = require("console");
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+
 
 const employeeToPassenger = async (nic) => {
 
   try {
-    const updatedUser = await addEmployeeAsPassenger(nic);
-    if (updatedUser) {
-      return updatedUser;
-    } else {
-      throw new Error("An error occurred update");
-    }
+    return await addEmployeeAsPassenger(nic);
+
+
   } catch (error) {
-    console.error(error);
     throw new Error("An error occurred during login");
   }
 
 
 }
-const signup = async (firstName, lastName, phoneNumber, nic, email, password) => {
+const signup = async (firstName, lastName, phoneNumber, nic, email, password, otp) => {
   try {
-    const hashPassword = bcrypt.hashSync(password, 10);
+    const verifyOtp = await accountVerification(nic, otp);
+    if (verifyOtp) {
 
-    // Extract the birth year, month, and date from the NIC number
-    const birthDate = getBirthDateFromNIC(nic);
+      const hashPassword = bcrypt.hashSync(password, 10);
 
-    console.log(birthDate);
+      // Extract the birth year, month, and date from the NIC number
+      const birthDate = getBirthDateFromNIC(nic);
 
-    const newUser = await insertUser(nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber);
-
-
-    return newUser;
+      const newUser = await insertUser(nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber);
+      return newUser;
+    } else {
+      throw new Error("Incorrect otp");
+    }
 
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Internal Server Error" });
+    throw new Error("Verificartion failed");
   }
+}
+const accountVerification = async (nic, otp) => {
+  try {
+    const verificationDetails = await getTempOtp(nic);
+    if (verificationDetails) {
+      const currentTime = new Date();
+      const otpTime = new Date(verificationDetails.time);
+
+      const timeDifferenceInMinutes = (currentTime - otpTime) / (1000 * 60);
+
+      return verificationDetails.otp == otp && timeDifferenceInMinutes < 3;
+    } else {
+      throw new Error("Verification details not found");
+    }
+  } catch (error) {
+    throw new Error("Internal Server Error");
+  }
+
+
+
 }
 function getBirthDateFromNIC(nic) {
 
@@ -68,9 +86,10 @@ function getMonthAndDayFromTotalDays(totalDays) {
   return { month, day };
 }
 
-const isExistPassenger = async (nic) => {
+const isExistPassenger = async (nic, email) => {
   try {
-    const existingUser = await getUserByNic(nic);
+
+    const existingUser = await getUserByNicEmail(nic, email);
     return existingUser;
 
   } catch (err) {
@@ -108,7 +127,16 @@ const login = async (email, password) => {
     throw new Error("An error occurred during login");
   }
 };
+const insertTempOtp = async (nic, otp) => {
+  try {
 
+    const dbresult = await insertTemperyOtp(nic, otp);
+    return dbresult;
+
+  } catch (err) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 const verifyToken = async (token) => {
   const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
@@ -159,6 +187,7 @@ module.exports = {
   verifyToken,
   resetPassword,
   employeeToPassenger,
-  isExistPassenger
+  isExistPassenger,
+  insertTempOtp
 };
 
