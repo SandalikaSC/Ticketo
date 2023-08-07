@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:passenger_frontend/screens/account_verification.dart';
 import 'package:passenger_frontend/screens/login.dart';
 import 'package:passenger_frontend/services/user_service.dart';
 import 'package:passenger_frontend/utils/error_handler.dart';
 import 'package:passenger_frontend/widgets/CustomTextField.dart';
+import 'package:passenger_frontend/widgets/customSnackBar.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -105,33 +109,57 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future<void> _signUser() async {
-    try {
-      final response = await userService.signUp(
-          firstName, lastName, phoneNumber, nic, email, password);
+    Map<String, dynamic> user = {
+      'firstName': firstName,
+      'lastName': lastName,
+      'phoneNumber': phoneNumber,
+      'nic': nic,
+      'email': email,
+      'password': password
+    };
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OTPVerificationScreen(
+            firstName: firstName,
+            lastName: lastName,
+            emailAddress: email,
+            phoneNumber: phoneNumber,
+            password: password,
+            nic: nic),
+      ),
+    );
+    // try {
+    //   final response = await userService.verifyAccount(
+    //       firstName, lastName, phoneNumber, nic, email, password);
 
-      if (response.statusCode == 200) {
-        //i want here poppup container to otp verification
-        ErrorHandler.showErrorSnackBar(context, 'Sign up completed.');
+    //   final responseData = json.decode(response.body);
+    //   final message = responseData['message'];
 
-        // const snackBar = SnackBar(
-        //   content: Text('Successfully signed up!'),
-        // );
-        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //
-        //
-        // await Future.delayed(const Duration(seconds: 2));
-        // Navigator.pushReplacement(context,
-        //     MaterialPageRoute(builder: (context) => const LoginPage()));
-      } else {
-        ErrorHandler.showErrorSnackBar(
-            context, 'Sign up failed. Please check provided infomation again.');
-      }
-    } catch (e) {
-      // Close the loading popup in case of an error.
-      Navigator.pop(context);
-      ErrorHandler.showErrorSnackBar(
-          context, 'Unknown error occurred. Please try again later.');
-    }
+    //   if (response.statusCode == 200) {
+    //   } else if (response.statusCode == 201) {
+    //     showCustomToast(context, "success", message);
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => LoginPage(),
+    //       ),
+    //     );
+    //   } else if (response.statusCode == 400) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => LoginPage(),
+    //       ),
+    //     );
+    //     showCustomToast(context, "error", message);
+    //   } else {
+    //     showCustomToast(context, "error", message);
+    //   }
+    // } catch (e) {
+    //   ErrorHandler.showErrorSnackBar(
+    //       context, 'Unknown error occurred. Please try again later.');
+    // }
   }
 
   @override

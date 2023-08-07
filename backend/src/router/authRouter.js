@@ -2,6 +2,7 @@ const express = require("express");
 const {
   login,
   signup,
+  verifyAccount,
   getUser,
   refreshToken,
   logout,
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.post("/login", login);
 router.post("/signup", signup);
+router.post("/verifyAccount", verifyAccount);
 router.get("/user", verifyToken, getUser);
 router.get("/refresh", refreshToken);
 router.post("/logout", verifyToken, logout);

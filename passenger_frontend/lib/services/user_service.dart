@@ -22,12 +22,18 @@ class UserService {
     }
   }
 
-  Future<http.Response> signUp(String firstName, String lastName,
-      String phoneNumber, String nic, String email, String password) async {
+  Future<http.Response> signUp(
+      String firstName,
+      String lastName,
+      String phoneNumber,
+      String nic,
+      String email,
+      String password,
+      String otp) async {
     try {
-      var baseUrl = "http://192.168.1.158:4000/api";
+      var baseUrl = 'http://192.168.138.116:5000';
       final response = await http.post(
-        Uri.parse('http://192.168.138.116:4000/api/signup'),
+        Uri.parse('$baseUrl/api/signup'),
         // Replace with your Node.js server address
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
@@ -37,6 +43,50 @@ class UserService {
           'nic': nic,
           'email': email,
           'password': password,
+          "otp": otp
+        }),
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
+
+  Future<http.Response> accountVerify(String nic, String otp) async {
+    try {
+      var baseUrl = dotenv.env['baseUrl'];
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/login'),
+        // Replace with your Node.js server address
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'nic': nic,
+          'otp': otp,
+        }),
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
+
+  Future<http.Response> verifyAccount(String firstName, String lastName,
+      String phoneNumber, String nic, String email, String password) async {
+    try {
+      var baseUrl = 'http://192.168.138.116:5000';
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/verifyaccount'),
+        // Replace with your Node.js server address
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'firstName': firstName,
+          'lastName': lastName,
+          'phoneNumber': phoneNumber,
+          'nic': nic,
+          'email': email,
+          'password': password
         }),
       );
       return response;

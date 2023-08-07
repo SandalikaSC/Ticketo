@@ -7,6 +7,16 @@ const getUserByEmail = async (email) => {
 const getUserByNic = async (nic) => {
   return await prisma.user.findUnique({ where: { nic: nic } });
 };
+const getUserByNicEmail = async (nic, email) => {
+  return await prisma.user.findFirst({
+    where: {
+      OR: [
+        { nic: nic }, // Find by nic
+        { email: email }, // Find by email
+      ],
+    },
+  });
+};
 
 const getUserByMobile = async (mobileNumber) => {
   return await prisma.user.findUnique({ where: { mobileNumber: mobileNumber } });
@@ -16,30 +26,17 @@ const updateToken = async (id, refreshToken) => {
   return await prisma.user.update({ where: { id: id }, data: { token: refreshToken } });
 }
 const addEmployeeAsPassenger = async (nic) => {
-  try {
-    // Find the user with the matching NIC
-    const userToUpdate = await prisma.user.findFirst({ where: { nic: nic } });
 
-    if (!userToUpdate) {
-      // User with the provided NIC does not exist
-      throw new Error({ message: "Employee not found " });
-    }
-
-
-    // Add the new role to the userType array
-    const updatedUser = await prisma.user.updateMany({
-      where: { nic: nic },
-      data: {
-        userType: [...userToUpdate.userType, 'PASSENGER'],
+  return await prisma.user.update({
+    where: {
+      nic: nic,
+    },
+    data: {
+      userType: {
+        push: 'PASSENGER',
       },
-    });
-
-    return updatedUser;
-  } catch (error) {
-    // Handle any error that might occur during the process
-    console.error(error);
-    throw new Error("An error occurred while adding the new role to the user.");
-  }
+    },
+  });
 };
 
 const updateOTP = async (email, otp, otpGenerateTime) => {
@@ -80,7 +77,14 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
     }
   })
 }
-
+const insertTemperyOtp = async (nic, otp) => {
+  return await prisma.verificationOtp.create({
+    data: {
+      nic: nic,
+      otp: otp
+    }
+  })
+}
 const updatePassword = async (email, mobileNumber, hashPassword) => {
   if (email) {
     return await prisma.user.update({
@@ -96,9 +100,17 @@ const updatePassword = async (email, mobileNumber, hashPassword) => {
     throw new Error('Neither email nor mobileNumber provided.');
   }
 };
+const getTempOtp = async (nic) => {
+  return await prisma.verificationOtp.findFirst({
+    where: { nic: nic },
+    orderBy: { time: 'desc' }, // Sort by 'time' in descending order (latest first)
+  });
 
+
+}
 
 module.exports = {
+  getTempOtp,
   getUserByEmail,
   getUserByNic,
   getUserByMobile,
@@ -107,7 +119,9 @@ module.exports = {
   insertUser,
   getOTP,
   updateOTP,
-  updatePassword
+  getUserByNicEmail,
+  updatePassword,
+  insertTemperyOtp
 };
 
 

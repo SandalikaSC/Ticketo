@@ -35,6 +35,13 @@ model User {
   ticket         Ticket[]     @relation("ticketBooked")
 }
 
+model verificationOtp {
+  id   String    @id @default(uuid())
+  nic  String
+  otp  String
+  time DateTime? @default(now())
+}
+
 enum userType {
   ADMIN
   CONTROL_CENTRE
@@ -342,7 +349,8 @@ model Journey {
   firstClass   Decimal
   secondClass  Decimal
   thirdClass   Decimal
-  seasonClass  Decimal
+  seasonSecond Decimal
+  seasonThird  Decimal
   //relationships
   // class        Class[]
   startStation Station @relation(name: "journeyStart", fields: [start], references: [stationId])

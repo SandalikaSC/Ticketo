@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 
-const generateOtp = async () =>
-{
+const generateOtp = async () => {
     const min = 1000;
     const max = 9999;
 
@@ -41,32 +40,29 @@ const generateOtp = async () =>
 //     }
 // }
 
-const sendOtpEmail = async (email, otp) =>
-{
+const sendOtpEmail = async (email, otp) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         host: 'smtp.gmail.com',
         port: 465,
         secure: true,
         auth: {
-            user: "ticketo.nssspk@gmail.com",
-            pass: "tirsfqbqjbkbylrj"
+            user: process.env.SENDER_EMAIL,
+            pass: process.env.EMAIL_PASSWORD
         },
     });
 
     const mailOptions = {
-        from: "ticketo.nssspk@gmail.com",
+        from: process.env.EMAIL_PASSWORD,
         to: email,
         subject: "Your OTP for password reset",
         text: `Your OTP for password reset is : ${otp}. This OTP is valid for 1 minute.`,
     };
 
-    try
-    {
+    try {
         await transporter.sendMail(mailOptions);
         console.log("OTP mail sent successfully");
-    } catch (error)
-    { // Fix the typo here
+    } catch (error) { // Fix the typo here
         console.log("Error sending otp mail", error);
         throw error;
     }
