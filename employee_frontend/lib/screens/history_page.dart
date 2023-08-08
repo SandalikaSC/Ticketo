@@ -28,7 +28,6 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: ListView.builder(
         itemCount: userHistory.length,
         itemBuilder: (context, index) {
@@ -53,7 +52,7 @@ class HistoryPage extends StatelessWidget {
                           Text(
                             userData['username']!,
                             style: const TextStyle(
-                              color: Colors.black,
+                              color: Colorsz.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),

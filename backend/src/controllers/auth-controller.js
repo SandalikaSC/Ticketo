@@ -24,9 +24,11 @@ const signup = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exist. Please log in instead." });
     }
+    if (!await AuthService.accountVerification(nic, otp)) {
+      return res.status(400).json({ message: "Invalid Otp" });
+    }
 
-
-    const newUser = await AuthService.signup(firstName, lastName, phoneNumber, nic, email, password, otp);
+    const newUser = await AuthService.signup(firstName, lastName, phoneNumber, nic, email, password);
     if (newUser) {
       return res.status(200).json({ message: "Registration successfull" });
     }
@@ -43,16 +45,16 @@ const verifyAccount = async (req, res) => {
 
   //field validation
 
-  if (!firstName) {
+  if (!firstName.trim()) {
     return res.status(400).json({ message: "First name is required" });
   }
-  if (!lastName) {
+  if (!lastName.trim()) {
     return res.status(400).json({ message: "Last name is required" });
   }
-  if (!/^[A-Za-z]+$/.test(firstName)) {
+  if (!/^[A-Za-z]+$/.test(firstName.trim())) {
     return res.status(400).json({ message: "Invalid first name details" });
   }
-  if (!/^[A-Za-z]+$/.test(lastName)) {
+  if (!/^[A-Za-z]+$/.test(lastName.trim())) {
     return res.status(400).json({ message: "Invalid last name details" });
   }
   if (!phoneNumber) {
@@ -65,9 +67,9 @@ const verifyAccount = async (req, res) => {
   } else if (!/^(?:\d{9}[v|V]|\d{12})$/.test(nic)) {
     return res.status(400).json({ message: "Invalid NIC" });
   }
-  if (!email) {
+  if (!email.trim()) {
     return res.status(400).json({ message: "Email is required" });
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
     return res.status(400).json({ message: "Invalid Email" });
   }
   if (!password) {
