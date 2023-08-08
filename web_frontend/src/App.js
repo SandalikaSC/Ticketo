@@ -20,7 +20,7 @@ const App = () =>
     <React.Fragment>
       <main>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route exact path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           {isLoggedIn && <Route path="/user" element={<Welcome />} />}
 
@@ -33,11 +33,11 @@ const App = () =>
             element={<ProtectedRoute element={<ControlCentrePage />} />}
           />
           <Route
-            path="/ss"
+            path="/ss/*"
             element={<ProtectedRoute element={<StationMasterPage />} />}
           />
           <Route
-            path="/tc"
+            path="/tc/*"
             element={<ProtectedRoute element={<TicketClerkPage />} />}
           />
         </Routes>
