@@ -10,6 +10,17 @@ import TicketClerkPage from "./pages/ticketClerk/ticketClerk_home";
 import StationMasterPage from "./pages/stationMaster/stationMaster_home";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import ProtectedRoute from "./routes/protectedRoutes";
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
+
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: '#ececec',
+    },
+  },
+});
 
 const App = () =>
 {
@@ -18,18 +29,19 @@ const App = () =>
 
   return (
     <React.Fragment>
-      <main>
-        <Routes>
-          <Route exact path="/" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          {isLoggedIn && <Route path="/user" element={<Welcome />} />}
 
+      <ThemeProvider theme={theme}>
+        <main>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            {isLoggedIn && <Route path="/user" element={<Welcome />} />}
           <Route
-            path="/admin"
+            path="/admin/*"
             element={<ProtectedRoute element={<AdminPage />} />}
           />
           <Route
-            path="/cc"
+            path="/cc/*"
             element={<ProtectedRoute element={<ControlCentrePage />} />}
           />
           <Route
@@ -41,7 +53,9 @@ const App = () =>
             element={<ProtectedRoute element={<TicketClerkPage />} />}
           />
         </Routes>
+       
       </main>
+      </ThemeProvider>
     </React.Fragment>
   );
 };

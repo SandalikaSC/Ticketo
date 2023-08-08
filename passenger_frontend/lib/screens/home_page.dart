@@ -1,322 +1,220 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:gap/gap.dart';
+import 'package:passenger_frontend/constants/app_styles.dart';
+import 'login.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0,bottom:10.0), // Set the desired margin values
-            child: Column(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 30.0),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Hello,', // Replace this with your desired text
-                              style: TextStyle(
-                                color: Colors.black45,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Motta Sandalika', // Replace this with the user's name
-                              style: TextStyle(
-                                color: Color(0xFF3D50AC),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        CircleAvatar(
-                          // Replace this with the user's profile picture
-                          backgroundImage: AssetImage('assets/images/profile_picture.jpg'),
-                          radius: 30,
-                        ),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 150, // Set the desired height here
-                  child: Card(
-                    color: const Color(0xFFFA6F5D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  decoration: const BoxDecoration(
+                      color: Styles.primaryColor,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(30),
+                          bottomRight: Radius.circular(30))),
+                  width: double.infinity,
+                  height: 400,
+                  child: Column(
+                    children: [
+                      const Gap(85),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const Column(
-                            mainAxisAlignment: MainAxisAlignment.center, // Center the children vertically
+                          Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage(
+                                    "assets/images/profile_picture.jpg"),
+                              ),
+                            ),
+                          ),
+                          const Gap(10),
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Current Balance',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                ),
+                                "${getGreeting()}!👋",
+                                style: Styles.headWhite,
                               ),
-                              SizedBox(height: 10),
+                              const Gap(5),
                               Text(
-                                'Rs:2000.00',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 26,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 10),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Add your topup wallet logic here
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: const Color(0xFF3D50AC),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: const Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      'Top Up Wallet ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.arrow_outward,
-                                      color: Colors.white,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                "Sandalika Chamari",
+                                style: Styles.headWhite,
+                              )
                             ],
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                )
-
+                ),
               ],
             ),
-          ),
-
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.white,
-              // padding: const EdgeInsets.all(10),
-              padding: const EdgeInsets.only(top:10.0,left: 20.0, right: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 80,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF3D50AC),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  // Add your topup wallet logic here
-                                },
-                                icon: const Icon(
-                                  Icons.account_balance_wallet,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const Text('Topup Wallet'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF3D50AC),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  // Add your statistics logic here
-                                },
-                                icon: const Icon(
-                                  Icons.show_chart,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const Text('Statistics'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF3D50AC),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  // Add your history logic here
-                                },
-                                icon: const Icon(
-                                  Icons.history,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const Text('History'),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF3D50AC),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  // Add your settings logic here
-                                },
-                                icon: const Icon(
-                                  Icons.settings,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const Text('Settings'),
-                          ],
-                        ),
-                      ],
-                    ),
+            Center(
+              child: FractionalTranslation(
+                translation: const Offset(0, 0.45),
+                child: Container(
+                  width: 350,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    color: Styles.backgroundColor,
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Transaction History',
-                    style: TextStyle(
-                      color: Color(0xFF3D50AC),
-                      // color:Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only( ), // Add horizontal padding here
-                      child: ListView.builder(
-                        itemCount: 5, // Replace with the actual number of transactions
-                        itemBuilder: (context, index) {
-                          return ClipRRect( // Wrap Card with ClipRRect for border radius
-                            borderRadius: BorderRadius.circular(32.0), // Set the desired border radius
-                            child: Card(
-                              elevation: 2,
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.account_balance_wallet,
-                                      size: 30,
-                                      // color: Color(0xFFFA6F5D),
-                                      color:Colors.grey,
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Normal Ticket',
-                                            style: TextStyle(
-                                              color: Colors.black, // Change the color as desired
-                                              fontWeight: FontWeight.bold, // Bold the text
-                                              fontSize: 18, // Increase the font size as desired
-                                            ),
-                                          ),
-                                          Text(
-                                            'Date: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}',
-                                            style: const TextStyle(
-                                              color: Colors.black38,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Rs:500.00',
-                                      style: TextStyle(
-                                        color: Color(0xFF3D50AC),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  )
-
-
-                ],
+                  child: const TrainScheduleForm(),
+                ),
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TrainScheduleForm extends StatefulWidget {
+  const TrainScheduleForm({super.key});
+
+  @override
+  _TrainScheduleFormState createState() => _TrainScheduleFormState();
+}
+
+class _TrainScheduleFormState extends State<TrainScheduleForm> {
+  final _formKey = GlobalKey<FormState>();
+  String? _startStation;
+  String? _endStation;
+  TimeOfDay? _startTime;
+  TimeOfDay? _endTime;
+  DateTime? _selectedDate;
+  String? _selectedTicketClass;
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Start Station'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter a start station';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              // Handle station filtering based on user input
+            },
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'End Station'),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter an end station';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              // Handle station filtering based on user input
+            },
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (time != null) {
+                      setState(() {
+                        _startTime = time;
+                      });
+                    }
+                  },
+                  child: Text(_startTime == null
+                      ? 'Select Start Time'
+                      : 'Start Time: ${_startTime!.format(context)}'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (time != null) {
+                      setState(() {
+                        _endTime = time;
+                      });
+                    }
+                  },
+                  child: Text(_endTime == null
+                      ? 'Select End Time'
+                      : 'End Time: ${_endTime!.format(context)}'),
+                ),
+              ),
+            ],
+          ),
+          DropdownButtonFormField<String>(
+            value: _selectedTicketClass,
+            decoration: InputDecoration(labelText: 'Select Ticket Class'),
+            items: [
+              DropdownMenuItem(
+                  value: 'First Class', child: Text('First Class')),
+              DropdownMenuItem(
+                  value: 'Second Class', child: Text('Second Class')),
+              // Add more ticket classes as needed
+            ],
+            onChanged: (value) {
+              setState(() {
+                _selectedTicketClass = value;
+              });
+            },
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final selectedDate = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(Duration(days: 365)),
+              );
+              if (selectedDate != null) {
+                setState(() {
+                  _selectedDate = selectedDate;
+                });
+              }
+            },
+            child: Text(_selectedDate == null
+                ? 'Select Date'
+                : 'Selected Date: ${_selectedDate!.toString().split(' ')[0]}'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                // Perform the search action using the form fields
+                // _startStation, _endStation, _startTime, _endTime,
+                // _selectedTicketClass, _selectedDate
+              }
+            },
+            child: Text('Search Train'),
           ),
         ],
       ),
@@ -324,8 +222,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp(const MaterialApp(
-    home: HomePage(),
-  ));
+String getGreeting() {
+  var hour = DateTime.now().hour;
+
+  if (hour < 12) {
+    return "Good Morning";
+  } else if (hour < 17) {
+    return "Good Afternoon";
+  } else {
+    return "Good Night";
+  }
 }

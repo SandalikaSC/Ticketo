@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   FaBars,
   FaBell,
@@ -7,43 +7,112 @@ import {
   FaPersonBooth,
   FaLocationArrow,
   FaCog,
-  FaSignOutAlt  
-}from "react-icons/fa";
-import { NavLink } from 'react-router-dom';
-import Logo from '../common/logoText.png';
+  FaSignOutAlt,
+} from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+import Logo from "../common/logoText.png";
 
+// const Sidebar = ({ children }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const toggle = () => setIsOpen(!isOpen);
+//   const menuItem = [
+//     {
+//       path: "/cc/delays",
+//       name: "Delays",
+//       icon: <FaBell />,
+//     },
+//     {
+//       path: "/cc/tracktrains",
+//       name: "Track trains",
+//       icon: <FaMapMarkedAlt />,
+//     },
+//     {
+//       path: "/cc/traininfo",
+//       name: "Train info",
+//       icon: <FaTrain />,
+//     },
+//     {
+//       path: "/cc/assignGuards",
+//       name: "Assign Guards",
+//       icon: <FaPersonBooth />,
+//     },
+//     {
+//       path: "/cc/stations",
+//       name: "Stations",
+//       icon: <FaLocationArrow />,
+//     },
+//     {
+//       path: "/cc/settings",
+//       name: "Settings",
+//       icon: <FaCog />,
+//     },
+//   ];
+//   return (
+//     <div className="container">
+//       <div style={{ width: isOpen ? "200px" : "50px" }} className="sidebar">
+//         <div className="top_section">
+//           <img
+//             style={{ display: isOpen ? "block" : "none" }}
+//             src={Logo}
+//             width={125}
+//             alt="logo"
+//             className="logo"
+//           />
+//           <div
+//             style={{ marginLeft: isOpen ? "25px" : "0px", marginTop: "5px" }}
+//             className="bars"
+//           >
+//             <FaBars onClick={toggle} />
+//           </div>
+//         </div>
+//         {menuItem.map((item, index) => (
+//           <NavLink
+//             to={item.path}
+//             key={index}
+//             className="link"
+//             activeClassName="active"
+//           >
+//             <div className="icon">{item.icon}</div>
+//             <div
+//               style={{ display: isOpen ? "block" : "none" }}
+//               className="link_text"
+//             >
+//               {item.name}
+//             </div>
+//           </NavLink>
+//         ))}
 
 const Sidebar = ({children}) => {
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/",
+            path:"/cc/delays",
             name:"Delays",
             icon:<FaBell/>
         },
         {
-            path:"/tracktrains",
+            path:"/cc/tracktrains",
             name:"Track trains",
             icon:<FaMapMarkedAlt/>
         },
         {
-            path:"/traininfo",
+            path:"/cc/traininfo",
             name:"Train info",
             icon:<FaTrain/>
         },
         {
-            path:"/assignGuards",
+            path:"/cc/assignGuards",
             name:"Assign Guards",
             icon:<FaPersonBooth/>
         },
         {
-            path:"/stations",
+            path:"/cc/stations",
             name:"Stations",
             icon:<FaLocationArrow/>
         },
         {
-            path:"/settings",
+            path:"/cc/settings",
             name:"Settings",
             icon:<FaCog/>
         }
@@ -74,9 +143,12 @@ const Sidebar = ({children}) => {
                 </div>
            </div>
 
-           <main>{children}</main>
-        </div>
-    );
+          
+     
+
+      <main>{children}</main>
+    </div>
+  );
 };
 
 export default Sidebar;

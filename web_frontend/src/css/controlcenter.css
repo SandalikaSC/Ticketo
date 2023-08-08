@@ -4,7 +4,7 @@
 
 main {
   width: 100%;
-  /* padding: 20px; */
+  background:#ececec;
 }
 
 .sidebar {
@@ -50,6 +50,8 @@ main {
   background: #3D51A9;
   color: white;
 }
+
+
 
 .icon,
 .link_text {

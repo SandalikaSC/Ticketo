@@ -3,7 +3,6 @@ import {
   FaBars,
   FaTh,
   FaUserNurse,
-  FaUserTie,
   FaMoneyCheckAlt,
   FaBook,
   FaStickyNote,
@@ -18,22 +17,18 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/",
+            path:"/admin",
             name:"Dashboard",
             icon:<FaTh/>
         },
         {
-            path:"../StationMaster",
+            path:"/admin/StationMastersPage",
             name:"Station Masters",
             icon:<FaUserNurse/>
         },
+        
         {
-            path:"/traininfo",
-            name:"Train Guards",
-            icon:<FaUserTie/>
-        },
-        {
-            path:"/assignGuards",
+            path:"/admin/TrainTicketIncome",
             name:"Earnings",
             icon:<FaMoneyCheckAlt/>
         },
@@ -43,7 +38,7 @@ const Sidebar = ({children}) => {
             icon:<FaBook/>
         },
         {
-            path:"/settings",
+            path:"/admin/ComplaintsPage",
             name:"Complaints",
             icon:<FaStickyNote/>
         }

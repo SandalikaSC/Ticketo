@@ -11,6 +11,7 @@ class Styles {
 
   static const Color textColor1 = Color(0xffffffff);
   static const Color textColor2 = Color(0xff0e0707);
+  static const Color textColor3 = Color.fromARGB(255, 65, 56, 56);
 
   static TextStyle fontFamily = const TextStyle(fontFamily: 'Poppins');
 
@@ -35,6 +36,11 @@ class Styles {
     fontSize: 17,
     color: textColor1,
     fontWeight: FontWeight.w300,
+    fontFamily: 'Poppins',
+  );
+  static TextStyle normalText = const TextStyle(
+    fontSize: 12,
+    color: primary,
     fontFamily: 'Poppins',
   );
 // Add more color constants as needed
