@@ -4,11 +4,12 @@ import 'package:passenger_frontend/screens/bottom_bar.dart';
 import 'package:passenger_frontend/services/user_service.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
-import 'home_page.dart';
-import '../services/api_service.dart'; // Import the ApiService
 import 'package:logger/logger.dart';
 import '../utils/error_handler.dart'; // Import the ErrorHandler
 import '../utils/input_validations.dart'; // Import the Input Validations
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/auth_service.dart';
 
 final Logger logger = Logger();
 
@@ -44,10 +45,55 @@ class LoginPageState extends State<LoginPage> {
         final response = await userService.loginUser(email, password);
 
         if (response.statusCode == 200) {
+
+          final responseData = json.decode(response.body);
+          logger.d(responseData);
+          if (responseData is List<dynamic>) {
+            // Handle the case where responseData is an array
+            logger.e('Received a JSON array response: $responseData');
+            // Handle the unexpected response accordingly
+          } else if (responseData is Map<String, dynamic>) {
+            // Handle the case where responseData is a map
+            print('responseData type: ${responseData.runtimeType}');
+            print('responseData content: $responseData');
+            final accessToken = responseData['accessToken'];
+            final refreshToken = responseData['refreshToken'];
+            final userType = List<String>.from(responseData['userType']);
+
+
+            Map<String, dynamic>? user = AuthService.decodeJwtToken(accessToken);
+
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('accessToken', accessToken);
+            await prefs.setString('refreshToken', refreshToken);
+
+            Map<String, dynamic>? userObject = AuthService.decodeJwtToken(accessToken);
+            if (user != null) {
+              await prefs.setString('id', user['id']);
+              await prefs.setString('nic', user['nic'] ?? ''); // Use empty string if null
+              await prefs.setString('email', user['email']);
+              await prefs.setString('dob', user['dob'].toString()); // Convert DateTime to String
+              await prefs.setString('firstName', user['firstName']);
+              await prefs.setString('lastName', user['lastName']);
+              await prefs.setBool('loginStatus', user['loginStatus']);
+              await prefs.setBool('accountStatus', user['accountStatus']);
+              await prefs.setString('registeredDate', user['registeredDate'].toString()); // Convert DateTime to String
+              await prefs.setString('mobileNumber', user['mobileNumber']);
+              await prefs.setString('token', user['token']);
+              await prefs.setString('otp', user['otp'] ?? ''); // Use empty string if null
+              await prefs.setString('accessToken', user['accessToken'] ?? ''); // Use empty string if null
+              await prefs.setString('otpGenerateTime', user['otpGenerateTime']?.toString() ?? ''); // Convert DateTime to String, use empty string if null
+              await prefs.setStringList('user_type', List<String>.from(user['userType']));
+            } else {
+              // Handle the case where the user object is not found in the token
+              logger.i("User not found");
+            }
+
+          }
           // Login successful
           // Handle the response data as needed
-          logger.i('Login successful');
-          logger.d(response.body);
+           logger.i('Login successful');
+          // logger.d(response.body);
 
           // Navigate to the home page after successful login
           Navigator.pushReplacement(
