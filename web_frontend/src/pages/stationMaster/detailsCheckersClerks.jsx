@@ -1,27 +1,22 @@
-import React , { useState } from "react";
+import React from "react";
 /*import Logo from '../common/logoText.png';*/
-import '../../css/stationmaster.css';
+import "../../css/stationmaster.css";
 
-const addCheckerClerk = () => {
-    return (
-        <div>
-            <h1>Add Ticket Checkers/ Ticket Clerks</h1>
-        
-            <div className="form_container">
-                <form className="form">
-               
-                <label>First Name:
-                <input type="text"/>
-                </label>
+const DetailCheckerClerk = () => {
+  return (
+    <div>
+      <h1>Add Ticket Checkers/ Ticket Clerks</h1>
 
-
-                </form>
-            </div>
-        </div>
-        
-    );
+      <div className="form_container">
+        <form className="form">
+          <label>
+            First Name:
+            <input type="text" />
+          </label>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-
-
-export default addCheckerClerk;
+export default DetailCheckerClerk;
