@@ -73,6 +73,7 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
       nic: nic,
       dob: birthDate,
       mobileNumber: phoneNumber,
+      accountStatus: true,
       token: ""
     }
   })

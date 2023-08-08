@@ -19,24 +19,20 @@ const employeeToPassenger = async (nic) => {
 
 
 }
-const signup = async (firstName, lastName, phoneNumber, nic, email, password, otp) => {
+const signup = async (firstName, lastName, phoneNumber, nic, email, password) => {
   try {
-    const verifyOtp = await accountVerification(nic, otp);
-    if (verifyOtp) {
 
-      const hashPassword = bcrypt.hashSync(password, 10);
 
-      // Extract the birth year, month, and date from the NIC number
-      const birthDate = getBirthDateFromNIC(nic);
+    const hashPassword = bcrypt.hashSync(password, 10);
 
-      const newUser = await insertUser(nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber);
-      return newUser;
-    } else {
-      throw new Error("Incorrect otp");
-    }
+    // Extract the birth year, month, and date from the NIC number
+    const birthDate = getBirthDateFromNIC(nic);
+
+    const newUser = await insertUser(nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber);
+    return newUser;
 
   } catch (err) {
-    throw new Error("Verificartion failed");
+    throw new Error("SignUp failed");
   }
 }
 const accountVerification = async (nic, otp) => {
@@ -186,6 +182,7 @@ module.exports = {
   signup,
   verifyToken,
   resetPassword,
+  accountVerification,
   employeeToPassenger,
   isExistPassenger,
   insertTempOtp
