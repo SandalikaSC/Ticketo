@@ -7,8 +7,7 @@ class UserService {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
       final response = await http.post(
-        Uri.parse('$baseUrl/api/login'),
-        // Replace with your Node.js server address
+        Uri.parse('$baseUrl/login'), // Replace with your Node.js server address
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,
