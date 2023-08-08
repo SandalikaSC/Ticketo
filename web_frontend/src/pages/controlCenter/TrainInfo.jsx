@@ -13,6 +13,7 @@ import { FormControl, InputLabel, Select } from "@mui/material";
 import ccBackgroundImage from "../../assets/cc_bg2.png";
 import StationCard from "../../components/controlCenter/StationCard";
 import "../../css/stationCard.css";
+import { Link } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -100,6 +101,8 @@ const TrainInfo = () => {
                   variant="contained"
                   color="primary"
                   style={{ width: "30%", margin: "2%", marginTop: "3%" }}
+                  component={Link}
+                  to="/cc/add-train"
                 >
                   Add Train
                 </Button>
