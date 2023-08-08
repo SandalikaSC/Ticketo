@@ -1,11 +1,10 @@
 const { PrismaClient } = require("@prisma/client");
 const AuthService = require("../services/auth-service");
 const OTPService = require("../services/otp-service");
-const middlewareService = require("../middleware/authenticate");
 const emailSender = require("../middleware/sendEmail");
 const prisma = new PrismaClient();
 const randToken = require('rand-token');
-const bcrypt = require('bcrypt');
+
 
 //POST Request - Add user to a database
 const signup = async (req, res) =>
