@@ -18,8 +18,8 @@ class _BottomBarState extends State<BottomBar> {
   static final List<Widget> _widgetOptions = <Widget>[
     const GuestHomeScreen(),
     const TicketScreen(),
-    const WalletScreen(),
-    const ProfileScreen(),
+    const WalletPage(),
+    const ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
