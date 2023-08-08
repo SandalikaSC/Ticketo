@@ -5,6 +5,8 @@ import StationMaster from './StationMaster';
 import StationMastersPage from './StationMastersPage';
 import TrainTicketIncome from './TrainTicketIncome';
 import ComplaintsPage from './ComplaintsPage';
+import ReportPage from './ReportPage';
+
 
 import { Route, Routes } from "react-router-dom";
 
@@ -19,6 +21,8 @@ const admin_home = () =>
                 <Route path="/StationMastersPage" element={<StationMastersPage/>} />
                 <Route path="/TrainTicketIncome" element={<TrainTicketIncome/>}/>
                 <Route path="/ComplaintsPage" element={<ComplaintsPage/>}/>
+                <Route path="/ReportPage" element={<ReportPage/>}/>
+
 
 
             </Routes>
