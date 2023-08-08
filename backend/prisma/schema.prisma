@@ -4,12 +4,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-url      = env("DATABASE_URL") 
-
+  url      = env("DATABASE_URL")
 }
 
 model User {
-
   id              String     @id @default(uuid()) // Primary Key
   nic             String?    @unique
   email           String     @unique
@@ -26,7 +24,6 @@ model User {
   accessToken     String?    @default("")
   otpGenerateTime DateTime?
   userType        userType[] // Array of roles that a user can have
-
 
   // Relationships 
 
@@ -170,6 +167,7 @@ model Station {
 // Ticket table
 model Ticket {
   ticketId       String       @id @default(uuid()) // Primary Key 
+  ticketNumber   Int          @default(autoincrement())
   noOfPassengers Int
   ticketStatus   Boolean      @default(false)
   purchasedDate  DateTime     @default(now())
@@ -231,6 +229,7 @@ enum ticketType {
   NORMAL
   RESERVATION
   SEASON
+  PHYSICAL
 }
 
 enum gender {
