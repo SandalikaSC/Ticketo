@@ -13,6 +13,8 @@ import Settings from "../controlCenter/Settings";
 import { Route, Routes } from "react-router-dom";
 import "../../css/controlcenter.css";
 
+import AddTrain from "./TrainInfo/AddTrain";
+
 const controlCentre_home = () => {
   return (
     // <div>controlCentre_home</div>
@@ -24,6 +26,7 @@ const controlCentre_home = () => {
         <Route path="/assignGuards" element={<AssignGuards />} />
         <Route path="/stations" element={<Stations />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/add-train" element={<AddTrain />} />
       </Routes>
     </Sidebar>
   );
