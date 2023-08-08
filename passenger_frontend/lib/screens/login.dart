@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'package:passenger_frontend/services/user_service.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
 import 'home_page.dart';
@@ -21,8 +22,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService(
-      'http://192.168.138.116:5000'); // Replace with your Node.js server address
+  final UserService userService =
+      UserService(); // Replace with your Node.js server address
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -40,7 +41,7 @@ class LoginPageState extends State<LoginPage> {
       String password = _passwordController.text.trim();
 
       try {
-        final response = await apiService.loginUser(email, password);
+        final response = await userService.loginUser(email, password);
 
         if (response.statusCode == 200) {
           // Login successful
