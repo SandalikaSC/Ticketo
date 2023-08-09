@@ -1,27 +1,30 @@
-import React , { useState } from "react";
+import React from "react";
 /*import Logo from '../common/logoText.png';*/
-import '../../css/stationmaster.css';
-import checkerClerkCard from './checkerClerkCard';
+import "../../css/stationmaster.css";
 
-const displayCheckersClerks = () => {
-    return (
-        <div>
-            <div className="tabs">
-                <button className="tab-button" onclick="showTab(1)">Clerks</button>
-                <button className="tab-button" onclick="showTab(2)">Checkers</button>
-            </div>
-    
-            <div className="card" id="tab1">
-            <checkerClerkCard Name="Name1"/>
-            <checkerClerkCard Name="Name2"/>
-            </div>
-            
-            <div className="card" id="tab2">
-            <checkerClerkCard Name="Name1"/>
-            <checkerClerkCard Name="Name2"/>
-            </div>
-            
-            {/*<script>
+const DisplayCheckersClerks = () => {
+  return (
+    <div>
+      <div className="tabs">
+        <button className="tab-button" onclick="showTab(1)">
+          Clerks
+        </button>
+        <button className="tab-button" onclick="showTab(2)">
+          Checkers
+        </button>
+      </div>
+
+      <div className="card" id="tab1">
+        <checkerClerkCard Name="Name1" />
+        <checkerClerkCard Name="Name2" />
+      </div>
+
+      <div className="card" id="tab2">
+        <checkerClerkCard Name="Name1" />
+        <checkerClerkCard Name="Name2" />
+      </div>
+
+      {/*<script>
             function showTab(tabIndex) {
                 const tabContents = document.querySelectorAll('.tab-content');
                 
@@ -33,10 +36,8 @@ const displayCheckersClerks = () => {
                 selectedTab.classList.add('active');
             }
             </script>*/}
-               
-        </div>
-        
-    );
+    </div>
+  );
 };
 
-export default displayCheckersClerks;
+export default DisplayCheckersClerks;

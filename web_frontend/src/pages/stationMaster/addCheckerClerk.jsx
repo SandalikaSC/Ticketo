@@ -1,38 +1,43 @@
-import React , { useState } from "react";
+import React from "react";
 /*import Logo from '../common/logoText.png';*/
-import '../../css/stationmaster.css';
+import "../../css/stationmaster.css";
 
-const addCheckerClerk = () => {
-    return (
-        <div>
-            <h1>Add Ticket Checkers/ Ticket Clerks</h1>
-        
-            <div className="form_container">
-                <form className="form">
-                {/*<label>Add photo:
+const AddCheckerClerk = () => {
+  return (
+    <div>
+      <h1>Add Ticket Checkers/ Ticket Clerks</h1>
+
+      <div className="form_container">
+        <form className="form">
+          {/*<label>Add photo:
                 <input type="image" src=" " alt="" width="48" height="48"/>
                 </label>*/}
-               
-                <label>First Name:
-                <input type="text"/>
-                </label>
-                <label>Last Name:
-                <input type="text"/>
-                </label>
-                <label>Job Position:
-                <select>
-                <option value="">Ticket Clerk</option>
-                <option value="">Ticket Checker</option>
-                </select>
-                </label>
-                <label>NIC:
-                <input type="text"/>
-                </label>
-                <label>Mobile No.:
-                <input type="text"/>
-                </label>
-                
-                {/*<label>Username:
+
+          <label>
+            First Name:
+            <input type="text" />
+          </label>
+          <label>
+            Last Name:
+            <input type="text" />
+          </label>
+          <label>
+            Job Position:
+            <select>
+              <option value="">Ticket Clerk</option>
+              <option value="">Ticket Checker</option>
+            </select>
+          </label>
+          <label>
+            NIC:
+            <input type="text" />
+          </label>
+          <label>
+            Mobile No.:
+            <input type="text" />
+          </label>
+
+          {/*<label>Username:
                 <input type="text"/>
                 </label>
                 <label>Email Address:
@@ -45,14 +50,11 @@ const addCheckerClerk = () => {
                 <input type="password"/>
                 </label>*/}
 
-                <button>Add</button>
-                </form>
-            </div>
-        </div>
-        
-    );
+          <button>Add</button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-
-
-export default addCheckerClerk;
+export default AddCheckerClerk;
