@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:passenger_frontend/screens/login.dart';
 import 'package:passenger_frontend/services/user_service.dart';
 import 'package:passenger_frontend/utils/error_handler.dart';
