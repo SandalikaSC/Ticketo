@@ -23,6 +23,7 @@ const controlCentre_home = () => {
     // <div>controlCentre_home</div>
     <Sidebar>
       <Routes>
+        <Route path="/" element={<Delays />} />
         <Route path="/delays" element={<Delays />} />
         <Route path="/tracktrains" element={<TrackTrains />} />
         <Route path="/traininfo" element={<TrainInfo />} />

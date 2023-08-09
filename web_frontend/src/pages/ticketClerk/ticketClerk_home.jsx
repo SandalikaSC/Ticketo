@@ -7,6 +7,8 @@ import Reports from './Reports';
 import { Route, Routes } from 'react-router-dom';
 
 
+
+
 const TicketClerkHome = () => {
     
 
@@ -15,6 +17,7 @@ const TicketClerkHome = () => {
         <Sidebar>
             <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/reservations" element={<Reservations />} />
                 <Route path="/season" element={<Season_Card_Issueing />} />
                 <Route path="/reports" element={<Reports />} />
