@@ -1,13 +1,15 @@
 import React from 'react';
-import { Container } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Container, Typography, Divider, Paper, Select, MenuItem, Button } from '@mui/material';
 
 const Settings = () => {
     return (
-        <Container>
-            <Typography variant='h1' 
-            sx={ {color: 'primary.main'}}>Account Settings</Typography>
-            <br></br>
+        <Container style={{ padding: '20px' }}>
+            <Typography variant="h2" style={{ marginBottom: '10px', color: '#3D50AC' }}>
+            <b>Settings</b>
+            </Typography>
+
+            <Divider style={{ marginBottom: '20px' }} />
+
         </Container>
         
     );
