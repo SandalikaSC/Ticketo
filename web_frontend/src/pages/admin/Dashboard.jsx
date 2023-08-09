@@ -3,8 +3,8 @@ import Header from '../../components/admin/Header';
 import DashboardCard from '../../components/admin/DashboardCard';
 import RevenueChart from '../../components/admin/RevenueChart';
 import MonthlyUsageGraph from '../../components/admin/MonthlyUsageGraph';
-import StationMastersList from '../../components/admin/StationMastersList';
-import TrainGuardsList from '../../components/admin/TrainGuardsList';
+// import StationMastersList from '../../components/admin/StationMastersList';
+// import TrainGuardsList from '../../components/admin/TrainGuardsList';
 import '../../css/admin.css';
 
 
@@ -29,10 +29,10 @@ const Dashboard = () => {
         <RevenueChart />
         <MonthlyUsageGraph />
       </div>
-      <div className="dashboard-lists">
+      {/* <div className="dashboard-lists">
         <StationMastersList />
         <TrainGuardsList />
-      </div>
+      </div> */}
     </div>
   );
 };

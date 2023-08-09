@@ -6,7 +6,8 @@ import {
   FaMoneyCheckAlt,
   FaBook,
   FaStickyNote,
-  FaSignOutAlt  
+  FaSignOutAlt,
+  FaTrain
 }from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import Logo from '../common/logoText.png';
@@ -17,7 +18,7 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/admin",
+            path:"/admin/Dashboard",
             name:"Dashboard",
             icon:<FaTh/>
         },
@@ -41,7 +42,13 @@ const Sidebar = ({children}) => {
             path:"/admin/ComplaintsPage",
             name:"Complaints",
             icon:<FaStickyNote/>
+        },
+        {
+            path:"/controlCenter/Delays",
+            name:"Train Delays",
+            icon:<FaTrain/>
         }
+
     ]
     return (
         <div className="container">

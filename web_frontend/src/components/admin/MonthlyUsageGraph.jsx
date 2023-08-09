@@ -23,7 +23,7 @@ const MonthlyUsageGraph = () => {
         <CartesianGrid stroke="#ccc" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="usage" fill="#4169e1" />
+        <Bar dataKey="usage" fill="#3D51A9" />
       </BarChart>
     </div>
   );
