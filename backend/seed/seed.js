@@ -320,6 +320,47 @@ async function main() {
             data,
         });
     }
+
+
+    const classData = [
+        { className: 'THIRD_CLASS_RESERVED', code: 'TCR' },
+        { className: 'THIRD_CLASS_NOT_RESERVED', code: 'TC' },
+        { className: 'FIRST_CLASS_AC', code: 'FC' },
+        { className: 'FIRST_CLASS_RESERVED', code: 'FCR' },
+        { className: 'OBSERVATION_CLASS', code: 'OFV' },
+        { className: 'SLEEPER_CLASS', code: 'SLEEP' },
+        { className: 'SECOND_CLASS_RESERVED', code: 'SCR' },
+        { className: 'SECOND_CLASS_NOT_RESERVED', code: 'SC' },
+        // Add more class data here...
+    ];
+
+
+    for (const data of classData)
+    {
+        await prisma.class.create({
+            data,
+        });
+    }
+
+    const coachData = [
+        { coachCode: 'TC5', seatCapacity: 48, seatArrangement: 5, classId: 2, reservable: false },
+        { coachCode: 'TC2', seatCapacity: 48, seatArrangement: 2, classId: 2, reservable: false },
+        { coachCode: 'TCR5', seatCapacity: 48, seatArrangement: 5, classId: 1, reservable: true },
+        { coachCode: 'TCR4', seatCapacity: 48, seatArrangement: 4, classId: 1, reservable: true },
+        { coachCode: 'FC4', seatCapacity: 48, seatArrangement: 4, classId: 3, reservable: true },
+        { coachCode: 'OFV4', seatCapacity: 48, seatArrangement: 4, classId: 5, reservable: true },
+        { coachCode: 'SLEEP4', seatCapacity: 48, seatArrangement: 4, classId: 6, reservable: true },
+        { coachCode: 'SCR', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
+        { coachCode: 'SC', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
+        // Add more coach data here...
+    ];
+
+    for (const data of coachData)
+    {
+        await prisma.coach.create({
+            data,
+        });
+    } cd
 }
 
 main()
