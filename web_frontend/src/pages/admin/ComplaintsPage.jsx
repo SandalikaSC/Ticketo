@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import ComplaintCard from '../../components/admin/ComplaintCard';
 import ResolvedComplaintCard from '../../components/admin/ResolvedComplaintCard';
+import ResolveForm from '../../components/admin/ResolveForm';
 import '../../css/admin_complaints.css';
-
 
 const ComplaintsPage = () => {
   const [activeTab, setActiveTab] = useState('new');
+  const [selectedComplaint, setSelectedComplaint] = useState(null);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+    setSelectedComplaint(null);
+  };
+
+  const handleResolveClick = (complaint) => {
+    setSelectedComplaint(complaint);
   };
 
   return (
@@ -31,27 +37,66 @@ const ComplaintsPage = () => {
       <div className="complaints-container">
         {activeTab === 'new' ? (
           <>
-            <ComplaintCard
-              id="021"
-              complaintBy="Nimal Perera"
-              imageUrl="../../common/user1.png"
-              date="2023/08/06"
-              complaint="Train schedule not loaded."
-            />
-            <ComplaintCard
-              id="022"
-              complaintBy="Lalith De Silva"
-              imageUrl="../common/user2.png"
-              date="2023/08/10"
-              complaint="Delayed train."
-            />
-             <ComplaintCard
-              id="023"
-              complaintBy="Krishan Perera"
-              imageUrl="../common/user3.png"
-              date="2023/08/06"
-              complaint="Train schedule not loaded."
-            />
+            {selectedComplaint ? (
+              <ResolveForm
+                complaintData={selectedComplaint}
+                onResolve={(resolvedData) => {
+                  // Handle resolved data
+                  setSelectedComplaint(null);
+                }}
+              />
+            ) : (
+              <>
+                <ComplaintCard
+                  id="021"
+                  complaintBy="Nimal Perera"
+                  imageUrl="../../common/user1.png"
+                  date="2023/08/06"
+                  complaint="Train schedule not loaded."
+                  onResolve={() => handleResolveClick("021")}
+                />
+                <ComplaintCard
+                  id="022"
+                  complaintBy="Lalith De Silva"
+                  imageUrl="../common/user2.png"
+                  date="2023/08/10"
+                  complaint="Delayed train .Not informed"
+                  onResolve={() => handleResolveClick("022")}
+                />
+                <ComplaintCard
+                  id="023"
+                  complaintBy="Krishan Perera"
+                  imageUrl="../common/user3.png"
+                  date="2023/08/06"
+                  complaint="Train schedule not loaded."
+                  onResolve={() => handleResolveClick("023")}
+                />
+                <ComplaintCard
+                  id="024"
+                  complaintBy="Kokila De Silva"
+                  imageUrl="../common/user2.png"
+                  date="2023/08/06"
+                  complaint="Train delay not notified"
+                  onResolve={() => handleResolveClick("022")}
+                />
+                <ComplaintCard
+                  id="025"
+                  complaintBy="Ashen Perera"
+                  imageUrl="../../common/user1.png"
+                  date="2023/08/06"
+                  complaint="Train schedule not loaded."
+                  onResolve={() => handleResolveClick("021")}
+                />
+                <ComplaintCard
+                  id="026"
+                  complaintBy="Joel Fernando"
+                  imageUrl="../common/user2.png"
+                  date="2023/08/10"
+                  complaint="Delayed train .Not informed"
+                  onResolve={() => handleResolveClick("022")}
+                />
+              </>
+            )}
           </>
         ) : (
           <>
@@ -71,13 +116,23 @@ const ComplaintsPage = () => {
               complaint="Unauthorized transaction."
               actionTaken="Investigated and refunded the amount."
             />
-             <ResolvedComplaintCard
+            <ResolvedComplaintCard
               id="005"
               complaintBy="Chamari Jayasekara"
               imageUrl="../common/user5.png"
               date="2023/07/24"
-              complaint="Ticket refund not recieved."
+              complaint="Ticket refund not received."
               actionTaken="Investigated and refunded the amount."
+
+              
+            />
+            <ResolvedComplaintCard
+              id="007"
+              complaintBy="Hilmi Mohomed"
+              imageUrl="../common/user4.png"
+              date="2023/08/01"
+              complaint="Ticket refund not received."
+              actionTaken="Processed refund and notified the user."
             />
           </>
         )}
