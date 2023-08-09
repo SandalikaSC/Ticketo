@@ -157,7 +157,7 @@ form {
   }
   
   /* Style for the submit button */
-  button {
+  admin-button {
     width: 40%; /* Reduce the button width */
     padding: 10px;
     font-size: 16px;
