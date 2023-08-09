@@ -52,7 +52,7 @@ class HistoryPage extends StatelessWidget {
                           Text(
                             userData['username']!,
                             style: const TextStyle(
-                              color: Colorsz.black,
+                              color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
