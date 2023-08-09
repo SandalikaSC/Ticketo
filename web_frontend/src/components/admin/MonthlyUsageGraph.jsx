@@ -4,11 +4,11 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 const MonthlyUsageGraph = () => {
   // Dummy data for the monthly usage graph
   const data = [
-    { month: 'Jan', usage: 1800 },
-    { month: 'Feb', usage: 2900 },
-    { month: 'Mar', usage: 4000 },
-    { month: 'Apr', usage: 6200  },
-    { month: 'May', usage: 7400 },
+    { month: 'Normal', usage: 780000 },
+    { month: 'Reser', usage: 490000 },
+    { month: 'School', usage: 140000 },
+    { month: 'Gov', usage: 82000  },
+    { month: 'Private', usage: 74000 },
 
 
     // Add more data points here
@@ -16,7 +16,7 @@ const MonthlyUsageGraph = () => {
 
   return (
     <div className="monthly-usage-graph">
-      <h3>Monthly Passenger Usage</h3>
+      <h3>Income from ticket types</h3>
       <BarChart width={500} height={300} data={data}>
         <XAxis dataKey="month" />
         <YAxis />

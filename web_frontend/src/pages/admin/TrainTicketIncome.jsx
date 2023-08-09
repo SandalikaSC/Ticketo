@@ -1,9 +1,11 @@
 import React from 'react';
 import DashboardCard from '../../components/admin/DashboardCard';
-// import MonthlyIncomeChart from '../../components/admin/MonthlyIncomeChart';
-// import TicketTypePieChart from '../../components/admin/TicketTypePieChart';
+//import MonthlyIncomeChart from '../../components/admin/MonthlyIncomeChart';
+//import TicketTypePieChart from '../../components/admin/TicketTypePieChart';
 import DailyIncomeTable from '../../components/admin/DailyIncomeTable';
 import '../../css/admin_earnings.css';
+import MonthlyUsageGraph from '../../components/admin/MonthlyUsageGraph';
+import RevenueChart from '../../components/admin/RevenueChart';
 
 const TrainTicketIncome = () => {
   // Dummy data for demonstration
@@ -21,16 +23,18 @@ const TrainTicketIncome = () => {
 
       </div>
 
-    {/* //   <div className="charts-container">
-    //     <div className="chart-card">
-    //       <h2>Monthly Income </h2>
-    //       <MonthlyIncomeChart />
-    //     </div>
-    //     <div className="chart-card">
-    //       <h2>Income from Different Ticket Types</h2>
-    //       <TicketTypePieChart />
-    //     </div>
-    //   </div> */}
+       <div className="charts-container">
+        <RevenueChart/>
+         {/* <div className="chart-card">
+           <h2>Monthly Income </h2>
+           <MonthlyIncomeChart />
+         </div> */}
+         <MonthlyUsageGraph/>
+         {/* <div className="chart-card">
+       <h2>Income from Different Ticket Types</h2>
+        <TicketTypePieChart />
+        </div> */}
+      </div>
 
     <h3>Daily Income from Stations</h3>
       <div className="table-container">
