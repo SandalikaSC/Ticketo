@@ -6,30 +6,38 @@ import {
   Typography,
   Button,
   Divider,
+  MenuItem,
 } from "@mui/material";
 import TrainConfirmationDialog from "../../../components/controlCenter/TrainConfirmationDialog";
 import WarningModal from "../../../components/common/WarningModal";
-
+import { addTrain } from "../../../services/addTrainService";
 const AddTrain = () => {
+  const [inputs, setInputs] = useState({
+    TC0: "", // Add other properties as needed
+    TCR0: "",
+  });
   const [dialogOpen, setDialogOpen] = useState(false);
   const [trainName, setTrainName] = useState("");
-  const [trainCode, setTrainCode] = useState("");
-  const [secondClassReserved, setSecondClassReserved] = useState(0);
-  const [secondClassNonReserved, setSecondClassNonReserved] = useState(0);
-  const [secondClass2Reserved, setSecondClass2Reserved] = useState(0);
-  const [secondClass2NonReserved, setSecondClass2NonReserved] = useState(0);
-  const [thirdClassReserved, setthirdClassReserved] = useState(0);
-  const [thirdClassNonReserved, setthirdClassNonReserved] = useState(0);
-  const [thirdClass2Reserved, setthirdClass2Reserved] = useState(0);
-  const [thirdClass2NonReserved, setthirdClass2NonReserved] = useState(0);
-  const [firstClassReserved, setfirstClassReserved] = useState(0);
-  const [firstClassNonReserved, setfirstClassNonReserved] = useState(0);
-  const [sleeperClassReserved, setsleeperClassReserved] = useState(0);
-  const [sleeperClassNonReserved, setsleeperClassNonReserved] = useState(0);
-  const [observerClassReserved, setobserverClassReserved] = useState(0);
-  const [observerClassNonReserved, setobserverClassNonReserved] = useState(0);
+  const [trainNumber, settrainNumber] = useState("");
+  const [SCR, setSCR] = useState(0);
+  const [SC, setSC] = useState(0);
+  const [TCR, setTCR] = useState(0);
+  const [TC, setTC] = useState(0);
+  const [FC, setFC] = useState(0);
+  const [SLEEPER, setSLEEPER] = useState(0);
+  const [OFV, setOFV] = useState(0);
   const [errors, setErrors] = useState({});
   const [warningOpen, setWarningOpen] = useState(false);
+
+  const TC0 = ["5 per row", "2 by side"];
+  const TCR0 = ["5 per row", "4 per row"];
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+  };
 
   const handleDialogOpen = () => {
     setDialogOpen(true);
@@ -41,135 +49,112 @@ const AddTrain = () => {
 
   const validateInputs = () => {
     const newErrors = {};
+    console.log(inputs);
 
     if (!trainName.trim()) {
       newErrors.trainName = "Train Name is required";
     }
 
-    if (!trainCode.trim()) {
-      newErrors.trainCode = "Train Code is required";
+    if (!trainNumber.trim()) {
+      newErrors.trainNumber = "Train Code is required";
     }
 
     // Validate second class input fields to be numbers
-    if (!Number.isNaN(secondClassReserved)) {
-      if (secondClassReserved < 0) {
-        newErrors.secondClassReserved = "Invalid input";
+    if (!Number.isNaN(SCR)) {
+      if (SCR < 0) {
+        newErrors.SCR = "Invalid input";
       }
     } else {
-      newErrors.secondClassReserved = "Invalid input";
+      newErrors.SCR = "Invalid input";
     }
 
-    if (!Number.isNaN(secondClassNonReserved)) {
-      if (secondClassNonReserved < 0) {
-        newErrors.secondClassNonReserved = "Invalid input";
+    if (!Number.isNaN(SC)) {
+      if (SC < 0) {
+        newErrors.SC = "Invalid input";
       }
     } else {
-      newErrors.secondClassNonReserved = "Invalid input";
+      newErrors.SC = "Invalid input";
     }
 
-    if (!Number.isNaN(secondClass2Reserved)) {
-      if (secondClass2Reserved < 0) {
-        newErrors.secondClass2Reserved = "Invalid input";
+    if (!Number.isNaN(TCR)) {
+      if (TCR < 0) {
+        newErrors.TCR = "Invalid input";
       }
     } else {
-      newErrors.secondClass2Reserved = "Invalid input";
+      newErrors.TCR = "Invalid input";
     }
 
-    if (!Number.isNaN(secondClass2NonReserved)) {
-      if (secondClass2NonReserved < 0) {
-        newErrors.secondClass2NonReserved = "Invalid input";
+    if (!Number.isNaN(TC)) {
+      if (TC < 0) {
+        newErrors.TC = "Invalid input";
       }
     } else {
-      newErrors.secondClass2NonReserved = "Invalid input";
+      newErrors.TC = "Invalid input";
     }
 
-    if (!Number.isNaN(thirdClassReserved)) {
-      if (thirdClassReserved < 0) {
-        newErrors.thirdClassReserved = "Invalid input";
+    if (!Number.isNaN(FC)) {
+      if (FC < 0) {
+        newErrors.FC = "Invalid input";
       }
     } else {
-      newErrors.thirdClassReserved = "Invalid input";
+      newErrors.FC = "Invalid input";
     }
 
-    if (!Number.isNaN(thirdClassNonReserved)) {
-      if (thirdClassNonReserved < 0) {
-        newErrors.thirdClassNonReserved = "Invalid input";
+    if (!Number.isNaN(OFV)) {
+      if (OFV < 0) {
+        newErrors.OFV = "Invalid input";
       }
     } else {
-      newErrors.thirdClassNonReserved = "Invalid input";
+      newErrors.OFV = "Invalid input";
     }
 
-    if (!Number.isNaN(thirdClass2Reserved)) {
-      if (thirdClass2Reserved < 0) {
-        newErrors.thirdClass2Reserved = "Invalid input";
+    if (!Number.isNaN(SLEEPER)) {
+      if (SLEEPER < 0) {
+        newErrors.SLEEPER = "Invalid input";
       }
     } else {
-      newErrors.thirdClass2Reserved = "Invalid input";
+      newErrors.SLEEPER = "Invalid input";
     }
 
-    if (!Number.isNaN(thirdClass2NonReserved)) {
-      if (thirdClass2NonReserved < 0) {
-        newErrors.thirdClass2NonReserved = "Invalid input";
-      }
-    } else {
-      newErrors.thirdClass2NonReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(firstClassReserved)) {
-      if (firstClassReserved < 0) {
-        newErrors.firstClassReserved = "Invalid input";
-      }
-    } else {
-      newErrors.firstClassReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(firstClassNonReserved)) {
-      if (firstClassNonReserved < 0) {
-        newErrors.firstClassNonReserved = "Invalid input";
-      }
-    } else {
-      newErrors.firstClassNonReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(observerClassReserved)) {
-      if (observerClassReserved < 0) {
-        newErrors.observerClassReserved = "Invalid input";
-      }
-    } else {
-      newErrors.observerClassReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(observerClassNonReserved)) {
-      if (observerClassNonReserved < 0) {
-        newErrors.observerClassNonReserved = "Invalid input";
-      }
-    } else {
-      newErrors.observerClassNonReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(sleeperClassReserved)) {
-      if (sleeperClassReserved < 0) {
-        newErrors.sleeperClassReserved = "Invalid input";
-      }
-    } else {
-      newErrors.sleeperClassReserved = "Invalid input";
-    }
-
-    if (!Number.isNaN(sleeperClassNonReserved)) {
-      if (sleeperClassNonReserved < 0) {
-        newErrors.sleeperClassNonReserved = "Invalid input";
-      }
-    } else {
-      newErrors.sleeperClassNonReserved = "Invalid input";
-    }
     setErrors(newErrors);
-
+    console.log(Object.keys(newErrors).length);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleTrainAddition = () => {
+  const handleTrainAddition = async () => {
     if (validateInputs()) {
-      handleDialogOpen();
+      try {
+        // Create an object with default values for all fields
+        const trainData = {
+          trainName,
+          trainNumber,
+          SCR,
+          SC,
+          TCR,
+          TC, // Use user input if provided, otherwise default to 0
+          FC,
+          SLEEPER,
+          OFV,
+          TC0: inputs.TC0, // Use user input if provided, otherwise default to 0
+          TCR0: inputs.TCR0,
+        };
+
+        // Override default values with provided values where applicable
+        if (inputs.SCR) trainData.SCR = inputs.SCR;
+        if (inputs.SC) trainData.SC = inputs.SC;
+        if (inputs.TCR) trainData.TCR = inputs.TCR;
+        if (inputs.FC) trainData.FC = inputs.FC;
+        if (inputs.SLEEPER) trainData.SLEEPER = inputs.SLEEPER;
+        if (inputs.OFV) trainData.OFV = inputs.OFV;
+        if (inputs.TCR0) trainData.TCR0 = inputs.TCR0;
+
+        console.log("trainData before addTrain:", trainData);
+        await addTrain(trainData);
+        handleDialogOpen();
+      } catch (error) {
+        console.error("Error adding train:", error);
+        setWarningOpen(true);
+      }
     } else {
       setWarningOpen(true);
     }
@@ -179,7 +164,7 @@ const AddTrain = () => {
     <div
       style={{
         backgroundColor: "#ECECEC",
-        minHeight: "100vh",
+        minHeight: "90%",
         padding: "10px",
         display: "flex",
       }}
@@ -228,18 +213,18 @@ const AddTrain = () => {
               {/* Train Code Validation */}
               <div style={{ width: "48%", marginBottom: "10px" }}>
                 <Typography variant="body2" style={{ color: "red" }}>
-                  {errors.trainCode}
+                  {errors.trainNumber}
                 </Typography>
                 <TextField
                   label="Train Code"
                   fullWidth
-                  value={trainCode}
-                  onChange={(e) => setTrainCode(e.target.value)}
-                  error={!!errors.trainCode}
+                  value={trainNumber}
+                  onChange={(e) => settrainNumber(e.target.value)}
+                  error={!!errors.trainNumber}
                 />
               </div>
             </div>
-
+            {/* third class second class name  */}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 variant="subtitle1"
@@ -263,6 +248,7 @@ const AddTrain = () => {
                 Third Class
               </Typography>
             </div>
+            {/* subtopics */}
             <div style={{ display: "flex", gap: "5%" }}>
               <div>
                 <div
@@ -283,16 +269,10 @@ const AddTrain = () => {
                     variant="body2"
                     style={{ flex: 1, color: "grey" }}
                   >
-                    Reserved
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    style={{ marginLeft: "20px", flex: 1, color: "grey" }}
-                  >
-                    Not Reserved
+                    No Of Coaches
                   </Typography>
                 </div>
-                {/* First Class A */}
+                {/* Second Class Reserved */}
                 <div
                   style={{
                     display: "flex",
@@ -310,25 +290,13 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={secondClassReserved}
-                    onChange={(e) =>
-                      setSecondClassReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.secondClassReserved}
-                    helperText={errors.secondClassReserved}
-                  />
-                  <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={secondClassNonReserved}
-                    onChange={(e) =>
-                      setSecondClassNonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.secondClassNonReserved}
-                    helperText={errors.secondClassNonReserved}
+                    value={SCR}
+                    onChange={(e) => setSCR(parseInt(e.target.value) || 0)}
+                    error={!!errors.SCR}
+                    helperText={errors.SCR}
                   />
                 </div>
-                {/* First Class B */}
+                {/* Second Class Not Reserved */}
                 <div
                   style={{
                     display: "flex",
@@ -346,26 +314,14 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={secondClass2Reserved}
-                    onChange={(e) =>
-                      setSecondClass2Reserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.secondClass2Reserved}
-                    helperText={errors.secondClass2Reserved}
-                  />
-                  <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={secondClass2NonReserved}
-                    onChange={(e) =>
-                      setSecondClass2NonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.secondClass2NonReserved}
-                    helperText={errors.secondClass2NonReserved}
+                    value={SC}
+                    onChange={(e) => setSC(parseInt(e.target.value) || 0)}
+                    error={!!errors.SC}
+                    helperText={errors.SC}
                   />
                 </div>
               </div>
-              {/* Second Class */}
+              {/* Third Class */}
               <div>
                 <div
                   style={{
@@ -385,13 +341,13 @@ const AddTrain = () => {
                     variant="body2"
                     style={{ flex: 1, color: "grey" }}
                   >
-                    Reserved
+                    No Of Coaches
                   </Typography>
                   <Typography
                     variant="body2"
                     style={{ marginLeft: "20px", flex: 1, color: "grey" }}
                   >
-                    Not Reserved
+                    Coach Type
                   </Typography>
                 </div>
                 {/* Second Class A */}
@@ -412,25 +368,28 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={thirdClassReserved}
-                    onChange={(e) =>
-                      setthirdClassReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.thirdClassReserved}
-                    helperText={errors.thirdClassReserved}
+                    value={TCR}
+                    onChange={(e) => setTCR(parseInt(e.target.value) || 0)}
+                    error={!!errors.TCR}
+                    helperText={errors.TCR}
                   />
                   <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={thirdClassNonReserved}
-                    onChange={(e) =>
-                      setthirdClassNonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.thirdClassNonReserved}
-                    helperText={errors.thirdClassNonReserved}
-                  />
+                    name="TCR0"
+                    select
+                    value={inputs.TCR0}
+                    variant="outlined"
+                    placeholder="Coach Type"
+                    style={{ width: "30%" }}
+                    onChange={handleChange}
+                  >
+                    {TCR0.map((type) => (
+                      <MenuItem key={type} value={type}>
+                        {type}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </div>
-                {/* Second Class B */}
+                {/* Third Class Not Reserved */}
                 <div
                   style={{
                     display: "flex",
@@ -448,27 +407,30 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={thirdClass2Reserved}
-                    onChange={(e) =>
-                      setthirdClass2Reserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.thirdClass2Reserved}
-                    helperText={errors.thirdClass2Reserved}
+                    value={TC}
+                    onChange={(e) => setTC(parseInt(e.target.value) || 0)}
+                    error={!!errors.TC}
+                    helperText={errors.TC}
                   />
                   <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={thirdClass2NonReserved}
-                    onChange={(e) =>
-                      setthirdClass2NonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.thirdClass2NonReserved}
-                    helperText={errors.thirdClass2NonReserved}
-                  />
+                    name="TC0"
+                    select
+                    value={inputs.TC0}
+                    variant="outlined"
+                    placeholder="Coach Type"
+                    style={{ width: "30%" }}
+                    onChange={handleChange}
+                  >
+                    {TC0.map((type) => (
+                      <MenuItem key={type} value={type}>
+                        {type}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </div>
               </div>
             </div>
-            {/* Third Class */}
+            {/* First Class */}
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 variant="subtitle1"
@@ -501,16 +463,10 @@ const AddTrain = () => {
                     variant="body2"
                     style={{ flex: 1, color: "grey" }}
                   >
-                    Reserved
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    style={{ marginLeft: "20px", flex: 1, color: "grey" }}
-                  >
-                    Not Reserved
+                    No Of Coaches
                   </Typography>
                 </div>
-                {/* Third Class A */}
+                {/* First Class A/C Reserved */}
                 <div
                   style={{
                     display: "flex",
@@ -528,25 +484,13 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={firstClassReserved}
-                    onChange={(e) =>
-                      setfirstClassReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.firstClassReserved}
-                    helperText={errors.firstClassReserved}
-                  />
-                  <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={firstClassNonReserved}
-                    onChange={(e) =>
-                      setfirstClassNonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.firstClassNonReserved}
-                    helperText={errors.firstClassNonReserved}
+                    value={FC}
+                    onChange={(e) => setFC(parseInt(e.target.value) || 0)}
+                    error={!!errors.FC}
+                    helperText={errors.FC}
                   />
                 </div>
-                {/* Third Class B */}
+                {/* Sleeper Class */}
                 <div
                   style={{
                     display: "flex",
@@ -564,24 +508,13 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={sleeperClassReserved}
-                    onChange={(e) =>
-                      setsleeperClassReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.sleeperClassReserved}
-                    helperText={errors.sleeperClassReserved}
-                  />
-                  <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={sleeperClassNonReserved}
-                    onChange={(e) =>
-                      setsleeperClassNonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.sleeperClassNonReserved}
-                    helperText={errors.sleeperClassNonReserved}
+                    value={SLEEPER}
+                    onChange={(e) => setSLEEPER(parseInt(e.target.value) || 0)}
+                    error={!!errors.SLEEPER}
+                    helperText={errors.SLEEPER}
                   />
                 </div>
+                {/* Observer Class */}
                 <div
                   style={{
                     display: "flex",
@@ -599,22 +532,10 @@ const AddTrain = () => {
                   <TextField
                     type="number"
                     style={{ marginRight: "20px", flex: 1 }}
-                    value={observerClassReserved}
-                    onChange={(e) =>
-                      setobserverClassReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.observerClassReserved}
-                    helperText={errors.observerClassReserved}
-                  />
-                  <TextField
-                    type="number"
-                    style={{ marginRight: "20px", flex: 1 }}
-                    value={observerClassNonReserved}
-                    onChange={(e) =>
-                      setobserverClassNonReserved(parseInt(e.target.value))
-                    }
-                    error={!!errors.observerClassNonReserved}
-                    helperText={errors.observerClassNonReserved}
+                    value={OFV}
+                    onChange={(e) => setOFV(parseInt(e.target.value) || 0)}
+                    error={!!errors.OFV}
+                    helperText={errors.OFV}
                   />
                 </div>
               </div>
@@ -629,7 +550,8 @@ const AddTrain = () => {
               fullWidth
               onClick={() => {
                 if (validateInputs()) {
-                  handleDialogOpen();
+                  // handleDialogOpen();
+                  handleTrainAddition();
                 } else {
                   setWarningOpen(true); // Open the warning modal
                 }
@@ -646,7 +568,7 @@ const AddTrain = () => {
           <TrainConfirmationDialog
             open={dialogOpen}
             onClose={handleDialogClose}
-            onConfirm={handleTrainAddition}
+            // onConfirm={handleTrainAddition}
             trainDetails="galu kumari"
           />
         </Paper>
@@ -698,7 +620,7 @@ const AddTrain = () => {
         </Paper>
         <div
           style={{
-            marginTop: "20px",
+            marginTop: "30px",
             backgroundColor: "#F5F5F5",
             padding: "3%",
             borderRadius: "25px",
@@ -727,7 +649,7 @@ const AddTrain = () => {
           >
             <Typography
               variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
+              style={{ marginTop: "20px", fontWeight: "bold" }}
             >
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>First Class A/C </div>
@@ -735,19 +657,10 @@ const AddTrain = () => {
                 <div style={{ color: "#3D51A9" }}>4 seats per row</div>
               </div>
             </Typography>
-            <Typography
-              variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>First Class non A/C </div>
 
-                <div style={{ color: "#3D51A9" }}>4 seats per row</div>
-              </div>
-            </Typography>
             <Typography
               variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
+              style={{ marginTop: "20px", fontWeight: "bold" }}
             >
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>Observer Class </div>
@@ -757,7 +670,7 @@ const AddTrain = () => {
             </Typography>
             <Typography
               variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
+              style={{ marginTop: "20px", fontWeight: "bold" }}
             >
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>Sleeper Class </div>
@@ -771,7 +684,7 @@ const AddTrain = () => {
         </div>
         <div
           style={{
-            marginTop: "20px",
+            marginTop: "30px",
             backgroundColor: "#F5F5F5",
             padding: "3%",
             borderRadius: "25px",
@@ -792,7 +705,7 @@ const AddTrain = () => {
               padding: "3%",
               marginRight: "10%",
               marginLeft: "10%",
-              marginTop: "2%",
+              marginTop: "3%",
               borderRadius: "25px",
             }}
           >
@@ -814,55 +727,6 @@ const AddTrain = () => {
                 <div>Second Class non Reserved </div>
 
                 <div style={{ color: "#3D51A9" }}>4 seats per row</div>
-              </div>
-            </Typography>
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "20px",
-            backgroundColor: "#F5F5F5",
-            padding: "3%",
-            borderRadius: "25px",
-          }}
-        >
-          <Typography
-            variant="subtitle1"
-            style={{
-              fontWeight: "bold",
-              fontSize: "1.2rem",
-            }}
-          >
-            Third Class Seat Arrangement<hr></hr>
-          </Typography>
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "3%",
-              marginRight: "10%",
-              marginLeft: "10%",
-              marginTop: "2%",
-              borderRadius: "25px",
-            }}
-          >
-            <Typography
-              variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>Third Class Reserved</div>
-
-                <div style={{ color: "#3D51A9" }}>5 seats per row</div>
-              </div>
-            </Typography>
-            <Typography
-              variant="body2"
-              style={{ marginTop: "10px", fontWeight: "bold" }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>Third Class non Reserved </div>
-
-                <div style={{ color: "#3D51A9" }}>5 seats per row</div>
               </div>
             </Typography>
           </div>

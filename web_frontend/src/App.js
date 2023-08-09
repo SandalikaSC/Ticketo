@@ -29,31 +29,31 @@ const App = () =>
 
   return (
     <React.Fragment>
+
       <ThemeProvider theme={theme}>
         <main>
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             {isLoggedIn && <Route path="/user" element={<Welcome />} />}
-          <Route
-            path="/admin/*"
-            element={<ProtectedRoute element={<AdminPage />} />}
-          />
-          <Route
-            path="/cc/*"
-            element={<ProtectedRoute element={<ControlCentrePage />} />}
-          />
-          <Route
-            path="/ss/*"
-            element={<ProtectedRoute element={<StationMasterPage />} />}
-          />
-          <Route
-            path="/tc/*"
-            element={<ProtectedRoute element={<TicketClerkPage />} />}
-          />
-        </Routes>
-       
-      </main>
+            <Route
+              path="/admin/*"
+              element={<ProtectedRoute element={<AdminPage />} />}
+            />
+            <Route
+              path="/cc/*"
+              element={<ProtectedRoute element={<ControlCentrePage />} />}
+            />
+            <Route
+              path="/ss/*"
+              element={<ProtectedRoute element={<StationMasterPage />} />}
+            />
+            <Route
+              path="/tc/*"
+              element={<ProtectedRoute element={<TicketClerkPage />} />}
+            />
+          </Routes>
+        </main>
       </ThemeProvider>
     </React.Fragment>
   );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/screens/guest_home_screen.dart';
+import 'package:passenger_frontend/screens/home_page.dart';
 import 'package:passenger_frontend/screens/profile_screen.dart';
 import 'package:passenger_frontend/screens/ticket_screen.dart';
 import 'package:passenger_frontend/screens/wallet_screen.dart';
@@ -16,7 +17,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
   static final List<Widget> _widgetOptions = <Widget>[
-    const GuestHomeScreen(),
+    const HomePage(),
     const TicketScreen(),
     const WalletPage(),
     const ProfilePage(),
