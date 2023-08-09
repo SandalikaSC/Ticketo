@@ -33,7 +33,7 @@ const Sidebar = ({children}) => {
             icon:<FaMoneyCheckAlt/>
         },
         {
-            path:"/stations",
+            path:"/admin/ReportPage",
             name:"Reports",
             icon:<FaBook/>
         },
