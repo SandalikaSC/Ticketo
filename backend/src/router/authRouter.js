@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const {
   login,
   signup,
@@ -8,12 +9,12 @@ const {
   logout,
   generateOtp
 } = require("../controllers/auth-controller");
-
 const { verifyToken } = require("../middleware/authenticate");
-
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
-const router = express.Router();
+const ticketRouter = require('./ticketRouter');
+
+router.use('/ticket', ticketRouter);
 
 router.post("/login", login);
 router.post("/signup", signup);

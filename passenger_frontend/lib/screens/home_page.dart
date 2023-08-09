@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
-import 'login.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -64,19 +64,14 @@ class HomePage extends StatelessWidget {
                 ),
               ],
             ),
-            Center(
-              child: FractionalTranslation(
-                translation: const Offset(0, 0.45),
-                child: Container(
-                  width: 350,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    color: Styles.backgroundColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: const TrainScheduleForm(),
-                ),
+            Container(
+              width: 350,
+              height: 400,
+              decoration: BoxDecoration(
+                color: Styles.backgroundColor,
+                borderRadius: BorderRadius.circular(30),
               ),
+              child: const TrainScheduleForm(),
             ),
           ],
         ),
@@ -103,123 +98,220 @@ class _TrainScheduleFormState extends State<TrainScheduleForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Start Station'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a start station';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              // Handle station filtering based on user input
-            },
-          ),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'End Station'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter an end station';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              // Handle station filtering based on user input
-            },
-          ),
-          Row(
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
             children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (time != null) {
-                      setState(() {
-                        _startTime = time;
-                      });
-                    }
-                  },
-                  child: Text(_startTime == null
-                      ? 'Select Start Time'
-                      : 'Start Time: ${_startTime!.format(context)}'),
+              TextFormField(
+                style: TextStyle(
+                  fontFamily: "poppins",
                 ),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(30.0), // Set border radius
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      // Set focused border radius
+                      borderSide: BorderSide(
+                          color:
+                              Styles.primaryColor), // Set focused border color
+                    ),
+                    prefixIcon: const Icon(Icons.start_sharp),
+                    labelText: 'Start Station'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a start station';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // Handle station filtering based on user input
+                },
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () async {
-                    final time = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (time != null) {
-                      setState(() {
-                        _endTime = time;
-                      });
-                    }
-                  },
-                  child: Text(_endTime == null
-                      ? 'Select End Time'
-                      : 'End Time: ${_endTime!.format(context)}'),
+              Gap(10),
+              TextFormField(
+                style: TextStyle(
+                  fontFamily: "poppins",
                 ),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(30.0), // Set border radius
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      // Set focused border radius
+                      borderSide: BorderSide(
+                          color:
+                              Styles.primaryColor), // Set focused border color
+                    ),
+                    prefixIcon: const Icon(Icons.location_on_outlined),
+                    labelText: 'End Station'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an end station';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // Handle station filtering based on user input
+                },
+              ),
+              Gap(8),
+              Row(
+                children: [
+                  Expanded(
+                      child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        // side: BorderSide(
+                        //     // color: Styles.primaryColor
+                        //     ), // Add a border color
+                      ),
+                    ),
+                    onPressed: () async {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (time != null) {
+                        setState(() {
+                          _startTime = time;
+                        });
+                      }
+                    },
+                    child: Text(
+                      _startTime == null
+                          ? 'Start time'
+                          : '${_formatTimeWithAMPM(_startTime!)}', // Format time with AM/PM
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontFamily: "poppins",
+                      ),
+                    ),
+                  )),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          // side: BorderSide(
+                          //     // color: Styles.primaryColor
+                          //     ), // Add a border color
+                        ),
+                      ),
+                      onPressed: () async {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+                        if (time != null) {
+                          setState(() {
+                            _endTime = time;
+                          });
+                        }
+                      },
+                      child: Text(
+                        _endTime == null
+                            ? 'End time'
+                            : '${_formatTimeWithAMPM(_endTime!)}', // Format time with AM/PM
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontFamily: "poppins",
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Gap(10),
+              DropdownButtonFormField<String>(
+                value: _selectedTicketClass,
+                decoration: InputDecoration(
+                  labelText: 'Ticket Class',
+                  // border: OutlineInputBorder(
+                  //   borderRadius:
+                  //       BorderRadius.circular(30.0), // Set border radius
+                  // ),
+                  // focusedBorder: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(30.0),
+                  //   // Set focused border radius
+                  //   borderSide: BorderSide(
+                  //       color: Styles.primaryColor), // Set focused border color
+                  // ),
+                ),
+                items: [
+                  DropdownMenuItem(
+                      value: 'First Class', child: Text('First Class')),
+                  DropdownMenuItem(
+                      value: 'Second Class', child: Text('Second Class')),
+                  DropdownMenuItem(
+                      value: 'Third Class', child: Text('Third Class')),
+                  // Add more ticket classes as needed
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedTicketClass = value;
+                  });
+                },
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final selectedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 365)),
+                  );
+                  if (selectedDate != null) {
+                    setState(() {
+                      _selectedDate = selectedDate;
+                    });
+                  }
+                },
+                child: Text(_selectedDate == null
+                    ? 'Select Date'
+                    : 'Selected Date: ${_selectedDate!.toString().split(' ')[0]}'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Perform the search action using the form fields
+                    // _startStation, _endStation, _startTime, _endTime,
+                    // _selectedTicketClass, _selectedDate
+                  }
+                },
+                child: Text('Search Train'),
               ),
             ],
           ),
-          DropdownButtonFormField<String>(
-            value: _selectedTicketClass,
-            decoration: InputDecoration(labelText: 'Select Ticket Class'),
-            items: [
-              DropdownMenuItem(
-                  value: 'First Class', child: Text('First Class')),
-              DropdownMenuItem(
-                  value: 'Second Class', child: Text('Second Class')),
-              // Add more ticket classes as needed
-            ],
-            onChanged: (value) {
-              setState(() {
-                _selectedTicketClass = value;
-              });
-            },
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final selectedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(Duration(days: 365)),
-              );
-              if (selectedDate != null) {
-                setState(() {
-                  _selectedDate = selectedDate;
-                });
-              }
-            },
-            child: Text(_selectedDate == null
-                ? 'Select Date'
-                : 'Selected Date: ${_selectedDate!.toString().split(' ')[0]}'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Perform the search action using the form fields
-                // _startStation, _endStation, _startTime, _endTime,
-                // _selectedTicketClass, _selectedDate
-              }
-            },
-            child: Text('Search Train'),
-          ),
-        ],
+        ),
       ),
     );
   }
+}
+
+String _formatTimeWithAMPM(TimeOfDay time) {
+  final now = DateTime.now();
+  final selectedDateTime =
+      DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  final format = DateFormat('hh:mm a'); // Use a custom format
+  return format.format(selectedDateTime);
 }
 
 String getGreeting() {
