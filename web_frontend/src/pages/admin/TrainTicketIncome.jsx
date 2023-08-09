@@ -9,12 +9,16 @@ const TrainTicketIncome = () => {
   // Dummy data for demonstration
   const systemIncome = "LKR 475,000,000";
   const monthlyIncome = "LKR 650,000";
+  const todayIncome = "LKR 100,000"
 
   return (
     <div className="dashboard">
       <div className="flex-cards-container">
         <DashboardCard title="Train Ticket Income through System" value={systemIncome} />
         <DashboardCard title="This Month Train Ticket Income" value={monthlyIncome} />
+        <DashboardCard title="Today Train Ticket Income" value={todayIncome} />
+
+
       </div>
 
     {/* //   <div className="charts-container">
