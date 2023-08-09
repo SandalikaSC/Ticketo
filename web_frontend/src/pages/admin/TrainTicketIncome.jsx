@@ -1,4 +1,5 @@
 import React from 'react';
+
 import DashboardCard from '../../components/admin/DashboardCard';
 //import MonthlyIncomeChart from '../../components/admin/MonthlyIncomeChart';
 //import TicketTypePieChart from '../../components/admin/TicketTypePieChart';
@@ -16,9 +17,9 @@ const TrainTicketIncome = () => {
   return (
     <div className="dashboard">
       <div className="flex-cards-container">
-        <DashboardCard title="Train Ticket Income through System" value={systemIncome} />
-        <DashboardCard title="This Month Train Ticket Income" value={monthlyIncome} />
-        <DashboardCard title="Today Train Ticket Income" value={todayIncome} />
+        <DashboardCard title="Train Ticket Income in Ticketo" value={systemIncome} />
+        <DashboardCard title="This Month Train Ticket in Ticketo" value={monthlyIncome} />
+        <DashboardCard title="Today Train Ticket Income in Ticketo" value={todayIncome} />
 
 
       </div>
