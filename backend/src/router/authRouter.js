@@ -9,7 +9,9 @@ const {
   logout,
   generateOtp
 } = require("../controllers/auth-controller");
-
+const {
+  getAllStations
+} = require("../controllers/station-controller");
 
 const {
   addTrain
@@ -30,7 +32,7 @@ router.get("/refresh", refreshToken);
 router.post("/logout", verifyToken, logout);
 router.post("/generate-otp", generateOtp);
 router.post("/verify-otp", verifyOtp);
-
+router.get("/allStations", getAllStations);
 router.post("/add-train", addTrain);
 
 router.post("/reset-password", resetPassword);

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
@@ -13,10 +12,19 @@ class GuestHomeScreen extends StatefulWidget {
 }
 
 class _GuestHomeScreenState extends State<GuestHomeScreen> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _startStationController = TextEditingController();
   final TextEditingController _endStationController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _startDateController.text = DateFormat('dd MMM yyyy').format(DateTime.now());
+    _endDateController.text = DateFormat('dd MMM yyyy').format(DateTime.now());
+  }
 
   Future<DateTime?> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -27,58 +35,85 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
     );
 
     if (picked != null && picked != DateTime.now()) {
-      return picked;;
-
+      return picked;
+      ;
     }
     return null;
   }
+  void _selectDepartureDate(BuildContext context) async {
+    final selectedDate = await _selectDate(context);
+    if (selectedDate != null) {
+      setState(() {
+        _startDateController.text = DateFormat('dd MMM yyyy').format(selectedDate);
+        _endDateController.text = ''; // Clear return date if any
+      });
+    }
+  }
 
+  void _selectReturnDate(BuildContext context) async {
+    if (_startDateController.text.isNotEmpty) {
+      final selectedDate = await _selectDate(context);
+      if (selectedDate != null) {
+        setState(() {
+          _endDateController.text = DateFormat('dd MMM yyyy').format(selectedDate);
+        });
+      }
+    }
+  }
   Form buildTripForm() {
-    return  Form(
+    return Form(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: Styles.primaryColor), // Border color
+          borderRadius: BorderRadius.circular(40),
+          border: Border.all(color: Colors.black26), // Border color
         ),
         padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: [
             ToggleButtonGroup(),
             Gap(10),
             TextFormField(
               controller: _startStationController,
               style: TextStyle(fontFamily: 'Poppins'),
-
               decoration: InputDecoration(
                 labelText: 'From',
+                prefixIcon: Icon(Icons.directions_train_rounded,
+                    color: Styles.primaryColor),
+                // Icon you want to use
+                prefix: Container(
+                  width: 1,
+                  height: 16,
+                  color: Colors.grey, // Dotted line color
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                ),
               ),
             ),
             TextFormField(
               controller: _endStationController,
               style: TextStyle(fontFamily: 'Poppins'),
-
               decoration: InputDecoration(
-                  labelText: 'To'  ),
-
-
+                labelText: 'To',
+                prefixIcon: Icon(Icons.location_on,
+                    color: Styles.primaryColor),
+                // Icon you want to use
+                prefix: Container(
+                  width: 1,
+                  height: 16,
+                  color: Colors.grey, // Dotted line color
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                ),
+              ),
             ),
             Row(
               children: [
                 Flexible(
-                  child:  TextFormField(
+                  child: TextFormField(
+
                     controller: _startDateController,
                     readOnly: true,
-                    onTap: () async {
-                      final selectedDate = await _selectDate(context);
-                      if (selectedDate != null) {
-                        setState(() {
-                          _startDateController.text =
-                              DateFormat('dd MMM yyyy').format(selectedDate);
-                        });
-                      }
-                    },
+
+                    onTap:  () => _selectDepartureDate(context),
                     decoration: InputDecoration(
                       labelText: 'Depature',
                       suffixIcon: Icon(Icons.calendar_today),
@@ -87,18 +122,10 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                 ),
                 SizedBox(width: 10),
                 Flexible(
-                  child:  TextFormField(
+                  child: TextFormField(
                     controller: _endDateController,
                     readOnly: true,
-                    onTap: () async {
-                      final selectedDate = await _selectDate(context);
-                      if (selectedDate != null) {
-                        setState(() {
-                          _endDateController.text =
-                              DateFormat('dd MMM yyyy').format(selectedDate);
-                        });
-                      }
-                    },
+                    onTap: () => _selectReturnDate(context),
                     decoration: InputDecoration(
                       labelText: 'Return',
                       suffixIcon: Icon(Icons.edit_calendar_rounded),
@@ -111,7 +138,10 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
               children: [
                 Flexible(
                   child: TextFormField(
-                    decoration: InputDecoration(labelText: 'Number of Passengers'),
+                    decoration: InputDecoration(
+                      labelText: 'Passengers',
+                      suffixIcon: Icon(Icons.person), // Add your desired icon here
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                 ),
@@ -119,7 +149,9 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                 Flexible(
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(labelText: 'Class'),
-                    items: ['First Class', 'Second Class', 'Third Class'].map((String value) {
+                    value: 'Third Class',
+                    items: ['First Class', 'Second Class', 'Third Class']
+                        .map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -136,20 +168,22 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
                       // Handle search train button click
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Styles.primaryColor, // Background color
                       onPrimary: Colors.white, // Text color
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30), // Button border radius
+                        borderRadius:
+                            BorderRadius.circular(30), // Button border radius
                       ),
                     ),
-                    child: Text('Search Train',style: TextStyle(fontFamily: "Poppins")),
+                    child: Text('Search Train',
+                        style: TextStyle(fontFamily: "Poppins")),
                   ),
                 ),
                 SizedBox(width: 10), // Add spacing between buttons
@@ -162,11 +196,13 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                     onPrimary: Colors.white, // Text color
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(color:Styles.secondaryColor)
-                      // Button border radius
-                    ),
+                        side: BorderSide(color: Styles.secondaryColor)
+                        // Button border radius
+                        ),
                   ),
-                  child: Text('Quick ticket',style: TextStyle(fontFamily: "Poppins",color: Styles.secondaryColor)),
+                  child: Text('Quick ticket',
+                      style: TextStyle(
+                          fontFamily: "Poppins", color: Styles.secondaryColor)),
                 ),
               ],
             )
@@ -175,6 +211,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -195,7 +232,6 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                 child: Column(
                   children: [
                     const Gap(60),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -211,7 +247,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                             ),
                           ),
                         ),
-Gap(40),
+                        Gap(40),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -226,7 +262,6 @@ Gap(40),
                             )
                           ],
                         ),
-
                       ],
                     ),
                     const Gap(10),
@@ -239,8 +274,7 @@ Gap(40),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 16),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: ElevatedButton(
                               onPressed: () {
                                 // Add your onPressed function here
@@ -254,8 +288,8 @@ Gap(40),
                               },
                               style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Colors.transparent),
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.transparent),
                                 // No color background
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -263,8 +297,8 @@ Gap(40),
                                     borderRadius: BorderRadius.circular(20),
                                     // Rounded corner border
                                     side: const BorderSide(
-                                        color: Colors
-                                            .white), // White border color
+                                        color:
+                                            Colors.white), // White border color
                                   ),
                                 ),
                               ),
@@ -280,8 +314,6 @@ Gap(40),
                         ),
                       ],
                     ),
-
-
                   ],
                 ),
               ),
@@ -317,12 +349,11 @@ Gap(40),
                 child: Column(
                   children: [
                     buildTripForm(),
+
                     ///add form here
                   ],
                 ),
               ),
-
-
 
               //add form here
             ],
@@ -423,7 +454,7 @@ class IconTextToggleButton extends StatelessWidget {
 String _formatTimeWithAMPM(TimeOfDay time) {
   final now = DateTime.now();
   final selectedDateTime =
-  DateTime(now.year, now.month, now.day, time.hour, time.minute);
+      DateTime(now.year, now.month, now.day, time.hour, time.minute);
   final format = DateFormat('hh:mm a'); // Use a custom format
   return format.format(selectedDateTime);
 }
