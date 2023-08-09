@@ -176,27 +176,6 @@
   margin-top: 20px;
 }
 
-/* .station-masters-page {
-  display: flex;
-} */
-
-.left-column {
-  flex: 3; /* Adjust the ratio to control width */
-  padding: 20px;
-  border-right: 1px solid #ccc; /* Add a divider between columns */
-}
-
-.right-column {
-  flex: 1; /* Adjust the ratio to control width */
-  padding: 20px;
-  background-color: #f5f5f5;
-}
-
-.add-button {
-  display: block;
-  text-align: right;
-  margin-top: 20px;
-}
 
 
 
