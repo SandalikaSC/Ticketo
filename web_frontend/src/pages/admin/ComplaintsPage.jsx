@@ -50,7 +50,7 @@ const ComplaintsPage = () => {
                 <ComplaintCard
                   id="021"
                   complaintBy="Nimal Perera"
-                  imageUrl="../../common/user1.png"
+                  imageUrl="'../../assets/user1.png"
                   date="2023/08/06"
                   complaint="Train schedule not loaded."
                   onResolve={() => handleResolveClick("021")}
@@ -111,7 +111,7 @@ const ComplaintsPage = () => {
             <ResolvedComplaintCard
               id="004"
               complaintBy="Subodinie Chathurajika"
-              imageUrl="../common/user1.png"
+              imageUrl="'../../assets/user1.png"
               date="2023/07/14"
               complaint="Unauthorized transaction."
               actionTaken="Investigated and refunded the amount."

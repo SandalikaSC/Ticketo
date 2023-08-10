@@ -11,6 +11,7 @@ import {
 import TrainConfirmationDialog from "../../../components/controlCenter/TrainConfirmationDialog";
 import WarningModal from "../../../components/common/WarningModal";
 import { addTrain } from "../../../services/addTrainService";
+// import "../../../css/controlcenter.css";
 const AddTrain = () => {
   const [inputs, setInputs] = useState({
     TC0: "", // Add other properties as needed

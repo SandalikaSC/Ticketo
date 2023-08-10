@@ -2,7 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main()
+{
     const stationData = [
         {
             name: 'Abanpola',
@@ -237,6 +238,14 @@ async function main() {
         },
         // Add more station data here...
     ];
+
+    for (const data of stationData)
+    {
+        await prisma.station.create({
+            data
+        });
+    }
+
     const userData = [
         {
             // id: 'd30ade8e-bc01-497b-a516-9e3b2aa1e474',
@@ -292,7 +301,7 @@ async function main() {
             userType: ["CONTROL_CENTRE"],
         }, {
 
-            nic: "996740099v",
+            nic: "996740099V",
             email: "kaveeshagw@gmail.com",
             dob: new Date('1920-01-05T18:30:00.000Z'),
             password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
@@ -310,16 +319,15 @@ async function main() {
         },
     ];
 
-    for (const data of stationData) {
-        await prisma.station.create({
-            data
-        });
-    }
-    for (const data of userData) {
+    for (const data of userData)
+    {
         await prisma.user.create({
             data,
         });
     }
+
+
+
 
 
     const classData = [
@@ -350,8 +358,8 @@ async function main() {
         { coachCode: 'FC4', seatCapacity: 48, seatArrangement: 4, classId: 3, reservable: true },
         { coachCode: 'OFV4', seatCapacity: 48, seatArrangement: 4, classId: 5, reservable: true },
         { coachCode: 'SLEEP4', seatCapacity: 48, seatArrangement: 4, classId: 6, reservable: true },
-        { coachCode: 'SCR', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
-        { coachCode: 'SC', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
+        { coachCode: 'SCR4', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
+        { coachCode: 'SC4', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
         // Add more coach data here...
     ];
 
@@ -360,13 +368,15 @@ async function main() {
         await prisma.coach.create({
             data,
         });
-    } 
+    }
 }
 
 main()
-    .catch((e) => {
+    .catch((e) =>
+    {
         throw e;
     })
-    .finally(async () => {
+    .finally(async () =>
+    {
         await prisma.$disconnect();
     });

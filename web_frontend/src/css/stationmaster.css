@@ -1,73 +1,71 @@
-h1{
-    text-align: center;
-    color: #3D50AC;
-  }
-  
-  .form_container{
-    max-width: 500px;
-    margin: 50px auto;
-    background-color: #cdcfda;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  form{
-    display:flex;
-    flex-direction:column;
-  }
+h1 {
+  text-align: center;
+  color: #3D50AC;
+}
 
-  input[type=text] {
-    width: 85%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+.form_container {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #cdcfda;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-  select{
-    width: 82%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+form {
+  display: flex;
+  flex-direction: column;
+}
 
-  input[type=date] {
-    width: 81%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+input[type=text] {
+  width: 85%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  input[type=email] {
-    width: 79%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+select {
+  width: 82%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  input[type=password] {
-    width: 30%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+input[type=date] {
+  width: 81%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  button {
-    background-color: #f86f5d;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    padding: 15px 32px;
-    align-self:center ;
-    text-align: center;
-    /*text-decoration: none;*/
-    display: inline-block;
-    font-size: 16px;
-    width: 40%;
+input[type=email] {
+  width: 79%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
 
-  }
+input[type=password] {
+  width: 30%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #f86f5d;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 15px 32px;
+  align-self: center;
+  display: inline-block;
+  font-size: 16px;
+  width: 40%;
+
+}
