@@ -147,8 +147,8 @@ enum payRelatedType {
 model Station {
   stationId     Int     @id @default(autoincrement()) // Primary Key
   name          String
-  latitude      Float
-  longitude     Float
+  latitude      Float?
+  longitude     Float?
   contactNumber String? @default("")
 
   // Relationships

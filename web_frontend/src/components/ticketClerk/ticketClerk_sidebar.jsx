@@ -31,8 +31,8 @@ const Sidebar = ({children}) => {
             icon:<FaCreditCard/>
         },
         {
-            path:"/tc/reports",
-            name:"Reports",
+            path:"/tc/train_schedules",
+            name:"Train Schedules",
             icon:<FaBook/>
         },
 
