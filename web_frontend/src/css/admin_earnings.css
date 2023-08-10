@@ -13,7 +13,9 @@
   .dashboard-card {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
+    margin :0 5px;
+    
   }
   
   /* Charts */
@@ -30,27 +32,38 @@
   }
   
   /* Table */
-  .table-container {
-    margin-top: 20px;
-  }
-  
-  .table {
-    width: 100%;
-    margin-top: 10px;
-  }
-  
-  .table table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .table table th,
-  .table table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  /* Add more custom styles as needed */
-  
-  
+.table-container {
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table table th,
+.table table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.table table  th {
+background-color: #3D51A9;
+  color:white;
+}
+
+/* Alternating row colors */
+.table table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray */
+}
+
+.table table tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White */
+}

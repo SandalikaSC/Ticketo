@@ -121,31 +121,6 @@ const AddTrain = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleTrainAddition = async () => {
-  //   if (validateInputs()) {
-  //     try {
-  //       await addTrain({
-  //         trainName,
-  //         trainNumber,
-  //         SCR,
-  //         SC,
-  //         TCR,
-  //         TC,
-  //         FC,
-  //         SLEEPER,
-  //         OFV,
-  //         TC0: inputs.TC0,
-  //         TCR0: inputs.TCR0,
-  //       });
-  //       handleDialogOpen();
-  //     } catch (error) {
-  //       console.error("Error adding train:", error);
-  //       setWarningOpen(true);
-  //     }
-  //   } else {
-  //     setWarningOpen(true);
-  //   }
-  // };
   const handleTrainAddition = async () => {
     if (validateInputs()) {
       try {

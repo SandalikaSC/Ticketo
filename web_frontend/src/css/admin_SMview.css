@@ -61,9 +61,10 @@
   /* StationMasterCard */
   .station-master-card {
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 10px;
     width: 100%;
+    background-color: white;
   }
   
   .card-header {
@@ -108,3 +109,49 @@
     background-color: #dd5151;
   }
   
+  /* Confirmation dialog */
+.confirmation-dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-dialog.active {
+  display: flex;
+}
+
+.dialog-box {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-text {
+  margin-bottom: 15px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.dialog-button {
+  padding: 8px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+
+
