@@ -14,9 +14,8 @@ import TrackTrains from "../controlCenter/TrackTrains";
 import Stations from "../controlCenter/Stations";
 import { Route, Routes } from "react-router-dom";
 import "../../css/controlcenter.css";
-import DelayPage from './Delays/DelayPage';
-
-import AddTrain from "./TrainInfo/AddTrain";
+import DelayPage from "./Delays/DelayPage";
+import AddTrain from "../controlCenter/TrainInfo/AddTrain";
 
 const controlCentre_home = () => {
   return (
@@ -28,10 +27,10 @@ const controlCentre_home = () => {
         <Route path="/delayreports" element={<DelayReports />} />
         <Route path="/resolve" element={<DelayPage />} />
         <Route path="/tracktrains" element={<TrackTrains />} />
-        <Route path="/traininfo" element={<TrainInfo />} />
+        <Route path="/traininfo/*" element={<TrainInfo />} />
+        <Route path="/traininfo/add-train" element={<AddTrain />} />
         <Route path="/assignGuards" element={<AssignGuards />} />
         <Route path="/stations" element={<Stations />} />
- 
       </Routes>
     </Sidebar>
   );
