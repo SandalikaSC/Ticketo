@@ -1,89 +1,113 @@
 /* sm_dashboard.css */
 
-/* Resetting margin and padding for the entire page */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden; /* Hide overflow to prevent scrollbars */
-}
-
-/* Applying a flexbox layout to the body */
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.sm-dashboard {
-  flex: 1; /* Let it take the remaining vertical space */
+/* .sm-dashboard {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Divide the space into two columns with 2:1 ratio */
-  gap: 20px;
+  grid-template-columns: 1fr 2fr; /* Divide the space into two columns */
+  /* gap: 20px;
   padding: 20px;
-}
+}  */
 
-.ss-left-column {
+/* .ss-left-column {
   width: 100%;
   background-color: #f4f4f4;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
+  border-radius: 10px;/* sm_dashboard.css */
+/* } */ 
 
-.ss-right-column {
-  width: 100%;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-left: 5px;
-}
-
-/* Adjustments for responsiveness */
-@media (max-width: 768px) {
   .sm-dashboard {
-    grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Divide the space into two columns with 2:1 ratio */
+    gap: 20px;
+    padding: 20px;
+
   }
-}
-
-.train-delays-container {
-  padding: 20px;
-}
-
-.section-title {
-  margin-bottom: 10px;
-  color: #3D50AC;
-}
-
-.divider {
-  margin-bottom: 20px;
-}
-
-.sort-section {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.sort-title {
-  margin-bottom: 10px;
-  color: #3D50AC;
-}
-
-.sort-select {
-  margin-left: 10px;
-}
-
-.cards-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.card {
-  display: flex;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  /* Add more styling for card width if needed */
-}
+  
+  .ss-left-column {
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ss-right-column {
+    width: 100%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-left: 5px;
+  }
+  
+  /* Adjustments for responsiveness */
+  @media (max-width: 768px) {
+    .sm-dashboard {
+      grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
+    }
+  }
+  .train-delays-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #493da3;
+  }
+  
+  .sorting-options {
+    margin-bottom: 20px;
+    margin-left: 10px;
+    text-align: left;
+  }
+  
+  .flex-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+  }
+  
+  .flex-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(45% - 20px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .flex-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-topic {
+    font-size: 20px;
+    color: #3d3398;
+    margin-bottom: 10px;
+    text-align: left; /* Align card topic to the left */
+  }
+  
+  .flex-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align content to the right */
+  }
+  
+  .flex-card h2 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  
+  .flex-card p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
