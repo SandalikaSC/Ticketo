@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FaTh ,
   FaBars,
   FaBell,
   FaTrain,
@@ -13,6 +14,11 @@ const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const menuItem = [
+    {
+      path: "/ss/SMDashboard",
+      name: "Dashboard",
+      icon: <FaTh  />,
+    },
     {
       path: "/ss/addcheckerclerk",
       name: "Add Checker/Clerk",

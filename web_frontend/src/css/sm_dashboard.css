@@ -1,0 +1,47 @@
+/* sm_dashboard.css */
+
+/* Resetting margin and padding for the entire page */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Hide overflow to prevent scrollbars */
+}
+
+/* Applying a flexbox layout to the body */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.sm-dashboard {
+  flex: 1; /* Let it take the remaining vertical space */
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* Divide the space into two columns with 2:1 ratio */
+  gap: 20px;
+  padding: 20px;
+}
+
+.ss-left-column {
+  width: 100%;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ss-right-column {
+  width: 100%;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 5px;
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 768px) {
+  .sm-dashboard {
+    grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
+  }
+}
