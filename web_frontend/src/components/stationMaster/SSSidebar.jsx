@@ -31,7 +31,7 @@ const Sidebar = ({ children }) => {
     },
     {
       path: "/ss/EmployeeDetails",
-      name: "Details",
+      name: "Employees",
       icon: <FaPersonBooth />,
     },
     {
