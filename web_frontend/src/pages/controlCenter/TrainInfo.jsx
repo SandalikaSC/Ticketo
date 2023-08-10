@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-// import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-// import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
+import {MenuItem, Divider, Typography, Button, Container} from "@mui/material";
+
 import TrainIcon from "@mui/icons-material/Train";
 //import AddIcon from "@mui/icons-material/Add";
 // import RemoveIcon from "@mui/icons-material/Remove";
@@ -50,18 +48,15 @@ const TrainInfo = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container style={{ padding: '20px' }}>
+      <ThemeProvider theme={theme}>
       <div style={{ backgroundColor: "#ECECEC" }}>
-        <div
-          style={{
-            backgroundColor: "white",
-            color: "#FA6F5D",
-            padding: "5px",
-            textAlign: "center",
-          }}
-        >
-          <h1>Train Information Dashboard</h1>
-        </div>
+        <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC' }}>
+          <b>Train Information Dashboard</b>
+        </Typography>
+
+        <Divider style={{ marginBottom: '20px' }} />
+
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <div
@@ -420,6 +415,8 @@ const TrainInfo = () => {
         </Grid>
       </div>
     </ThemeProvider>
+    </Container>
+    
   );
 };
 
