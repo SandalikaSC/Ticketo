@@ -1,11 +1,11 @@
-import { createTheme } from '@mui/material/styles';
+// import { createTheme } from '@mui/material/styles';
 
-// Define a custom theme with Poppins font
-const theme = createTheme({
-    typography: {
-        fontFamily: 'Poppins, sans-serif',
-    },
-});
+// //Define a custom theme with Poppins font
+// const theme = createTheme({
+//     typography: {
+//         fontFamily: 'Poppins, sans-serif',
+//     },
+// });
 
 
 const LoginPageStyles = {
@@ -56,20 +56,7 @@ const LoginPageStyles = {
     textFieldContainer: {
         textAlign: 'center',
     },
-    // textField: {
-    //     borderRadius: '100px',
-    //     width: '65%',
-    //     backgroundColor: '#E8E8E8',
-    //     border: 'none',
-    //     outline: 'none',
-    //     '& .MuiOutlinedInput-root': {
-    //         '& fieldset': {
-    //             border: 'none',
-    //         },
-    //         paddingLeft: '42px',
-    //     },
-    //     marginTop: 4,
-    // },
+
     textField: {
         borderRadius: '100px',
         width: '65%',
@@ -130,7 +117,4 @@ const LoginPageStyles = {
 };
 
 
-const mergedStyles = { ...LoginPageStyles, ...theme };
-
-export default mergedStyles;
-// export default LoginPageStyles;
+export default LoginPageStyles;

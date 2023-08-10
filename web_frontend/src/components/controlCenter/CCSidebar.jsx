@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   FaBars,
@@ -11,7 +12,7 @@ import {
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Logo from "../common/logoText.png";
-
+ 
 const Sidebar = ({children}) => {
     const[isOpen ,setIsOpen] = useState(false);
     const toggle = () => setIsOpen (!isOpen);
@@ -67,11 +68,33 @@ const Sidebar = ({children}) => {
                     </button>
                 </div>
            </div>
+ 
 
-          
-     
+        <div
+          style={{
+            marginTop: "100px",
+            marginBottom: "20px",
+            textAlign: "center",
+          }}
+        >
+          <button
+            className="signout"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <div className="icon" style={{ marginLeft: "14px" }}>
+              {<FaSignOutAlt />}
+            </div>
+            <div
+              style={{ display: isOpen ? "block" : "none", marginLeft: "10px" }}
+              className="link_text"
+            >
+              Sign Out
+            </div>
+          </button>
+        </div>
+      </div>
 
-      <main>{children}</main>
+      <main class="cc-main">{children}</main>
     </div>
   );
 };

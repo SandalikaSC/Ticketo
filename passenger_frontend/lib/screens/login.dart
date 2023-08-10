@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'package:passenger_frontend/services/user_service.dart';
 import 'reset_password.dart'; // Import the ResetPasswordPage
 import 'signup.dart';
-import 'home_page.dart';
-import '../services/api_service.dart'; // Import the ApiService
 import 'package:logger/logger.dart';
 import '../utils/error_handler.dart'; // Import the ErrorHandler
 import '../utils/input_validations.dart'; // Import the Input Validations
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../services/auth_service.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 final Logger logger = Logger();
 
@@ -21,8 +24,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService(
-      'http://192.168.138.116:5000'); // Replace with your Node.js server address
+  final UserService userService =
+      UserService(); // Replace with your Node.js server address
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -40,13 +43,46 @@ class LoginPageState extends State<LoginPage> {
       String password = _passwordController.text.trim();
 
       try {
-        final response = await apiService.loginUser(email, password);
+        final response = await userService.loginUser(email, password);
 
         if (response.statusCode == 200) {
+
+          final responseData = json.decode(response.body);
+          logger.d(responseData);
+          if (responseData is List<dynamic>) {
+            // Handle the case where responseData is an array
+            logger.e('Received a JSON array response: $responseData');
+            // Handle the unexpected response accordingly
+          } else if (responseData is Map<String, dynamic>) {
+            // Handle the case where responseData is a map
+            print('responseData type: ${responseData.runtimeType}');
+            print('responseData content: $responseData');
+
+            final accessToken = responseData['accessToken'];
+            // final refreshToken = responseData['refreshToken'];
+            // final userType = List<String>.from(responseData['userType']);
+            Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+            await prefs.setString('id', decodedToken['id']);
+            await prefs.setString('nic', decodedToken['nic'] ?? ''); // Use empty string if null
+            await prefs.setString('email', decodedToken['email']);
+            await prefs.setString('dob', decodedToken['dob'].toString()); // Convert DateTime to String
+            await prefs.setString('firstName', decodedToken['firstName']);
+            await prefs.setString('lastName', decodedToken['lastName']);
+            await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
+
+            // Convert userType List to String and store it in shared preferences
+            List<String> userTypeList = List<String>.from(decodedToken['userType']);
+            await prefs.setStringList('user_type', userTypeList);
+
+
+          }
           // Login successful
           // Handle the response data as needed
-          logger.i('Login successful');
-          logger.d(response.body);
+           logger.i('Login successful');
+          // logger.d(response.body);
 
           // Navigate to the home page after successful login
           Navigator.pushReplacement(

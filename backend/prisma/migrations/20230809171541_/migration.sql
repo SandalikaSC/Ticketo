@@ -8,7 +8,7 @@ CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
 
 -- CreateEnum
-CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON');
+CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON', 'PHYSICAL');
 
 -- CreateEnum
 CREATE TYPE "gender" AS ENUM ('MALE', 'FEMALE');
@@ -123,8 +123,8 @@ CREATE TABLE "Fine" (
 CREATE TABLE "Station" (
     "stationId" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "latitude" DOUBLE PRECISION NOT NULL,
-    "longitude" DOUBLE PRECISION NOT NULL,
+    "latitude" DOUBLE PRECISION,
+    "longitude" DOUBLE PRECISION,
     "contactNumber" TEXT DEFAULT '',
 
     CONSTRAINT "Station_pkey" PRIMARY KEY ("stationId")
@@ -133,6 +133,7 @@ CREATE TABLE "Station" (
 -- CreateTable
 CREATE TABLE "Ticket" (
     "ticketId" TEXT NOT NULL,
+    "ticketNumber" SERIAL NOT NULL,
     "noOfPassengers" INTEGER NOT NULL,
     "ticketStatus" BOOLEAN NOT NULL DEFAULT false,
     "purchasedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -109,57 +109,49 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   Future<void> _signUser() async {
-    Map<String, dynamic> user = {
-      'firstName': firstName,
-      'lastName': lastName,
-      'phoneNumber': phoneNumber,
-      'nic': nic,
-      'email': email,
-      'password': password
-    };
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OTPVerificationScreen(
-            firstName: firstName,
-            lastName: lastName,
-            emailAddress: email,
-            phoneNumber: phoneNumber,
-            password: password,
-            nic: nic),
-      ),
-    );
-    // try {
-    //   final response = await userService.verifyAccount(
-    //       firstName, lastName, phoneNumber, nic, email, password);
+    try {
+      final response = await userService.verifyAccount(
+          firstName, lastName, phoneNumber, nic, email, password);
 
-    //   final responseData = json.decode(response.body);
-    //   final message = responseData['message'];
+      final responseData = json.decode(response.body);
+      final message = responseData['message'];
 
-    //   if (response.statusCode == 200) {
-    //   } else if (response.statusCode == 201) {
-    //     showCustomToast(context, "success", message);
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => LoginPage(),
-    //       ),
-    //     );
-    //   } else if (response.statusCode == 400) {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => LoginPage(),
-    //       ),
-    //     );
-    //     showCustomToast(context, "error", message);
-    //   } else {
-    //     showCustomToast(context, "error", message);
-    //   }
-    // } catch (e) {
-    //   ErrorHandler.showErrorSnackBar(
-    //       context, 'Unknown error occurred. Please try again later.');
-    // }
+      if (response.statusCode == 200) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OTPVerificationScreen(
+                firstName: firstName,
+                lastName: lastName,
+                emailAddress: email,
+                phoneNumber: phoneNumber,
+                password: password,
+                nic: nic),
+          ),
+        );
+      } else if (response.statusCode == 201) {
+        showCustomToast(context, "success", message);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+      } else if (response.statusCode == 400) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+        showCustomToast(context, "error", message);
+      } else {
+        showCustomToast(context, "error", message);
+      }
+    } catch (e) {
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.');
+    }
   }
 
   @override
@@ -341,16 +333,16 @@ class _SignupPageState extends State<SignupPage> {
                         children: [
                           CustomTextField(
                             labelText: 'First name',
-                            onChanged: (val) => firstName = val,
+                            onChanged: (val) => firstName = val.trim(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter your first name';
                               }
-                              if (RegExp(r'\d').hasMatch(value)) {
+                              if (RegExp(r'\d').hasMatch(value.trim())) {
                                 return 'First name cannot contain numbers';
                               }
                               if (RegExp(r'[!@#$%^&*(),.?":{}|<>]')
-                                  .hasMatch(value)) {
+                                  .hasMatch(value.trim())) {
                                 return 'First name cannot contain numbers';
                               }
                               return null;
@@ -359,16 +351,16 @@ class _SignupPageState extends State<SignupPage> {
                           const Gap(10),
                           CustomTextField(
                             labelText: 'Last name',
-                            onChanged: (val) => lastName = val,
+                            onChanged: (val) => lastName = val.trim(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter your last name';
                               }
-                              if (RegExp(r'\d').hasMatch(value)) {
+                              if (RegExp(r'\d').hasMatch(value.trim())) {
                                 return 'Last name cannot contain numbers';
                               }
                               if (RegExp(r'[!@#$%^&*(),.?":{}|<>]')
-                                  .hasMatch(value)) {
+                                  .hasMatch(value.trim())) {
                                 return 'Last name cannot contain numbers';
                               }
                               return null;
@@ -377,14 +369,15 @@ class _SignupPageState extends State<SignupPage> {
                           const Gap(10),
                           CustomTextField(
                             labelText: 'Phone number',
-                            onChanged: (val) => phoneNumber = val,
+                            onChanged: (val) => phoneNumber = val.trim(),
                             validator: (value) {
-                              return isValidPhoneNumber(value.toString());
+                              return isValidPhoneNumber(
+                                  value.toString().trim());
                             },
                           ),
                           CustomTextField(
                             labelText: 'NIC',
-                            onChanged: (val) => nic = val,
+                            onChanged: (val) => nic = val.trim(),
                             validator: (value) {
                               return validateNIC(value);
                             },
@@ -406,14 +399,14 @@ class _SignupPageState extends State<SignupPage> {
                         children: [
                           CustomTextField(
                             labelText: 'Email',
-                            onChanged: (val) => email = val,
+                            onChanged: (val) => email = val.trim(),
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter your email';
                               }
 
                               if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                  .hasMatch(value)) {
+                                  .hasMatch(value.trim())) {
                                 return 'Please enter valid email';
                               }
                               // Implement email validation here

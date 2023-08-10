@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import './App.css';
+//import './App.css';
 import Login from "./pages/LoginPage";
 import Signup from "./pages/Signup";
 import Welcome from "./pages/Welcome";
@@ -14,13 +14,13 @@ import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
 
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: '#ececec',
-    },
-  },
-});
+// const theme = createTheme({
+//   palette: {
+//     background: {
+//       default: '#ececec',
+//     },
+//   },
+// });
 
 const App = () =>
 {
@@ -29,12 +29,13 @@ const App = () =>
 
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
-        <main>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            {isLoggedIn && <Route path="/user" element={<Welcome />} />}
+
+      {/* <ThemeProvider theme={theme}> */}
+      <main>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          {isLoggedIn && <Route path="/user" element={<Welcome />} />}
           <Route
             path="/admin/*"
             element={<ProtectedRoute element={<AdminPage />} />}
@@ -52,9 +53,8 @@ const App = () =>
             element={<ProtectedRoute element={<TicketClerkPage />} />}
           />
         </Routes>
-       
       </main>
-      </ThemeProvider>
+      { }
     </React.Fragment>
   );
 };

@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 
 //Control center imports for testing purposes only
 
@@ -17,11 +16,14 @@ import { Route, Routes } from "react-router-dom";
 import "../../css/controlcenter.css";
 import DelayPage from './Delays/DelayPage';
 
+import AddTrain from "./TrainInfo/AddTrain";
+
 const controlCentre_home = () => {
   return (
     // <div>controlCentre_home</div>
     <Sidebar>
       <Routes>
+        <Route path="/" element={<Delays />} />
         <Route path="/delays" element={<Delays />} />
         <Route path="/delayreports" element={<DelayReports />} />
         <Route path="/resolve" element={<DelayPage />} />
@@ -29,10 +31,10 @@ const controlCentre_home = () => {
         <Route path="/traininfo" element={<TrainInfo />} />
         <Route path="/assignGuards" element={<AssignGuards />} />
         <Route path="/stations" element={<Stations />} />
+ 
       </Routes>
     </Sidebar>
   );
 };
 
 export default controlCentre_home;
-

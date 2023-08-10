@@ -4,6 +4,13 @@ import Dashboard from './Dashboard';
 import StationMaster from './StationMaster';
 import StationMastersPage from './StationMastersPage';
 import TrainTicketIncome from './TrainTicketIncome';
+import ComplaintsPage from './ComplaintsPage';
+import ReportPage from './ReportPage';
+import Delays from '../controlCenter/Delays';
+
+
+
+
 import { Route, Routes } from "react-router-dom";
 
 const admin_home = () =>
@@ -15,7 +22,15 @@ const admin_home = () =>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/StationMaster" element={<StationMaster/>} />
                 <Route path="/StationMastersPage" element={<StationMastersPage/>} />
+                <Route path="/StationMastersPage/StationMaster" element={<StationMaster/>} />
+                
                 <Route path="/TrainTicketIncome" element={<TrainTicketIncome/>}/>
+                <Route path="/ComplaintsPage" element={<ComplaintsPage/>}/>
+                <Route path="/ReportPage" element={<ReportPage/>}/>
+                <Route path="/Delays" element={<Delays/>}/>
+
+
+
 
             </Routes>
         </Sidebar>

@@ -1,11 +1,17 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'reset_password.dart'; // Import the ResetPasswordPage
-import '../services/api_service.dart'; // Import the ApiService
-import 'package:logger/logger.dart';
-//import '../utils/error_handler.dart'; // Import the ErrorHandler
-import '../utils/input_validations.dart'; // Import the Input Validations
 import 'landing_page.dart';
+import 'reset_password.dart';
+import 'package:logger/logger.dart';
+import '../utils/error_handler.dart'; // Import the ErrorHandler
+import '../utils/input_validations.dart'; // Import the Input Validations
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+//import '../services/auth_service.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import '../services/api_service.dart';
+
 final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
@@ -18,8 +24,6 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final ApiService apiService = ApiService('http://192.168.8.158:5000'); // Replace with your Node.js server address
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -36,13 +40,53 @@ class LoginPageState extends State<LoginPage> {
       String password = _passwordController.text.trim();
 
       try {
+        // Create an instance of ApiService with the base URL
+        final apiService = ApiService('http://192.168.8.158:5000');
+
+// Call the loginUser method using the instance
         final response = await apiService.loginUser(email, password);
 
         if (response.statusCode == 200) {
+
+          final responseData = json.decode(response.body);
+          logger.d(responseData);
+          if (responseData is List<dynamic>) {
+            // Handle the case where responseData is an array
+            logger.e('Received a JSON array response: $responseData');
+            // Handle the unexpected response accordingly
+          } else if (responseData is Map<String, dynamic>) {
+            // Handle the case where responseData is a map
+            if (kDebugMode) {
+              print('responseData type: ${responseData.runtimeType}');
+            }
+            if (kDebugMode) {
+              print('responseData content: $responseData');
+            }
+            final accessToken = responseData['accessToken'];
+
+            Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+
+            await prefs.setString('id', decodedToken['id']);
+            await prefs.setString('nic', decodedToken['nic'] ?? ''); // Use empty string if null
+            await prefs.setString('email', decodedToken['email']);
+            await prefs.setString('dob', decodedToken['dob'].toString()); // Convert DateTime to String
+            await prefs.setString('firstName', decodedToken['firstName']);
+            await prefs.setString('lastName', decodedToken['lastName']);
+            await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
+
+            // Convert userType List to String and store it in shared preferences
+            List<String> userTypeList = List<String>.from(decodedToken['userType']);
+            await prefs.setStringList('user_type', userTypeList);
+
+
+
+          }
           // Login successful
           // Handle the response data as needed
           logger.i('Login successful');
-          logger.d(response.body);
+          // logger.d(response.body);
 
           // Navigate to the home page after successful login
           Navigator.pushReplacement(
@@ -55,8 +99,10 @@ class LoginPageState extends State<LoginPage> {
           logger.e('Login failed. Status Code: ${response.statusCode}');
           logger.d(response.body);
 
-          // Show a login error message
-          _showSnackBar('Login failed. Please check your email and password.');
+          // Show a login error message using the ErrorHandler
+          // ErrorHandler.showLoginErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(
+              context, 'Login failed. Please check your email and password.');
         }
       } catch (e, stackTrace) {
         // Handle any network or server-related errors
@@ -64,25 +110,20 @@ class LoginPageState extends State<LoginPage> {
         if (e is HttpException) {
           logger.w('Network Error occurred.');
 
-          // Show a network error message
-          _showSnackBar('Network error occurred. Please try again later.');
+          // Show a network error message using the ErrorHandler
+          // ErrorHandler.showNetworkErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(
+              context, 'Network error occurred. Please try again later.');
         } else {
           logger.w('Unknown Error occurred.');
 
-          // Show an unknown error message
-          _showSnackBar('Unknown error occurred. Please try again later.');
+          // Show an unknown error message using the ErrorHandler
+          // ErrorHandler.showUnknownErrorSnackBar(context);
+          ErrorHandler.showErrorSnackBar(
+              context, 'Unknown error occurred. Please try again later.');
         }
       }
     }
-  }
-
-  // Function to show a snack-bar
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
   }
 
   @override

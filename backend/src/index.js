@@ -8,18 +8,20 @@ const cors = require('cors');
 const prisma = new PrismaClient();
 const app = express();
 const port = process.env.PORT || 5000;
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json());
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:3000', '*'], 
+  origin: ['http://localhost:3000', '*'],
   credentials: true, // Allow cookies to be sent along with the request
 }));
 
 // Routes
 app.use("/api", authRouter);
-app.use('/api', stationMasterRoutes); 
+app.use('/api', stationMasterRoutes);
 
 
 // Start the server

@@ -76,24 +76,25 @@ const EditScheduleForm = ({ onClose }) => {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'fixed',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
         zIndex: 9999,
       }}
-    >
+    > 
       <Paper elevation={3} style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '10px' }}>
         
         <div style={{ height: 'calc(100vh - 100px)', overflowY: 'auto' }}>
 
           <Typography variant="h4" style={{color: '#3D50AC'}}>
             <b>Edit Guard Schedule</b>
+ 
           </Typography>
 
           <TextField label="First Name" margin="normal" style={{width: '80%'}}/>
@@ -101,16 +102,21 @@ const EditScheduleForm = ({ onClose }) => {
           <TextField label="Email" margin="normal" style={{width: '80%'}}/>
           <TextField label="NIC" margin="normal" style={{width: '80%'}}/>
           {/* ... Add the schedule as needed */}
-
+ 
           <div style={{ marginTop: '20px' }}>
+ 
             <Button variant="contained" color="primary" onClick={onClose}>
               Save Schedule
             </Button>
-            <Button variant="outlined" color="secondary" style={{ marginLeft: '10px' }} onClick={onClose}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: "10px" }}
+              onClick={onClose}
+            >
               Cancel
             </Button>
           </div>
-
         </div>
       </Paper>
     </div>

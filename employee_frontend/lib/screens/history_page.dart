@@ -28,7 +28,6 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: ListView.builder(
         itemCount: userHistory.length,
         itemBuilder: (context, index) {

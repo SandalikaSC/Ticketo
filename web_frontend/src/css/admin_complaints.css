@@ -1,0 +1,249 @@
+/* ComplaintsPage.css */
+.complaints-page {
+  padding: 20px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.tab-btn {
+  background-color: #bfb9d3;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  flex: 1; /* Make the tabs equally distribute the width */
+  border-radius: 4px;
+  color: #5f5a5a;
+  margin: 0px; /* Add some margin between tabs */
+}
+
+.tab-btn.active {
+  background-color: #d05757;
+  color: #fff; /* Change text color of active tab */
+}
+
+.complaints-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* ComplaintCard.css */
+.complaint-card {
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Add border radius */
+  padding: 10px;
+  width: calc(47% - 18px); /* Show only 2 cards in one row with gap */
+  background-color: #fff; /* Set card background to white */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.complaint-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.complaint-id,
+.complaint-by,
+.complaint-date,
+.complaint-text {
+    text-align: left !important; /* Align text to the left */
+}
+
+.user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.resolve-btn {
+  background-color: #1f5288;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 2%;
+}
+
+/* ResolvedComplaintCard.css */
+.resolved-complaint-card {
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Add border radius */
+  padding: 10px;
+  width: calc(47% - 18px); /* Show only 2 cards in one row with gap */
+  background-color: #fff; /* Set card background to white */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.resolved-complaint-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items horizontally to the left */
+  gap: 10px;
+}
+
+.resolved-complaint-info .complaint-id,
+.resolved-complaint-info .complaint-by,
+.resolved-complaint-info .complaint-date,
+.resolved-complaint-info .complaint-text {
+  text-align: left; /* Align text to the left */
+}
+.resolved-complaint-info img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.remove-btn {
+  background-color: #380e7a;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 2%;
+}
+
+
+
+/* ResolveForm.css */
+.resolve-form {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Align text to the left */
+  width: 90%;
+}
+
+.resolve-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.resolve-form textarea {
+  width: 88%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.resolve-form button {
+  background-color: #1f5288;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: 5px;
+  margin-left: 65%;
+  width: 30%;
+}
+
+/* ReportPage.css */
+.report-page {
+  display: flex;
+}
+
+.report-options-container {
+  flex: 3; /* Adjust the ratio to control width */
+  padding: 20px;
+  border-right: 1px solid #ccc; /* Add a divider between columns */
+}
+
+.report-view-container {
+  flex: 2; /* Adjust the ratio to control width */
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.placeholder-image {
+  height: 450px; /* Adjust the height as needed */
+  width: auto; /* To maintain aspect ratio */
+}
+
+/* IncomeReportOptions.css */
+.report-options {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height:100%;
+}
+
+.report-options h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.report-options h3 {
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.report-options input,
+.report-options select,
+.report-options button {
+  margin-top: 10px;
+  margin-left: 10%;
+}
+
+.report-options button {
+  background-color: #38699e;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  cursor: pointer;
+  margin-left: 25%;
+  border-radius: 15px;
+  width: 30%;
+}
+
+/* IncomeReportView.css */
+.income-report-view {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.income-report-view h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.income-report-content {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.income-report-content p {
+  margin: 10px 0;
+}
+
+.download-button {
+  background-color: #d05757;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
