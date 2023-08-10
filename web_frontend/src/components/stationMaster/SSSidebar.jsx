@@ -34,11 +34,11 @@ const Sidebar = ({ children }) => {
       name: "Employees",
       icon: <FaPersonBooth />,
     },
-    {
-      path: "/ss/display",
-      name: "Display",
-      icon: <FaLocationArrow />,
-    },
+    // {
+    //   path: "/ss/Traindetails",
+    //   name: "Train Info",
+    //   icon: <FaLocationArrow />,
+    // },
   ];
   return (
     <div className="container">

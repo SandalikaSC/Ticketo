@@ -20,7 +20,6 @@ const stationMaster_home = () => {
           <Route path="/addcheckerclerk" element={<AddCheckerClerk />} />
           <Route path="/SMDashboard" element={<SMDashboard />} />
           <Route path="/TrainDelays" element={<TrainDelays/>} />
-
          <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
           <Route path="/EmployeeDetails" element={<EmployeeDetails />} />
           <Route path="/display" element={<DisplayCheckersClerks />} />
