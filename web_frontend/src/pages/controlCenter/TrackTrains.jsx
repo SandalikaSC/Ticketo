@@ -4,7 +4,7 @@ import {
   FaSearch
 }from "react-icons/fa";
 import Drawer from '../../components/controlCenter/TrackingDrawer';
-import TrackingMap from '../../components/controlCenter/TrackingMap';
+import AnimatedCirclesMap from '../../components/controlCenter/AnimatedCirclesMap';
 
 
 const TrackTrains = () => {
@@ -67,20 +67,20 @@ const TrackTrains = () => {
     <div style={{ display: 'flex', height: '100vh' }}>
 
         <div style={{ flex: 1 }}>
-            <TrackingMap /> 
+            <AnimatedCirclesMap /> 
         </div>
 
         {/* Drawer */}
         <Drawer isOpen={isDrawerOpen}>
         <div style={{alignItems: "center", justifyContent: "center" }}>
           <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC'}}>
-            Track Train Locations
+            <b>Track Train Locations</b>
           </Typography>
         </div>
 
         <div style={{display: 'flex'}}>
           <TextField
-          label="Train Name"
+          label="Search Train Name"
           variant="outlined"
           fullWidth
           value={trainName}

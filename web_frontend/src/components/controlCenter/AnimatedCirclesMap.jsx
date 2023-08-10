@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleApiWrapper, Map, Circle } from 'google-maps-react';
 
-const TrackingMap = (props) => {
+const TrackingMapWithAnimation = (props) => {
   const center = { lat: 6.2259, lng: 80.1162 }; // Center point
   const zoom = 10; // Initial zoom level
 
@@ -12,9 +12,16 @@ const TrackingMap = (props) => {
     { lat: 6.9237, lng: 79.8585 },
   ];
 
+  const [animationCircles, setAnimationCircles] = useState(
+    points.map((point) => ({
+      point,
+      radius: 1000,
+      fillOpacity: 0.5,
+    }))
+  );
+
   useEffect(() => {
     const interval = setInterval(() => {
-      // Create new circles with increasing radii and decreasing opacity
       const newCircles = animationCircles.map((circle) => ({
         ...circle,
         radius: circle.radius + 1000,
@@ -23,17 +30,8 @@ const TrackingMap = (props) => {
       setAnimationCircles(newCircles);
     }, 1000);
 
-    // Clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
-
-  const [animationCircles, setAnimationCircles] = useState(
-    points.map((point) => ({
-      point,
-      radius: 1000,
-      fillOpacity: 0.5,
-    }))
-  );
 
   return (
     <Map
@@ -44,20 +42,26 @@ const TrackingMap = (props) => {
     >
       {animationCircles.map((circle, index) => (
         <Circle
-          key={index}
-          center={circle.point}
-          radius={circle.radius}
-          options={{
-            strokeColor: '#1976d2',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#1976d2',
-            fillOpacity: circle.fillOpacity,
-            clickable: false,
-            zIndex: -1,
-            animation: window.google.maps.Animation.DROP, // Add animation
-          }}
-        />
+        key={index}
+        center={circle.point}
+        radius={circle.radius}
+        options={{
+          strokeColor: '#ffffff', // White border color
+          strokeOpacity: 1, // Fully opaque
+          strokeWeight: 2,
+          fillColor: '#1976d2',
+          fillOpacity: circle.fillOpacity,
+          clickable: false,
+          zIndex: -1,
+          animation: window.google.maps.Animation.DROP,
+          // Adding shadow
+          shadowColor: '#000000', // Shadow color
+          shadowOpacity: 0.6, // Shadow opacity
+          shadowRadius: 10, // Shadow radius
+          shadowOffset: { width: 0, height: 0 }, // Shadow offset
+        }}
+      />
+      
       ))}
     </Map>
   );
@@ -65,4 +69,4 @@ const TrackingMap = (props) => {
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyCayfe5rzCzRtSRad2wjuByc8-KhjPDu8Y', // Replace with your API key
-})(TrackingMap);
+})(TrackingMapWithAnimation);

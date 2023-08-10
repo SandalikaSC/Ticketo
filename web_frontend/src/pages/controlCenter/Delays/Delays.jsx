@@ -29,7 +29,7 @@ const Delays = () => {
   return (
     <Container style={{ padding: '20px' }}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography variant="h2" style={{ marginBottom: '10px', color: '#3D50AC' }}>
+        <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC' }}>
             <b>Train Delays</b>
         </Typography>
         <Divider style={{ marginBottom: '20px' }} />
@@ -42,9 +42,13 @@ const Delays = () => {
                 <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
                 Already Resolved
                 </Button>
-                <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-                Reports
-                </Button>
+                <div style={{ flex: 1 }}>
+                    <Link to="/cc/delayreports" style={{ textDecoration: 'none' }}>
+                    <Button variant="outlined" color="primary" style={{ width: '100%', fontWeight: 'bold' }}>
+                        Reports
+                    </Button>
+                    </Link>
+                </div>               
             </div>
             <div style={{ flex: 3 }}>
 
