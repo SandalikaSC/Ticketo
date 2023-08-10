@@ -30,7 +30,7 @@ const Sidebar = ({ children }) => {
       icon: <FaTrain />,
     },
     {
-      path: "/ss/detail",
+      path: "/ss/EmployeeDetails",
       name: "Details",
       icon: <FaPersonBooth />,
     },

@@ -4,11 +4,12 @@ import { Route, Routes } from "react-router-dom";
 //import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AddCheckerClerk from "./addCheckerClerk";
 import CheckerClerkCard from "./checkerClerkCard";
-import DetailCheckerClerk from "./detailsCheckersClerks";
+//import DetailCheckerClerk from "./detailsCheckersClerks";
 import DisplayCheckersClerks from "./displayCheckersClerks";
 import Sidebar from "../../components/stationMaster/SSSidebar";
 import TrainDelays from "./TrainDelays";
 import SMDashboard from "./SMDashboard";
+import EmployeeDetails from "./EmployeeDetails";
 const stationMaster_home = () => {
   return (
     <div>
@@ -18,9 +19,10 @@ const stationMaster_home = () => {
 
           <Route path="/addcheckerclerk" element={<AddCheckerClerk />} />
           <Route path="/SMDashboard" element={<SMDashboard />} />
-          <Route path="/TrainDelays" element={<TrainDelays />} />
+          <Route path="/TrainDelays" element={<TrainDelays/>} />
+
          <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
-          <Route path="/detail" element={<DetailCheckerClerk />} />
+          <Route path="/EmployeeDetails" element={<EmployeeDetails />} />
           <Route path="/display" element={<DisplayCheckersClerks />} />
         </Routes>
       </Sidebar>
