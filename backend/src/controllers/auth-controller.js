@@ -264,9 +264,12 @@ const refreshToken = async (req, res, next) =>
 // POST Request - Logout user and clear the JWT token from the cookie
 const logout = async (req, res, next) =>
 {
+  console.log("inside controller");
   const id = req.id;
+  console.log("id is here", id);
   if (!id)
   {
+
     res.status(400).json("Access token is require");
     return;
   }
@@ -274,6 +277,7 @@ const logout = async (req, res, next) =>
   try
   {
     payload = await AuthService.logout(id);
+    console.log("payload", payload);
   } catch (e)
   {
     res.status(403).json("Invalid access token");
