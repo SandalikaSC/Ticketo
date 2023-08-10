@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../css/sm_dashboard.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrain } from '@fortawesome/free-solid-svg-icons';
 
 const trainData = [
   { trainName: 'Samudra Devi', number: 'T1234', destination: 'Katugoda', currentLocation: 'Colombo', arrival: '5.00AM', delay: '2' },
@@ -21,15 +23,11 @@ const TrainDelays = () => {
       return b.arrival.localeCompare(a.arrival);
     }
   });
-
   return (
     <div className="train-delays-container">
-              <h1>Train Delays</h1>
-
+      <h1>Train Delays</h1>
       <div className="sorting-options">
         <label htmlFor="sort-select">Sort the order you want to see-</label>
-        {/* <label htmlFor="sort-select">Sort By:-</label> */}
-
         <select
           id="sort-select"
           value={sortOption}
@@ -42,12 +40,19 @@ const TrainDelays = () => {
       <div className="flex-card-container">
         {sortedTrainData.map((train, index) => (
           <div key={index} className="flex-card">
-            <h2 className='card-topic'>{train.trainName}</h2>
-            <p>Train Number: {train.number}</p>
-            <p>Destination: {train.destination}</p>
-            <p>Current Location: {train.currentLocation}</p>
-            <p>Arrival: {train.arrival}</p>
-            <p>Delay: {train.delay} minutes</p>
+            <div className="card-topic">
+              <FontAwesomeIcon icon={faTrain} style={{ marginRight: '10px' }} />
+              {train.trainName}
+            </div>
+            <div className="flex-card-content-center">
+              <div className="content-right">
+                <p>Train Number: {train.number}</p>
+                <p>Destination: {train.destination}</p>
+                <p>Current Location: {train.currentLocation}</p>
+                <p>Arrival: {train.arrival}</p>
+                <p>Delay: {train.delay} minutes</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
