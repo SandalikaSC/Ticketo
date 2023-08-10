@@ -335,8 +335,7 @@ async function main() {
     ];
 
 
-    for (const data of classData)
-    {
+    for (const data of classData) {
         await prisma.class.create({
             data,
         });
@@ -355,12 +354,11 @@ async function main() {
         // Add more coach data here...
     ];
 
-    for (const data of coachData)
-    {
+    for (const data of coachData) {
         await prisma.coach.create({
             data,
         });
-    } cd
+    }
 }
 
 main()
