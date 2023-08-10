@@ -52,6 +52,7 @@ const Sidebar = ({ children }) => {
       // For example, you might want to dispatch an action to update your Redux state.
       dispatch(authActions.logout());
 
+
       // Remove access token from local storage
       localStorage.removeItem("accessToken");
 

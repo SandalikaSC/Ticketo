@@ -1,0 +1,93 @@
+/* tc-season-cards.css */
+
+.tc-season-cards {
+    margin: 20px;
+}
+
+.tc-season-cards-heading {
+    color: #1f5288;
+}
+
+.tc-tab-container {
+    border: 1px solid #1f5288;
+    margin-top: 20px;
+}
+
+.tc-tab-bar {
+    display: flex;
+}
+
+.tc-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    color: #1f5288;
+    border: 1px solid #1f5288;
+    background-color: #fff;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tc-tab.active {
+    background-color: #d05757;
+    color: #fff;
+}
+
+.tc-tab-content {
+    padding: 20px;
+    border-top: 1px solid #1f5288;
+}
+
+.tc-sort-bar {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.tc-sort-select {
+    width: 120px;
+    margin-right: 10px;
+}
+
+.tc-sort-label {
+    margin-right: 10px;
+    color: #1f5288;
+}
+
+.tc-sort-button {
+    margin-right: 10px;
+    color: #d05757;
+    border-color: #d05757;
+}
+
+.tc-card {
+    border: 1px solid #1f5288;
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tc-card-header {
+    font-weight: bold;
+}
+
+.tc-card-label {
+    margin-right: 5px;
+}
+
+.tc-card-info {
+    margin-bottom: 5px;
+}
+
+.tc-approve-button {
+    background-color: #d05757;
+    border-color: #d05757;
+    color: #fff;
+}
+
+.tc-approve-icon {
+    margin-left: 5px;
+}
