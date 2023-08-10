@@ -27,23 +27,28 @@ const GuardForm = ({ onClose }) => {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'fixed',
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
         zIndex: 9999,
       }}
     >
-      <Paper elevation={3} style={{ padding: '20px', backgroundColor: '#fff', borderRadius: '10px' }}>
-        
-        <div style={{ height: 'calc(100vh - 100px)', overflowY: 'auto' }}>
-
-          <Typography variant="h4" style={{ marginBottom: '10px' }}>
+      <Paper
+        elevation={3}
+        style={{
+          padding: "20px",
+          backgroundColor: "#fff",
+          borderRadius: "10px",
+        }}
+      >
+        <div style={{ height: "calc(100vh - 100px)", overflowY: "auto" }}>
+          <Typography variant="h4" style={{ marginBottom: "10px" }}>
             Add Guard Details
           </Typography>
           <br></br>
@@ -57,7 +62,7 @@ const GuardForm = ({ onClose }) => {
             label="Password"
             fullWidth
             margin="normal"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             InputProps={{
@@ -72,15 +77,19 @@ const GuardForm = ({ onClose }) => {
           />
 
           {/* ... Add more form fields as needed */}
-          <div style={{ marginTop: '20px' }}>
+          <div style={{ marginTop: "20px" }}>
             <Button variant="contained" color="primary" onClick={onClose}>
               Add Guard
             </Button>
-            <Button variant="outlined" color="secondary" style={{ marginLeft: '10px' }} onClick={onClose}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: "10px" }}
+              onClick={onClose}
+            >
               Cancel
             </Button>
           </div>
-
         </div>
       </Paper>
     </div>

@@ -358,8 +358,8 @@ async function main()
         { coachCode: 'FC4', seatCapacity: 48, seatArrangement: 4, classId: 3, reservable: true },
         { coachCode: 'OFV4', seatCapacity: 48, seatArrangement: 4, classId: 5, reservable: true },
         { coachCode: 'SLEEP4', seatCapacity: 48, seatArrangement: 4, classId: 6, reservable: true },
-        { coachCode: 'SCR', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
-        { coachCode: 'SC', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
+        { coachCode: 'SCR4', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
+        { coachCode: 'SC4', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
         // Add more coach data here...
     ];
 
