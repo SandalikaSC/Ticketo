@@ -34,7 +34,7 @@ router.get("/refresh", refreshToken);
 router.post("/logout", verifyToken, logout);
 router.post("/generate-otp", generateOtp);
 router.post("/verify-otp", verifyOtp);
-router.get("/allStations", getAllStations);
+router.get("/allstations", getAllStations);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 
