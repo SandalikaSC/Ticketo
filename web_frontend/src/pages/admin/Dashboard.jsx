@@ -14,7 +14,7 @@ const Dashboard = () => {
     { title: 'Total Income', value: 100000 },
     { title: 'Total Passengers', value: 5000 },
     { title: 'Total Transactions', value: 2000 },
-    { title: 'Total Station Masters', value: 10 },
+    { title: 'Total Station Masters', value: 100 },
   ];
 
   return (

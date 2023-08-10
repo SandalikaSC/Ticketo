@@ -12,14 +12,15 @@ const Header = () => {
 
   return (
     <div className="header">
-      <div className="search-bar">
+      {/* Commented out the search bar */}
+      {/* <div className="search-bar">
         <input
           type="text"
           placeholder="Search..."
           value={searchTerm}
           onChange={handleSearch}
         />
-      </div>
+      </div> */}
       <div className="admin-profile">
         <img src={profileImage} alt="Admin Profile" />
         <span>Admin </span>
