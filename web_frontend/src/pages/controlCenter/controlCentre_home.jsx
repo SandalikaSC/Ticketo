@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 
 //Control center imports for testing purposes only
 
@@ -37,4 +36,3 @@ const controlCentre_home = () => {
 };
 
 export default controlCentre_home;
-
