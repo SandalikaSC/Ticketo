@@ -167,6 +167,7 @@ const insertTempOtp = async (nic, otp) =>
 
 const verifyToken = async (token) =>
 {
+  console.log("service verify token");
   const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
   console.log("her inside verifytoken");
   Console.log(decodedToken);
@@ -175,6 +176,7 @@ const verifyToken = async (token) =>
 const logout = async (id) =>
 {
   await updateToken(id, "");
+  console.log("inside service");
   if (!id)
   {
     console.log("logout unsuccessful");

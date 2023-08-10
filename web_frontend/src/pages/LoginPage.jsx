@@ -115,7 +115,7 @@ const LoginPage = () => {
             backgroundColor: "#3a4da3",
             width: "3%",
             marginTop: "-10%",
-            marginBottom: "-5%",
+            marginBottom: "-5.7%",
           }}
         />
         <Grid item xs={5}>
