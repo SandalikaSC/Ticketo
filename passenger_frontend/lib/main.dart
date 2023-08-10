@@ -24,9 +24,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // useMaterial3: true,
-        primaryColor: primary,
+        primaryColor: Styles.primaryColor, // Set your primary color
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue ), // Set your accent color
+        fontFamily: 'Poppins',
+        inputDecorationTheme: InputDecorationTheme(
+          // focusedBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.blue), // Set the focused border color
+          // ),
+          // enabledBorder: OutlineInputBorder(
+          //   borderSide: BorderSide(color: Colors.grey), // Set the unfocused border color
+          // ),
+          labelStyle: TextStyle(color: Colors.grey), // Set the label color
+          // You can customize more properties here
+        ),
+
+        // Set the default font family
+        // You can define more theme properties here
       ),
       home: const BeginApp(),
       debugShowCheckedModeBanner: false,
