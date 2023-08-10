@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import {
   FaBars,
   FaTh,
-  FaUserNurse,
-  FaMoneyCheckAlt,
+  FaCalendar,
+  FaCreditCard,
   FaBook,
-  FaStickyNote,
-  FaSignOutAlt,
-  FaTrain
+  FaSignOutAlt  
 }from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import Logo from '../common/logoText.png';
@@ -18,36 +16,25 @@ const Sidebar = ({children}) => {
     const toggle = () => setIsOpen (!isOpen);
     const menuItem=[
         {
-            path:"/admin/Dashboard",
+            path:"/tc/dashboard",
             name:"Dashboard",
             icon:<FaTh/>
         },
         {
-            path:"/admin/StationMastersPage",
-            name:"Station Masters",
-            icon:<FaUserNurse/>
-        },
-        
-        {
-            path:"/admin/TrainTicketIncome",
-            name:"Earnings",
-            icon:<FaMoneyCheckAlt/>
+            path:"/tc/reservations",
+            name:"Reservations",
+            icon:<FaCalendar/>
         },
         {
-            path:"/admin/ReportPage",
+            path:"/tc/season",
+            name:"Season Cards",
+            icon:<FaCreditCard/>
+        },
+        {
+            path:"/tc/reports",
             name:"Reports",
             icon:<FaBook/>
         },
-        {
-            path:"/admin/ComplaintsPage",
-            name:"Complaints",
-            icon:<FaStickyNote/>
-        },
-        {
-            path:"/controlCenter/Delays",
-            name:"Train Delays",
-            icon:<FaTrain/>
-        }
 
     ]
     return (
@@ -61,7 +48,7 @@ const Sidebar = ({children}) => {
                </div>
                {
                    menuItem.map((item, index)=>(
-                       <NavLink to={item.path} key={index} className="link" activeclassName="active">
+                    <NavLink to={item.path} key={index} className="link" activeclassName="active">
                            <div className="icon">{item.icon}</div>
                            <div style={{display: isOpen ? "block" : "none"}} className="link_text">{item.name}</div>
                        </NavLink>

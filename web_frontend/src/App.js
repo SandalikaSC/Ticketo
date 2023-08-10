@@ -53,7 +53,6 @@ const App = () =>
               element={<ProtectedRoute element={<TicketClerkPage />} />}
             />
           </Routes>
-
         </main>
       </ThemeProvider>
     </React.Fragment>
