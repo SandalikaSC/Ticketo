@@ -7,6 +7,7 @@ import CheckerClerkCard from "./checkerClerkCard";
 import DetailCheckerClerk from "./detailsCheckersClerks";
 import DisplayCheckersClerks from "./displayCheckersClerks";
 import Sidebar from "../../components/stationMaster/SSSidebar";
+import TrainDelays from "./TrainDelays";
 import SMDashboard from "./SMDashboard";
 const stationMaster_home = () => {
   return (
@@ -17,8 +18,8 @@ const stationMaster_home = () => {
 
           <Route path="/addcheckerclerk" element={<AddCheckerClerk />} />
           <Route path="/SMDashboard" element={<SMDashboard />} />
-
-          <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
+          <Route path="/TrainDelays" element={<TrainDelays />} />
+         <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
           <Route path="/detail" element={<DetailCheckerClerk />} />
           <Route path="/display" element={<DisplayCheckersClerks />} />
         </Routes>

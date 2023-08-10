@@ -25,8 +25,8 @@ const Sidebar = ({ children }) => {
       icon: <FaBell />,
     },
     {
-      path: "/ss/checkerclerkcard",
-      name: "Checker Clerk Cards",
+      path: "/ss/TrainDelays",
+      name: "Train Delays",
       icon: <FaTrain />,
     },
     {
