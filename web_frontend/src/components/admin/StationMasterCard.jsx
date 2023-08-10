@@ -37,6 +37,36 @@ const StationMasterCard = () => {
       stationName: 'Matara',
       stationMasterName: 'Nimal Perera',
     },
+    {
+      id: 6,
+      smNumber: '006',
+      stationName: 'Kandy',
+      stationMasterName: 'Gihan Perera',
+    },
+    {
+      id: 7,
+      smNumber: '007',
+      stationName: 'Ahangama',
+      stationMasterName: 'Thilak De Silva',
+    },
+    {
+      id: 8,
+      smNumber: '008',
+      stationName: 'Beliaththa',
+      stationMasterName: 'Sagara Perera',
+    },
+    {
+      id: 9,
+      smNumber: '009',
+      stationName: 'Peradeniya',
+      stationMasterName: 'Sarath Peiris',
+    },
+    {
+      id: 10,
+      smNumber: '010',
+      stationName: 'Polgahawela',
+      stationMasterName: 'Manjula Perera',
+    },
   ];
   const handleDeleteClick = (id) => {
     Swal.fire({

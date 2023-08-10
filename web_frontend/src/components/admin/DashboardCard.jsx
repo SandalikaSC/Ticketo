@@ -5,6 +5,7 @@ const DashboardCard = ({ title, value }) => {
     <div className="dashboard-card">
       <h3>{title}</h3>
       <p>{value}</p>
+      
     </div>
   );
 };

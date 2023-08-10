@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import IncomeReportOptions from '../../components/admin/IncomeReportOptions';
 import IncomeReportView from '../../components/admin/IncomeReportView';
+import PlaceholderImage from '../../assets/income.png';
 import '../../css/admin_complaints.css';
 
 const ReportPage = () => {
@@ -16,8 +17,13 @@ const ReportPage = () => {
         <IncomeReportOptions onViewReport={handleViewReport} />
       </div>
       <div className="report-view-container">
-        {selectedReportData && <IncomeReportView reportData={selectedReportData} />}
-      </div>
+  {selectedReportData ? (
+    <IncomeReportView reportData={selectedReportData} />
+  ) : (
+    <img src={PlaceholderImage} alt="Placeholder" className="placeholder-image" />
+  )}
+</div>
+
     </div>
   );
 };

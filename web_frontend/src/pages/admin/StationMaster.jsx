@@ -12,7 +12,7 @@ const StationMaster = () => {
       
       <div>
         <br></br>
-        <h1>Add station masters</h1><br></br>
+        <h1>Add station master</h1><br></br>
         
 
         {/* Render the Form component */}

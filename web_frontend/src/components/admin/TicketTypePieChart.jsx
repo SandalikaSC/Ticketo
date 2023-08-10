@@ -2,32 +2,20 @@ import React from 'react';
 import { Pie } from 'react-chartjs-2';
 
 const TicketTypePieChart = () => {
-  // Dummy data for demonstration
   const data = {
-    labels: ['Normal Tickets', 'Reservation Tickets', 'Work Season', 'School Season'],
+    labels: ['Normal', 'Reservation', 'Work Season', 'School Season'],
     datasets: [
       {
-        label: 'Ticket Types',
-        data: [30, 20, 15, 35], // Replace with your actual data
-        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545'],
-        borderWidth: 1,
+        data: [300, 150, 200, 100], // Dummy data for ticket type sales
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'], // Colors for each slice
       },
     ],
   };
 
-  // Common chart options
-  const chartOptions = {
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-  };
-
   return (
-    <div className="chart">
-      <h2>Ticket Types Income</h2>
-      <Pie data={data} options={chartOptions} />
+    <div>
+      <h2>Ticket Type Sales Distribution</h2>
+      <Pie data={data} />
     </div>
   );
 };
