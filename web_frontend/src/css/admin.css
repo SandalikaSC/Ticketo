@@ -100,22 +100,21 @@ body {
  
 /* Station master add form css */
 /* Styles for the form container */
-/* Form.css */
-
 .admin-form {
-  width: 400px; /* Increased width */
-  margin: auto;
+  width: 500px; /* Increased width */
+  margin: 5px auto; /* Reduced margin-top */
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Center align content */
-  height: 550px;
+  text-align: center;
+  height: 600px; /* Increased height */
 }
 
 .admin-form-group {
   margin-bottom: 15px;
+  position: relative; /* For error message positioning */
 }
 
 .admin-form label {
@@ -127,29 +126,41 @@ body {
 }
 
 .admin-form input {
-  width: 100%; /* Make all input fields the same width */
-  max-width: 380px; /* Maximum width for input fields */
+  width: 100%;
+  max-width: 380px;
   padding: 10px;
-  border: 1px solid #aaa; /* Lighter border color for improved visibility */
+  border: 1px solid #aaa;
   border-radius: 4px;
   transition: border-color 0.3s ease-in-out;
-  margin: 0 auto; /* Center align input fields */
-  color: #333; /* Darker text color for improved contrast */
+  margin: 0 auto;
+  color: #333;
 }
 
 .admin-form input:focus {
   border-color: #007bff;
 }
 
-.admin-buttons-container {
-  display: flex; /* Display buttons in a single line */
-  justify-content: flex-end; /* Align buttons to the right */
-  margin-top: 20px;
-  margin-right: 28%;
+/* Error message styling */
+.error-message {
+  color: #ff0000; /* Red color for error messages */
+  font-size: 14px;
+  position: absolute;
+  bottom: -20px; /* Position below input field */
+  left: 10%; /* Align with input field */
+  width: 80%; /* Match input width */
+  text-align: right;
 }
 
-.admin-form-button, .admin-cancel-button {
-  background-color: #3D51A9;
+.admin-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-right: 20%; /* Adjusted margin-right */
+}
+
+.admin-form-button,
+.admin-cancel-button {
+  background-color: #3d51a9;
   color: #fff;
   border: none;
   border-radius: 15px;
@@ -160,6 +171,7 @@ body {
   transition: background-color 0.3s ease-in-out;
 }
 
-.admin-form-button:hover, .admin-cancel-button:hover {
-  background-color: #00153c; /* Darker shade of blue on hover */
-} 
+.admin-form-button:hover,
+.admin-cancel-button:hover {
+  background-color: #00153c;
+}
