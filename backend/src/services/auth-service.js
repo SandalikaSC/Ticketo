@@ -126,7 +126,13 @@ const login = async (email, password) =>
       throw new Error("Invalid password");
     }
     const accessToken = jwt.sign({
-      user: existingUser,
+      id: existingUser.id,
+      nic: existingUser.nic,
+      email: existingUser.email,
+      firstName: existingUser.firstName,
+      lastName: existingUser.lastName,
+      mobileNumber: existingUser.mobileNumber,
+      userType: existingUser.userType,
     }, ACCESS_TOKEN_SECRET, {
       expiresIn: "2h",
     });
@@ -161,6 +167,7 @@ const insertTempOtp = async (nic, otp) =>
 
 const verifyToken = async (token) =>
 {
+  console.log("service verify token");
   const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
   console.log("her inside verifytoken");
   Console.log(decodedToken);
@@ -169,6 +176,7 @@ const verifyToken = async (token) =>
 const logout = async (id) =>
 {
   await updateToken(id, "");
+  console.log("inside service");
   if (!id)
   {
     console.log("logout unsuccessful");

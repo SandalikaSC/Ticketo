@@ -11,6 +11,7 @@ import {
 import TrainConfirmationDialog from "../../../components/controlCenter/TrainConfirmationDialog";
 import WarningModal from "../../../components/common/WarningModal";
 import { addTrain } from "../../../services/addTrainService";
+// import "../../../css/controlcenter.css";
 const AddTrain = () => {
   const [inputs, setInputs] = useState({
     TC0: "", // Add other properties as needed
@@ -121,31 +122,6 @@ const AddTrain = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleTrainAddition = async () => {
-  //   if (validateInputs()) {
-  //     try {
-  //       await addTrain({
-  //         trainName,
-  //         trainNumber,
-  //         SCR,
-  //         SC,
-  //         TCR,
-  //         TC,
-  //         FC,
-  //         SLEEPER,
-  //         OFV,
-  //         TC0: inputs.TC0,
-  //         TCR0: inputs.TCR0,
-  //       });
-  //       handleDialogOpen();
-  //     } catch (error) {
-  //       console.error("Error adding train:", error);
-  //       setWarningOpen(true);
-  //     }
-  //   } else {
-  //     setWarningOpen(true);
-  //   }
-  // };
   const handleTrainAddition = async () => {
     if (validateInputs()) {
       try {

@@ -265,7 +265,7 @@ async function main()
             otpGenerateTime: null,
             userType: ['PASSENGER'],
         },
-        {
+        { 
             // id: 'd30ade8e-bc01-497b-a516-9e3b2aa1e474',
             nic: '996523250V',
             email: 'savanihasadara@gmail.com',
@@ -283,7 +283,7 @@ async function main()
             otpGenerateTime: null,
             userType: ['STATION_MASTER'],
         },
-        {
+        { 
             nic: "997000510v",
             email: "paridew99@gmail.com",
             dob: new Date('1999-07-18T00:00:00.000Z'),
@@ -361,8 +361,7 @@ async function main()
     ];
 
 
-    for (const data of classData)
-    {
+    for (const data of classData) {
         await prisma.class.create({
             data,
         });
@@ -376,13 +375,12 @@ async function main()
         { coachCode: 'FC4', seatCapacity: 48, seatArrangement: 4, classId: 3, reservable: true },
         { coachCode: 'OFV4', seatCapacity: 48, seatArrangement: 4, classId: 5, reservable: true },
         { coachCode: 'SLEEP4', seatCapacity: 48, seatArrangement: 4, classId: 6, reservable: true },
-        { coachCode: 'SCR', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
-        { coachCode: 'SC', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
+        { coachCode: 'SCR4', seatCapacity: 48, seatArrangement: 4, classId: 7, reservable: true },
+        { coachCode: 'SC4', seatCapacity: 48, seatArrangement: 4, classId: 8, reservable: false },
         // Add more coach data here...
     ];
 
-    for (const data of coachData)
-    {
+    for (const data of coachData) {
         await prisma.coach.create({
             data,
         });

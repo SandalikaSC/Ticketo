@@ -1,7 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:intl/intl.dart';
+import '../services/scan_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ScanPage extends StatefulWidget {
   static const routeName = '/scan';
@@ -17,10 +21,13 @@ class ScanPageState extends State<ScanPage> {
   QRViewController? controller;
   String? resultData;
   String? dateTimeInfo;
+  bool canScan = true; // Add a flag to control scanning frequency
+  bool isDialogVisible = false; // Flag to control dialog visibility
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         children: [
           Expanded(
@@ -69,16 +76,75 @@ class ScanPageState extends State<ScanPage> {
       this.controller = controller;
     });
 
-    controller.scannedDataStream.listen((scanData) {
-      if (kDebugMode) {
-        print('Scanned Data: ${scanData.code}');
+    controller.scannedDataStream.listen((scanData) async {
+      if (!canScan) return; // Don't scan again if canScan is false
+
+      final scannedCode = scanData.code;
+      if (scannedCode != null) {
+        try {
+          final parsedData = json.decode(scannedCode);
+          if (parsedData is Map<String, dynamic> &&
+              parsedData.containsKey('uuid') &&
+              parsedData.containsKey('ticketType')) {
+            setState(() {
+              resultData = scannedCode;
+              dateTimeInfo =
+              'Scanned at: ${DateFormat.yMMMMEEEEd().add_Hms().format(DateTime.now())}';
+            });
+
+            final prefs = await SharedPreferences.getInstance();
+            final id = prefs.getString('id') ?? '';
+            final response = await ApiService.sendScannedData(id, resultData!);
+
+            if (response.containsKey('message')) {
+              _showAlertDialog(context, 'Response', response['message']);
+            } else {
+              _showAlertDialog(context, 'Invalid Response', 'Received an unexpected response.');
+            }
+          } else {
+            _showAlertDialog(context, 'Invalid Scanned Data', 'This is not a valid ticket.');
+          }
+        } catch (e) {
+          _showAlertDialog(context, 'Invalid Scanned Data', 'This is not a valid ticket.');
+        }
+
+        setState(() {
+          canScan = false; // Prevent scanning for 5 seconds
+        });
+
+        Timer(const Duration(seconds: 5), () {
+          setState(() {
+            canScan = true; // Allow scanning after 5 seconds
+          });
+        });
       }
-      setState(() {
-        resultData = scanData.code;
-        dateTimeInfo =
-        'Scanned at: ${DateFormat.yMMMMEEEEd().add_Hms().format(DateTime.now())}';
-      });
     });
+  }
+
+  void _showAlertDialog(BuildContext context, String title, String content) {
+    if (isDialogVisible) return; // Prevent multiple dialogs
+
+    setState(() {
+      isDialogVisible = true; // Show dialog
+    });
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        // Dismiss dialog after 3 seconds
+        Timer(const Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+          setState(() {
+            isDialogVisible = false;
+          });
+        });
+
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+        );
+      },
+    );
   }
 
   @override

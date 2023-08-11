@@ -2,7 +2,7 @@
 
 /* StationMastersPage */
 .station-masters-page {
-    padding: 20px;
+    /* padding: 20px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,8 +11,8 @@
   
   h1 {
     font-size: 24px;
-    margin-bottom: 20px;
-    flex: 1 100%;
+    /* margin-bottom: 20px; */
+    /* flex: 1 100%; */
     text-align: center;
   }
   
@@ -32,12 +32,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: #225183;
+    border:#3D51A9;
     border-width: 1;
   }
   
   .filter-button {
-    background-color: #225183;
+    background-color: #3D51A9;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -55,15 +55,16 @@
     padding: 8px;
     margin-right: 10px;
     border: 1px solid #ccc;
-    width:200px;
+    width:180px;
   }
   
   /* StationMasterCard */
   .station-master-card {
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 10px;
     width: 100%;
+    background-color: white;
   }
   
   .card-header {
@@ -93,7 +94,7 @@
   
   .edit-button,
   .remove-button {
-    background-color: #225183;
+    background-color:#3D51A9;
     color: #fff;
     border: none;
     padding: 5px 10px;
@@ -106,5 +107,73 @@
   
   .edit-button {
     background-color: #dd5151;
+ 
   }
   
+  /* Confirmation dialog */
+.confirmation-dialog {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-dialog.active {
+  display: flex;
+}
+
+.dialog-box {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.dialog-text {
+  margin-bottom: 15px;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.dialog-button {
+  padding: 8px 15px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* admin_SMview.css */
+/* admin_SMview.css */
+
+/* .station-masters-page {
+  display: flex;
+} */
+
+.left-column {
+  flex: 3; /* Adjust the ratio to control width */
+  padding: 20px;
+  border-right: 1px solid #ccc; /* Add a divider between columns */
+}
+
+.right-column {
+  flex: 1; /* Adjust the ratio to control width */
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.add-button {
+  display: block;
+  text-align: right;
+  margin-top: 20px;
+}
+ 

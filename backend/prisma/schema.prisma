@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+
+  url      = env("DATABASE_URL") 
 }
 
 model User {
@@ -166,30 +167,34 @@ model Station {
 
 // Ticket table
 model Ticket {
-  ticketId       String       @id @default(uuid()) // Primary Key 
-  ticketNumber   Int          @default(autoincrement())
-  noOfPassengers Int
-  ticketStatus   Boolean      @default(false)
-  purchasedDate  DateTime     @default(now())
-  journeyState   Int          @default(0)
-  price          Float
-  journeyDate    DateTime
-  ticketType     ticketType
-  userId         String // Foreign Key to User 
-  startStation   Int
-  endStation     Int
-  classId        Int
-  scannedBy      String?
-  ticketToken    String       @default("")
+  ticketId        String       @id @default(uuid()) // Primary Key 
+  ticketNumber    Int          @default(autoincrement())
+  noOfPassengers  Int
+  ticketStatus    Boolean      @default(false)
+  purchasedDate   DateTime     @default(now())
+  journeyState    Int          @default(0)
+  price           Float
+  journeyDate     DateTime
+  tripType        tripType     @default(ONE_WAY)
+  returnTicketId  String?      @unique
+  ticketType      ticketType
+  userId          String // Foreign Key to User 
+  startStation    Int
+  endStation      Int
+  classId         Int
+  scannedBy       String?
+  ticketToken     String       @default("")
   // Relationships
-  start          Station      @relation(name: "ticketStartStation", fields: [startStation], references: [stationId])
-  end            Station      @relation(name: "ticketEndStation", fields: [endStation], references: [stationId])
-  Payment        Payment[]    @relation("ticketPay")
-  bookedBy       User         @relation("ticketBooked", fields: [userId], references: [id])
-  fine           Fine?        @relation("ticketFine")
-  class          Class        @relation("classTickets", fields: [classId], references: [classId])
-  reservation    Reservation? @relation("ticketReservation")
-  ticketChecker  Employee?    @relation("ticketScanner", fields: [scannedBy], references: [employeeId])
+  start           Station      @relation(name: "ticketStartStation", fields: [startStation], references: [stationId])
+  end             Station      @relation(name: "ticketEndStation", fields: [endStation], references: [stationId])
+  Payment         Payment[]    @relation("ticketPay")
+  bookedBy        User         @relation("ticketBooked", fields: [userId], references: [id])
+  fine            Fine?        @relation("ticketFine")
+  class           Class        @relation("classTickets", fields: [classId], references: [classId])
+  reservation     Reservation? @relation("ticketReservation")
+  ticketChecker   Employee?    @relation("ticketScanner", fields: [scannedBy], references: [employeeId])
+  returnTicket    Ticket?      @relation("returnTicketRelation", fields: [returnTicketId], references: [ticketId])
+  returnTicketRef Ticket?      @relation("returnTicketRelation")
 }
 
 model Reservation {
@@ -212,6 +217,11 @@ model TravelerReservation {
   // Relationships 
   reservation Reservation? @relation("reservationTicket", fields: [ticketId], references: [ticketId])
   Traveler    Traveler?    @relation("reservationTraveler", fields: [travelerId], references: [travelerId])
+}
+
+enum tripType {
+  ONE_WAY
+  ROUND_TRIP
 }
 
 // Traveler table
