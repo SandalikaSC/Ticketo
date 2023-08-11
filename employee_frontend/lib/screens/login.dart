@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 //import '../services/auth_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../services/api_service.dart';
-
+import 'guard_home.dart';
 final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
@@ -79,8 +79,26 @@ class LoginPageState extends State<LoginPage> {
             // Convert userType List to String and store it in shared preferences
             List<String> userTypeList = List<String>.from(decodedToken['userType']);
             await prefs.setStringList('user_type', userTypeList);
-
-
+            logger.i('Login successful');
+            if (userTypeList.contains("TICKET_CHECKER")) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LandingPage()),
+              );
+            } else if (userTypeList.contains("DRIVER")) {
+              if (kDebugMode) {
+                print("Navigating to TrainGuardHomePage");
+              }
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const TrainGuardHomePage()),
+              );
+            }
+            else{
+              if (kDebugMode) {
+                print("invalid user role");
+              }
+            }
 
           }
           // Login successful
@@ -89,10 +107,10 @@ class LoginPageState extends State<LoginPage> {
           // logger.d(response.body);
 
           // Navigate to the home page after successful login
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const LandingPage()),
-          );
+          // Navigator.pushReplacement(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const LandingPage()),
+          // );
         } else {
           // Login failed
           // Handle the error response as needed
