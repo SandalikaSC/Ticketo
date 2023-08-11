@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import './screens/login.dart'; // Import your LoginPage widget
+import 'package:flutter/material.dart'; 
+import 'package:flutter_dotenv/flutter_dotenv.dart'; 
+import 'package:shared_preferences/shared_preferences.dart';
+import './screens/login.dart';
+import './screens/landing_page.dart'; // Import your LandingPage
+import './screens/guard_home.dart'; // Import your TrainGuardHomePage 
 
 void main() async{
   await dotenv.load();
@@ -20,7 +23,13 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(0xFF3D51A9),
         ),
       ),
-      home: const LoginPage(), // Start with the LoginPage
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/landing': (context) => const LandingPage(),
+        '/guardHome': (context) => const TrainGuardHomePage(),
+
+      },
+      initialRoute: '/login',
     );
   }
 }
