@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'dart:convert';
@@ -35,8 +36,9 @@ class ResetPasswordPageState extends State<ResetPasswordPage> {
     });
 
     try {
+      var baseUrl = dotenv.env['BASE_URL'];
       final response = await http.post(
-        Uri.parse("http://192.168.8.158:5000/api/generate-otp"),
+        Uri.parse('$baseUrl/generate-otp'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": email,

@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'; 
+import 'package:flutter_dotenv/flutter_dotenv.dart'; 
 import 'package:shared_preferences/shared_preferences.dart';
 import './screens/login.dart';
 import './screens/landing_page.dart'; // Import your LandingPage
-import './screens/guard_home.dart'; // Import your TrainGuardHomePage
+import './screens/guard_home.dart'; // Import your TrainGuardHomePage 
 
-void main() {
+void main() async{
+  await dotenv.load();
   runApp(const MyApp());
 }
 

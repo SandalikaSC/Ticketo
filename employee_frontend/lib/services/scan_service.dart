@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert'; // Import this to use JSON encoding/decoding
 
 class ApiService {
-  static const String baseUrl = 'http://192.168.8.158:5000/api'; // Replace with your backend API URL
+  static const String baseUrl =   'http://192.168.57.116:5000/api'; // Replace with your backend API URL
 
   //
   static Future<Map<String, dynamic>> sendScannedData(String id, String data) async {
