@@ -1,21 +1,39 @@
-h1 {
-  text-align: center;
-  color: #3D50AC;
-}
+ 
+h1{
+    text-align: center;
+    color: #3D50AC;
+  }
+  
+  .form_container{
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: #ECECEC;
+    padding: 20px;
+    border-radius: 5px;
+    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+  }
+  
+  form{
+    display:flex;
+    flex-direction:column;
+  }
 
-.form_container {
-  max-width: 500px;
-  margin: 50px auto;
-  background-color: #cdcfda;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+  input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
+  select{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+ 
 
 input[type=text] {
   width: 85%;
@@ -48,7 +66,110 @@ input[type=email] {
   border-radius: 4px;
   box-sizing: border-box;
 }
+ 
 
+  .main_container{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+  .left_container {
+    flex: 1;
+    text-align:left;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color:white;
+}
+
+  .right_container_scrollable-content {
+    flex: 1;
+    text-align:center;
+    overflow-y: auto; /* Enable vertical scrolling */
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.search-container {
+  position: relative;
+  width: 600px;
+  margin: 50px auto;
+}
+
+.checker_clerk_card{
+    display:flexbox;
+    max-width: 400px;
+    height: 100px;
+    margin: 50px auto;
+    background-color: #d3d4df;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor:pointer;
+}
+
+.popup {
+  /*display: ${props => (props.visible ? "block" : "none")};*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0px;
+  width: 400px;
+  height: 200px;
+  z-index: 999; /* Ensure the popup is above other content */
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+.view_button {
+  background-color: #ECECEC;
+  border: none;
+  border-radius: 8px;
+  color: rgb(11, 10, 10);
+  padding: 8px 16px; /* Adjust padding as needed */
+  font-size: 14px; /* Adjust font size as needed */
+  align-self: left;
+  text-align: center;
+  display: block;
+  width: fit-content;
+  margin:0 auto;
+  cursor: pointer;
+}
+
+.delete_button{
+  background-color: #ecbcbc;
+  border: none;
+  border-radius: 8px;
+  color: rgb(11, 10, 10);
+  padding: 8px 16px; /* Adjust padding as needed */
+  font-size: 14px; /* Adjust font size as needed */
+  align-self: left;
+  text-align: center;
+  display: block;
+  width: fit-content;
+  margin:0 auto;
+  cursor: pointer;
+}
+/*  
 input[type=password] {
   width: 30%;
   padding: 12px 20px;
@@ -69,3 +190,4 @@ button {
   width: 40%;
 
 }
+ */
