@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
 
-  url      = env("DATABASE_URL") 
+  url = env("DATABASE_URL")
 }
 
 model User {
@@ -72,7 +72,7 @@ model Dependent {
 
 // Wallet table
 model Wallet {
-  walletId      String    @id // Primary Key
+  walletId      String    @id @default(uuid()) // Primary Key
   userId        String    @unique // Foreign Key to User 
   walletBalance Float
   holdValue     Float
@@ -271,8 +271,8 @@ enum classCode {
 // Train table
 model Train {
   trainId          Int                @id @default(autoincrement()) // Primary Key
-  trainName        String
-  trainNumber      String
+  trainName        String             @unique
+  trainNumber      String             @unique
   // Relationships
   coachArrangement CoachArrangement[] @relation("arrangmentTrain")
   schedule         Schedule[]         @relation("trainSchedule")

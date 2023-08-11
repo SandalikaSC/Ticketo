@@ -1,8 +1,19 @@
-
+import 'dart:convert';
+import 'dart:ffi';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
+import 'package:passenger_frontend/screens/login.dart';
+import 'package:passenger_frontend/services/station_service.dart';
+import 'package:http/http.dart' as http;
+
+import '../modals/station.dart';
+import '../utils/error_handler.dart';
+import '../widgets/customSnackBar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,10 +23,75 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _formKey = GlobalKey<FormState>();
+  int selectedIndex=0;
   final TextEditingController _startStationController = TextEditingController();
   final TextEditingController _endStationController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
+  final TextEditingController _passengerController = TextEditingController(text: '1');
+  String _selectedClass = 'Third Class';
+
+
+  late _ToggleButtonGroupState _toggleButtonGroupState;
+
+  final StationService stationService = StationService();
+  Station? _selectedStartStation;
+  Station? _selectedEndtStation;
+  List<Station> _stations = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    _startDateController.text =
+        DateFormat('dd MMM yyyy').format(DateTime.now());
+    _endDateController.text = DateFormat('dd MMM yyyy').format(DateTime.now());
+    _loadStations();
+  }
+
+  @override
+  void dispose() {
+    // Cancel any ongoing operations, such as network requests
+    // or async computations.
+    super.dispose();
+  }
+
+  Future<void> _loadStations() async {
+    if (!mounted) return; // Check if the widget is still mounted
+
+    try {
+      final response = await stationService.getAllStations();
+      final responseData = json.decode(response.body);
+      // Print the response body (content)
+
+      if (response.statusCode == 200) {
+        final dynamic decodedResponse = json.decode(response.body);
+
+        if (decodedResponse != null && decodedResponse['stations'] != null) {
+          final List<dynamic> data = decodedResponse['stations'];
+          setState(() {
+            _stations = data
+                .map((stationData) => Station(
+              stationId: stationData['stationId'] ?? 0,
+              // Use a default value if null
+              name: stationData['name'] ?? '',
+              latitude: stationData['latitude'] ?? 0.0,
+              longitude: stationData['longitude'] ?? 0.0,
+              contactNumber: stationData['contactNumber'] ?? '',
+            ))
+                .toList();
+          });
+        } else {
+          _stations = List.empty();
+        }
+      }
+    } catch (e) {
+      print('Error occurred: $e'); // Print the exception details
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.');
+    }
+  }
 
   Future<DateTime?> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -26,58 +102,228 @@ class _HomePageState extends State<HomePage> {
     );
 
     if (picked != null && picked != DateTime.now()) {
-      return picked;;
-
+      return picked;
     }
     return null;
   }
 
+  void _selectDepartureDate(BuildContext context) async {
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now, // Allow selection from today onwards
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != DateTime.now()) {
+      setState(() {
+        _startDateController.text = DateFormat('dd MMM yyyy').format(picked);
+        _endDateController.text = ''; // Clear return date if any
+      });
+    }
+  }
+  Future<void> _addTicket() async {
+    
+    //
+    // print(_startDateController.text.runtimeType);
+    try {
+      // print('${_startStationController.text} ${_endStationController.text} ${selectedIndex} '
+      //     '${_startDateController.text } ${ _passengerController.text} ${_selectedClass}');
+      // print('${_startStationController.text.runtimeType} ${_endStationController.text.runtimeType} ${selectedIndex.runtimeType} '
+      //     '${_startDateController.text.runtimeType } ${ _passengerController.text.runtimeType} ${_selectedClass.runtimeType}');
+      final response = await stationService.addTicket(_selectedStartStation.stationId, _endStationController.text, selectedIndex, _startDateController.text , _endDateController.text, _passengerController.text, _selectedClass); // Perform search action here
+
+      //
+      // final responseData = json.decode(response.body);
+      // final message = responseData['message'];
+      //
+      // if (response.statusCode == 200) {
+      //   // Navigator.push(
+      //   //   context,
+      //   //   MaterialPageRoute(
+      //   //     builder: (context) => OTPVerificationScreen(
+      //   //         firstName: firstName,
+      //   //         lastName: lastName,
+      //   //         emailAddress: email,
+      //   //         phoneNumber: phoneNumber,
+      //   //         password: password,
+      //   //         nic: nic),
+      //   //   ),
+      //   // );
+      //   showCustomToast(context, "success", message);
+      // }  else if (response.statusCode == 400) {
+      //   // Navigator.push(
+      //   //   context,
+      //   //   MaterialPageRoute(
+      //   //     builder: (context) => LoginPage(),
+      //   //   ),
+      //   // );
+      //   showCustomToast(context, "error", message);
+      // } else {
+      //   showCustomToast(context, "error", message);
+      // }
+    } catch (e) {
+      print('Error occurred: $e');
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.');
+    }
+  }
+  void _selectReturnDate(BuildContext context) async {
+    if (_toggleButtonGroupState._selectedIndex == 0) {
+      // If selected index is 0 (one-way), set return date to null
+      setState(() {
+        _endDateController.text = '';
+      });
+    } else {
+      // If selected index is 1 (round trip), set return date to today's date
+      // final DateTime now = DateTime.now();
+      // setState(() {
+      //   _endDateController.text = DateFormat('dd MMM yyyy').format(now);
+      // });
+      if (_toggleButtonGroupState._selectedIndex != 0 && _startDateController.text.isNotEmpty) {
+        final DateTime departureDate = DateFormat('dd MMM yyyy').parse(_startDateController.text);
+        final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: departureDate,
+          firstDate: departureDate, // Allow selection from the departure date onwards
+          lastDate: DateTime(2101),
+        );
+
+        if (picked != null) {
+          setState(() {
+            _endDateController.text = DateFormat('dd MMM yyyy').format(picked);
+          });
+        }
+      }
+    }
+
+  }
+
   Form buildTripForm() {
-    return  Form(
+    return Form(
+      key: _formKey,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: Styles.primaryColor), // Border color
+          borderRadius: BorderRadius.circular(40),
+          border: Border.all(color: Colors.black26), // Border color
         ),
         padding: EdgeInsets.all(15),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-
           children: [
-            ToggleButtonGroup(),
+            ToggleButtonGroup(
+              onStateCreated: (state) {
+                _toggleButtonGroupState = state;
+              },
+            ),
             Gap(10),
-            TextFormField(
-              controller: _startStationController,
-              style: TextStyle(fontFamily: 'Poppins'),
-
-              decoration: InputDecoration(
-                labelText: 'From',
+            TypeAheadFormField(
+              textFieldConfiguration: TextFieldConfiguration(
+                controller: _startStationController,
+                decoration: InputDecoration(
+                  labelText: 'From',
+                  prefixIcon: Icon(Icons.directions_train_rounded,
+                      color: Styles.primaryColor),
+                  prefix: Container(
+                    width: 1,
+                    height: 16,
+                    color: Colors.grey, // Dotted line color
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                  ),
+                ),
               ),
+              suggestionsCallback: (pattern) {
+                return _stations.where(
+                      (station) => station.name
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()),
+                );
+              },
+              itemBuilder: (context, Station suggestion) {
+                return ListTile(
+                  title: Text(suggestion.name),
+                );
+              },
+              onSuggestionSelected: (Station suggestion) {
+                _startStationController.text = suggestion.name;
+                setState(() {
+                  _selectedStartStation = suggestion;
+                });
+              },
+              validator: (value) {
+                if (_selectedStartStation == null) {
+                  return 'Please select a start station.';
+                } else {
+                  bool isStationNameInData = _stations.any((station) =>
+                  station.name.toLowerCase() == value?.toLowerCase());
+
+                  if (!isStationNameInData) {
+                    return 'Invalid station';
+                  }
+                }
+                return null; // No validation error
+              },
             ),
-            TextFormField(
-              controller: _endStationController,
-              style: TextStyle(fontFamily: 'Poppins'),
+            if (_selectedStartStation != null)
+              Text('Selected Station ID: ${_selectedStartStation!.stationId}'),
+            TypeAheadFormField(
+              textFieldConfiguration: TextFieldConfiguration(
+                controller: _endStationController,
+                decoration: InputDecoration(
+                  labelText: 'To',
+                  prefixIcon:
+                  Icon(Icons.location_on, color: Styles.primaryColor),
+                  // Icon you want to use
+                  prefix: Container(
+                    width: 1,
+                    height: 16,
+                    color: Colors.grey, // Dotted line color
+                    margin: EdgeInsets.symmetric(horizontal: 8),
+                  ),
+                ),
+              ),
+              suggestionsCallback: (pattern) {
+                return _stations.where(
+                      (station) => station.name
+                      .toLowerCase()
+                      .contains(pattern.toLowerCase()),
+                );
+              },
+              itemBuilder: (context, Station suggestion) {
+                return ListTile(
+                  title: Text(suggestion.name),
+                );
+              },
+              onSuggestionSelected: (Station suggestion) {
+                _endStationController.text = suggestion.name;
+                setState(() {
+                  _selectedEndtStation = suggestion;
+                });
+              },
+              validator: (value) {
+                if (_selectedEndtStation == null) {
+                  return 'Please select a end station.';
+                } else {
+                  bool isStationNameInData = _stations.any((station) =>
+                  station.name.toLowerCase() == value?.toLowerCase());
 
-              decoration: InputDecoration(
-                labelText: 'To'  ),
-
-
+                  if (!isStationNameInData) {
+                    return 'Invalid station';
+                  }
+                }
+                return null; // No validation error
+              },
             ),
+            if (_selectedEndtStation != null)
+              Text('Selected Station ID: ${_selectedEndtStation!.stationId}'),
             Row(
               children: [
                 Flexible(
-                  child:  TextFormField(
+                  child: TextFormField(
                     controller: _startDateController,
                     readOnly: true,
-                    onTap: () async {
-                      final selectedDate = await _selectDate(context);
-                      if (selectedDate != null) {
-                        setState(() {
-                          _startDateController.text =
-                              DateFormat('dd MMM yyyy').format(selectedDate);
-                        });
-                      }
-                    },
+                    onTap: () => _selectDepartureDate(context),
                     decoration: InputDecoration(
                       labelText: 'Depature',
                       suffixIcon: Icon(Icons.calendar_today),
@@ -86,94 +332,204 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(width: 10),
                 Flexible(
-                  child:  TextFormField(
+                  child: TextFormField(
                     controller: _endDateController,
                     readOnly: true,
-                    onTap: () async {
-                      final selectedDate = await _selectDate(context);
-                      if (selectedDate != null) {
-                        setState(() {
-                          _endDateController.text =
-                              DateFormat('dd MMM yyyy').format(selectedDate);
-                        });
-                      }
-                    },
+                    onTap: () => _selectReturnDate(context),
                     decoration: InputDecoration(
                       labelText: 'Return',
                       suffixIcon: Icon(Icons.edit_calendar_rounded),
                     ),
                   ),
-                  ),
+                ),
               ],
             ),
             Row(
               children: [
                 Flexible(
                   child: TextFormField(
-                    decoration: InputDecoration(labelText: 'Number of Passengers'),
+                    controller: _passengerController,
+                    decoration: InputDecoration(
+                      labelText: 'Passengers',
+                      suffixIcon:
+                      Icon(Icons.person), // Add your desired icon here
+                    ),
                     keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Enter passengers.';
+                      }
+
+                      int? passengers = int.tryParse(value);
+                      if (passengers == null || passengers <= 0) {
+                        return 'Please enter a valid number of passengers.';
+                      }
+
+                      return null; // No validation error
+                    },
                   ),
                 ),
                 SizedBox(width: 10),
                 Flexible(
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(labelText: 'Class'),
-                    items: ['First Class', 'Second Class', 'Third Class'].map((String value) {
+                    value: _selectedClass,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedClass = value!; // Update the selected class variable
+                      });
+                    },
+                    items: ['First Class', 'Second Class', 'Third Class']
+                        .map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
+
                         child: Text(value),
                       );
                     }).toList(),
-                    onChanged: (value) {
-                      // Handle selected class
-                    },
                   ),
                 ),
               ],
             ),
             SizedBox(height: 20),
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: [
 
-               Expanded(
-                 child: ElevatedButton(
-                   onPressed: () {
-                     // Handle search train button click
-                   },
-                   style: ElevatedButton.styleFrom(
-                     backgroundColor: Styles.primaryColor, // Background color
-                     onPrimary: Colors.white, // Text color
-                     shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(30), // Button border radius
-                     ),
-                   ),
-                   child: Text('Search Train',style: TextStyle(fontFamily: "Poppins")),
-                 ),
-               ),
-               SizedBox(width: 10), // Add spacing between buttons
-               ElevatedButton(
-                 onPressed: () {
-                   // Handle quick ticket button click
-                 },
-                 style: ElevatedButton.styleFrom(
-                   backgroundColor: Colors.white, // Background color
-                   onPrimary: Colors.white, // Text color
-                   shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30),
-                       side: BorderSide(color:Styles.secondaryColor)
-                     // Button border radius
-                   ),
-                 ),
-                 child: Text('Quick ticket',style: TextStyle(fontFamily: "Poppins",color: Styles.secondaryColor)),
-               ),
-             ],
-           )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Validation successful, handle form submission
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Styles.primaryColor, // Background color
+                      onPrimary: Colors.white, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(30), // Button border radius
+                      ),
+                    ),
+                    child: Text('Search Train',
+                        style: TextStyle(fontFamily: "Poppins")),
+                  ),
+                ),
+                SizedBox(width: 10), // Add spacing between buttons
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Validation successful, handle form submission
+                       selectedIndex = _toggleButtonGroupState._selectedIndex;
+                      _showConfirmationDialog(context);
+
+                    }
+                    print('${_toggleButtonGroupState._selectedIndex} this is toggle');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Background color
+                    onPrimary: Colors.white, // Text color
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        side: BorderSide(color: Styles.secondaryColor)
+                      // Button border radius
+                    ),
+                  ),
+                  child: Text('Quick ticket',
+                      style: TextStyle(
+                          fontFamily: "Poppins", color: Styles.secondaryColor)),
+                ),
+              ],
+            )
           ],
         ),
       ),
     );
   }
+
+  Future<void> _showConfirmationDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // User must tap buttons to close
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
+          ),
+
+          title: Center(child: Text('Confirm ticket',style: TextStyle(color: Styles.primaryColor,fontWeight: FontWeight.bold,fontSize: 22))) ,
+          content: SingleChildScrollView(
+
+            child: ListBody(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.train),
+                  title: Text('From ${_startStationController.text}'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.location_on),
+                  title: Text('To ${_endStationController.text}'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.date_range),
+                  title: Text('Departure: ${_startDateController.text}'),
+                ),
+                 if(selectedIndex==1)
+                ListTile(
+                  leading: Icon(Icons.date_range),
+                  title: Text('Return: ${_endDateController.text}'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text('Passengers  ${_passengerController.text}'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.class_),
+                  title: Text('${_selectedClass}'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(); // Close the dialog
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    onPrimary: Styles.secondaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      side: BorderSide(color: Styles.secondaryColor), // Red border
+                    ),
+                  ),
+                  child: Text('Cancel', style: TextStyle(color: Styles.secondaryColor)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigator.of(dialogContext).pop(); // Close the dialog
+                    _addTicket();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Styles.primaryColor,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: Text('Confirm'),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -188,12 +544,12 @@ class _HomePageState extends State<HomePage> {
                     color: Styles.primaryColor,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(820))),
+                        bottomRight: Radius.circular(180))),
                 width: double.infinity,
                 height: 200,
                 child: Column(
                   children: [
-                    const Gap(85),
+                    const Gap(60),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -226,6 +582,56 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
+                    const Gap(10),
+                    Column(
+                      // mainAxisAlignment: MainAxisAlignment.s,
+                      children: [
+                        Container(
+                          width: 220, // Adjust the width as needed
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          // child: Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       // Add your onPressed function here
+                          //       // Navigating to LoginPage when "Login" button is pressed
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => LoginPage(),
+                          //         ),
+                          //       );
+                          //     },
+                          //     style: ButtonStyle(
+                          //       backgroundColor:
+                          //       MaterialStateProperty.all<Color>(
+                          //           Colors.transparent),
+                          //       // No color background
+                          //       shape: MaterialStateProperty.all<
+                          //           RoundedRectangleBorder>(
+                          //         RoundedRectangleBorder(
+                          //           borderRadius: BorderRadius.circular(20),
+                          //           // Rounded corner border
+                          //           side: const BorderSide(
+                          //               color:
+                          //               Colors.white), // White border color
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     child: const Text(
+                          //       'Login',
+                          //       style: TextStyle(
+                          //         color: Styles.textColor1,
+                          //         fontStyle: FontStyle.normal,
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -255,18 +661,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                   )),
               Gap(20),
-               Container(
+              Container(
                 // color: Colors.blueGrey,
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     buildTripForm(),
+
                     ///add form here
                   ],
                 ),
               ),
-
-
 
               //add form here
             ],
@@ -278,12 +683,23 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ToggleButtonGroup extends StatefulWidget {
+  final void Function(_ToggleButtonGroupState state) onStateCreated;
+
+  ToggleButtonGroup({required this.onStateCreated});
   @override
   _ToggleButtonGroupState createState() => _ToggleButtonGroupState();
 }
 
 class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
   int _selectedIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    widget.onStateCreated(this); // Pass the state instance back to the parent
+  }
+  int getSelectedIndex() {
+    return _selectedIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -367,7 +783,7 @@ class IconTextToggleButton extends StatelessWidget {
 String _formatTimeWithAMPM(TimeOfDay time) {
   final now = DateTime.now();
   final selectedDateTime =
-      DateTime(now.year, now.month, now.day, time.hour, time.minute);
+  DateTime(now.year, now.month, now.day, time.hour, time.minute);
   final format = DateFormat('hh:mm a'); // Use a custom format
   return format.format(selectedDateTime);
 }
