@@ -1,16 +1,34 @@
 /* tc-season-cards.css */
 
+
+.tc-season-container{
+    width: 154%;
+}
 .tc-season-cards {
-    margin: 20px;
+    margin: 20px 10px; /* Adjust left and right margins */
+}
+
+.tc-main-heading {
+    margin-left: 2%; /* Adjust the left margin as needed */
+    display: flex;
+    align-items: center;
 }
 
 .tc-season-cards-heading {
     color: #1f5288;
 }
-
+.tc-tab-application-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0%; /* Adjust margins as needed */
+    
+}
 .tc-tab-container {
     border: 1px solid #1f5288;
     margin-top: 20px;
+    width: 55%; /* Increase the width of the container */
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
 .tc-tab-bar {
@@ -81,7 +99,11 @@
 .tc-card-info {
     margin-bottom: 5px;
 }
-
+.tc-application-form-container {
+    width: 45%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
 .tc-approve-button {
     background-color: #d05757;
     border-color: #d05757;
