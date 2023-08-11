@@ -9,7 +9,7 @@ const ApplicationForm = ({ data }) => {
             <Form>
                 <Form.Group controlId="fullName">
                     <Form.Label>Full Name:</Form.Label>
-                    <Form.Control type="text" value={data.fullName} readOnly />
+                    <Form.Control type="text" value={data.fullName} className="tc-custom-form-control" readOnly />
                 </Form.Group>
                 <Form.Group controlId="nameWithInitials">
                     <Form.Label>Name with Initials:</Form.Label>
@@ -22,6 +22,10 @@ const ApplicationForm = ({ data }) => {
                 <Form.Group controlId="telephone_no">
                     <Form.Label>Telephone Number:</Form.Label>
                     <Form.Control type="tel" value={data.telephone_no} readOnly />
+                </Form.Group>
+                <Form.Group controlId="permanent_address">
+                    <Form.Label>Permanent Address:</Form.Label>
+                    <Form.Control type="text" value={data.permanent_address} readOnly />
                 </Form.Group>
                 <Form.Group controlId="email">
                     <Form.Label>Email:</Form.Label>
@@ -39,7 +43,16 @@ const ApplicationForm = ({ data }) => {
                     <Form.Label>Institution/Work Place Address:</Form.Label>
                     <Form.Control type="text" value={data.work_place_address} readOnly />
                 </Form.Group>
-                
+                <Form.Group controlId="id_photograph">
+                    <Form.Label>Photograph:</Form.Label>
+                    <Form.Control type="file" value={data.id_photograph} readOnly />
+                </Form.Group>
+                <Form.Group controlId="application_photograph">
+                    <Form.Label>Application Form Photograph:</Form.Label>
+                    <Form.Control type="file" value={data.application_photograph} readOnly />
+                </Form.Group>
+              
+
                 <Button variant="danger" className="tc-form-approve-button">
                     Approve
                 </Button>
