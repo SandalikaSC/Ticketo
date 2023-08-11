@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FaTh ,
   FaBars,
   FaBell,
   FaTrain,
@@ -20,25 +21,30 @@ const Sidebar = ({ children }) => {
   const toggle = () => setIsOpen(!isOpen);
   const menuItem = [
     {
+      path: "/ss/SMDashboard",
+      name: "Dashboard",
+      icon: <FaTh  />,
+    },
+    {
       path: "/ss/addcheckerclerk",
       name: "Add Checker/Clerk",
       icon: <FaBell />,
     },
     {
-      path: "/ss/checkerclerkcard",
-      name: "Checker Clerk Cards",
+      path: "/ss/TrainDelays",
+      name: "Train Delays",
       icon: <FaTrain />,
     },
     {
-      path: "/ss/detail",
-      name: "Details",
+      path: "/ss/EmployeeDetails",
+      name: "Employees",
       icon: <FaPersonBooth />,
     },
-    {
-      path: "/ss/display",
-      name: "Display",
-      icon: <FaLocationArrow />,
-    },
+    // {
+    //   path: "/ss/Traindetails",
+    //   name: "Train Info",
+    //   icon: <FaLocationArrow />,
+    // },
   ];
 
   const handleSignOut = async () => {

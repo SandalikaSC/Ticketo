@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:intl/intl.dart';
@@ -21,10 +21,13 @@ class ScanPageState extends State<ScanPage> {
   QRViewController? controller;
   String? resultData;
   String? dateTimeInfo;
+  bool canScan = true; // Add a flag to control scanning frequency
+  bool isDialogVisible = false; // Flag to control dialog visibility
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         children: [
           Expanded(
@@ -68,41 +71,13 @@ class ScanPageState extends State<ScanPage> {
     );
   }
 
-  // void _onQRViewCreated(QRViewController controller) {
-  //   setState(() {
-  //     this.controller = controller;
-  //   });
-  //
-  //   controller.scannedDataStream.listen((scanData) async {
-  //     if (kDebugMode) {
-  //       if (kDebugMode) {
-  //         print('Scanned Data: ${scanData.code}');
-  //       }
-  //     }
-  //     setState(() {
-  //       resultData = scanData.code;
-  //       dateTimeInfo =
-  //       'Scanned at: ${DateFormat.yMMMMEEEEd().add_Hms().format(DateTime.now())}';
-  //     });
-  //
-  //     if (kDebugMode) {
-  //       print("hi");
-  //     }
-  //     // Send resultData to the backend
-  //     ApiService.sendScannedData(resultData!); // Send the data to the backend
-  //   });
-  // }
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
       this.controller = controller;
     });
 
     controller.scannedDataStream.listen((scanData) async {
-      if (kDebugMode) {
-        if (kDebugMode) {
-          print('Scanned Data: ${scanData.code}');
-        }
-      }
+      if (!canScan) return; // Don't scan again if canScan is false
 
       final scannedCode = scanData.code;
       if (scannedCode != null) {
@@ -119,46 +94,57 @@ class ScanPageState extends State<ScanPage> {
 
             final prefs = await SharedPreferences.getInstance();
             final id = prefs.getString('id') ?? '';
-            // Send resultData to the backend
-            ApiService.sendScannedData(id,resultData!); // Send the data to the backend
+            final response = await ApiService.sendScannedData(id, resultData!);
+
+            if (response.containsKey('message')) {
+              _showAlertDialog(context, 'Response', response['message']);
+            } else {
+              _showAlertDialog(context, 'Invalid Response', 'Received an unexpected response.');
+            }
           } else {
-            // Show popup saying this is not a ticket
-            showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text('Invalid Scanned Data'),
-                content: const Text('This is not a valid ticket.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            );
+            _showAlertDialog(context, 'Invalid Scanned Data', 'This is not a valid ticket.');
           }
         } catch (e) {
-          // Show popup saying this is not a ticket
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('Invalid Scanned Data'),
-              content: const Text('This is not a valid ticket.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            ),
-          );
+          _showAlertDialog(context, 'Invalid Scanned Data', 'This is not a valid ticket.');
         }
+
+        setState(() {
+          canScan = false; // Prevent scanning for 5 seconds
+        });
+
+        Timer(const Duration(seconds: 5), () {
+          setState(() {
+            canScan = true; // Allow scanning after 5 seconds
+          });
+        });
       }
     });
+  }
+
+  void _showAlertDialog(BuildContext context, String title, String content) {
+    if (isDialogVisible) return; // Prevent multiple dialogs
+
+    setState(() {
+      isDialogVisible = true; // Show dialog
+    });
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        // Dismiss dialog after 3 seconds
+        Timer(const Duration(seconds: 3), () {
+          Navigator.of(context).pop();
+          setState(() {
+            isDialogVisible = false;
+          });
+        });
+
+        return AlertDialog(
+          title: Text(title),
+          content: Text(content),
+        );
+      },
+    );
   }
 
   @override
