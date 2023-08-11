@@ -17,8 +17,8 @@ class StationService {
     }
   }
   Future<http.Response> addTicket(
-      int startStation,
-      int endStation,
+      String startStation,
+      String endStation,
       int tripType,
       String startDate,
       String returnDate,
@@ -27,13 +27,13 @@ class StationService {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
       final response = await http.post(
-        Uri.parse('${baseUrl}/addticket'),
+        Uri.parse('${baseUrl}/ticket/addticket'),
         // Replace with your Node.js server address
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'startStation': startStation,
           'endStation': endStation,
-          'tripType': endStation,
+          'tripType': tripType,
           'startDate': startDate,
           'returnDate': returnDate,
           'passengers': passengers,

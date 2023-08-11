@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:employee_frontend/screens/password_reset.dart';
 import 'reset_password.dart';
@@ -66,10 +67,10 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
     });
 
     final enteredOtp = _otpControllers.map((controller) => controller.text).join();
-
+    var baseUrl = dotenv.env['BASE_URL'];
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.8.158:5000/api/verify-otp"),
+        Uri.parse('$baseUrl/verify-otp'),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": widget.email,
@@ -110,10 +111,10 @@ class _OtpEntryPageState extends State<OtpEntryPage> {
     setState(() {
       _isRegeneratingOtp = true;
     });
-
+    var baseUrl = dotenv.env['BASE_URL'];
     try {
       final response = await http.post(
-        Uri.parse("http://192.168.8.158:5000/api/generate-otp"), // Replace with your backend URL
+        Uri.parse('$baseUrl/generate-otp'), // Replace with your backend URL
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": widget.email,
