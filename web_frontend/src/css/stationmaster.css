@@ -143,23 +143,6 @@ h1{
   cursor: pointer;
 }
 
-/* Rest of your CSS... */
-
-/*.view_button {
-  background-color: #ECECEC;
-  border: none;
-  border-radius: 8px;
-  color: rgb(11, 10, 10);
-  width: 100px;
-  padding: 10px 20px;
-  align-self:left ;
-  text-align: center;
-  /*text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  width: 40%;
-
-}*/
 
 .view_button {
   background-color: #ECECEC;

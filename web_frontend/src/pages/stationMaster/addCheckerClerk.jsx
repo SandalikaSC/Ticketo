@@ -106,7 +106,7 @@ const AddCheckerClerk = () => {
           <div className="popup-content">
             <p>Delete Subodhini Hegodarachchi from staff?</p><br></br>
             <button className="view_button" onClick={closedeletePopup}>Cancel</button><br></br>
-            <button className="delete_button">Delete</button>
+            <button className="delete_button" onClick={closedeletePopup}>Delete</button>
           </div>
         </div>
       )} 
