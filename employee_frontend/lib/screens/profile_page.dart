@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'login.dart'; // Import the LoginPage
 
 class ProfilePage extends StatelessWidget {
   static const routeName = '/profile';
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
           }
 
           final sharedPreferences = snapshot.data!;
-          final email = sharedPreferences.getString('email') ?? 'N/A'; // Retrieve email from SharedPreferences
+          final email = sharedPreferences.getString('email') ?? 'N/A';
           final firstName = sharedPreferences.getString('firstName') ?? '';
           final lastName = sharedPreferences.getString('lastName') ?? '';
 
@@ -43,7 +44,7 @@ class ProfilePage extends StatelessWidget {
                         children: [
                           const SizedBox(height: 15),
                           Text(
-                            '$firstName $lastName', // Display concatenated first name and last name
+                            '$firstName $lastName',
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -51,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                           const SizedBox(height: 15),
                           Text(
-                            email, // Display the stored email
+                            email,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.grey[600],
@@ -93,6 +94,10 @@ class ProfilePage extends StatelessWidget {
                   icon: Icons.logout,
                   title: 'Logout',
                   textColor: const Color(0xFFFA6F5D),
+                  onTap: () {
+                    // Handle logout action here
+                    _handleLogout(context);
+                  },
                 ),
               ],
             ),
@@ -102,28 +107,44 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
+  void _handleLogout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear(); // Clear the shared preferences
+
+    // Navigate to the login page and remove all routes on top
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login', // Replace with the actual route name for your login page
+          (Route<dynamic> route) => false,
+    );
+  }
+
   Widget _buildOption({
     required IconData icon,
     required String title,
     Color textColor = Colors.black,
+    VoidCallback? onTap,
   }) {
-    return Row(
-      children: [
-        Icon(
-          icon,
-          size: 24,
-        ),
-        const SizedBox(width: 10),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            color: textColor,
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 24,
           ),
-        ),
-        const Spacer(),
-        const Icon(Icons.arrow_forward),
-      ],
+          const SizedBox(width: 10),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              color: textColor,
+            ),
+          ),
+          const Spacer(),
+          const Icon(Icons.arrow_forward),
+        ],
+      ),
     );
   }
 }
