@@ -23,17 +23,22 @@ class GuestHomeScreen extends StatefulWidget {
 
 class _GuestHomeScreenState extends State<GuestHomeScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _startStationController = TextEditingController();
   final TextEditingController _endStationController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _passengerController = TextEditingController();
+  final TextEditingController _passengerController = TextEditingController(text: '1');
   String _selectedClass = 'Third Class';
+
+
+  late _ToggleButtonGroupState _toggleButtonGroupState;
 
   final StationService stationService = StationService();
   Station? _selectedStartStation;
   Station? _selectedEndtStation;
   List<Station> _stations = [];
+
 
   @override
   void initState() {
@@ -102,26 +107,51 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
   }
 
   void _selectDepartureDate(BuildContext context) async {
-    final selectedDate = await _selectDate(context);
-    if (selectedDate != null) {
+    final DateTime now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now, // Allow selection from today onwards
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != DateTime.now()) {
       setState(() {
-        _startDateController.text =
-            DateFormat('dd MMM yyyy').format(selectedDate);
+        _startDateController.text = DateFormat('dd MMM yyyy').format(picked);
         _endDateController.text = ''; // Clear return date if any
       });
     }
   }
 
   void _selectReturnDate(BuildContext context) async {
-    if (_startDateController.text.isNotEmpty) {
-      final selectedDate = await _selectDate(context);
-      if (selectedDate != null) {
-        setState(() {
-          _endDateController.text =
-              DateFormat('dd MMM yyyy').format(selectedDate);
-        });
+    if (_toggleButtonGroupState._selectedIndex == 0) {
+      // If selected index is 0 (one-way), set return date to null
+      setState(() {
+        _endDateController.text = '';
+      });
+    } else {
+      // If selected index is 1 (round trip), set return date to today's date
+      // final DateTime now = DateTime.now();
+      // setState(() {
+      //   _endDateController.text = DateFormat('dd MMM yyyy').format(now);
+      // });
+      if (_toggleButtonGroupState._selectedIndex != 0 && _startDateController.text.isNotEmpty) {
+        final DateTime departureDate = DateFormat('dd MMM yyyy').parse(_startDateController.text);
+        final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: departureDate,
+          firstDate: departureDate, // Allow selection from the departure date onwards
+          lastDate: DateTime(2101),
+        );
+
+        if (picked != null) {
+          setState(() {
+            _endDateController.text = DateFormat('dd MMM yyyy').format(picked);
+          });
+        }
       }
     }
+
   }
 
   Form buildTripForm() {
@@ -136,7 +166,11 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ToggleButtonGroup(),
+            ToggleButtonGroup(
+              onStateCreated: (state) {
+                _toggleButtonGroupState = state;
+              },
+            ),
             Gap(10),
             TypeAheadFormField(
               textFieldConfiguration: TextFieldConfiguration(
@@ -266,52 +300,53 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
             ),
             Row(
               children: [
-                Flexible(
-                  child: TextFormField(
-                    controller: _passengerController,
-                    decoration: InputDecoration(
-                      labelText: 'Passengers',
-                      suffixIcon:
-                          Icon(Icons.person), // Add your desired icon here
-                    ),
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Passengers field cannot be empty.';
-                      }
-
-                      int? passengers = int.tryParse(value);
-                      if (passengers == null || passengers <= 0) {
-                        return 'Please enter a valid number of passengers.';
-                      }
-
-                      return null; // No validation error
-                    },
-                  ),
-                ),
+                //Flexible(
+                  // child: TextFormField(
+                  //   controller: _passengerController,
+                  //   decoration: InputDecoration(
+                  //     labelText: 'Passengers',
+                  //     suffixIcon:
+                  //         Icon(Icons.person), // Add your desired icon here
+                  //   ),
+                  //   keyboardType: TextInputType.number,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Enter passengers.';
+                  //     }
+                  //
+                  //     int? passengers = int.tryParse(value);
+                  //     if (passengers == null || passengers <= 0) {
+                  //       return 'Please enter a valid number of passengers.';
+                  //     }
+                  //
+                  //     return null; // No validation error
+                  //   },
+                  // ),
+               // ),
                 SizedBox(width: 10),
-                Flexible(
-                  child: DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Class'),
-                    value: _selectedClass,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedClass = value!; // Update the selected class variable
-                      });
-                    },
-                    items: ['First Class', 'Second Class', 'Third Class']
-                        .map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                // Flexible(
+                //   // child: DropdownButtonFormField<String>(
+                //   //   decoration: InputDecoration(labelText: 'Class'),
+                //   //   value: _selectedClass,
+                //   //   onChanged: (value) {
+                //   //     setState(() {
+                //   //       _selectedClass = value!; // Update the selected class variable
+                //   //     });
+                //   //   },
+                //   //   items: ['First Class', 'Second Class', 'Third Class']
+                //   //       .map((String value) {
+                //   //     return DropdownMenuItem<String>(
+                //   //       value: value,
+                //   //
+                //   //       child: Text(value),
+                //   //     );
+                //   //   }).toList(),
+                //   // ),
+                // ),
               ],
             ),
             SizedBox(height: 20),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -335,25 +370,27 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                   ),
                 ),
                 SizedBox(width: 10), // Add spacing between buttons
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Validation successful, handle form submission
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                    onPrimary: Colors.white, // Text color
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        side: BorderSide(color: Styles.secondaryColor)
-                        // Button border radius
-                        ),
-                  ),
-                  child: Text('Quick ticket',
-                      style: TextStyle(
-                          fontFamily: "Poppins", color: Styles.secondaryColor)),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     if (_formKey.currentState!.validate()) {
+                //       // Validation successful, handle form submission
+                //       int selectedIndex = _toggleButtonGroupState._selectedIndex;
+                //     }
+                //     print('${_toggleButtonGroupState._selectedIndex} this is toggle');
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //     backgroundColor: Colors.white, // Background color
+                //     onPrimary: Colors.white, // Text color
+                //     shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(30),
+                //         side: BorderSide(color: Styles.secondaryColor)
+                //         // Button border radius
+                //         ),
+                //   ),
+                //   child: Text('Quick ticket',
+                //       style: TextStyle(
+                //           fontFamily: "Poppins", color: Styles.secondaryColor)),
+                // ),
               ],
             )
           ],
@@ -515,13 +552,20 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
 }
 
 class ToggleButtonGroup extends StatefulWidget {
+  final void Function(_ToggleButtonGroupState state) onStateCreated;
+
+  ToggleButtonGroup({required this.onStateCreated});
   @override
   _ToggleButtonGroupState createState() => _ToggleButtonGroupState();
 }
 
 class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
   int _selectedIndex = 0;
-
+  @override
+  void initState() {
+    super.initState();
+    widget.onStateCreated(this); // Pass the state instance back to the parent
+  }
   int getSelectedIndex() {
     return _selectedIndex;
   }
