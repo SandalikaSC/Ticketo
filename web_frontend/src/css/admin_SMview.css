@@ -161,14 +161,14 @@
 
 .left-column {
   flex: 3; /* Adjust the ratio to control width */
-  padding: 20px;
-  border-right: 1px solid #ccc; /* Add a divider between columns */
+  padding: 2px;
+  border-right: 1px solid white; /* Add a divider between columns */
 }
 
 .right-column {
   flex: 1; /* Adjust the ratio to control width */
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 2px;
+  background-color: white;
 }
 
 .add-button {
