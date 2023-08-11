@@ -8,13 +8,13 @@ CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
 
 -- CreateEnum
-CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION');
+CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON', 'PHYSICAL');
 
 -- CreateEnum
 CREATE TYPE "gender" AS ENUM ('MALE', 'FEMALE');
 
 -- CreateEnum
-CREATE TYPE "classCode" AS ENUM ('OFV', 'SLEEP', 'FCR', 'SCR', 'TCR');
+CREATE TYPE "classCode" AS ENUM ('OFV', 'SLEEP', 'FCR', 'SCR', 'TCR', 'FC', 'SC', 'TC');
 
 -- CreateEnum
 CREATE TYPE "WorkingDays" AS ENUM ('WEEKDAYS', 'WEEKENDS', 'SUNDAY', 'HOLIDAY');
@@ -22,21 +22,33 @@ CREATE TYPE "WorkingDays" AS ENUM ('WEEKDAYS', 'WEEKENDS', 'SUNDAY', 'HOLIDAY');
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "nic" TEXT,
     "email" TEXT NOT NULL,
+    "dob" TIMESTAMP(3) NOT NULL,
     "password" TEXT NOT NULL,
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
-    "dob" TIMESTAMP(3) NOT NULL,
-    "nic" TEXT,
-    "userType" "userType"[],
-    "token" TEXT NOT NULL DEFAULT '',
     "loginStatus" BOOLEAN NOT NULL DEFAULT false,
     "accountStatus" BOOLEAN NOT NULL DEFAULT false,
+    "registeredDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "mobileNumber" TEXT NOT NULL,
+    "token" TEXT NOT NULL DEFAULT '',
     "otp" TEXT DEFAULT '',
+    "accessToken" TEXT DEFAULT '',
     "otpGenerateTime" TIMESTAMP(3),
+    "userType" "userType"[],
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "verificationOtp" (
+    "id" TEXT NOT NULL,
+    "nic" TEXT NOT NULL,
+    "otp" TEXT NOT NULL,
+    "time" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "verificationOtp_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -79,6 +91,7 @@ CREATE TABLE "SeasonCard" (
     "certifiedBy" TEXT,
     "price" DOUBLE PRECISION NOT NULL,
     "userId" TEXT NOT NULL,
+    "seasonToken" TEXT DEFAULT '',
 
     CONSTRAINT "SeasonCard_pkey" PRIMARY KEY ("seasonId")
 );
@@ -110,8 +123,9 @@ CREATE TABLE "Fine" (
 CREATE TABLE "Station" (
     "stationId" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "geoLocation" TEXT NOT NULL,
-    "contactNumber" TEXT NOT NULL,
+    "latitude" DOUBLE PRECISION,
+    "longitude" DOUBLE PRECISION,
+    "contactNumber" TEXT DEFAULT '',
 
     CONSTRAINT "Station_pkey" PRIMARY KEY ("stationId")
 );
@@ -119,6 +133,7 @@ CREATE TABLE "Station" (
 -- CreateTable
 CREATE TABLE "Ticket" (
     "ticketId" TEXT NOT NULL,
+    "ticketNumber" SERIAL NOT NULL,
     "noOfPassengers" INTEGER NOT NULL,
     "ticketStatus" BOOLEAN NOT NULL DEFAULT false,
     "purchasedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -131,6 +146,7 @@ CREATE TABLE "Ticket" (
     "endStation" INTEGER NOT NULL,
     "classId" INTEGER NOT NULL,
     "scannedBy" TEXT,
+    "ticketToken" TEXT NOT NULL DEFAULT '',
 
     CONSTRAINT "Ticket_pkey" PRIMARY KEY ("ticketId")
 );
@@ -247,7 +263,8 @@ CREATE TABLE "Journey" (
     "firstClass" DECIMAL(65,30) NOT NULL,
     "secondClass" DECIMAL(65,30) NOT NULL,
     "thirdClass" DECIMAL(65,30) NOT NULL,
-    "seasonClass" DECIMAL(65,30) NOT NULL,
+    "seasonSecond" DECIMAL(65,30) NOT NULL,
+    "seasonThird" DECIMAL(65,30) NOT NULL,
 
     CONSTRAINT "Journey_pkey" PRIMARY KEY ("journeyId")
 );
@@ -277,10 +294,10 @@ CREATE TABLE "_RouteLineToSchedule" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_nic_key" ON "User"("nic");
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Wallet_userId_key" ON "Wallet"("userId");
