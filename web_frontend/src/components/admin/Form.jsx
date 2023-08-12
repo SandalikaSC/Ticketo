@@ -99,8 +99,11 @@ const Form = () => {
     }
   };
 
-  return (
+   return (
+    
     <form className="admin-form" onSubmit={handleSubmit}>
+      <div className="form-container">
+      <h3 className="form-title">Add New Station Master</h3>
       <div className="admin-form-group">
         <label htmlFor="name">Name:</label>
         <input
@@ -175,6 +178,7 @@ const Form = () => {
       <div className="admin-buttons-container">
         <button className="admin-form-button" type="submit">Submit</button>
         <button className="admin-cancel-button" type="reset">Cancel</button>
+      </div>
       </div>
     </form>
   );

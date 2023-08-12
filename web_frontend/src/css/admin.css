@@ -99,22 +99,26 @@ body {
   
  
 /* Station master add form css */
-/* Styles for the form container */
 .admin-form {
-  width: 500px; /* Increased width */
-  margin: 40px auto; /* Reduced margin-top */
+  width: 500px;
+  margin-top: 20%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 600px; /* Increased height */
+  height: 590px;
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.form-title{
+  color: #3D51A9;
 }
 
 .admin-form-group {
   margin-bottom: 15px;
-  position: relative; /* For error message positioning */
+  position: relative;
 }
 
 .admin-form label {
@@ -125,37 +129,38 @@ body {
   margin-left: 10%;
 }
 
-.admin-form input {
-  width: 100%;
-  max-width: 380px;
+.admin-form input,
+.admin-form select {
+  width: 400px;
   padding: 10px;
   border: 1px solid #aaa;
   border-radius: 4px;
   transition: border-color 0.3s ease-in-out;
   margin: 0 auto;
   color: #333;
+  box-sizing: border-box; /* Include padding and border in the width */
 }
 
-.admin-form input:focus {
+.admin-form input:focus,
+.admin-form select:focus {
   border-color: #007bff;
 }
 
-/* Error message styling */
 .error-message {
-  color: #ff0000; /* Red color for error messages */
+  color: #ff0000;
   font-size: 14px;
   position: absolute;
-  bottom: -20px; /* Position below input field */
-  left: 10%; /* Align with input field */
-  width: 80%; /* Match input width */
-  text-align: left;
+  bottom: -20px;
+  left: 10%;
+  width: 80%;
+  text-align: right;
 }
 
 .admin-buttons-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
-  margin-right: 20%; /* Adjusted margin-right */
+  margin-top: 25px;
+  margin-right: 20%;
 }
 
 .admin-form-button,
@@ -175,3 +180,5 @@ body {
 .admin-cancel-button:hover {
   background-color: #00153c;
 }
+
+
