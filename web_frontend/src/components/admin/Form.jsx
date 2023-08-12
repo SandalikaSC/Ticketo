@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+// import { Modal, Button } from "@material-ui/core";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 
 const Form = () => {
   const [stations, setStations] = useState([]);
   const [selectedStation, setSelectedStation] = useState("");
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     station: "",
     mobileNumber: "",
     email: "",
@@ -13,6 +17,10 @@ const Form = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalStatus, setModalStatus] = useState("");
 
   useEffect(() => {
     fetchStations();
@@ -21,7 +29,6 @@ const Form = () => {
   const fetchStations = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/allStations");
-      console.log("Fetched stations:", response.data.stations);
       setStations(response.data.stations);
     } catch (error) {
       console.error("Error fetching stations:", error);
@@ -96,53 +103,6 @@ const Form = () => {
     return Object.keys(newErrors).length === 0; // Return true if there are no errors
   };
 
-  // const validateForm = () => {
-  //   let valid = true;
-  //   const newErrors = { ...errors };
-
-  //   if (!formData.firstName) {
-  //     newErrors.firstName = "First Name is required";
-  //     valid = false;
-  //   }
-
-  //   if (!formData.lastName) {
-  //     newErrors.lastName = "Last Name is required";
-  //     valid = false;
-  //   }
-
-  //   if (!formData.station) {
-  //     newErrors.station = "Station is required";
-  //     valid = false;
-  //   }
-
-  //   if (!formData.mobileNumber) {
-  //     newErrors.mobileNumber = "Phone Number is required";
-  //     valid = false;
-  //   } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
-  //     newErrors.mobileNumber = "Phone Number must be a 10-digit number";
-  //     valid = false;
-  //   }
-
-  //   if (!formData.email) {
-  //     newErrors.email = "Email is required";
-  //     valid = false;
-  //   } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-  //     newErrors.email = "Email is invalid";
-  //     valid = false;
-  //   }
-
-  //   if (!formData.nic) {
-  //     newErrors.nic = "NIC Number is required";
-  //     valid = false;
-  //   } else if (!/^\d{9}[vV\d]{1}$|^\d{12}$/.test(formData.nic)) {
-  //     newErrors.nic = "NIC Number is invalid";
-  //     valid = false;
-  //   }
-
-  //   setErrors(newErrors);
-  //   return valid;
-  // };
-
   const handleCancel = () => {
     setFormData({
       lastName: "",
@@ -156,25 +116,46 @@ const Form = () => {
     setErrors({});
   };
 
+  const handleModalClose = () => {
+    setOpenModal(false);
+    setMessage("");
+    setModalMessage("");
+    setModalStatus("");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (validateForm()) {
       try {
+
+        const accessToken = localStorage.getItem("accessToken");
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+
         const response = await axios.post(
           "http://localhost:5000/api/add-user",
-          formData
+          formData,
+          { headers }
         );
-        console.log("Form data submitted:", response.data);
-        // Clear form data after submission if needed
-        setFormData({
-          lastName: "",
-          firstName: "",
-          station: "",
-          mobileNumber: "",
-          email: "",
-          nic: "",
-          password: "",
-        });
+
+        setModalStatus(response.status);
+        setModalMessage(response.data.message);
+        setOpenModal(true);
+
+        if (response.status === 201) {
+          // Clear form data after successful submission
+          setFormData({
+            lastName: "",
+            firstName: "",
+            station: "",
+            mobileNumber: "",
+            email: "",
+            nic: "",
+            password: "",
+          });
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -182,103 +163,112 @@ const Form = () => {
   };
 
   return (
-    <form className="admin-form" onSubmit={handleSubmit}>
-      <h2 className="form-title">Add new station masters</h2>
-      <div className="admin-form-group">
-        <label htmlFor="name">First Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-        <div className="error-message">{errors.firstName}</div>
-      </div>
-      <div className="admin-form-group">
-        <label htmlFor="lastName">Last Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-        />
-        <div className="error-message">{errors.lastName}</div>
-      </div>
-      <div className="admin-form-group">
-        <label htmlFor="station">Station:</label>
-        <select
-          id="station"
-          name="station"
-          value={formData.station}
-          onChange={handleStationChange}
-        >
-          <option value="">Select a station</option>
-          {stations.map((station) => (
-            <option key={station.id} value={station.id}>
-              {station.name}
-            </option>
-          ))}
-        </select>
-        <div className="error-message">{errors.station}</div>
-      </div>
-      <div className="admin-form-group">
-        <label htmlFor="mobileNumber">Phone Number:</label>
-        <input
-          type="tel"
-          id="mobileNumber"
-          name="mobileNumber"
-          value={formData.mobileNumber}
-          onChange={handleChange}
-        />
-        <div className="error-message">{errors.mobileNumber}</div>
-      </div>
-      <div className="admin-form-group">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <div className="error-message">{errors.email}</div>
-      </div>
-      <div className="admin-form-group">
-        <label htmlFor="nic">NIC Number:</label>
-        <input
-          type="text"
-          id="nic"
-          name="nic"
-          value={formData.nic}
-          onChange={handleChange}
-        />
-        <div className="error-message">{errors.nic}</div>
-      </div>
-      {/* <div className="admin-form-group">
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </div> */}
-      <div className="admin-buttons-container">
-        <button className="admin-form-button" type="submit">
-          Submit
-        </button>
-        <button
-          className="admin-cancel-button"
-          type="reset"
-          onClick={handleCancel}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+
+    <div>
+      <form className="admin-form" onSubmit={handleSubmit}>
+        <div className="admin-form-group">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          <div className="error-message">{errors.firstName}</div>
+        </div>
+        <div className="admin-form-group">
+          <label htmlFor="lastName">Last Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+          <div className="error-message">{errors.lastName}</div>
+        </div>
+        <div className="admin-form-group">
+          <label htmlFor="station">Station:</label>
+          <select
+            id="station"
+            name="station"
+            value={formData.station}
+            onChange={handleStationChange}
+          >
+            <option value="">Select a station</option>
+            {stations.map((station) => (
+              <option key={station.id} value={station.id}>
+                {station.name}
+              </option>
+            ))}
+          </select>
+          <div className="error-message">{errors.station}</div>
+        </div>
+        <div className="admin-form-group">
+          <label htmlFor="mobileNumber">Phone Number:</label>
+          <input
+            type="tel"
+            id="mobileNumber"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+          />
+          <div className="error-message">{errors.mobileNumber}</div>
+        </div>
+        <div className="admin-form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <div className="error-message">{errors.email}</div>
+        </div>
+        <div className="admin-form-group">
+          <label htmlFor="nic">NIC Number:</label>
+          <input
+            type="text"
+            id="nic"
+            name="nic"
+            value={formData.nic}
+            onChange={handleChange}
+          />
+          <div className="error-message">{errors.nic}</div>
+        </div>
+        {/* Password field */}
+        {/* ... */}
+        <div className="admin-buttons-container">
+          <button className="admin-form-button" type="submit">
+            Submit
+          </button>
+          <button
+            className="admin-cancel-button"
+            type="reset"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+      <Modal open={openModal} onClose={handleModalClose}>
+        <div className="modal-container">
+          <div
+            className={`modal-content ${
+              modalStatus === 201 ? "success" : "error"
+            }`}
+          >
+            <h2>{modalStatus === 201 ? "Success" : "Error"}</h2>
+            <p>{modalMessage}</p>
+            <Button onClick={handleModalClose} color="primary">
+              Close
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

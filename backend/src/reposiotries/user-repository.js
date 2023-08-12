@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient, userType } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const getUserByEmail = async (email) =>
@@ -93,6 +93,60 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
     }
   })
 }
+
+const updateEmployee = async (employeeId, addedByUserId, stationId) =>
+{
+  try
+  {
+    const currentDate = new Date(); // Get the current date and time
+
+    const insertedEmployee = await prisma.employee.create({
+      data: {
+        employeeId,
+        addedByUserId, // Use the correct field name here
+        stationId,    // Use the correct field name here
+        addedDate: currentDate, // Set the addedByDate to the current date
+        // ... other fields ...
+      },
+    });
+
+    return insertedEmployee;
+  } catch (error)
+  {
+    throw new Error(`Error inserting employee: ${error.message}`);
+  }
+};
+
+const insertEmployee = async (nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber, userType) =>
+{
+  if (userType == "STATION_MASTER")
+  {
+    return await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: ['STATION_MASTER'],
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: phoneNumber,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
+  }
+
+}
+
+
+
 const insertTemperyOtp = async (nic, otp) =>
 {
   return await prisma.verificationOtp.create({
@@ -144,7 +198,9 @@ module.exports = {
   updateOTP,
   getUserByNicEmail,
   updatePassword,
-  insertTemperyOtp
+  insertTemperyOtp,
+  insertEmployee,
+  updateEmployee
 };
 
 
