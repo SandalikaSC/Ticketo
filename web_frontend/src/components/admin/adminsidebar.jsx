@@ -47,11 +47,11 @@ const Sidebar = ({ children }) => {
       name: "Complaints",
       icon: <FaStickyNote />,
     },
-    {
-      path: "/controlCenter/Delays",
-      name: "Train Delays",
-      icon: <FaTrain />,
-    },
+    // {
+    //   path: "/admin/viewTraindelays",
+    //   name: "Train Delays",
+    //   icon: <FaTrain />,
+    // },
   ];
 
   const handleSignOut = async () => {

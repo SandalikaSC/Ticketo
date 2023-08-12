@@ -1,7 +1,8 @@
 import React from 'react';
 import Filter from '../../components/admin/Filter';
 import StationMasterCard from '../../components/admin/StationMasterCard';
-import StationMaster from '../admin/StationMaster';
+// import StationMaster from '../admin/StationMaster';
+import Form from '../../components/admin/Form';
 import '../../css/admin_SMview.css';
 
 const StationMastersPage = () => {
@@ -16,7 +17,7 @@ const StationMastersPage = () => {
       </div>
       <div className="right-column">
         {/* Embed the StationMaster component */}
-        <StationMaster />
+        <Form />
       </div>
     </div>
   );

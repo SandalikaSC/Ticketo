@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-// import { Container, Typography, Button, TextField, Grid, Paper } from '@material-ui/core';
-import { Container, Typography, Button, TextField, Grid, Paper, IconButton,
-  InputAdornment} from "@mui/material";
+import {
+  Container,
+  Typography,
+  Button,
+  TextField,
+  Grid,
+  Paper,
+  IconButton,
+  InputAdornment
+} from "@mui/material";
 import { Visibility, VisibilityOff, Add } from '@mui/icons-material';
+import Imageurl from '../../assets/user2.png';
 
 const GuardForm = ({ onClose }) => {
 
@@ -54,6 +62,8 @@ const GuardForm = ({ onClose }) => {
           <TextField label="Last Name" margin="normal" style={{width: '80%'}}/>
           <TextField label="Email" margin="normal" style={{width: '80%'}}/>
           <TextField label="NIC" margin="normal" style={{width: '80%'}}/>
+          <TextField label="Mobile Number" margin="normal" style={{width: '80%'}}/>
+
           {/* ... Add the schedule as needed */}
 
           <div style={{ marginTop: '20px' }}>
@@ -101,6 +111,8 @@ const EditScheduleForm = ({ onClose }) => {
           <TextField label="Last Name" margin="normal" style={{width: '80%'}}/>
           <TextField label="Email" margin="normal" style={{width: '80%'}}/>
           <TextField label="NIC" margin="normal" style={{width: '80%'}}/>
+          <TextField label="Mobile Number" margin="normal" style={{width: '80%'}}/>
+
           {/* ... Add the schedule as needed */}
  
           <div style={{ marginTop: '20px' }}>
@@ -191,13 +203,11 @@ const AssignGuards = () => {
         <div style={{ borderBottom: '1px solid #ccc', margin: '10px 0' }}></div>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: '10px' }}>
           {guards.map((guard, index) => (
-
             <Paper elevation={3} style={{ display: 'flex', flexBasis: '47%', alignItems: 'center', marginBottom: '10px', padding: '10px', borderRadius: '10px' }} key={index}>
-              
-              <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div style={{display: 'flex'}}>
-
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex' }}>
                   <div style={{ width: '100px', height: '100px', borderRadius: '50%', marginRight: '10px', backgroundColor: '#ccc', flex: 1 }}>
+                    <img src="../../assets/user2.png" alt="Guard" style={{ width: '100%', height: '100%', borderRadius: '50%' }} />
                   </div>
 
                   <div style={{ flex: 3 }}>
