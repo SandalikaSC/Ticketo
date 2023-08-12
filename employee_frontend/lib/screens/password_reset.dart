@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'login.dart';
@@ -67,8 +68,9 @@ class PasswordResetPageState extends State<PasswordResetPage> {
   }
 
   Future<bool> sendPasswordToBackend(BuildContext context, String newPassword, String confirmPassword) async {
+    var baseUrl = dotenv.env['BASE_URL'];
     final response = await http.post(
-      Uri.parse('http://192.168.8.158:5000/api/reset-password'),
+      Uri.parse('$baseUrl/reset-password'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'email': widget.email,

@@ -10,19 +10,21 @@ import Sidebar from "../../components/stationMaster/SSSidebar";
 import TrainDelays from "./TrainDelays";
 import SMDashboard from "./SMDashboard";
 import EmployeeDetails from "./EmployeeDetails";
+import Seasons from "./Season_ID_Issueing";
 const stationMaster_home = () => {
   return (
     <div>
       <Sidebar>
         <Routes>
-        <Route path="/" element={<SMDashboard />} />
+          <Route path="/" element={<SMDashboard />} />
 
           <Route path="/addcheckerclerk" element={<AddCheckerClerk />} />
           <Route path="/SMDashboard" element={<SMDashboard />} />
-          <Route path="/TrainDelays" element={<TrainDelays/>} />
-         <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
+          <Route path="/TrainDelays" element={<TrainDelays />} />
+          <Route path="/checkerclerkcard" element={<CheckerClerkCard />} />
           <Route path="/EmployeeDetails" element={<EmployeeDetails />} />
           <Route path="/display" element={<DisplayCheckersClerks />} />
+          <Route path="/seasons" element={<Seasons />} />
         </Routes>
       </Sidebar>
     </div>

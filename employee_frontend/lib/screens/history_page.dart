@@ -90,7 +90,7 @@ class HistoryPage extends StatelessWidget {
                             '${userData['startStation']} - ${userData['endStation']}',
                             style: const TextStyle(
                               color: Color(0xFFFA6F5D),
-                              fontSize: 18,
+                              fontSize: 15,
                             ),
                           ),
                         ],

@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
       //     '${_startDateController.text } ${ _passengerController.text} ${_selectedClass}');
       // print('${_startStationController.text.runtimeType} ${_endStationController.text.runtimeType} ${selectedIndex.runtimeType} '
       //     '${_startDateController.text.runtimeType } ${ _passengerController.text.runtimeType} ${_selectedClass.runtimeType}');
-      final response = await stationService.addTicket(_selectedStartStation.stationId, _endStationController.text, selectedIndex, _startDateController.text , _endDateController.text, _passengerController.text, _selectedClass); // Perform search action here
+      final response = await stationService.addTicket(_selectedStartStation!.stationId.toString(), _selectedEndtStation!.stationId.toString(), selectedIndex, _startDateController.text , _endDateController.text, _passengerController.text, _selectedClass); // Perform search action here
 
       //
       // final responseData = json.decode(response.body);
