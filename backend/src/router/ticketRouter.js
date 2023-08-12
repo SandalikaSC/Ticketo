@@ -7,7 +7,7 @@ const {
 
 const { verifyToken } = require("../middleware/authenticate");
 
-// ticketRouter.use(verifyToken);
+ticketRouter.use(verifyToken);
 
 ticketRouter.post('/addticket', addTicket);
 
