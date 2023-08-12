@@ -31,8 +31,8 @@ class StationService {
         // Replace with your Node.js server address
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'startStation': startStation,
-          'endStation': endStation,
+          'startStation':  int.parse(startStation),
+          'endStation': int.parse(endStation),
           'tripType': tripType,
           'startDate': startDate,
           'returnDate': returnDate,
