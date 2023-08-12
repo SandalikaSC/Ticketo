@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const Form = () => {
   const [stations, setStations] = useState([]);
-  const [selectedStation, setSelectedStation] = useState('');
+  const [selectedStation, setSelectedStation] = useState("");
   const [formData, setFormData] = useState({
-    name: '',
-    station: '',
-    mobileNumber: '',
-    email: '',
-    nic: '',
-    password: '',
+    name: "",
+    station: "",
+    mobileNumber: "",
+    email: "",
+    nic: "",
+    password: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -20,19 +20,33 @@ const Form = () => {
 
   const fetchStations = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/allStations');
-      console.log('Fetched stations:', response.data.stations);
+      const response = await axios.get("http://localhost:5000/api/allStations");
+      console.log("Fetched stations:", response.data.stations);
       setStations(response.data.stations);
     } catch (error) {
-      console.error('Error fetching stations:', error);
+      console.error("Error fetching stations:", error);
     }
   };
+
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
+    });
+
+    // Clear the error for the field being edited
+    setErrors({
+      ...errors,
+      [name]: undefined,
     });
   };
 
@@ -46,74 +60,151 @@ const Form = () => {
   };
 
   const validateForm = () => {
-    let valid = true;
-    const newErrors = { ...errors };
+    const newErrors = {};
 
-    if (!formData.name) {
-      newErrors.name = 'Name is required';
-      valid = false;
+    if (!formData.firstName) {
+      newErrors.firstName = "First Name is required";
+    }
+
+    if (!formData.lastName) {
+      newErrors.lastName = "Last Name is required";
     }
 
     if (!formData.station) {
-      newErrors.station = 'Station is required';
-      valid = false;
+      newErrors.station = "Station is required";
     }
 
     if (!formData.mobileNumber) {
-      newErrors.mobileNumber = 'Phone Number is required';
-      valid = false;
+      newErrors.mobileNumber = "Phone Number is required";
     } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
-      newErrors.mobileNumber = 'Phone Number is invalid';
-      valid = false;
+      newErrors.mobileNumber = "Phone Number must be a 10-digit number";
     }
 
     if (!formData.email) {
-      newErrors.email = 'Email is required';
-      valid = false;
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
-      valid = false;
+      newErrors.email = "Email is invalid";
     }
 
     if (!formData.nic) {
-      newErrors.nic = 'NIC Number is required';
-      valid = false;
+      newErrors.nic = "NIC Number is required";
     } else if (!/^\d{9}[vV\d]{1}$|^\d{12}$/.test(formData.nic)) {
-      newErrors.nic = 'NIC Number is invalid';
-      valid = false;
+      newErrors.nic = "NIC Number is invalid";
     }
 
     setErrors(newErrors);
-    return valid;
+    return Object.keys(newErrors).length === 0; // Return true if there are no errors
+  };
+
+  // const validateForm = () => {
+  //   let valid = true;
+  //   const newErrors = { ...errors };
+
+  //   if (!formData.firstName) {
+  //     newErrors.firstName = "First Name is required";
+  //     valid = false;
+  //   }
+
+  //   if (!formData.lastName) {
+  //     newErrors.lastName = "Last Name is required";
+  //     valid = false;
+  //   }
+
+  //   if (!formData.station) {
+  //     newErrors.station = "Station is required";
+  //     valid = false;
+  //   }
+
+  //   if (!formData.mobileNumber) {
+  //     newErrors.mobileNumber = "Phone Number is required";
+  //     valid = false;
+  //   } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+  //     newErrors.mobileNumber = "Phone Number must be a 10-digit number";
+  //     valid = false;
+  //   }
+
+  //   if (!formData.email) {
+  //     newErrors.email = "Email is required";
+  //     valid = false;
+  //   } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+  //     newErrors.email = "Email is invalid";
+  //     valid = false;
+  //   }
+
+  //   if (!formData.nic) {
+  //     newErrors.nic = "NIC Number is required";
+  //     valid = false;
+  //   } else if (!/^\d{9}[vV\d]{1}$|^\d{12}$/.test(formData.nic)) {
+  //     newErrors.nic = "NIC Number is invalid";
+  //     valid = false;
+  //   }
+
+  //   setErrors(newErrors);
+  //   return valid;
+  // };
+
+  const handleCancel = () => {
+    setFormData({
+      lastName: "",
+      firstName: "",
+      station: "",
+      mobileNumber: "",
+      email: "",
+      nic: "",
+      password: "",
+    });
+    setErrors({});
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
       try {
-        const response = await axios.post('http://localhost:5000/api/add-station-master', formData);
-        console.log('Form data submitted:', response.data);
+        const response = await axios.post(
+          "http://localhost:5000/api/add-user",
+          formData
+        );
+        console.log("Form data submitted:", response.data);
+        // Clear form data after submission if needed
+        setFormData({
+          lastName: "",
+          firstName: "",
+          station: "",
+          mobileNumber: "",
+          email: "",
+          nic: "",
+          password: "",
+        });
       } catch (error) {
-        console.error('Error submitting form:', error);
+        console.error("Error submitting form:", error);
       }
     }
   };
 
-   return (
-    
+  return (
     <form className="admin-form" onSubmit={handleSubmit}>
-      <div className="form-container">
-      <h3 className="form-title">Add New Station Master</h3>
+      <h2 className="form-title">Add new station masters</h2>
       <div className="admin-form-group">
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="name">First Name:</label>
         <input
           type="text"
           id="name"
-          name="name"
-          value={formData.name}
+          name="firstName"
+          value={formData.firstName}
           onChange={handleChange}
         />
-        <div className="error-message">{errors.name}</div>
+        <div className="error-message">{errors.firstName}</div>
+      </div>
+      <div className="admin-form-group">
+        <label htmlFor="lastName">Last Name:</label>
+        <input
+          type="text"
+          id="name"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+        />
+        <div className="error-message">{errors.lastName}</div>
       </div>
       <div className="admin-form-group">
         <label htmlFor="station">Station:</label>
@@ -176,9 +267,16 @@ const Form = () => {
         />
       </div> */}
       <div className="admin-buttons-container">
-        <button className="admin-form-button" type="submit">Submit</button>
-        <button className="admin-cancel-button" type="reset">Cancel</button>
-      </div>
+        <button className="admin-form-button" type="submit">
+          Submit
+        </button>
+        <button
+          className="admin-cancel-button"
+          type="reset"
+          onClick={handleCancel}
+        >
+          Cancel
+        </button>
       </div>
     </form>
   );

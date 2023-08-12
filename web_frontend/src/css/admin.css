@@ -101,14 +101,14 @@ body {
 /* Station master add form css */
 .admin-form {
   width: 500px;
-  margin-top: 20%;
+  margin-top: 15%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  height: 590px;
+  height: 680px;
   box-sizing: border-box; /* Include padding and border in the width */
 }
 
@@ -159,7 +159,7 @@ body {
 .admin-buttons-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 25px;
+  margin-top: 18px;
   margin-right: 20%;
 }
 

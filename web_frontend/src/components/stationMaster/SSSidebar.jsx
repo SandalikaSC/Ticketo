@@ -27,7 +27,7 @@ const Sidebar = ({ children }) => {
     },
     {
       path: "/ss/addcheckerclerk",
-      name: "Add Checker/Clerk",
+      name: "Employee Details",
       icon: <FaBell />,
     },
     {
