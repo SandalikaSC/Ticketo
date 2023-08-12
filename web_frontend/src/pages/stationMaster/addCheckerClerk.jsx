@@ -1,25 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
+//import React, { useState } from "react";
+import CheckerClerkCard from '../../components/stationMaster/checkerclerkcard.jsx';
 import "../../css/stationmaster.css";
+import userImage from '../../assets/user2.png'; // Update the path as needed
+import empImage from '../../assets/user3.png'; 
+import emp2Image from '../../assets/user6.png';
+import emp3Image from '../../assets/user5.png'; 
+import emp4Image from '../../assets/user1.png';
 
 const AddCheckerClerk = () => {
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [deletepopupVisible, setDeletePopupVisible] = useState(false);
 
-  const openPopup = () => {
-    setPopupVisible(true);
-  };
+  const checkersclerks = [
+    {
+      checkerclerk_image: userImage, // Use the imported image
+      name: 'Shenil Perera',
+      role: 'Ticket Clerk'
+    },
 
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
+    {
+      checkerclerk_image: empImage, // Use the imported image
+      name: 'Shanaka Silva',
+      role: 'Ticket Checker'
+    },
 
-  const opendeletePopup = () => {
-    setDeletePopupVisible(true);
-  };
+    {
+      checkerclerk_image: emp2Image, // Use the imported image
+      name: 'Prasad Cooray',
+      role: 'Ticket Clerk'
+    },
 
-  const closedeletePopup = () => {
-    setDeletePopupVisible(false);
-  };
+    {
+      checkerclerk_image: emp4Image, // Use the imported image
+      name: 'Ann Perera',
+      role: 'Ticket Clerk'
+    },
+
+    {
+      checkerclerk_image: emp3Image, // Use the imported image
+      name: 'Samadhi Silva',
+      role: 'Ticket Clerk'
+    }
+  ]
 
 
   return (
@@ -28,31 +49,35 @@ const AddCheckerClerk = () => {
         <h1>Add Ticket Checkers/ Ticket Clerks</h1>
 
         <div className="form_container">
-          <form className="form">
+          <form className="addcheckerclerk_form">
             <label>
               First Name:
-              <input type="text" />
+              <input type="text" className="box"/>
             </label>
             <label>
               Last Name:
-              <input type="text" />
+              <input type="text" className="box"/>
             </label>
             <label>
               Job Position:
-              <select>
+              <select className="box">
                 <option value="clerk">Ticket Clerk</option>
                 <option value="checker">Ticket Checker</option>
               </select>
             </label>
             <label>
               NIC:<br />
-              <input type="text" />
+              <input type="text" className="box"/>
+            </label>
+            <label>
+              Email:<br />
+              <input type="text" className="box"/>
             </label>
             <label>
               Mobile No.:
-              <input type="text" />
+              <input type="text" className="box"/>
             </label>
-            <button>Add</button>
+            <button className="addbutton"><b>Add</b></button>
           </form>
         </div>
       </div>
@@ -67,50 +92,12 @@ const AddCheckerClerk = () => {
           />
         </div>
 
-        <div className="checker_clerk_card">
-          <p><b>Subodhini Hegodarachchi</b></p>
-          <p>Ticket Clerk</p>
-          <br></br>
-          <button className="view_button" onClick={openPopup}>View</button>
+        <div className="employee-card-container">
+          {checkersclerks.map((checkerclerk, index) => (
+            <CheckerClerkCard key={index} checkerclerk={checkerclerk} />
+          ))}
         </div>
 
-        <div className="checker_clerk_card">
-          <p><b>Waruna Samarasinghe</b></p>
-          <p>Ticket Clerk</p>
-          <br></br>
-          <button className="view_button" >View</button>
-        </div>
-
-        <div className="checker_clerk_card">
-          <p><b>Priyantha Perera</b></p>
-          <p>Ticket Checker</p>
-          <br></br>
-          <button className="view_button" >View</button>
-        </div>
-
-        {/* Other checker_clerk_card elements... */}
-
-        {popupVisible && (
-        <div className="popup">
-          <div className="popup-content">
-            <p><b>Subodhini Hegodarachchi</b></p>
-            <p>Ticket Clerk</p><br></br>
-            <button className="view_button" onClick={closePopup}>Close</button><br></br>
-            <button className="delete_button" onClick={opendeletePopup}>Delete staff person</button>
-          </div>
-        </div>
-      )}
-
-      {deletepopupVisible && (
-        <div className="popup">
-          <div className="popup-content">
-            <p>Delete Subodhini Hegodarachchi from staff?</p><br></br>
-            <button className="view_button" onClick={closedeletePopup}>Cancel</button><br></br>
-            <button className="delete_button" onClick={closedeletePopup}>Delete</button>
-          </div>
-        </div>
-      )} 
-     
       </div>
     </div>
   );
