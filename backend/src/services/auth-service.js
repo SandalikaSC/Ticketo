@@ -110,9 +110,11 @@ const login = async (email, password) => {
       firstName: existingUser.firstName,
       lastName: existingUser.lastName,
       mobileNumber: existingUser.mobileNumber,
+      accountStatus: existingUser.accountStatus,
+      loginStatus: existingUser.loginStatus,
       userType: existingUser.userType,
     }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "6h",
     });
 
     const refreshToken = jwt.sign({ id: existingUser.id, email: existingUser.email, userType: existingUser.userType, type: "refresh" }, REFRESH_TOKEN_SECRET, {
