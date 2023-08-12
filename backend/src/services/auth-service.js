@@ -142,8 +142,8 @@ const insertTempOtp = async (nic, otp) => {
 };
 
 const verifyToken = async (token) => {
-  console.log("service verify token");
-  console.log(token);
+  // console.log("service verify token");
+  // console.log(token);
   try {
     const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
 
