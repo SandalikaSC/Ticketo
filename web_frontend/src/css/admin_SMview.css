@@ -68,6 +68,8 @@
     padding: 10px;
     width: 100%;
     background-color: white;
+    /* margin-left: 2%; */
+    margin-right: 2%;
   }
   
   .card-header {
