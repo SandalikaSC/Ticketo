@@ -1,50 +1,48 @@
 /* sm_dashboard.css */
 
-/* .sm-dashboard {
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Divide the space into two columns */
-  /* gap: 20px;
-  padding: 20px;
-}  */
+/* sm_dashboard.css */
+.sm-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1300px;
+}
 
-/* .ss-left-column {
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
-  background-color: #f4f4f4;
-  padding: 20px;
-  border-radius: 10px;/* sm_dashboard.css */
-/* } */ 
+  max-width: 1200px; /* Set a maximum width for the container */
+  margin-top: 20px;
+}
 
-  .sm-dashboard {
-    display: grid;
-    grid-template-columns: 2fr 1fr; /* Divide the space into two columns with 2:1 ratio */
-    gap: 20px;
-    padding: 20px;
+.left-column {
+  flex: 2;
+  padding-right: 20px; /* Add some spacing between columns */
+}
 
+.right-column {
+  flex: 1;
+  padding-left: 20px; /* Add some spacing between columns */
+}
+
+/* Adjust for small screens */
+@media (max-width: 1200px) {
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .ss-left-column {
-    width: 100%;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+
+  .left-column,
+  .right-column {
+    flex: 1;
+    padding: 0; /* Remove padding between columns on small screens */
   }
-  
-  .ss-right-column {
-    width: 100%;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin-left: 5px;
-  }
-  
-  /* Adjustments for responsiveness */
-  @media (max-width: 768px) {
-    .sm-dashboard {
-      grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
-    }
-  }
+}
+
+
+
+
   .train-delays-container {
     display: flex;
     flex-direction: column;
