@@ -74,6 +74,7 @@
   padding: 5px 10px;
   cursor: pointer;
   margin-top: 2%;
+  /* border-radius: 20%; */
 }
 
 /* ResolvedComplaintCard.css */
@@ -111,12 +112,13 @@
 }
 
 .remove-btn {
-  background-color: #380e7a;
+  background-color: #3D51A9;
   color: #fff;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
   margin-top: 2%;
+  /* border-radius: 20%; */
 }
 
 
@@ -146,7 +148,7 @@
 }
 
 .resolve-form button {
-  background-color: #1f5288;
+  background-color: #3D51A9;
   color: #fff;
   border: none;
   padding: 5px 10px;
