@@ -38,14 +38,14 @@ const TrainInfo = () => {
   // const [numberOfCoaches, setNumberOfCoaches] = useState(1);
 
   const scheduleData = [
-    { trainName: "Train A", departure: "9:00 AM", arrival: "11:00 AM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
-    { trainName: "Train A", departure: "9:00 AM", arrival: "11:00 AM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
-    { trainName: "Train B", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Samudra Devi", departure: "9:00 AM", arrival: "11:00 AM" },
+    { trainName: "Sagarika", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Ruhunu Kumari", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Galu Kumari", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Podi Manike", departure: "9:00 AM", arrival: "11:00 AM" },
+    { trainName: "Ella Odyssey", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Rajarata Rajina", departure: "11:30 AM", arrival: "1:30 PM" },
+    { trainName: "Samudra Devi", departure: "11:30 AM", arrival: "1:30 PM" },
     // Add more schedule items here
   ];
 
@@ -59,7 +59,7 @@ const TrainInfo = () => {
         <div style={{ backgroundColor: "#ECECEC" }}>
           <Typography
             variant="h4"
-            style={{ marginBottom: "10px", color: "#3D50AC" }}
+            style={{ marginBottom: "10px", color: "#3D50AC" , marginTop: "2%"}}
           >
             <b>Train Information Dashboard</b>
           </Typography>
@@ -150,8 +150,8 @@ const TrainInfo = () => {
                           }}
                         >
                           {/* Add your train options here */}
-                          <MenuItem value="train1">Train 1</MenuItem>
-                          <MenuItem value="train2">Train 2</MenuItem>
+                          <MenuItem value="train1">Samudra Devi</MenuItem>
+                          <MenuItem value="train2">Galu Kumari</MenuItem>
                           {/* Add more options as needed */}
                         </Select>
                       </FormControl>
@@ -168,8 +168,8 @@ const TrainInfo = () => {
                           }}
                         >
                           {/* Add your start station options here */}
-                          <MenuItem value="station1">Station 1</MenuItem>
-                          <MenuItem value="station2">Station 2</MenuItem>
+                          <MenuItem value="station1">Galle</MenuItem>
+                          <MenuItem value="station2">Colombo Fort</MenuItem>
                           {/* Add more options as needed */}
                         </Select>
                       </FormControl>
@@ -186,8 +186,8 @@ const TrainInfo = () => {
                           }}
                         >
                           {/* Add your end station options here */}
-                          <MenuItem value="stationA">Station A</MenuItem>
-                          <MenuItem value="stationB">Station B</MenuItem>
+                          <MenuItem value="stationA">Maradana</MenuItem>
+                          <MenuItem value="stationB">Beliaththa</MenuItem>
                           {/* Add more options as needed */}
                         </Select>
                       </FormControl>
@@ -293,7 +293,7 @@ const TrainInfo = () => {
                     height: "94%",
                   }}
                 >
-                  <h2>Galu Kumari</h2>
+                  <h2>Samudra Devi</h2>
                   <hr></hr>
                   <div
                     style={{
@@ -334,7 +334,7 @@ const TrainInfo = () => {
                       }}
                     >
                       <h3 style={{ color: "#3D51A9" }}>Colombo</h3>
-                      <h4 style={{ color: "#FA6F5D" }}>12.00 a.m</h4>
+                      <h4 style={{ color: "#FA6F5D" }}>11.00 a.m</h4>
                     </div>
                   </div>
                   <h3
@@ -355,55 +355,55 @@ const TrainInfo = () => {
                   </div>
                   <div style={{ height: "350px", overflow: "auto" }}>
                     <StationCard
-                      stationName="Station Name 1"
-                      arrivalTime="09:00 AM"
-                      departureTime="09:15 AM"
+                      stationName="Galle"
+                      arrivalTime="08:00 AM"
+                      departureTime="08:15 AM"
                     />
                     <StationCard
-                      stationName="Station Name 1"
-                      arrivalTime="09:00 AM"
-                      departureTime="09:15 AM"
-                    />
-                    <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 1"
+                      stationName="Hikkaduwa"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 1"
+                      stationName="Ambalangoda"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 1"
+                      stationName="Kaluthara"
+                      arrivalTime="09:00 AM"
+                      departureTime="09:15 AM"
+                    />
+                    <StationCard
+                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationName="Moratuwa"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
 
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 2"
+                      stationName="Panadura"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 2"
+                      stationName="Dehiwala"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 2"
+                      stationName="Mount Lavinia"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
                       stationIcon="path/to/your/icon.png" // Update with your icon path
-                      stationName="Station Name 2"
+                      stationName="Kollupitiya"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
@@ -413,13 +413,13 @@ const TrainInfo = () => {
                 </div>
               ) : (
                 <img
-                  src={ccBackgroundImage}
-                  alt="Illustration"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    marginTop: "2%",
-                  }}
+                src={ccBackgroundImage}
+                alt="Illustration"
+                style={{
+                  width: "120%", // Adjust the width as needed
+                  height: "100%", // Let the height adjust proportionally
+                  marginTop: "2%", // Adjust the spacing as needed
+                }}
                 />
               )}
             </div>
