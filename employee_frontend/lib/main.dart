@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart'; 
-import 'package:flutter_dotenv/flutter_dotenv.dart'; 
-import 'package:shared_preferences/shared_preferences.dart';
+
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 import './screens/login.dart';
-import './screens/landing_page.dart'; // Import your LandingPage
-import './screens/guard_home.dart'; // Import your TrainGuardHomePage 
+import './screens/landing_page.dart';
+import './screens/guard_home.dart';
 
 void main() async{
   await dotenv.load();
@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/landing': (context) => const LandingPage(),
         '/guardHome': (context) => const TrainGuardHomePage(),
-
       },
       initialRoute: '/login',
     );
