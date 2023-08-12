@@ -12,7 +12,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import ProtectedRoute from "./routes/protectedRoutes";
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-
+import ResetPassword from './pages/password_reset';
 
 // const theme = createTheme({
 //   palette: {
@@ -36,6 +36,7 @@ const App = () =>
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           {isLoggedIn && <Route path="/user" element={<Welcome />} />}
           <Route
             path="/admin/*"
