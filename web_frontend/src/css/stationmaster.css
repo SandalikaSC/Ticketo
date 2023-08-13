@@ -1,11 +1,18 @@
-h1 {
-  text-align: center;
-  color: #3D50AC;
+.sm-error-message {
+  color: #ff0000;
+  font-size: 14px;
+
+  left: 10%;
+  width: 80%;
 }
 
+/* .sm-label {
+  margin-bottom: 3%;
+} */
+
 .form_container {
-  max-width: 500px;
-  margin: 50px auto;
+  /* max-width: 500px;
+  margin: 50px auto; */
   background-color: #ECECEC;
   padding: 20px;
   border-radius: 5px;
@@ -63,8 +70,8 @@ h1 {
 
 .left_container {
   flex: 1;
-  text-align: left;
-  padding: 20px;
+  /* text-align: left; */
+  padding: 2%;
   border: 1px solid #ccc;
   background-color: white;
   height: calc(100vh - 0px);

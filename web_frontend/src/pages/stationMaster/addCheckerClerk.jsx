@@ -1,19 +1,15 @@
-//import React from "react";
 import React, { useState } from "react";
-//import CheckerClerkCard from "../../components/stationMaster/checkerclerkcard.jsx";
 import axios from "axios";
 import "../../css/stationmaster.css";
-// import userImage from "../../assets/user2.png"; // Update the path as needed
-// import empImage from "../../assets/user3.png";
-// import emp2Image from "../../assets/user6.png";
-// import emp3Image from "../../assets/user5.png";
-// import emp4Image from "../../assets/user1.png";
+import { Modal, Box, Typography, Button } from "@mui/material";
 import EmpCard from "../../components/stationMaster/EmpCard"; // Update the path to EmpCard component if necessary
 import "../../css/sm_dashboard.css";
 import userImage from "../../assets/user2.png"; // Update the path as needed
 import empImage from "../../assets/user3.png";
 import empoImage from "../../assets/user6.png";
 import usersImage from "../../assets/user7.png";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const employees = [
   {
@@ -51,8 +47,6 @@ const employees = [
 ];
 
 const AddCheckerClerk = () => {
-  const [popupVisible, setPopupVisible] = useState(false);
-  const [deletepopupVisible, setDeletePopupVisible] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -63,67 +57,8 @@ const AddCheckerClerk = () => {
   });
 
   const [errors, setErrors] = useState({});
-
-  const [searchInput, setSearchInput] = useState(""); // State for search input
-  // const checkersclerks = [
-  //   {
-  //     checkerclerk_image: userImage, // Use the imported image
-  //     name: "Shenil Perera",
-  //     role: "Ticket Clerk",
-  //   },
-
-  //   {
-  //     checkerclerk_image: empImage, // Use the imported image
-  //     name: "Shanaka Silva",
-  //     role: "Ticket Checker",
-  //   },
-
-  //   {
-  //     checkerclerk_image: emp2Image, // Use the imported image
-  //     name: "Prasad Cooray",
-  //     role: "Ticket Clerk",
-  //   },
-
-  //   {
-  //     checkerclerk_image: emp4Image, // Use the imported image
-  //     name: "Ann Perera",
-  //     role: "Ticket Clerk",
-  //   },
-
-  //   {
-  //     checkerclerk_image: emp3Image, // Use the imported image
-  //     name: "Samadhi Silva",
-  //     role: "Ticket Clerk",
-  //   },
-  // ];
-
-  const openPopup = () => {
-    setPopupVisible(true);
-  };
-
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
-
-  const opendeletePopup = () => {
-    setDeletePopupVisible(true);
-  };
-
-  const closedeletePopup = () => {
-    setDeletePopupVisible(false);
-  };
-
-  // Function to handle search input change
-  const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value);
-  };
-
-  // Filter the checkersclerks based on search input
-  // const filteredCheckersClerks = checkersclerks.filter(
-  //   (checkerclerk) =>
-  //     checkerclerk.role.toLowerCase().includes(searchInput.toLowerCase()) ||
-  //     checkerclerk.name.toLowerCase().includes(searchInput.toLowerCase())
-  // );
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+  const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -158,24 +93,36 @@ const AddCheckerClerk = () => {
     }
 
     try {
+      const accessToken = localStorage.getItem("accessToken");
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+
       const response = await axios.post(
-        "http://backend-address/add-user", // Replace with actual backend API address
-        formData
+        "http://localhost:5000/api/add-user",
+        formData,
+        { headers }
       );
       console.log("Data sent to backend:", response.data);
 
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        jobPosition: "clerk",
-        nic: "",
-        mobileNumber: "",
-      });
+      if (response.status === 201) {
+        setIsSuccessDialogOpen(true);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          jobPosition: "clerk",
+          nic: "",
+          mobileNumber: "",
+        });
+      } else {
+        setIsErrorDialogOpen(true);
+      }
 
       // Optionally show a success message or perform other actions
     } catch (error) {
       console.error("Error sending data to backend:", error);
+      setIsErrorDialogOpen(true);
       // Optionally show an error message or perform error handling
     }
   };
@@ -193,60 +140,123 @@ const AddCheckerClerk = () => {
     });
   };
 
+  const closeSuccessDialog = () => {
+    setIsSuccessDialogOpen(false);
+  };
+
+  const closeErrorDialog = () => {
+    setIsErrorDialogOpen(false);
+  };
+
   return (
     <div className="main_container">
       <div className="left_container">
-        <h1 className="title-sm-emp">Station Employees</h1>
-
+ 
+     <h1 className="title-sm-emp">Station Employees</h1>
         <div className="form_container">
-          <h3 className="title-sm-emp title-sm-emp2">Add Employee</h3>
-          <form className="addcheckerclerk_form">
-            <label>
-              First Name:
-              <input type="text" className="box" required />
-            </label>
-            <label>
-              Last Name:
-              <input type="text" className="box" required />
-            </label>
-            <label>
-              Job Position:
-              <select className="box" required>
-                <option value="" disabled selected>
-                  Select job role
-                </option>
-                <option value="clerk">Ticket Clerk</option>
-                <option value="checker">Ticket Checker</option>
-              </select>
-            </label>
-            <label>
-              NIC:
-              <br />
-              <input type="text" className="box" required minLength={10} />
-            </label>
-            <label>
+    <h3 className="title-sm-emp title-sm-emp2">Add Employee</h3>
+          <form className="addcheckerclerk_form" onSubmit={handleSubmit}>
+    
+            <label className="sm-label">
               Email:
               <br />
               <input
                 type="email"
                 className="box"
-                required
                 placeholder="Please enter a valid email address"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
               />
+              {errors.email && (
+                <p className="sm-error-message">{errors.email}</p>
+              )}
             </label>
-            <label>
+
+            <label className="sm-label">
+ 
+              First Name:
+              <br />
+              <input
+                type="text"
+                className="box"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+              {errors.firstName && (
+                <p className="sm-error-message">{errors.firstName}</p>
+              )}
+            </label>
+
+            <label className="sm-label">
+              Last Name:
+              <br />
+              <input
+                type="text"
+                className="box"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+              />
+              {errors.lastName && (
+                <p className="sm-error-message">{errors.lastName}</p>
+              )}
+            </label>
+ 
+
+            <label className="sm-label">
+  
+              Job Position:
+              <br />
+              <select
+                className="box"
+                name="jobPosition"
+                value={formData.jobPosition}
+                onChange={handleChange}
+              >
+                <option value="clerk">Ticket Clerk</option>
+                <option value="checker">Ticket Checker</option>
+              </select>
+              {errors.jobPosition && (
+                <p className="sm-error-message">{errors.jobPosition}</p>
+              )}
+            </label>
+
+            <label className="sm-label">
+              NIC:
+              <br />
+              <input
+                type="text"
+                className="box"
+                minLength={10}
+                name="nic"
+                value={formData.nic}
+                onChange={handleChange}
+              />
+              {errors.nic && <p className="sm-error-message">{errors.nic}</p>}
+            </label>
+
+            <label className="sm-label">
               Mobile No.:
+              <br />
               <input
                 type="text"
                 className="box"
                 placeholder="Please enter a valid mobile number with 10 digits"
-                required
                 minLength={10}
                 pattern="[0-9]+"
                 title="Please enter a valid mobile number with 10 digits"
+                name="mobileNumber"
+                value={formData.mobileNumber}
+                onChange={handleChange}
               />
+              {errors.mobileNumber && (
+                <p className="sm-error-message">{errors.mobileNumber}</p>
+              )}
             </label>
-            <button className="addbutton">
+
+            <button className="addbutton" type="submit">
               <b>Add</b>
             </button>
           </form>
@@ -255,7 +265,6 @@ const AddCheckerClerk = () => {
 
       <div className="right_container_scrollable-content">
         <div className="employee-details-container">
-          {/* <h1 className="section-heading">Employee Details</h1> */}
           <h2 className="sub-section-heading"> Galle Railway Station</h2>
 
           <div className="employee-card-container">
@@ -264,81 +273,59 @@ const AddCheckerClerk = () => {
             ))}
           </div>
         </div>
-        {/* <div className="search-container">
-          <input
-            type="text"
-            value={searchInput}
-            onChange={handleSearchInputChange}
-            placeholder="Search..."
-          />
-        </div>
-
-        <div className="checker_clerk_card">
-          <p>
-            <b>Subodhini Hegodarachchi</b>
-          </p>
-          <p>Ticket Clerk</p>
-          <br></br>
-          <button className="view_button" onClick={openPopup}>
-            View
-          </button>
-        </div>
-
-        <div className="checker_clerk_card">
-          <p>
-            <b>Waruna Samarasinghe</b>
-          </p>
-          <p>Ticket Clerk</p>
-          <br></br>
-          <button className="view_button">View</button>
-        </div>
-
-        <div className="checker_clerk_card">
-          <p>
-            <b>Priyantha Perera</b>
-          </p>
-          <p>Ticket Checker</p>
-          <br></br>
-          <button className="view_button">View</button>
-        </div> */}
-
-        {/* Other checker_clerk_card elements... */}
-        {/* 
-        {popupVisible && (
-          <div className="popup">
-            <div className="popup-content">
-              <p>
-                <b>Subodhini Hegodarachchi</b>
-              </p>
-              <p>Ticket Clerk</p>
-              <br></br>
-              <button className="view_button" onClick={closePopup}>
-                Close
-              </button>
-              <br></br>
-              <button className="delete_button" onClick={opendeletePopup}>
-                Delete staff person
-              </button>
-            </div>
-          </div>
-        )}
-
-        {deletepopupVisible && (
-          <div className="popup">
-            <div className="popup-content">
-              <p>Delete Subodhini Hegodarachchi from staff?</p>
-              <br></br>
-              <button className="view_button" onClick={closedeletePopup}>
-                Cancel
-              </button>
-              <br></br>
-              <button className="delete_button" onClick={closedeletePopup}>
-                Delete
-              </button>
-            </div>
-          </div>
-        )} */}
       </div>
+
+      <Modal open={isSuccessDialogOpen} onClose={closeSuccessDialog}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh", // Adjust this as needed
+            top: "50%",
+            left: "50%",
+            textAlign: "center",
+            borderRadius: "30%",
+          }}
+        >
+          <Box sx={{ width: 300, bgcolor: "white", p: 3 }}>
+            <CheckCircleIcon
+              sx={{ color: "green", fontSize: 40, marginBottom: 2 }}
+            />
+            <Typography variant="h6">User Added Successfully</Typography>
+            <Typography variant="body1">
+              User has been added to the system and an email has been sent
+              successfully.
+            </Typography>
+            <Button onClick={closeSuccessDialog}>Close</Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Error modal */}
+      <Modal open={isErrorDialogOpen} onClose={closeErrorDialog}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+            top: "50%",
+            left: "50%",
+            textAlign: "center",
+            borderRadius: "30%", // Adjust this as needed
+          }}
+        >
+          <Box
+            sx={{ width: 200, bgcolor: "white", p: 3, borderRadius: "25px" }}
+          >
+            <ErrorIcon sx={{ color: "red", fontSize: 40, marginBottom: 2 }} />
+            <Typography variant="h6">Error</Typography>
+            <Typography variant="body1">An error occurred</Typography>
+            <Button onClick={closeErrorDialog}>Close</Button>
+          </Box>
+        </Box>
+      </Modal>
     </div>
   );
 };
