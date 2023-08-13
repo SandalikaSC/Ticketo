@@ -222,6 +222,7 @@ model TravelerReservation {
 enum tripType {
   ONE_WAY
   ROUND_TRIP
+  RETURN
 }
 
 // Traveler table
