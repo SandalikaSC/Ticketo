@@ -151,12 +151,10 @@ const AddCheckerClerk = () => {
   return (
     <div className="main_container">
       <div className="left_container">
- 
-     <h1 className="title-sm-emp">Station Employees</h1>
+        <h1 className="title-sm-emp">Station Employees</h1>
         <div className="form_container">
-    <h3 className="title-sm-emp title-sm-emp2">Add Employee</h3>
+          <h3 className="title-sm-emp title-sm-emp2">Add Employee</h3>
           <form className="addcheckerclerk_form" onSubmit={handleSubmit}>
-    
             <label className="sm-label">
               Email:
               <br />
@@ -174,7 +172,6 @@ const AddCheckerClerk = () => {
             </label>
 
             <label className="sm-label">
- 
               First Name:
               <br />
               <input
@@ -203,10 +200,8 @@ const AddCheckerClerk = () => {
                 <p className="sm-error-message">{errors.lastName}</p>
               )}
             </label>
- 
 
             <label className="sm-label">
-  
               Job Position:
               <br />
               <select

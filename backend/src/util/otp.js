@@ -6,8 +6,13 @@ const verifyOtp = async (req, res) =>
 
     const user = await getOTP(email, mobileNumber);
 
-    const generatedOTP = user.otp;
+    const generatedOTP = parseInt(user.otp);
     const generatedTime = user.otpGenerateTime;
+    console.log(otp);
+    console.log(generatedOTP);
+    console.log(typeof otp);
+    console.log(typeof generatedOTP);
+
 
     if (!generatedOTP || !generatedTime)
     {
@@ -27,6 +32,7 @@ const verifyOtp = async (req, res) =>
         {
             // OTP matched
             // Send success response
+            console.log("otp matched");
             await updateOTP(email, "", null);
             return res.status(200).json({ message: "OTP matched" });
         } else
