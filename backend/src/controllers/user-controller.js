@@ -113,7 +113,7 @@ const login = async (req, res, next) =>
     if (!existingUser)
     {
         return res.status(400).json({ message: "User not found. Signup Please" });
-        return;
+        //return;
     }
 
     // Check if the provided password matches the hashed password in the database
