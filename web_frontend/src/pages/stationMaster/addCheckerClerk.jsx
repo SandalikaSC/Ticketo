@@ -1,5 +1,5 @@
-import React from "react";
-//import React, { useState } from "react";
+//import React from "react";
+import React, { useState } from "react";
 import CheckerClerkCard from '../../components/stationMaster/checkerclerkcard.jsx';
 import "../../css/stationmaster.css";
 import userImage from '../../assets/user2.png'; // Update the path as needed
@@ -10,6 +10,7 @@ import emp4Image from '../../assets/user1.png';
 
 const AddCheckerClerk = () => {
 
+  const [searchInput, setSearchInput] = useState(""); // State for search input
   const checkersclerks = [
     {
       checkerclerk_image: userImage, // Use the imported image
@@ -42,6 +43,20 @@ const AddCheckerClerk = () => {
     }
   ]
 
+  // Function to handle search input change
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
+
+  // Filter the checkersclerks based on search input
+  const filteredCheckersClerks = checkersclerks.filter(
+    (checkerclerk) =>
+      checkerclerk.role.toLowerCase().includes(searchInput.toLowerCase()) ||
+      checkerclerk.name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+
+  
 
   return (
     <div className="main_container">
@@ -86,14 +101,14 @@ const AddCheckerClerk = () => {
         <div className="search-container">
           <input
             type="text"
-            //value={inputValue}
-            //onChange={handleInputChange}
+            value={searchInput}
+            onChange={handleSearchInputChange}
             placeholder="Search..."
           />
         </div>
 
         <div className="employee-card-container">
-          {checkersclerks.map((checkerclerk, index) => (
+          {filteredCheckersClerks.map((checkerclerk, index) => (
             <CheckerClerkCard key={index} checkerclerk={checkerclerk} />
           ))}
         </div>

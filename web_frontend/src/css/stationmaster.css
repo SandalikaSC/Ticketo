@@ -57,7 +57,7 @@ h1{
     padding: 20px;
     border: 1px solid #ccc;
     background-color:white;
-    height: calc(100vh - 0px);
+    height:calc(100vh - 0px);
 }
 
   /*.right_container_scrollable-content {
@@ -74,19 +74,20 @@ h1{
     overflow-y: auto;
     padding: 20px;
     border: 1px solid #ccc;
-    height: calc(100vh - 0px); /* Adjust the height based on your design */
+    width: 900px;
+    height: 750px; /* Adjust the height based on your design */
   }
 
 .search-container {
   position: relative;
-  width: 600px;
+  width: 197px;
   margin: 50px auto;
-  border-color: #01020b;
+  outline: 2px solid #515252;
 }
  
-.search-container input {
+{/*}.search-container input {
   color:#01020b ;
-}
+}*/}
 
 
 
