@@ -13,12 +13,13 @@ h1{
     /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
   }
   
-  form{
+  .addcheckerclerk_form{
     display:flex;
     flex-direction:column;
   }
 
-  input[type=text] {
+
+  .box{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -26,45 +27,20 @@ h1{
     box-sizing: border-box;
   }
 
-  select{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
- 
+.addbutton{
+  background-color: #F86F5D;
+  border: none;
+  border-radius: 8px;
+  color:white;
+  padding: 12px 50px; /* Adjust padding as needed */
+  font-size: 20px; /* Adjust font size as needed */
+  align-self: left;
+  text-align: center;
+  display: block;
+  width: fit-content;
+  margin:0 auto;
+  cursor: pointer;
 
-input[type=text] {
-  width: 85%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-select {
-  width: 82%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=date] {
-  width: 81%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=email] {
-  width: 79%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
 }
  
 
@@ -72,6 +48,7 @@ input[type=email] {
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    height: calc(100vh - 0px);
 }
 
   .left_container {
@@ -80,21 +57,39 @@ input[type=email] {
     padding: 20px;
     border: 1px solid #ccc;
     background-color:white;
+    height:calc(100vh - 0px);
 }
+
+  /*.right_container_scrollable-content {
+    flex: 1;
+    text-align:center;
+    overflow-y: auto;  Enable vertical scrolling 
+    padding: 20px;
+    border: 1px solid #ccc;
+  }*/
 
   .right_container_scrollable-content {
     flex: 1;
-    text-align:center;
-    overflow-y: auto; /* Enable vertical scrolling */
+    text-align: center;
+    overflow-y: auto;
     padding: 20px;
     border: 1px solid #ccc;
-}
+    width: 900px;
+    height: 750px; /* Adjust the height based on your design */
+  }
 
 .search-container {
   position: relative;
-  width: 600px;
+  width: 197px;
   margin: 50px auto;
+  outline: 2px solid #515252;
 }
+ 
+/*}.search-container input {
+  color:#01020b ;
+}*/
+
+
 
 .checker_clerk_card{
     display:flexbox;
@@ -114,12 +109,27 @@ input[type=email] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  background-color: #cbd6f7;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 0px;
+  width: 400px;
+  height: 230px;
+  z-index: 999; /* Ensure the popup is above other content */
+}
+
+.popup2 {
+  /*display: ${props => (props.visible ? "block" : "none")};*/
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: white;
   border: 1px solid #ccc;
   padding: 20px;
   box-shadow: 0px;
   width: 400px;
-  height: 200px;
+  height: 125px;
   z-index: 999; /* Ensure the popup is above other content */
 }
 
@@ -141,7 +151,7 @@ input[type=email] {
 
 
 .view_button {
-  background-color: #ECECEC;
+  background-color: #cbd6f7;
   border: none;
   border-radius: 8px;
   color: rgb(11, 10, 10);
@@ -169,25 +179,57 @@ input[type=email] {
   margin:0 auto;
   cursor: pointer;
 }
-/*  
-input[type=password] {
-  width: 30%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
 
-button {
-  background-color: #f86f5d;
-  border: none;
+ .checkerclk_card {
+  display: flex; /* Use flexbox */
+  flex-direction:row; /* Stack items vertically by default */
+  justify-content: space-between;
+  align-items: center; /* Center items horizontally */
+  border: 1px solid #ddd;
+  background-color:#ECECEC ;
   border-radius: 8px;
-  color: white;
-  padding: 15px 32px;
-  align-self: center;
-  display: inline-block;
-  font-size: 16px;
-  width: 40%;
-
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+  width: 400px;
+  height: 100px;
 }
- */
+
+.checkerclk_card img {
+  max-width: 100%;
+  height: auto; /* Keep the aspect ratio */
+  border-radius: 50%;
+  margin-bottom: 10px;
+  /* Add the following styles to control the image size */
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+
+.checkerclk_card h2 {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.checkerclk_card p {
+  margin-top: 0;
+  color: #666;
+}
+.cardword_contents{
+  display: flex; /* Use flexbox */
+  flex-direction:column;
+  
+}
+
+.cardword_contents_container{
+  text-align: left;
+  margin-left: 20px
+}
+
+.button_container{
+  display: flex; /* Use flexbox */
+  flex-direction:row;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 0;
+}
