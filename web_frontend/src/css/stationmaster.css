@@ -19,6 +19,16 @@
   /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
 }
 
+.title-sm-emp {
+  text-align: start;
+  color: #3d51a9;
+  margin: 2%;
+}
+
+.title-sm-emp2 {
+  text-align: center;
+}
+
 .addcheckerclerk_form {
   display: flex;
   flex-direction: column;
@@ -44,7 +54,7 @@
   align-self: left;
   text-align: center;
   display: block;
-  width: fit-content;
+  /* width: fit-content; */
   margin: 0 auto;
   cursor: pointer;
 
@@ -169,7 +179,7 @@
   align-self: left;
   text-align: center;
   display: block;
-  width: fit-content;
+  /* width: fit-content; */
   margin: 0 auto;
   cursor: pointer;
 }
@@ -186,7 +196,7 @@
   align-self: left;
   text-align: center;
   display: block;
-  width: fit-content;
+  /* width: fit-content; */
   margin: 0 auto;
   cursor: pointer;
 }
