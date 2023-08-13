@@ -155,7 +155,7 @@ const insertTemperyOtp = async (nic, otp) =>
       otp: otp
     }
   })
-}
+};
 const updatePassword = async (email, mobileNumber, hashPassword) =>
 {
   if (email)
@@ -183,7 +183,27 @@ const getTempOtp = async (nic) =>
   });
 
 
-}
+};
+
+const updateLoginStatus = async (id) =>
+{
+  try
+  {
+    const user = await prisma.user.update({
+      where: { id: id },
+      data: { loginStatus: true },
+    });
+
+    console.log(`Login status updated for user with id ${userId}`);
+    return user;
+  } catch (error)
+  {
+    console.error('Error updating login status:', error);
+    throw error;
+  }
+};
+
+
 
 module.exports = {
   getTempOtp,
@@ -200,7 +220,8 @@ module.exports = {
   updatePassword,
   insertTemperyOtp,
   insertEmployee,
-  updateEmployee
+  updateEmployee,
+  updateLoginStatus
 };
 
 

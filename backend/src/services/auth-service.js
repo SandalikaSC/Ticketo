@@ -1,4 +1,4 @@
-const { getTempOtp, insertTemperyOtp, updateEmployee, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail, insertEmployee } = require("../reposiotries/user-repository");
+const { getTempOtp, insertTemperyOtp, updateEmployee, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail, insertEmployee, updateLoginStatus } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -163,18 +163,28 @@ const login = async (email, password) =>
       lastName: existingUser.lastName,
       mobileNumber: existingUser.mobileNumber,
       userType: existingUser.userType,
+      loginStatus: existingUser.loginStatus,
     }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "2h",
+      expiresIn: "5d",
     });
 
-    const refreshToken = jwt.sign({ id: existingUser.id, email: existingUser.email, userType: existingUser.userType, type: "refresh" }, REFRESH_TOKEN_SECRET, {
+    const refreshToken = jwt.sign({ id: existingUser.id, email: existingUser.email, userType: existingUser.userType, loginStatus: existingUser.loginStatus, type: "refresh" }, REFRESH_TOKEN_SECRET, {
       expiresIn: "7d",
     });
 
     await updateToken(existingUser.id, refreshToken);
     await updateaccessToken(existingUser.id, accessToken);
     userType = existingUser.userType;
-    return { accessToken, refreshToken, userType };
+    if (existingUser.loginStatus == false && (existingUser.userType == "ADMIN" || existingUser.userType == "CONTROL_CENTRE" || existingUser.userType == "PASSENGER"))
+    {
+
+      await updateLoginStatus(existingUser.id);
+      console.log("login status updated");
+
+    }
+    loginStatus = existingUser.loginStatus;
+    console.log("login successful");
+    return { accessToken, refreshToken, userType, loginStatus };
   } catch (error)
   {
     console.error(error);
@@ -234,8 +244,9 @@ const resetPassword = async (req, res) =>
 
     const hashPassword = bcrypt.hashSync(password, 10);
     console.log("hashpassword", hashPassword);
-    await updatePassword(email, mobileNumber, hashPassword);
+    const updatedUser = await updatePassword(email, mobileNumber, hashPassword);
 
+    await updateLoginStatus(updatedUser.id);
     return res.status(200).json({ message: 'Password updated successfully' });
 
   } catch (error)
