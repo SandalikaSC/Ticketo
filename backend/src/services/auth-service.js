@@ -277,7 +277,7 @@ const refreshToken = async (refreshToken) =>
 const resetPassword = async (req, res) =>
 {
   const { email, mobileNumber, password, confirmPassword } = req.body;
-
+  console.log(email);
   try
   {
     if (password !== confirmPassword)
@@ -289,7 +289,12 @@ const resetPassword = async (req, res) =>
     console.log("hashpassword", hashPassword);
     const updatedUser = await updatePassword(email, mobileNumber, hashPassword);
 
-    await updateLoginStatus(updatedUser.id);
+    console.log(updatedUser.id);
+    if (updatedUser.loginStatus == false)
+    {
+      await updateLoginStatus(updatedUser.id);
+    }
+
     return res.status(200).json({ message: 'Password updated successfully' });
 
   } catch (error)
