@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = ({ children }) => {
+  const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +35,8 @@ const Sidebar = ({ children }) => {
       icon: <FaCreditCard />,
     },
     {
-      path: "/tc/reports",
-      name: "Reports",
+      path: "/tc/schedules",
+      name: "Schedules",
       icon: <FaBook />,
     },
   ];

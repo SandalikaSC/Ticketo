@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { FaCheck } from 'react-icons/fa';
+import { Button, Form} from 'react-bootstrap';
 import '../../css/seasonCardRequests.css'; // Make sure the CSS file path is correct
-import ApplicationForm from '../../components/ticketClerk/SeasonCardRequestForm';
+import ApplicationData from '../../components/ticketClerk/SeasonCardRequest_Data';
+
 
 const SeasonCardRequests = () => {
     const [selectedType, setSelectedType] = useState('');
+    const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('');
     const [selectedCard, setSelectedCard] = useState(null);
 
+   
     const handleTabClick = (selectedTabType) => {
         setSelectedType(selectedTabType);
+        setSelectedStatus(''); // Clear selected status
         setSelectedTimePeriod('');
         setSelectedCard(null); // Reset selected card when changing tabs
     };
@@ -19,9 +22,11 @@ const SeasonCardRequests = () => {
         setSelectedTimePeriod('');
     };
 
+
     const handleTypeChange = (event) => {
         const type = event.target.value;
         setSelectedType(type);
+        setSelectedStatus(''); // Reset selected status when changing type
         setSelectedTimePeriod('');
         setSelectedCard(null); // Reset selected card when changing type
     };
@@ -37,69 +42,69 @@ const SeasonCardRequests = () => {
         // Simulated data for demonstration
         const cardsData = [
             {
-                name: 'John Doe',
+                name: 'Nimal Supun Banadara',
                 type: 'Government',
-                id: '123456',
-                userName: 'john123',
-                driveLink: '#',
-                email: 'john@example.com',
-                phoneNumber: '123-456-7890',
+                email: 'nimal88sp@gmail.com',
+                phoneNumber: '091-2236585',
                 status: 'Pending',
-                expirationDate: '2023-12-31',
+            
             },
             {
-                name: 'Jane Smith',
+                name: 'Sithmi Nirasha Weerawardhana',
                 type: 'Private',
-                id: '789012',
-                userName: 'jane456',
-                driveLink: '#',
-                email: 'jane@example.com',
-                phoneNumber: '987-654-3210',
+                email: 'sithmiweera99@gmail.com',
+                phoneNumber: '076-5241325',
                 status: 'Approved',
-                expirationDate: '2024-03-15',
+                
             },
             {
-                name: 'Michael Johnson',
+                name: 'Anirudh Weerachandar',
                 type: 'Government',
-                id: '345678',
-                userName: 'michael789',
-                driveLink: '#',
-                email: 'michael@example.com',
-                phoneNumber: '555-123-4567',
+                email: 'anichandr97@gmail.com',
+                phoneNumber: '070-2635596',
                 status: 'Pending',
-                expirationDate: '2023-10-20',
+                
             },
-            // Add more card data objects here
+            {
+                name: 'Sandalika Imesha',
+                type: 'Private',
+                email: 'sandai00@gmail.com',
+                phoneNumber: '077-5263569',
+                status: 'Approved',
+                
+            },
+            {
+                name: 'Sunil Vithana',
+                type: 'Government',
+                email: 'sunilvithanagalle@gmail.com',
+                phoneNumber: '077-5263449',
+                status: 'Approved',
+                
+            },
+
+           
         ];
 
         // Filter cards based on selected type
         const filteredCards = selectedType
-            ? cardsData.filter(card => card.type === selectedType)
-            : cardsData;
+        ? cardsData.filter(card => card.type === selectedType && (selectedStatus === '' || card.status === selectedStatus))
+        : cardsData;
 
+        
         return filteredCards.map((card, index) => (
             <div className={`tc-card ${selectedCard === card ? 'selected' : ''}`} key={index}>
-                <div className="tc-card-header">
+            <div className="tc-card-body">
+            <div className="tc-card-info">
                     <span className="tc-card-label">Name:</span>
                     <span>{card.name}</span>
-                </div>
-                <div className="tc-card-body">
+            </div>
+                
                     <div className="tc-card-info">
                         <span className="tc-card-label">Type:</span>
                         <span>{card.type}</span>
                     </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">ID:</span>
-                        <span>{card.id}</span>
-                    </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">User Name:</span>
-                        <span>{card.userName}</span>
-                    </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Drive Link:</span>
-                        <span><a href={card.driveLink}>Drive Link</a></span>
-                    </div>
+        
+                 
                     <div className="tc-card-info">
                         <span className="tc-card-label">Email:</span>
                         <span>{card.email}</span>
@@ -110,15 +115,12 @@ const SeasonCardRequests = () => {
                     </div>
                     <div className="tc-card-info">
                         <span className="tc-card-label">Status:</span>
-                        <span>{card.status}</span>
+                        <span style={{ color: card.status === 'Pending' || card.status === 'Approved' ? '#3D51A9' : 'inherit' }}>{card.status}</span>
                     </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Expiration Date:</span>
-                        <span>{card.expirationDate}</span>
-                    </div>
+                 
                 </div>
                 <Button variant="danger" className="tc-approve-button" onClick={() => handleViewMoreClick(card)}>
-                    View More Details <FaCheck className="tc-approve-icon" />
+                    View More
                 </Button>
             </div>
         ));
@@ -176,10 +178,10 @@ const SeasonCardRequests = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="tc-application-form-container">
-                        {/* Display the ApplicationForm component here */}
-                        <ApplicationForm data={selectedCard || {}} />
-                    </div>
+                    <div className="tc-application-container"  >
+        <ApplicationData data={selectedCard ||{} }/>
+    </div>
+                     
                 </div>
             </div>
         </div>
