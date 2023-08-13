@@ -34,9 +34,32 @@ const getStationId = async (stationName) =>
         throw new Error("An error occurred while fetching station ID");
     }
 };
+
+const findStation = async (userId) =>
+{
+    const employee = await prisma.employee.findFirst({
+        where: {
+            employeeId: userId,
+        },
+        select: {
+            stationId: true,
+        },
+    });
+
+    if (employee)
+    {
+        return employee.stationId;
+    } else
+    {
+        // Employee not found for the given user ID
+        return null; // or handle the situation as needed
+    }
+};
+
 module.exports = {
     getAllStations,
-    getStationId
+    getStationId,
+    findStation
 };
 
 

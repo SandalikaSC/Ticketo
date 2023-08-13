@@ -147,6 +147,50 @@ const insertEmployee = async (nic, email, birthDate, hashPassword, firstName, la
         },
       }
     })
+  } else if (userType == "TICKET_CHECKER")
+  {
+    return await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: ['TICKET_CHECKER'],
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: phoneNumber,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
+  } else if (userType == "TICKET_CLERK")
+  {
+    return await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: ['TICKET_CLERK'],
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: phoneNumber,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
   }
 
 }

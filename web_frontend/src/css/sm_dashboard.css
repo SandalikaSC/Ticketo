@@ -3,7 +3,7 @@
 /* .sm-dashboard {
   display: grid;
   grid-template-columns: 1fr 2fr; /* Divide the space into two columns */
-  /* gap: 20px;
+/* gap: 20px;
   padding: 20px;
 }  */
 
@@ -12,11 +12,12 @@
   background-color: #f4f4f4;
   padding: 20px;
   border-radius: 10px;/* sm_dashboard.css */
-/* } */ 
+/* } */
 
 .sm-dashboard {
   display: grid;
-  grid-template-columns: 2fr 1fr; /* Divide the space into two columns with 2:1 ratio */
+  grid-template-columns: 2fr 1fr;
+  /* Divide the space into two columns with 2:1 ratio */
   gap: 20px;
   padding: 20px;
 
@@ -43,9 +44,11 @@
 /* Adjustments for responsiveness */
 @media (max-width: 768px) {
   .sm-dashboard {
-    grid-template-columns: 1fr; /* Change to a single column layout on smaller screens */
+    grid-template-columns: 1fr;
+    /* Change to a single column layout on smaller screens */
   }
 }
+
 .train-delays-container {
   display: flex;
   flex-direction: column;
@@ -69,7 +72,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: space-evenly;
 }
 
 .flex-card {
@@ -77,8 +80,8 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   width: calc(45% - 20px);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform .2s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -92,22 +95,26 @@ h1 {
   font-size: 20px;
   color: #3d3398;
   margin-bottom: 10px;
-  text-align: left; /* Align card topic to the left */
+  text-align: left;
+  /* Align card topic to the left */
 }
 
 .flex-card-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align content to the left */
+  align-items: flex-start;
+  /* Align content to the left */
 }
 
 .content-right {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Align content to the center vertically */
-  text-align: right; /* Align text to the right */
+  justify-content: center;
+  /* Align content to the center vertically */
+  text-align: right;
+  /* Align text to the right */
 }
 
 .flex-card h2 {
@@ -120,85 +127,89 @@ h1 {
   font-size: 18px;
 }
 
-
 /* EmployeeDetails.css */
 
 .employee-details-container {
-text-align: center;
-padding: 20px;
+  text-align: center;
+  padding: 20px;
 }
 
 .section-heading {
-font-size: 28px;
-font-weight: bold;
-margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .sub-section-heading {
-font-size: 18px;
-color: #666;
-margin-bottom: 20px;
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 .employee-card-container {
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-align-items: center;
-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1%;
+  margin: -1%;
 }
 
 /* EmpCard styles can go here or remain in its own CSS file */
 /* EmpCard.css */
 
 .employee-card {
-border: 1px solid #ddd;
-border-radius: 8px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-margin: 10px;
-padding: 15px;
-text-align: center;
-width: 252px;
-height: 330px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+  width: 35%;
+  height: 35%;
 }
 
 .employee-card img {
-max-width: 100%;
-height: auto; /* Keep the aspect ratio */
-border-radius: 50%;
-margin-bottom: 10px;
-/* Add the following styles to control the image size */
-width: 100px; /* Adjust the width as needed */
-height: 100px; /* Adjust the height as needed */
+  max-width: 100%;
+  height: auto;
+  /* Keep the aspect ratio */
+  border-radius: 50%;
+  margin-bottom: 10px;
+  /* Add the following styles to control the image size */
+  width: 100px;
+  /* Adjust the width as needed */
+  height: 100px;
+  /* Adjust the height as needed */
 }
 
 .employee-card h2 {
-margin: 10px 0;
-font-size: 18px;
-font-weight: bold;
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .employee-card p {
-margin: 5px 0;
-color: #666;
+  margin: 5px 0;
+  color: #666;
 }
 
 /* TotalCard.css */
 
 .total-card {
-background-color: whitesmoke;
-border: 1px solid #ddd;
-border-radius: 8px;
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-padding: 15px;
-text-align: center;
-max-width: 300px;
-margin-top: 20px;
-margin-left: 20%;
+  background-color: whitesmoke;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  max-width: 300px;
+  margin-top: 20px;
+  margin-left: 20%;
 }
 
 .income-amount {
-font-size: 24px;
-font-weight: bold;
-color: #3f34a2; /* Adjust the color as needed */
+  font-size: 24px;
+  font-weight: bold;
+  color: #3f34a2;
+  /* Adjust the color as needed */
 }

@@ -146,7 +146,11 @@ const Sidebar = ({ children }) => {
         </div>
       </div>
 
+
       <main className="cc-main">{children}</main>
+
+//       <main style={{ width: "100%" }}>{children}</main>
+
     </div>
   );
 };
