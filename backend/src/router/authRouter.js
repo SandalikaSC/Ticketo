@@ -13,7 +13,7 @@ const {
   getAllStations
 } = require("../controllers/station-controller");
 
-
+const { addUser } = require("../controllers/user-controller");
 const { scanData } = require("../controllers/ticketChecker/scanData-controller");
 const {
   addTrain
@@ -37,6 +37,7 @@ router.post("/verify-otp", verifyOtp);
 router.get("/allstations", getAllStations);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
+router.post("/add-user", addUser);
 
 router.post("/reset-password", resetPassword);
 module.exports = router;

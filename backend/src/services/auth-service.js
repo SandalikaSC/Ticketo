@@ -1,11 +1,43 @@
-const { getTempOtp, insertTemperyOtp, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail } = require("../reposiotries/user-repository");
+const { getTempOtp, insertTemperyOtp, updateEmployee, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail, insertEmployee } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const { getStationId } = require('../reposiotries/station-repository')
+const { sendEmail } = require('../middleware/sendEmail');
 
+const addEmployee = async (id, firstName, lastName, station, mobileNumber, email, nic, userType) =>
+{
+  const hashPassword = bcrypt.hashSync(nic, 10);
+  const birthDate = getBirthDateFromNIC(nic);
 
-const employeeToPassenger = async (nic) => {
+  console.log(birthDate);
+  const stationId = await getStationId(station);
+
+  const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
+  console.log("added user id", addedUser.id);
+  await updateEmployee(addedUser.id, id, stationId);
+
+  const subject = "Account Creation of Ticketo";
+  const body = `Dear ${addedUser.firstName} ${addedUser.lastName},\n\nYour account has been successfully created in our system. Your NIC number is your initial password. Please change your password upon login.\n\nThank you for joining us!`;
+
+  const userEmail = addedUser.email;
+  const emailResult = await sendEmail(userEmail, subject, body);
+
+ 
+  if (emailResult.success)
+  {
+    console.log("Email sent to user:", emailResult.message);
+  } else
+  {
+    console.error("Failed to send email to user:", emailResult.message);
+  }
+
+  return addedUser;
+  // const addedUser = await addEmployee
+}
+const employeeToPassenger = async (nic) =>
+{
 
   try {
     return await addEmployeeAsPassenger(nic);
@@ -152,6 +184,7 @@ const verifyToken = async (token) => {
     console.error("Token Verification Failed:", error.message);
     throw error; // Re-throw the error to be handled at the calling location
   }
+
 }
 const logout = async (id) => {
   await updateToken(id, "");
@@ -199,6 +232,7 @@ module.exports = {
   accountVerification,
   employeeToPassenger,
   isExistPassenger,
-  insertTempOtp
+  insertTempOtp,
+  addEmployee
 };
 
