@@ -10,9 +10,6 @@ import {
   Button,
 } from "@mui/material";
 
-// import { Modal, Button } from "@material-ui/core";
-import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
 
 
 const Form = () => {
