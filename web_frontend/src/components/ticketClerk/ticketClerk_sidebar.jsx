@@ -8,16 +8,17 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-import Logo from "../common/logoText.png";
+import Logo from "../common/logo.png";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
-  const Sidebar = ({ children }) => {
+const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const [activeItem, setActiveItem] = useState(null);
   const menuItem = [
     {
       path: "/tc/dashboard",
@@ -40,6 +41,7 @@ import { useNavigate } from "react-router-dom";
       icon: <FaBook />,
     },
   ];
+
   const handleSignOut = async () => {
     try {
       // Send a sign-out request to your server if needed
@@ -52,7 +54,6 @@ import { useNavigate } from "react-router-dom";
       // For example, you might want to dispatch an action to update your Redux state.
       dispatch(authActions.logout());
 
-
       // Remove access token from local storage
       localStorage.removeItem("accessToken");
 
@@ -62,9 +63,20 @@ import { useNavigate } from "react-router-dom";
       console.error("Error signing out:", error);
     }
   };
+
   return (
     <div className="container">
-      <div style={{ width: isOpen ? "200px" : "50px" }} className="sidebar">
+      <div style={{ width: isOpen ? "18%" : "50px" }} className="sidebar">
+
+      <div
+            style={{
+              marginLeft: isOpen ? "85%" : "30%",
+              marginTop: "8%",
+            }}
+            className="bars grey-text"
+          >
+            <FaBars onClick={toggle} />
+          </div>
         <div className="top_section">
           <img
             style={{ display: isOpen ? "block" : "none" }}
@@ -73,30 +85,28 @@ import { useNavigate } from "react-router-dom";
             alt="logo"
             className="logo"
           />
-          <div
-            style={{ marginLeft: isOpen ? "25px" : "0px", marginTop: "5px" }}
-            className="bars"
-          >
-            <FaBars onClick={toggle} />
-          </div>
+     
         </div>
         {menuItem.map((item, index) => (
           <NavLink
             to={item.path}
             key={index}
-            className="link"
-            activeclassName="active"
+            className={`link grey-text ${activeItem === item.path ? "active" : ""}`}
+            activeClassName="active"
+            onClick={() => setActiveItem(item.path)} 
           >
-            <div className="icon">{item.icon}</div>
+              <div className={`icon grey-text ${activeItem === item.path ? "active" : ""}`}>{item.icon}</div>
             <div
-              style={{ display: isOpen ? "block" : "none" }}
-              className="link_text"
+              style={{
+                display: isOpen ? "block" : "none",
+                
+              }}
+              className="link_text grey-text"
             >
               {item.name}
             </div>
           </NavLink>
         ))}
-
         <div
           style={{
             marginTop: "100px",
@@ -109,11 +119,14 @@ import { useNavigate } from "react-router-dom";
             style={{ display: "flex", alignItems: "center" }}
             onClick={handleSignOut}
           >
-            <div className="icon" style={{ marginLeft: "14px" }}>
-              {<FaSignOutAlt />}
+            <div className="icon grey-text" style={{ marginLeft: "14px" }}>
+              {<FaSignOutAlt className="black-icon"/>}
             </div>
             <div
-              style={{ display: isOpen ? "block" : "none", marginLeft: "10px" }}
+              style={{
+                display: isOpen ? "block" : "none",
+                marginLeft: "10px",
+              }}
               className="link_text"
             >
               Sign Out
@@ -122,7 +135,7 @@ import { useNavigate } from "react-router-dom";
         </div>
       </div>
 
-      <main>{children}</main>
+      <main className="cc-main">{children}</main>
     </div>
   );
 };
