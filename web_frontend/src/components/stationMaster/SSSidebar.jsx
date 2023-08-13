@@ -25,18 +25,18 @@ const Sidebar = ({ children }) => {
       name: "Dashboard",
       icon: <FaTh />,
     },
-    {
-      path: "/ss/addcheckerclerk",
-      name: "Employee Details",
-      icon: <FaBell />,
-    },
+    // {
+    //   path: "/ss/addcheckerclerk",
+    //   name: "Employee Details",
+    //   icon: <FaBell />,
+    // },
     {
       path: "/ss/TrainDelays",
       name: "Train Delays",
       icon: <FaTrain />,
     },
     {
-      path: "/ss/EmployeeDetails",
+      path: "/ss/addcheckerclerk",
       name: "Employees",
       icon: <FaPersonBooth />,
     },
@@ -134,7 +134,7 @@ const Sidebar = ({ children }) => {
         </div>
       </div>
 
-      <main>{children}</main>
+      <main style={{ width: "100%" }}>{children}</main>
     </div>
   );
 };

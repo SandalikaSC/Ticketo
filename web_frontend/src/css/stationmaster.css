@@ -1,66 +1,66 @@
- 
-h1{
-    text-align: center;
-    color: #3D50AC;
-  }
-  
-  .form_container{
-    max-width: 500px;
-    margin: 50px auto;
-    background-color: #ECECEC;
-    padding: 20px;
-    border-radius: 5px;
-    /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
-  }
-  
-  .addcheckerclerk_form{
-    display:flex;
-    flex-direction:column;
-  }
+h1 {
+  text-align: center;
+  color: #3D50AC;
+}
 
+.form_container {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #ECECEC;
+  padding: 20px;
+  border-radius: 5px;
+  /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+}
 
-  .box{
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border-radius: 4px;
-    box-sizing: border-box;
-  }
+.addcheckerclerk_form {
+  display: flex;
+  flex-direction: column;
+}
 
-.addbutton{
+.box {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.addbutton {
   background-color: #F86F5D;
   border: none;
   border-radius: 8px;
-  color:white;
-  padding: 12px 50px; /* Adjust padding as needed */
-  font-size: 20px; /* Adjust font size as needed */
+  color: white;
+  padding: 12px 50px;
+  /* Adjust padding as needed */
+  font-size: 20px;
+  /* Adjust font size as needed */
   align-self: left;
   text-align: center;
   display: block;
   width: fit-content;
-  margin:0 auto;
+  margin: 0 auto;
   cursor: pointer;
 
 }
- 
 
-  .main_container{
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    height: calc(100vh - 0px);
+.main_container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  height: calc(100vh - 0px);
+  gap: 2%;
 }
 
-  .left_container {
-    flex: 1;
-    text-align:left;
-    padding: 20px;
-    border: 1px solid #ccc;
-    background-color:white;
-    height:calc(100vh - 0px);
+.left_container {
+  flex: 1;
+  text-align: left;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: white;
+  height: calc(100vh - 0px);
 }
 
-  /*.right_container_scrollable-content {
+/*.right_container_scrollable-content {
     flex: 1;
     text-align:center;
     overflow-y: auto;  Enable vertical scrolling 
@@ -68,15 +68,16 @@ h1{
     border: 1px solid #ccc;
   }*/
 
-  .right_container_scrollable-content {
-    flex: 1;
-    text-align: center;
-    overflow-y: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    width: 900px;
-    height: 750px; /* Adjust the height based on your design */
-  }
+.right_container_scrollable-content {
+  flex: 1;
+  text-align: center;
+  overflow-y: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  width: 900px;
+  height: 750px;
+  /* Adjust the height based on your design */
+}
 
 .search-container {
   position: relative;
@@ -84,23 +85,21 @@ h1{
   margin: 50px auto;
   outline: 2px solid #515252;
 }
- 
+
 /*}.search-container input {
   color:#01020b ;
 }*/
 
-
-
-.checker_clerk_card{
-    display:flexbox;
-    max-width: 400px;
-    height: 100px;
-    margin: 50px auto;
-    background-color: #d3d4df;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor:pointer;
+.checker_clerk_card {
+  display: flexbox;
+  max-width: 400px;
+  height: 100px;
+  margin: 50px auto;
+  background-color: #d3d4df;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .popup {
@@ -112,10 +111,11 @@ h1{
   background-color: #cbd6f7;
   border: 1px solid #ccc;
   padding: 20px;
-  box-shadow: 0px;
+  box-shadow: 0;
   width: 400px;
   height: 230px;
-  z-index: 999; /* Ensure the popup is above other content */
+  z-index: 999;
+  /* Ensure the popup is above other content */
 }
 
 .popup2 {
@@ -127,17 +127,18 @@ h1{
   background-color: white;
   border: 1px solid #ccc;
   padding: 20px;
-  box-shadow: 0px;
+  box-shadow: 0;
   width: 400px;
   height: 125px;
-  z-index: 999; /* Ensure the popup is above other content */
+  z-index: 999;
+  /* Ensure the popup is above other content */
 }
 
 .popup-content {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position: relative;
 }
 
@@ -149,44 +150,50 @@ h1{
   cursor: pointer;
 }
 
-
 .view_button {
   background-color: #cbd6f7;
   border: none;
   border-radius: 8px;
   color: rgb(11, 10, 10);
-  padding: 8px 16px; /* Adjust padding as needed */
-  font-size: 14px; /* Adjust font size as needed */
+  padding: 8px 16px;
+  /* Adjust padding as needed */
+  font-size: 14px;
+  /* Adjust font size as needed */
   align-self: left;
   text-align: center;
   display: block;
   width: fit-content;
-  margin:0 auto;
+  margin: 0 auto;
   cursor: pointer;
 }
 
-.delete_button{
+.delete_button {
   background-color: #ecbcbc;
   border: none;
   border-radius: 8px;
   color: rgb(11, 10, 10);
-  padding: 8px 16px; /* Adjust padding as needed */
-  font-size: 14px; /* Adjust font size as needed */
+  padding: 8px 16px;
+  /* Adjust padding as needed */
+  font-size: 14px;
+  /* Adjust font size as needed */
   align-self: left;
   text-align: center;
   display: block;
   width: fit-content;
-  margin:0 auto;
+  margin: 0 auto;
   cursor: pointer;
 }
 
- .checkerclk_card {
-  display: flex; /* Use flexbox */
-  flex-direction:row; /* Stack items vertically by default */
+.checkerclk_card {
+  display: flex;
+  /* Use flexbox */
+  flex-direction: row;
+  /* Stack items vertically by default */
   justify-content: space-between;
-  align-items: center; /* Center items horizontally */
+  align-items: center;
+  /* Center items horizontally */
   border: 1px solid #ddd;
-  background-color:#ECECEC ;
+  background-color: #ECECEC;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 10px;
@@ -198,12 +205,15 @@ h1{
 
 .checkerclk_card img {
   max-width: 100%;
-  height: auto; /* Keep the aspect ratio */
+  height: auto;
+  /* Keep the aspect ratio */
   border-radius: 50%;
   margin-bottom: 10px;
   /* Add the following styles to control the image size */
-  width: 100px; /* Adjust the width as needed */
-  height: 100px; /* Adjust the height as needed */
+  width: 100px;
+  /* Adjust the width as needed */
+  height: 100px;
+  /* Adjust the height as needed */
 }
 
 .checkerclk_card h2 {
@@ -216,20 +226,24 @@ h1{
   margin-top: 0;
   color: #666;
 }
-.cardword_contents{
-  display: flex; /* Use flexbox */
-  flex-direction:column;
-  
+
+.cardword_contents {
+  display: flex;
+  /* Use flexbox */
+  flex-direction: column;
+
 }
 
-.cardword_contents_container{
+.cardword_contents_container {
   text-align: left;
-  margin-left: 20px
+  margin-left: 20px;
 }
 
-.button_container{
-  display: flex; /* Use flexbox */
-  flex-direction:row;
-  justify-content: center; /* Center the buttons horizontally */
+.button_container {
+  display: flex;
+  /* Use flexbox */
+  flex-direction: row;
+  justify-content: center;
+  /* Center the buttons horizontally */
   gap: 0;
 }
