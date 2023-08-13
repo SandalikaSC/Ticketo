@@ -67,30 +67,37 @@ const AddCheckerClerk = () => {
           <form className="addcheckerclerk_form">
             <label>
               First Name:
-              <input type="text" className="box"/>
+              <input type="text" className="box" required/>
             </label>
             <label>
               Last Name:
-              <input type="text" className="box"/>
+              <input type="text" className="box" required/>
             </label>
             <label>
               Job Position:
-              <select className="box">
+              <select className="box" required>
+                <option value="" disabled selected>Select job role</option>
                 <option value="clerk">Ticket Clerk</option>
                 <option value="checker">Ticket Checker</option>
               </select>
             </label>
             <label>
               NIC:<br />
-              <input type="text" className="box"/>
+              <input type="text" className="box" required minLength={10}/>
             </label>
             <label>
               Email:<br />
-              <input type="text" className="box"/>
+              <input type="email" className="box" required placeholder="Please enter a valid email address" />
             </label>
             <label>
               Mobile No.:
-              <input type="text" className="box"/>
+              <input  type="text"
+              className="box"
+              placeholder="Please enter a valid mobile number with 10 digits"
+              required
+              minLength={10}
+              pattern="[0-9]+"
+              title="Please enter a valid mobile number with 10 digits"/>
             </label>
             <button className="addbutton"><b>Add</b></button>
           </form>
