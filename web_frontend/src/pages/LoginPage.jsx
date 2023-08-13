@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { Box, Grid, Typography, Divider } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Typography,
+  Divider,
+  IconButton,
+  InputAdornment,
+} from "@mui/material";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -207,6 +215,13 @@ const LoginPage = () => {
                   marginBottom: "10%",
                 }}
                 type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton onClick={handlePasswordToggle} edge="end">
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
               <button
                 type="submit"

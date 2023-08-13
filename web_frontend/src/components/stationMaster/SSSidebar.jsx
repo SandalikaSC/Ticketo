@@ -7,6 +7,7 @@ import {
   FaPersonBooth,
   FaCreditCard,
   FaSignOutAlt,
+  FaTicketAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Logo from "../common/logo.png";
@@ -45,6 +46,11 @@ const Sidebar = ({ children }) => {
       path: "/ss/seasons",
       name: "Seasons",
       icon: <FaCreditCard />,
+    },
+    {
+      path: "/ss/TicketPurchase",
+      name: "Tickets",
+      icon: <FaTicketAlt />,
     },
     // {
     //   path: "/ss/Traindetails",
