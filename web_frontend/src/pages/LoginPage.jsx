@@ -68,7 +68,7 @@ const LoginPage = () => {
         console.log("There is an error in the API request");
         return;
       }
-      const { accessToken, userType } = data;
+      const { accessToken, userType, loginStatus } = data;
 
       localStorage.setItem("accessToken", accessToken);
       dispatch(authActions.login());
@@ -78,9 +78,19 @@ const LoginPage = () => {
       } else if (userType[0] === "CONTROL_CENTRE") {
         history("/cc");
       } else if (userType[0] === "STATION_MASTER") {
-        history("/ss");
+        // history("/ss");
+        if (loginStatus === false) {
+          history("/reset-password");
+        } else {
+          history("/ss");
+        }
       } else if (userType[0] === "TICKET_CLERK") {
-        history("/tc");
+        // history("/tc");
+        if (loginStatus === false) {
+          history("/reset-password");
+        } else {
+          history("/tc");
+        }
       } else {
         console.log("Unknown userType:", userType);
       }
