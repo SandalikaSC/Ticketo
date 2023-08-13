@@ -30,12 +30,12 @@ const addTicket = async (req, res) => {
         return res.status(400).json({ message: "Oops! It looks like there are some pending payments" });
     }
     try {
-        const ticket = await ticketService.addTicket(startStation, endStation, tripType, departureDay, returnDay, passengers, classname.toLowerCase(), user);
+        const { qrCode, ticket } = await ticketService.addTicket(startStation, endStation, tripType, departureDay, returnDay, passengers, classname.toLowerCase(), user);
 
-        if (ticket) {
-            return res.status(200).json({ ticket });
+        if (qrCode && ticket) {
+            return res.status(200).json({ ticket, qrCode });
         } else {
-            return res.status(400).json({ message: "Unable to generate ticket" });
+            return res.status(400).json({ message: "Ticket and/or QR code not available." });
         }
     } catch (err) {
         return res.status(500).json({ message: "Internal Server Error" });
