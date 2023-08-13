@@ -24,6 +24,7 @@ const addEmployee = async (id, firstName, lastName, station, mobileNumber, email
   const userEmail = addedUser.email;
   const emailResult = await sendEmail(userEmail, subject, body);
 
+
   if (emailResult.success)
   {
     console.log("Email sent to user:", emailResult.message);
@@ -162,10 +163,13 @@ const login = async (email, password) =>
       firstName: existingUser.firstName,
       lastName: existingUser.lastName,
       mobileNumber: existingUser.mobileNumber,
+      accountStatus: existingUser.accountStatus,
+      loginStatus: existingUser.loginStatus,
       userType: existingUser.userType,
       loginStatus: existingUser.loginStatus,
     }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "5d",
+      expiresIn: "2d",
+
     });
 
     const refreshToken = jwt.sign({ id: existingUser.id, email: existingUser.email, userType: existingUser.userType, loginStatus: existingUser.loginStatus, type: "refresh" }, REFRESH_TOKEN_SECRET, {
@@ -207,11 +211,19 @@ const insertTempOtp = async (nic, otp) =>
 
 const verifyToken = async (token) =>
 {
-  console.log("service verify token");
-  const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
-  console.log("her inside verifytoken");
-  console.log(decodedToken);
-  return decodedToken;
+  // console.log("service verify token");
+  // console.log(token);
+  try
+  {
+    const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
+
+    return decodedToken;
+  } catch (error)
+  {
+    console.error("Token Verification Failed:", error.message);
+    throw error; // Re-throw the error to be handled at the calling location
+  }
+
 }
 const logout = async (id) =>
 {

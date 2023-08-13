@@ -14,6 +14,24 @@ const dummyTableData = [
   { date: '2023.07.09', amount: '1,000,000' },
   { date: '2023.07.10', amount: '3,000,000' },
   { date: '2023.07.11', amount: '1,500,000' },
+  { date: '2023.07.07', amount: '3,000,000' },
+  { date: '2023.07.08', amount: '1,500,000' },
+  { date: '2023.07.09', amount: '1,000,000' },
+  { date: '2023.07.10', amount: '3,000,000' },
+  { date: '2023.07.11', amount: '1,500,000' },
+  {date: '2023.07.07', amount: '3,000,000' },
+  { date: '2023.07.08', amount: '1,500,000' },
+  { date: '2023.07.09', amount: '1,000,000' },
+  { date: '2023.07.10', amount: '3,000,000' },
+  { date: '2023.07.11', amount: '1,500,000' },
+  { date: '2023.07.07', amount: '3,000,000' },
+  {date: '2023.07.07', amount: '3,000,000' },
+  { date: '2023.07.08', amount: '1,500,000' },
+  { date: '2023.07.09', amount: '1,000,000' },
+  { date: '2023.07.10', amount: '3,000,000' },
+  { date: '2023.07.11', amount: '1,500,000' },
+  { date: '2023.07.07', amount: '3,000,000' },
+
 
 ];
 
@@ -56,7 +74,7 @@ const IncomeReportView = ({ reportData }) => {
         <Text style={styles.title}>Income Report</Text>
         <View style={styles.tableHeader}>
           <Text style={styles.tableHeaderCell}>Date</Text>
-          <Text style={styles.tableHeaderCell}>Amount</Text>
+          <Text style={styles.tableHeaderCell}>Amount(LKR)</Text>
         </View>
         {dummyTableData.map((row, index) => (
           <View key={index} style={styles.tableRow}>

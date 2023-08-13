@@ -89,7 +89,13 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
       dob: birthDate,
       mobileNumber: phoneNumber,
       accountStatus: true,
-      token: ""
+      token: "",
+      wallet: {
+        create: {
+          walletBalance: 0.0,
+          holdValue: 0.0,
+        },
+      },
     }
   })
 }

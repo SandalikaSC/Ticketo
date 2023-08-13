@@ -29,6 +29,8 @@ const ComplaintCard = ({ id, complaintBy, date, complaint, userImage, onResolve 
           <div className="complaint-info">
             <span className="complaint-id">Complaint ID: {id}</span>
             <span className="complaint-by">Complaint By: {complaintBy}</span>
+            <img className="user-image" src={userImage} alt="User" />
+
             <span className="complaint-date">Date: {date}</span>
             <span className="complaint-text">Complaint: {complaint}</span>
           </div>
