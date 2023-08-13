@@ -1,142 +1,142 @@
+/* .tc-season-container {
+  width: 102%;
 
+} */
 
-.tc-season-container{
-    width: 102%;
-    
-}
 .tc-season-cards {
-    margin: 20px 10px; /* Adjust left and right margins */
+  margin: 20px 10px;
+  /* Adjust left and right margins */
 }
 
 .tc-main-heading {
-    margin-left: 2%; /* Adjust the left margin as needed */
-    display: flex;
-    align-items: center;
-    color: #1f5288;
+  margin-left: 2%;
+  /* Adjust the left margin as needed */
+  display: flex;
+  align-items: center;
+  color: #1f5288;
 }
 
 .tc-season-cards-heading {
-    color: #1f5288;
+  color: #1f5288;
 }
+
 .tc-tab-application-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0%;
-    margin-right: 10% ;
-    width :100%;
-    padding-left: 2%;
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 20px 10% 20px 0;
+  width: 100%;
+  /* padding-left: 2%; */
 }
+
 .tc-tab-container {
-   
-    margin-top: 20px;
-    width: 55%;
-    margin-left: 2%;
-    margin-right: 2%;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: calc(100vh - 120px); 
-    overflow-y: auto;
+
+  margin-top: 20px;
+  width: 55%;
+  margin-left: 2%;
+  margin-right: 2%;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
 .tc-tab-bar {
-    display: flex;
+  display: flex;
 }
 
-
 .tc-tab {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    color: #1f5288;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    background-color: #fff;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  color: #1f5288;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: #fff;
+  transition: background-color .3s, color .3s, box-shadow .3s;
 }
 
 .tc-tab:not(.active) {
-    color: #1f5288;
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  color: #1f5288;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color .3s, color .3s, box-shadow .3s;
 }
 
-
 .tc-tab.active {
-    background-color: #FA6F5D;
-    color: #fff;
+  background-color: #FA6F5D;
+  color: #fff;
 }
 
 .tc-tab-content {
-    padding: 20px;
-    border-top: none;
+  padding: 20px;
+  border-top: none;
 }
 
 .tc-sort-bar {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .tc-sort-select {
-    width: 120px;
-    margin-right: 10px;
+  width: 120px;
+  margin-right: 10px;
 }
 
 .tc-sort-label {
-    margin-right: 10px;
-    color: #1f5288;
+  margin-right: 10px;
+  color: #1f5288;
 }
 
 .tc-sort-button {
-    margin-right: 10px;
-    color: #d05757;
-    border-color: #d05757;
+  margin-right: 10px;
+  color: #d05757;
+  border-color: #d05757;
 }
 
 .tc-card {
-    border: none;
-    border-radius:5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    background-color: #fff;
-    padding: 10px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  background-color: #fff;
+  padding: 10px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .tc-card-header {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .tc-card-label {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .tc-card-info {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .tc-application-container {
-    flex: '0 0 30%';
-    margin-left: 20px;
-}
-.tc-approve-button {
-    background-color: #FA6F5D;
-    border-color:#FA6F5D;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    padding: 8px 15px;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-    
+  flex: '0 0 30%';
+  margin-left: 20px;
 }
 
+.tc-approve-button {
+  background-color: #FA6F5D;
+  border-color: #FA6F5D;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  padding: 8px 15px;
+  transition: background-color .3s, color .3s, box-shadow .3s;
+
+}
 
 .tc-approve-button:hover {
-    background-color: #c02d2d; 
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  background-color: #c02d2d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
