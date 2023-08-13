@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
+
 // import { Modal, Button } from "@material-ui/core";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 
+
 const Form = () => {
   const [stations, setStations] = useState([]);
-  const [selectedStation, setSelectedStation] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,10 +27,9 @@ const Form = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
-  const [message, setMessage] = useState("");
-  const [openModal, setOpenModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [modalStatus, setModalStatus] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
 
   useEffect(() => {
     fetchStations();
@@ -59,7 +68,6 @@ const Form = () => {
 
   const handleStationChange = (event) => {
     const selectedValue = event.target.value;
-    setSelectedStation(selectedValue);
     setFormData({
       ...formData,
       station: selectedValue,
@@ -116,11 +124,10 @@ const Form = () => {
     setErrors({});
   };
 
-  const handleModalClose = () => {
-    setOpenModal(false);
-    setMessage("");
-    setModalMessage("");
-    setModalStatus("");
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+    setDialogMessage("");
+    setDialogTitle("");
   };
 
   const handleSubmit = async (event) => {
@@ -140,9 +147,9 @@ const Form = () => {
           { headers }
         );
 
-        setModalStatus(response.status);
-        setModalMessage(response.data.message);
-        setOpenModal(true);
+        setDialogMessage(response.data.message);
+        setDialogTitle(response.status === 201 ? "Success" : "Error");
+        setOpenDialog(true);
 
         if (response.status === 201) {
           // Clear form data after successful submission
@@ -253,21 +260,17 @@ const Form = () => {
           </button>
         </div>
       </form>
-      <Modal open={openModal} onClose={handleModalClose}>
-        <div className="modal-container">
-          <div
-            className={`modal-content ${
-              modalStatus === 201 ? "success" : "error"
-            }`}
-          >
-            <h2>{modalStatus === 201 ? "Success" : "Error"}</h2>
-            <p>{modalMessage}</p>
-            <Button onClick={handleModalClose} color="primary">
-              Close
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>{dialogTitle}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialogMessage}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

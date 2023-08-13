@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Grid, Typography, Divider } from "@mui/material";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
@@ -103,11 +103,6 @@ const LoginPage = () => {
   return (
     <main style={{ width: "100%", marginTop: "3%" }}>
       <Grid container spacing={0} style={{ marginLeft: "0" }}>
-        {/* <Grid
-          item
-          xs={5}
-          style={{ backgroundColor: "#3a4da3", width: "2%" }}
-        ></Grid> */}
         <Divider
           orientation="vertical"
           flexItem
@@ -149,68 +144,6 @@ const LoginPage = () => {
             borderRadius: "84%",
           }}
         />
-
-        {/* <Grid item xs={5} style={{ marginLeft: "7%" }}>
-          <form onSubmit={handleSubmit} style={{ backgroundColor: "white" }}>
-            <Box>
-              <Typography variant="h3" align="center">
-                Login
-              </Typography>
-              <TextField
-                placeholder="email"
-                name="email"
-                value={inputs.email}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <img src="images/usericon.png" alt="User Icon" />
-                    </InputAdornment>
-                  ),
-                  autoComplete: "off",
-                }}
-              />
-              <TextField
-                name="password"
-                onChange={handleChange}
-                value={inputs.password}
-                placeholder="Password"
-                fullWidth
-                margin="normal"
-                type={showPassword ? "text" : "password"}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <img src="images/passwordicon.png" alt="User Icon" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handlePasswordToggle} edge="end">
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  autoComplete: "off",
-                }}
-              />
-              <Button type="submit" variant="h1" color="primary" fullWidth>
-                Login
-              </Button>
-              {loginError && <Box sx={{ color: "red" }}>{loginError}</Box>}
-              <Box>
-                <Typography>Forgot Password?</Typography>
-                <Link href="#" color="textSecondary">
-                  Recover Here
-                </Link>
-              </Box>
-            </Box>
-          </form>
-        </Grid> */}
         <Grid item xs={5} style={{ marginLeft: "5%" }}>
           <form
             onSubmit={handleSubmit}
@@ -221,96 +154,6 @@ const LoginPage = () => {
               marginTop: " 12%",
             }}
           >
-            {/* <Box>
-              <Typography
-                variant="h3"
-                align="center"
-                style={{
-                  color: "#3D51A9",
-                  marginBottom: "40px",
-                }}
-              >
-                Login
-              </Typography>
-              <TextField
-                placeholder="email"
-                name="email"
-                value={inputs.email}
-                onChange={handleChange}
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <img src="images/usericon.png" alt="User Icon" />
-                    </InputAdornment>
-                  ),
-                  autoComplete: "off",
-                }}
-                style={{
-                  borderRadius: "50px", // Apply border radius
-                  border: "none !important", // Remove the border
-                  backgroundColor: "#ECECEC", // Set background color
-                  outline: "none",
-                }}
-              />
-              <TextField
-                name="password"
-                onChange={handleChange}
-                value={inputs.password}
-                placeholder="Password"
-                fullWidth
-                margin="normal"
-                type={showPassword ? "text" : "password"}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <img src="images/passwordicon.png" alt="Password Icon" />
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={handlePasswordToggle} edge="end">
-                        <FontAwesomeIcon
-                          icon={showPassword ? faEyeSlash : faEye}
-                        />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  autoComplete: "off",
-                }}
-                style={{
-                  borderRadius: "50px", // Apply border radius
-                  border: "none", // Remove the border
-                  backgroundColor: "#ECECEC", // Set background color
-                }}
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                style={{
-                  backgroundColor: "#FA6F5D",
-                  color: "white",
-                  marginTop: "20px",
-                }}
-                fullWidth
-              >
-                Login
-              </Button>
-              {loginError && (
-                <Box style={{ color: "red", marginTop: "10px" }}>
-                  {loginError}
-                </Box>
-              )}
-              <Box style={{ marginTop: "20px", textAlign: "center" }}>
-                <Typography style={{ color: "black" }}>
-                  Forgot Password?
-                </Typography>
-                <Link href="#" style={{ color: "#3D51A9" }}>
-                  Recover Here
-                </Link>
-              </Box>
-            </Box> */}
             <Box style={{ textAlign: "center" }}>
               <Typography
                 style={{
@@ -391,8 +234,8 @@ const LoginPage = () => {
                 >
                   Forgot Password?
                 </span>
-                <a
-                  href="#"
+                <Link
+                  to="/reset-password" // Specify the path to the reset password page
                   style={{
                     color: "#FA6F5D",
                     marginLeft: "5px",
@@ -400,7 +243,7 @@ const LoginPage = () => {
                   }}
                 >
                   Recover Here
-                </a>
+                </Link>
               </div>
             </Box>
           </form>
