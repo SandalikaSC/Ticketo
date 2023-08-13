@@ -238,11 +238,11 @@ async function main() {
         // Add more station data here...
     ];
 
-    for (const data of stationData) {
-        await prisma.station.create({
-            data
-        });
-    }
+    // for (const data of stationData) {
+    //     await prisma.station.create({
+    //         data
+    //     });
+    // }
 
 
 
@@ -265,9 +265,9 @@ async function main() {
             otpGenerateTime: null,
             userType: ['PASSENGER'],
         },
- 
-        { 
-             id: '2',
+
+        {
+            id: '2',
             nic: '996523250V',
             email: 'savanihasadara@gmail.com',
             dob: new Date('2000-05-26T18:00:00.000Z'),
@@ -284,7 +284,7 @@ async function main() {
             otpGenerateTime: null,
             userType: ['STATION_MASTER'],
         },
-        {  
+        {
             id: '16',
             nic: "997000510v",
             email: "paridew99@gmail.com",
@@ -337,367 +337,357 @@ async function main() {
             otpGenerateTime: null,
             userType: ["CONTROL_CENTRE"],
         },
-        // {
-        //     id: '5',
-        //     nic: "998740099V",
-        //     email: "kavshagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveesha",
-        //     lastName: "gimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["TICKET_CLERK"],
-        // },
-        // {
-        //     id: '6',
-        //     nic: "996745099V",
-        //     email: "sanhagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kdsdsaaveesha",
-        //     lastName: "gimhdasdasdani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["STATION_MASTER"],
-        // },
-        // {
-        //     id: '7',
-        //     nic: "996780099V",
-        //     email: "kaDWDWQDQW@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveDWQDWQesha",
-        //     lastName: "giDWQDWmhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["TICKET_CHECKER"],
-        // },
-        // {
-        //     id: '8',
-        //     nic: "996747899V",
-        //     email: "DSDWDWQDgw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kASCSACDAaveesha",
-        //     lastName: "giASASAmhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["DRIVER"],
-        // },
-        // {
-        //     id: '9',
-        //     nic: "996740159V",
-        //     email: "kaveWDWQDWQDWQDeshagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kavDQWDWQDeesha",
-        //     lastName: "gimWDWQDQWhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["TICKET_CHECKER"],
-        // },
-        // {
-        //     id: '10',
-        //     nic: "996440099V",
-        //     email: "kaDWQDWQDWveeshagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveesQWDWQha",
-        //     lastName: "gimhaniWQDWQD",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["STATION_MASTER"],
-        // },
-        // {
-        //     id: '11',
-        //     nic: "996715099V",
-        //     email: "kaveeshagwDASDASDSAD@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveesha",
-        //     lastName: "gimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["TICKET_CLERK"],
-        // },
-        // {
-        //     id: '12',
-        //     nic: "996740099V",
-        //     email: "kaveeSAsASshagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveesha",
-        //     lastName: "gimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["TICKET_CLERK"],
-        // },
-        // {
-        //     id: '13',
-        //     nic: "996742299V",
-        //     email: "kaveeshDWDQWWFagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kaveeshWdWDWda",
-        //     lastName: "gdadwddimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["STATION_MASTER"],
-        // },
-        // {
-        //     id: '14',
-        //     nic: "996950099V",
-        //     email: "kaveesFFQWFhagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "kFWQFQWFaveesha",
-        //     lastName: "gEFEFQWFimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["DRIVER"],
-        // },
-        // {
-        //     id: '15',
-        //     nic: "995340099V",
-        //     email: "kWDWQDQWaveeshDagw@gmail.com",
-        //     dob: new Date('1920-01-05T18:30:00.000Z'),
-        //     password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-        //     firstName: "WWWDWDkaveesha",
-        //     lastName: "WGVBBBSDgimhani",
-        //     loginStatus: false,
-        //     accountStatus: false,
-        //     registeredDate: new Date('2023-08-05T04:57:34.569Z'),
-        //     mobileNumber: "01233654789",
-        //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
-        //     otp: "",
-        //     accessToken: "",
-        //     otpGenerateTime: null,
-        //     userType: ["DRIVER"],
-        // },
+        {
+            id: '5',
+            nic: "999640099V",
+            email: "kavshcecewfagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveesha",
+            lastName: "gimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["TICKET_CLERK"],
+        },
+        {
+            id: '6',
+            nic: "996745099V",
+            email: "sanhagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kdsdsaaveesha",
+            lastName: "gimhdasdasdani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["STATION_MASTER"],
+        },
+        {
+            id: '7',
+            nic: "996780099V",
+            email: "kaDWDWQDQW@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveDWQDWQesha",
+            lastName: "giDWQDWmhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["TICKET_CHECKER"],
+        },
+        {
+            id: '8',
+            nic: "996747899V",
+            email: "DSDWDWQDgw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kASCSACDAaveesha",
+            lastName: "giASASAmhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["DRIVER"],
+        },
+        {
+            id: '9',
+            nic: "996740159V",
+            email: "kaveWDWQDWQDWQDeshagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kavDQWDWQDeesha",
+            lastName: "gimWDWQDQWhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["TICKET_CHECKER"],
+        },
+        {
+            id: '10',
+            nic: "996440099V",
+            email: "kaDWQDWQDWveeshagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveesQWDWQha",
+            lastName: "gimhaniWQDWQD",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["STATION_MASTER"],
+        },
+        {
+            id: '11',
+            nic: "996715099V",
+            email: "kaveeshagwASDSAD@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveesha",
+            lastName: "gimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["TICKET_CLERK"],
+        },
+        {
+            id: '12',
+            nic: "996748899V",
+            email: "kaveeSAsASshagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveesha",
+            lastName: "gimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["TICKET_CLERK"],
+        },
+        {
+            id: '13',
+            nic: "996742299V",
+            email: "kaveeshDWDQWWFagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kaveeshWdWDWda",
+            lastName: "gdadwddimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["STATION_MASTER"],
+        },
+        {
+            id: '14',
+            nic: "996950099V",
+            email: "kaveesFFQWFhagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "kFWQFQWFaveesha",
+            lastName: "gEFEFQWFimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["DRIVER"],
+        },
+        {
+            id: '15',
+            nic: "995340099V",
+            email: "kWDWQDQWaveeshDagw@gmail.com",
+            dob: new Date('1920-01-05T18:30:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "WWWDWDkaveesha",
+            lastName: "WGVBBBSDgimhani",
+            loginStatus: false,
+            accountStatus: false,
+            registeredDate: new Date('2023-08-05T04:57:34.569Z'),
+            mobileNumber: "01233654789",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM1OGFhMDFmLWExNzYtNGIxNC04MTA2LTJiYzgzOTI0ZGYzN1xuIiwidXNlclR5cGUiOlsiQ09OVFJPTF9DRU5UUkUiXSwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE2OTE1NTgwMTIsImV4cCI6MTY5MjE2MjgxMn0.tpgMo9kOyYnLECEfiOYswH154d4EvpHeUVgvMg6L4aE",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["DRIVER"],
+        },
     ];
-    // const wallets = [
-    //     {
-    //         userId: "1",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "2",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "3",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "4",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "5",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "6",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "7",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "8",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "9",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "10",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "11",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "12",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "13",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "14",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     },
-    //     {
-    //         userId: "15",
-    //         walletBalance: getRandomFloat(500, 4000),
-    //         holdValue: getRandomFloat(100, 400)
-    //     }
+    const wallets = [
+        {
+            userId: "1",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "2",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "3",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "4",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "5",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "6",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "7",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "8",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "9",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "10",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "11",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "12",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "13",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "14",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "15",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "16",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        }
 
-    // ];
-
+    ];
+    // for (const data of userData) {
+    //     await prisma.user.create({
+    //         data
+    //     });
+    // }
     // for (const data of wallets) {
     //     await prisma.Wallet.create({
     //         data
     //     });
     // }
-    for (const data of userData) {
-        await prisma.user.create({
-            data
-        });
-    }
-    // const employeedata = [
-    //     {
-    //         employeeId: '2',
-    //         Employee: { connect: { id: userData[1].id } },
-    //         stationId: 1,
-    //     },
-    //     {
-    //         employeeId: '2',
-    //         Employee: { connect: { id: userData[2].id } },
-    //         stationId: 5,
-    //     },
-    //     {
-    //         employeeId: '3',
-    //         Employee: { connect: { id: userData[3].id } },
-    //         stationId: 8,
-    //     },
-    //     {
-    //         employeeId: '4',
-    //         Employee: { connect: { id: userData[4].id } },
-    //         stationId: 10,
-    //     },
-    //     {
-    //         employeeId: '5',
-    //         Employee: { connect: { id: userData[5].id } },
-    //         stationId: 7,
-    //     },
-    //     {
-    //         employeeId: '6',
-    //         Employee: { connect: { id: userData[6].id } },
-    //         stationId: 15,
-    //     },
-    //     {
-    //         employeeId: '7',
-    //         Employee: { connect: { id: userData[7].id } },
-    //         stationId: 16,
-    //     },
-    //     {
-    //         employeeId: '8',
-    //         Employee: { connect: { id: userData[8].id } },
-    //         stationId: 18,
-    //     },
-    //     {
-    //         employeeId: '9',
-    //         Employee: { connect: { id: userData[9].id } },
-    //         stationId: 21,
-    //     },
-    //     {
-    //         employeeId: '10',
-    //         Employee: { connect: { id: userData[10].id } },
-    //         stationId: 1,
-    //     },
-    //     {
-    //         employeeId: '11',
-    //         Employee: { connect: { id: userData[11].id } },
-    //         stationId: 31,
-    //     },
-    //     {
-    //         employeeId: '12',
-    //         Employee: { connect: { id: userData[12].id } },
-    //         stationId: 19,
-    //     },
-    //     {
-    //         employeeId: '13',
-    //         Employee: { connect: { id: userData[13].id } },
-    //         stationId: 20,
-    //     },
-    //     {
-    //         employeeId: '14',
-    //         Employee: { connect: { id: userData[14].id } },
-    //         stationId: 13,
-    //     },
 
-    // ];
+    const employeedata = [
+
+        {
+
+            Employee: { connect: { id: userData[1].id } },
+            station: { connect: { stationId: 5 } },
+        },
+        {
+            Employee: { connect: { id: userData[2].id } },
+            station: { connect: { stationId: 8 } },
+        },
+
+        {
+            Employee: { connect: { id: userData[3].id } },
+            station: { connect: { stationId: 10 } },
+        },
+        {
+            Employee: { connect: { id: userData[4].id } },
+            station: { connect: { stationId: 7 } },
+        },
+        {
+            Employee: { connect: { id: userData[5].id } },
+            station: { connect: { stationId: 15 } },
+        },
+        {
+            Employee: { connect: { id: userData[6].id } },
+            station: { connect: { stationId: 16 } },
+        },
+        {
+            Employee: { connect: { id: userData[7].id } },
+            station: { connect: { stationId: 18 } },
+        },
+        {
+            Employee: { connect: { id: userData[8].id } },
+            station: { connect: { stationId: 21 } },
+        },
+        {
+            Employee: { connect: { id: userData[9].id } },
+            station: { connect: { stationId: 1 } },
+        },
+        {
+            Employee: { connect: { id: userData[10].id } },
+            station: { connect: { stationId: 30 } },
+        },
+        {
+            Employee: { connect: { id: userData[11].id } },
+            station: { connect: { stationId: 19 } },
+        },
+        {
+            Employee: { connect: { id: userData[12].id } },
+            station: { connect: { stationId: 20 } },
+        },
+        {
+            Employee: { connect: { id: userData[13].id } },
+            station: { connect: { stationId: 13 } },
+        },
+
+    ];
     // for (const data of employeedata) {
     //     await prisma.Employee.create({
     //         data
@@ -720,11 +710,11 @@ async function main() {
     ];
 
 
-    for (const data of classData) {
-        await prisma.class.create({
-            data,
-        });
-    }
+    // for (const data of classData) {
+    //     await prisma.class.create({
+    //         data,
+    //     });
+    // }
 
     const coachData = [
         { coachCode: 'TC5', seatCapacity: 48, seatArrangement: 5, classId: 2, reservable: false },
@@ -739,11 +729,11 @@ async function main() {
         // Add more coach data here...
     ];
 
-    for (const data of coachData) {
-        await prisma.coach.create({
-            data,
-        });
-    }
+    // for (const data of coachData) {
+    //     await prisma.coach.create({
+    //         data,
+    //     });
+    // }
 
 
     const uniqueStationPairs = generateUniqueStationPairs(stationData);

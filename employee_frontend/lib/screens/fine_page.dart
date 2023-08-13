@@ -9,10 +9,10 @@ class FinePage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<User> users = [
       User(name: 'Kaveesha Gimhani', id: '997799550V', fineAmount: 950.00),
-      User(name: 'John Doe', id: '123456789X', fineAmount: 750.50),
-      User(name: 'Jane Smith', id: '987654321Y', fineAmount: 500.25),
-      User(name: 'Alex Johnson', id: '456789123Z', fineAmount: 1200.75),
-      User(name: 'Sarah Williams', id: '654321987W', fineAmount: 300.00),
+      User(name: 'Sandalika Chamari', id: '123456789X', fineAmount: 750.50),
+      User(name: 'Parindi Dewmini', id: '987654321Y', fineAmount: 500.25),
+      User(name: 'Nadee Darshika', id: '456789123Z', fineAmount: 1200.75),
+      User(name: 'Savani Hasadara', id: '654321987W', fineAmount: 300.00),
     ];
 
     return Scaffold(
@@ -60,7 +60,7 @@ class FinePage extends StatelessWidget {
                             'Wednesday 24th',
                             style: TextStyle(
                               color: Color(0xFF3D51A9),
-                              fontSize: 15,
+                              fontSize: 14,
                             ),
                           ),
                         ],

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
-  FaTh ,
+  FaTh,
   FaBars,
   FaBell,
   FaTrain,
   FaPersonBooth,
-  FaLocationArrow,
+  FaCreditCard,
   FaSignOutAlt,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -23,11 +23,11 @@ const Sidebar = ({ children }) => {
     {
       path: "/ss/SMDashboard",
       name: "Dashboard",
-      icon: <FaTh  />,
+      icon: <FaTh />,
     },
     {
       path: "/ss/addcheckerclerk",
-      name: "Add Checker/Clerk",
+      name: "Employee Details",
       icon: <FaBell />,
     },
     {
@@ -39,6 +39,11 @@ const Sidebar = ({ children }) => {
       path: "/ss/EmployeeDetails",
       name: "Employees",
       icon: <FaPersonBooth />,
+    },
+    {
+      path: "/ss/seasons",
+      name: "Seasons",
+      icon: <FaCreditCard />,
     },
     // {
     //   path: "/ss/Traindetails",

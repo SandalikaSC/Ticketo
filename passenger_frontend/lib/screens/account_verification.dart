@@ -139,8 +139,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: SingleChildScrollView(
+        child:Padding(
+        padding: const EdgeInsets.symmetric(vertical: 180),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +172,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4,
-                    (index) => OTPDigitBox(controller: _otpControllers[index])),
+                        (index) => OTPDigitBox(controller: _otpControllers[index])),
               ),
               SizedBox(height: 20),
               Text(
@@ -181,14 +182,14 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
               SizedBox(height: 20),
               _remainingAttempts >= 1
                   ? ElevatedButton(
-                      onPressed: _verifyOTP,
-                      child: Text("Verify"),
-                    )
+                onPressed: _verifyOTP,
+                child: Text("Verify"),
+              )
                   : SizedBox(),
             ],
           ),
         ),
-      ),
+      ),)
     );
   }
 }

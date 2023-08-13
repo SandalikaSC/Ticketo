@@ -8,6 +8,9 @@ CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
 
 -- CreateEnum
+CREATE TYPE "tripType" AS ENUM ('ONE_WAY', 'ROUND_TRIP');
+
+-- CreateEnum
 CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON', 'PHYSICAL');
 
 -- CreateEnum
@@ -140,6 +143,8 @@ CREATE TABLE "Ticket" (
     "journeyState" INTEGER NOT NULL DEFAULT 0,
     "price" DOUBLE PRECISION NOT NULL,
     "journeyDate" TIMESTAMP(3) NOT NULL,
+    "tripType" "tripType" NOT NULL DEFAULT 'ONE_WAY',
+    "returnTicketId" TEXT,
     "ticketType" "ticketType" NOT NULL,
     "userId" TEXT NOT NULL,
     "startStation" INTEGER NOT NULL,
@@ -306,6 +311,15 @@ CREATE UNIQUE INDEX "Wallet_userId_key" ON "Wallet"("userId");
 CREATE UNIQUE INDEX "Fine_ticketId_key" ON "Fine"("ticketId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Ticket_returnTicketId_key" ON "Ticket"("returnTicketId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Train_trainName_key" ON "Train"("trainName");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Train_trainNumber_key" ON "Train"("trainNumber");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Coach_coachCode_key" ON "Coach"("coachCode");
 
 -- CreateIndex
@@ -370,6 +384,9 @@ ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_classId_fkey" FOREIGN KEY ("classId"
 
 -- AddForeignKey
 ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_scannedBy_fkey" FOREIGN KEY ("scannedBy") REFERENCES "Employee"("employeeId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_returnTicketId_fkey" FOREIGN KEY ("returnTicketId") REFERENCES "Ticket"("ticketId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Reservation" ADD CONSTRAINT "Reservation_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "Ticket"("ticketId") ON DELETE RESTRICT ON UPDATE CASCADE;

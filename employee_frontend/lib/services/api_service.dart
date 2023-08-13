@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -8,8 +9,9 @@ class ApiService {
 
   Future<http.Response> loginUser(String email, String password) async {
     try {
+      var baseUrl = dotenv.env['BASE_URL'];
       final response = await http.post(
-        Uri.parse('$baseUrl/api/login'), // Replace with your Node.js server address
+        Uri.parse('$baseUrl/login'), // Replace with your Node.js server address
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'email': email,

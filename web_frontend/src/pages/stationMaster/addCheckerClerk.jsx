@@ -1,6 +1,7 @@
 //import React from "react";
 import React, { useState } from "react";
 import CheckerClerkCard from '../../components/stationMaster/checkerclerkcard.jsx';
+import axios from "axios";
 import "../../css/stationmaster.css";
 import userImage from '../../assets/user2.png'; // Update the path as needed
 import empImage from '../../assets/user3.png'; 
@@ -8,7 +9,19 @@ import emp2Image from '../../assets/user6.png';
 import emp3Image from '../../assets/user5.png'; 
 import emp4Image from '../../assets/user1.png';
 
+
 const AddCheckerClerk = () => {
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [deletepopupVisible, setDeletePopupVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    jobPosition: "clerk",
+    nic: "",
+    mobileNumber: "",
+  });
+  const [errors, setErrors] = useState({});
 
   const [searchInput, setSearchInput] = useState(""); // State for search input
   const checkersclerks = [
@@ -56,7 +69,74 @@ const AddCheckerClerk = () => {
   );
 
 
-  
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const newErrors = {};
+    if (!formData.firstName) {
+      newErrors.firstName = "First Name is required";
+    }
+    if (!formData.lastName) {
+      newErrors.lastName = "Last Name is required";
+    }
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+    }
+    if (!formData.mobileNumber) {
+      newErrors.mobileNumber = "Mobile Number is required";
+    } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
+      newErrors.mobileNumber = "Mobile Number must be a 10-digit number";
+    }
+    if (!formData.nic) {
+      newErrors.nic = "NIC Number is required";
+    } else if (!/^\d{9}[vV\d]{1}$|^\d{12}$/.test(formData.nic)) {
+      newErrors.nic = "NIC Number is invalid";
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://backend-address/add-user", // Replace with actual backend API address
+        formData
+      );
+      console.log("Data sent to backend:", response.data);
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        jobPosition: "clerk",
+        nic: "",
+        mobileNumber: "",
+      });
+
+      // Optionally show a success message or perform other actions
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+      // Optionally show an error message or perform error handling
+    }
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+
+    setErrors({
+      ...errors,
+      [name]: undefined,
+    });
+  };
 
   return (
     <div className="main_container">
@@ -73,6 +153,8 @@ const AddCheckerClerk = () => {
               Last Name:
               <input type="text" className="box" required/>
             </label>
+            <label>Email:</label>
+            <input type="email" />
             <label>
               Job Position:
               <select className="box" required>
@@ -88,6 +170,7 @@ const AddCheckerClerk = () => {
             <label>
               Email:<br />
               <input type="email" className="box" required placeholder="Please enter a valid email address" />
+
             </label>
             <label>
               Mobile No.:
@@ -114,12 +197,76 @@ const AddCheckerClerk = () => {
           />
         </div>
 
-        <div className="employee-card-container">
-          {filteredCheckersClerks.map((checkerclerk, index) => (
-            <CheckerClerkCard key={index} checkerclerk={checkerclerk} />
-          ))}
+//         <div className="employee-card-container">
+//           {filteredCheckersClerks.map((checkerclerk, index) => (
+//             <CheckerClerkCard key={index} checkerclerk={checkerclerk} />
+//           ))}
+//         </div>
+        <div className="checker_clerk_card">
+          <p>
+            <b>Subodhini Hegodarachchi</b>
+          </p>
+          <p>Ticket Clerk</p>
+          <br></br>
+          <button className="view_button" onClick={openPopup}>
+            View
+          </button>
         </div>
 
+        <div className="checker_clerk_card">
+          <p>
+            <b>Waruna Samarasinghe</b>
+          </p>
+          <p>Ticket Clerk</p>
+          <br></br>
+          <button className="view_button">View</button>
+        </div>
+
+        <div className="checker_clerk_card">
+          <p>
+            <b>Priyantha Perera</b>
+          </p>
+          <p>Ticket Checker</p>
+          <br></br>
+          <button className="view_button">View</button>
+        </div>
+
+        {/* Other checker_clerk_card elements... */}
+
+        {popupVisible && (
+          <div className="popup">
+            <div className="popup-content">
+              <p>
+                <b>Subodhini Hegodarachchi</b>
+              </p>
+              <p>Ticket Clerk</p>
+              <br></br>
+              <button className="view_button" onClick={closePopup}>
+                Close
+              </button>
+              <br></br>
+              <button className="delete_button" onClick={opendeletePopup}>
+                Delete staff person
+              </button>
+            </div>
+          </div>
+        )}
+
+        {deletepopupVisible && (
+          <div className="popup">
+            <div className="popup-content">
+              <p>Delete Subodhini Hegodarachchi from staff?</p>
+              <br></br>
+              <button className="view_button" onClick={closedeletePopup}>
+                Cancel
+              </button>
+              <br></br>
+              <button className="delete_button" onClick={closedeletePopup}>
+                Delete
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
