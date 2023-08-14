@@ -294,41 +294,100 @@ async function main()
             userType: ["DRIVER"],
         },
     ];
-
-    const routeLineData = [
-        {
-            routeName: 'Coastal Line',
-        },
-        {
-            routeName: 'Main Line',
-        },
-        {
-            routeName: 'Matale Line',
-        },
-        {
-            routeName: 'Northern Line',
-        },
-        {
-            routeName: 'Mannar Line',
-        },
-        {
-            routeName: 'Batticaloa Line',
-        },
-        {
-            routeName: 'Trincomalee Line',
-        },
-        {
-            routeName: 'Puttalam Line',
-        },
-        {
-            routeName: 'Kelani Valley Line',
-        },
-    ];
-
-    for (const data of routeLineData)
+    for (const data of userData)
     {
-        await prisma.routeLine.create({
-            data,
+        await prisma.user.create({
+            data
+        });
+    }
+
+    const wallets = [
+        {
+            userId: "1",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "2",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "3",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "4",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "5",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "6",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "7",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "8",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "9",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "10",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "11",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "12",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "13",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "14",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "15",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        },
+        {
+            userId: "16",
+            walletBalance: getRandomFloat(500, 4000),
+            holdValue: getRandomFloat(100, 400)
+        }
+
+    ];
+    for (const data of wallets)
+    {
+        await prisma.Wallet.create({
+            data
         });
     }
     const stationData = [
@@ -785,6 +844,107 @@ async function main()
             data
         });
     }
+    const employeedata = [
+
+        {
+
+            Employee: { connect: { id: userData[1].id } },
+            station: { connect: { stationId: 5 } },
+        },
+        {
+            Employee: { connect: { id: userData[2].id } },
+            station: { connect: { stationId: 8 } },
+        },
+
+        {
+            Employee: { connect: { id: userData[3].id } },
+            station: { connect: { stationId: 10 } },
+        },
+        {
+            Employee: { connect: { id: userData[4].id } },
+            station: { connect: { stationId: 7 } },
+        },
+        {
+            Employee: { connect: { id: userData[5].id } },
+            station: { connect: { stationId: 15 } },
+        },
+        {
+            Employee: { connect: { id: userData[6].id } },
+            station: { connect: { stationId: 16 } },
+        },
+        {
+            Employee: { connect: { id: userData[7].id } },
+            station: { connect: { stationId: 18 } },
+        },
+        {
+            Employee: { connect: { id: userData[8].id } },
+            station: { connect: { stationId: 21 } },
+        },
+        {
+            Employee: { connect: { id: userData[9].id } },
+            station: { connect: { stationId: 1 } },
+        },
+        {
+            Employee: { connect: { id: userData[10].id } },
+            station: { connect: { stationId: 30 } },
+        },
+        {
+            Employee: { connect: { id: userData[11].id } },
+            station: { connect: { stationId: 19 } },
+        },
+        {
+            Employee: { connect: { id: userData[12].id } },
+            station: { connect: { stationId: 20 } },
+        },
+        {
+            Employee: { connect: { id: userData[13].id } },
+            station: { connect: { stationId: 13 } },
+        },
+
+    ];
+    for (const data of employeedata)
+    {
+        await prisma.Employee.create({
+            data
+        });
+    }
+    // const routeLineData = [
+    //     {
+    //         routeName: 'Coastal Line',
+    //     },
+    //     {
+    //         routeName: 'Main Line',
+    //     },
+    //     {
+    //         routeName: 'Matale Line',
+    //     },
+    //     {
+    //         routeName: 'Northern Line',
+    //     },
+    //     {
+    //         routeName: 'Mannar Line',
+    //     },
+    //     {
+    //         routeName: 'Batticaloa Line',
+    //     },
+    //     {
+    //         routeName: 'Trincomalee Line',
+    //     },
+    //     {
+    //         routeName: 'Puttalam Line',
+    //     },
+    //     {
+    //         routeName: 'Kelani Valley Line',
+    //     },
+    // ];
+
+    // for (const data of routeLineData)
+    // {
+    //     await prisma.routeLine.create({
+    //         data,
+    //     });
+    // }
+
 
     const trainData = [
         {
@@ -866,7 +1026,7 @@ async function main()
             endTime: new Date('2023-08-15 18:21:00'),
             start: 1, // Replace with the actual start stationId
             end: 68,   // Replace with the actual end stationId
-            driverId: '1',
+            driverId: '6',
             trainId: 1, // Replace with the actual trainId
             WorkingDays: ['WEEKDAYS', 'WEEKENDS'],
             notWorking: ['HOLIDAY'],
@@ -876,7 +1036,7 @@ async function main()
             endTime: new Date('2023-08-16 08:49:00'),
             start: 68, // Replace with the actual start stationId
             end: 1,   // Replace with the actual end stationId
-            driverId: '2',
+            driverId: '7',
             trainId: 2, // Replace with the actual trainId
             WorkingDays: ['WEEKDAYS'],
             notWorking: ['SUNDAY'],
@@ -886,7 +1046,7 @@ async function main()
             endTime: new Date('2023-08-16 09:47:00'),
             start: 74, // Replace with the actual start stationId
             end: 1,   // Replace with the actual end stationId
-            driverId: '3',
+            driverId: '15',
             trainId: 3, // Replace with the actual trainId
             WorkingDays: ['WEEKDAYS'],
             notWorking: ['SUNDAY'],
@@ -1361,166 +1521,7 @@ async function main()
 
 
 
-    const wallets = [
-        {
-            userId: "1",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "2",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "3",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "4",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "5",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "6",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "7",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "8",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "9",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "10",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "11",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "12",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "13",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "14",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "15",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        },
-        {
-            userId: "16",
-            walletBalance: getRandomFloat(500, 4000),
-            holdValue: getRandomFloat(100, 400)
-        }
 
-    ];
-    for (const data of userData)
-    {
-        await prisma.user.create({
-            data
-        });
-    }
-    for (const data of wallets)
-    {
-        await prisma.Wallet.create({
-            data
-        });
-    }
-
-    const employeedata = [
-
-        {
-
-            Employee: { connect: { id: userData[1].id } },
-            station: { connect: { stationId: 5 } },
-        },
-        {
-            Employee: { connect: { id: userData[2].id } },
-            station: { connect: { stationId: 8 } },
-        },
-
-        {
-            Employee: { connect: { id: userData[3].id } },
-            station: { connect: { stationId: 10 } },
-        },
-        {
-            Employee: { connect: { id: userData[4].id } },
-            station: { connect: { stationId: 7 } },
-        },
-        {
-            Employee: { connect: { id: userData[5].id } },
-            station: { connect: { stationId: 15 } },
-        },
-        {
-            Employee: { connect: { id: userData[6].id } },
-            station: { connect: { stationId: 16 } },
-        },
-        {
-            Employee: { connect: { id: userData[7].id } },
-            station: { connect: { stationId: 18 } },
-        },
-        {
-            Employee: { connect: { id: userData[8].id } },
-            station: { connect: { stationId: 21 } },
-        },
-        {
-            Employee: { connect: { id: userData[9].id } },
-            station: { connect: { stationId: 1 } },
-        },
-        {
-            Employee: { connect: { id: userData[10].id } },
-            station: { connect: { stationId: 30 } },
-        },
-        {
-            Employee: { connect: { id: userData[11].id } },
-            station: { connect: { stationId: 19 } },
-        },
-        {
-            Employee: { connect: { id: userData[12].id } },
-            station: { connect: { stationId: 20 } },
-        },
-        {
-            Employee: { connect: { id: userData[13].id } },
-            station: { connect: { stationId: 13 } },
-        },
-
-    ];
-    for (const data of employeedata)
-    {
-        await prisma.Employee.create({
-            data
-        });
-    }
 
 
 
