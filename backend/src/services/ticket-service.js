@@ -1,7 +1,7 @@
-const { insertTicket, updateReturnTicket } = require("../reposiotries/ticket-repository");
+const { insertTicket, updateReturnTicket, getTickets } = require("../reposiotries/ticket-repository");
 const { getJourneyPrice } = require("../reposiotries/journey-rerpositary")
 const { getwallet, getavailableBalance } = require("../reposiotries/wallet-repository")
-const { classIdgetClassIdByCode } = require("../reposiotries/class-repository");
+const { classIdgetClassIdByCode, getClassnameById } = require("../reposiotries/class-repository");
 const { getStationName } = require("../reposiotries/station-repository");
 const { Console } = require("console");
 const { ticketType } = require("@prisma/client");
@@ -83,6 +83,85 @@ const addTicket = async (startStation, endStation, tripType, startDate, returnDa
         throw new Error(err.message);
     }
 }
+const getTicketsByuser = async (userid) => {
+    try {
+        // Get journey price
+        var tickets = await getTickets(userid);
+        const journeyStateMap = {
+            0: "Not Started",
+            1: "Started",
+            2: "Ended"
+        };
+        const formattedTickets = await Promise.all(tickets.map(async (ticket) => {
+            return {
+                ...ticket,
+                start: await getStationNameById(ticket.startStation),
+                end: await getStationNameById(ticket.endStation),
+                qrcode: await generateQRCode(ticket.ticketId, ticket.ticketType),
+                journeyStatus: journeyStateMap[ticket.journeyState],
+                className: await getClassname(ticket),
+                journeybeginDate: convertdatetoString(ticket.journeyDate)
+            };
+        }));
+
+        return formattedTickets; // Return the formatted tickets
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
+const getStationNameById = async (stationId) => {
+    var Station = await getStationName(stationId);
+    return Station.name;
+
+}
+const getClassname = async (ticket) => {
+    try {
+        // Logic to fetch class code or data based on classId
+        const classCode = await getClassnameById(ticket.classId); // Fetch class code based on classId
+        var classname;
+        switch (classCode.code) {
+            case "TCR":
+                classname = "Third Class";
+                break;
+            case "TC":
+                classname = "Third Class";
+                break;
+            case "FC":
+                classname = "First Class";
+                break;
+            case "FCR":
+                classname = "First Class";
+                break;
+            case "OFV":
+                classname = "First Class";
+                break;
+            case "SLEEP":
+                classname = "First Class";
+                break;
+            case "SCR":
+                classname = "Second Class";
+                break;
+            case "SC":
+                classname = "Second Class";
+                break;
+            default:
+                classname = "Unknown Class"; // Handle unknown class codes
+        }
+        return classname;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+};
+
+
+
+
+
+
+
+
 const convertdatetoString = (inputdate) => {
     const date = new Date(inputdate);
     const year = date.getFullYear();
@@ -150,6 +229,7 @@ function mapClassToValue(className) {
 }
 
 module.exports = {
-    addTicket
+    addTicket,
+    getTicketsByuser
 };
 

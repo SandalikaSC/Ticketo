@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -8,6 +10,32 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0, // Removes the back button
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons
+                    .person_crop_circle, // Replace with your desired icon
+                color: Styles.primaryColor, // Blue icon color
+              ),
+              const SizedBox(
+                  width: 8), // Add some spacing between icon and text
+              Text(
+                "My Profile",
+                style:
+                    TextStyle(color: Styles.primaryColor), // Blue title color
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true, // Center aligns the title
+        backgroundColor: Colors.white,
+      ),
       body: FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
@@ -20,12 +48,13 @@ class ProfilePage extends StatelessWidget {
           }
 
           final sharedPreferences = snapshot.data!;
-          final email = sharedPreferences.getString('email') ?? 'N/A'; // Retrieve email from SharedPreferences
+          final email = sharedPreferences.getString('email') ??
+              'N/A'; // Retrieve email from SharedPreferences
           final firstName = sharedPreferences.getString('firstName') ?? '';
           final lastName = sharedPreferences.getString('lastName') ?? '';
 
           return Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,7 +63,8 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     const CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/profile_image.png'),
+                      backgroundImage:
+                          AssetImage('assets/images/profile_picture.jpg'),
                     ),
                     const SizedBox(width: 30),
                     Expanded(

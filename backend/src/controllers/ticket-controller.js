@@ -48,6 +48,24 @@ const addTicket = async (req, res) => {
     }
 
 }
+const getTickets = async (req, res) => {
+
+
+    const user = req.user;
+    try {
+        const tickets = await ticketService.getTicketsByuser(user.id);
+
+        if (tickets) {
+            return res.status(200).json(tickets);
+        } else {
+            return res.status(400).json({ message: "Tickets not available." });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+}
 module.exports = {
-    addTicket
+    addTicket,
+    getTickets
 };

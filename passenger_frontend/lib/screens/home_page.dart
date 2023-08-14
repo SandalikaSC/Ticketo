@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:passenger_frontend/services/station_service.dart';
 import 'package:passenger_frontend/widgets/Normalticket.dart';
 import 'package:ticket_widget/ticket_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../modals/station.dart';
 import '../utils/error_handler.dart';
@@ -29,6 +30,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _passengerController =
       TextEditingController(text: '1');
   String _selectedClass = 'Third Class';
+  var fname;
+  var lname;
 
   late _ToggleButtonGroupState _toggleButtonGroupState;
 
@@ -37,9 +40,16 @@ class _HomePageState extends State<HomePage> {
   Station? _selectedEndtStation;
   List<Station> _stations = [];
 
+  void Loadnames() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    fname = sharedPreferences.getString('firstName') ?? '';
+    lname = sharedPreferences.getString('lastName') ?? '';
+  }
+
   @override
   void initState() {
     super.initState();
+    Loadnames();
     _startDateController.text =
         DateFormat('dd MMM yyyy').format(DateTime.now());
     _endDateController.text = DateFormat('dd MMM yyyy').format(DateTime.now());
@@ -148,7 +158,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.transparent,
               content: Center(
                 child: TicketWidget(
-                  width: 350,
+                  width: 550,
                   height: 600,
                   isCornerRounded: true,
                   padding: EdgeInsets.only(top: 0, left: 20, right: 20),
@@ -617,7 +627,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const Gap(5),
                             Text(
-                              "Sandalika Chamari",
+                              "$fname $lname",
                               style: Styles.headWhite,
                             )
                           ],

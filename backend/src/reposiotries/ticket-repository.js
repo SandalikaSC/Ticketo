@@ -16,6 +16,15 @@ const prisma = new PrismaClient();
 //         }
 //     });
 // };
+
+const getTickets = async (userId) => {
+    return prisma.ticket.findMany({
+        where: {
+            userId: userId,
+        },
+    });
+};
+
 const insertTicket = async (passengers, journeyprice, startDate, tripType, ticketType, userid, startStation, endStation, classId) => {
     return await prisma.$transaction(async (tx) => {
         try {
@@ -68,7 +77,8 @@ const updateReturnTicket = async (ticket, returnticket) => {
 };
 module.exports = {
     insertTicket,
-    updateReturnTicket
+    updateReturnTicket,
+    getTickets
 };
 
 
