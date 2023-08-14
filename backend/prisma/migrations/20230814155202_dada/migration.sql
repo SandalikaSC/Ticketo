@@ -146,6 +146,7 @@ CREATE TABLE "Ticket" (
     "tripType" "tripType" NOT NULL DEFAULT 'ONE_WAY',
     "returnTicketId" TEXT,
     "ticketType" "ticketType" NOT NULL,
+    "shareTicket" BOOLEAN NOT NULL DEFAULT false,
     "userId" TEXT NOT NULL,
     "startStation" INTEGER NOT NULL,
     "endStation" INTEGER NOT NULL,
