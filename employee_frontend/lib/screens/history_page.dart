@@ -14,11 +14,46 @@ class HistoryPage extends StatelessWidget {
     },
     // Add more users here with their history data
     {
-      'username': 'User2',
-      'nic': '123456789V',
+      'username': 'Parindi Dewmini',
+      'nic': '997791550VV',
       'time': '12:34:56',
-      'startStation': 'Station A',
-      'endStation': 'Station B',
+      'startStation': 'Ahangama',
+      'endStation': 'Matara',
+    },
+    {
+      'username': 'Sandalika Chamari',
+      'nic': '934456789V',
+      'time': '12:34:56',
+      'startStation': 'Maradana',
+      'endStation': 'Kalutara',
+    },
+    {
+      'username': 'Umasha Kaumadi',
+      'nic': '992234556V',
+      'time': '12:34:56',
+      'startStation': 'Panadura',
+      'endStation': 'Galle',
+    },
+    {
+      'username': 'Nadee Darshika',
+      'nic': '992234123V',
+      'time': '12:34:56',
+      'startStation': 'Matara',
+      'endStation': 'Galle',
+    },
+    {
+      'username': 'Tharuka Avishka',
+      'nic': '992245623V',
+      'time': '12:34:56',
+      'startStation': 'Midigama',
+      'endStation': 'Matara',
+    },
+    {
+      'username': 'Prasad Darshana',
+      'nic': '995533427V',
+      'time': '12:34:56',
+      'startStation': 'Lunawa',
+      'endStation': 'Kahawa',
     },
     // ...
   ];

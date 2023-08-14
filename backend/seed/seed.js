@@ -908,42 +908,7 @@ async function main()
             data
         });
     }
-    // const routeLineData = [
-    //     {
-    //         routeName: 'Coastal Line',
-    //     },
-    //     {
-    //         routeName: 'Main Line',
-    //     },
-    //     {
-    //         routeName: 'Matale Line',
-    //     },
-    //     {
-    //         routeName: 'Northern Line',
-    //     },
-    //     {
-    //         routeName: 'Mannar Line',
-    //     },
-    //     {
-    //         routeName: 'Batticaloa Line',
-    //     },
-    //     {
-    //         routeName: 'Trincomalee Line',
-    //     },
-    //     {
-    //         routeName: 'Puttalam Line',
-    //     },
-    //     {
-    //         routeName: 'Kelani Valley Line',
-    //     },
-    // ];
 
-    // for (const data of routeLineData)
-    // {
-    //     await prisma.routeLine.create({
-    //         data,
-    //     });
-    // }
 
 
     const trainData = [
