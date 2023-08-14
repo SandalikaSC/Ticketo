@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import IncomeReportOptions from '../../components/admin/IncomeReportOptions';
 import IncomeReportView from '../../components/admin/IncomeReportView';
-import PlaceholderImage from '../../assets/income.png';
+import PlaceholderImage from '../../assets/reports.png';
 import '../../css/admin_complaints.css';
 
 const ReportPage = () => {
