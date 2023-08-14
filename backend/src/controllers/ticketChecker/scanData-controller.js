@@ -27,25 +27,7 @@ const scanData = async (req, res) =>
             console.log("NORMAL");
             if (ticket.journeyState == 0)
             {
-                // const journey = await prisma.journey.findFirst({
-                //     where: {
-                //         AND: [
-                //             {
-                //                 OR: [
-                //                     { start: employee.stationId },
-                //                     { end: employee.stationId }
-                //                 ]
-                //             },
-                //             {
-                //                 OR: [
-                //                     { start: ticket.endStation },
-                //                     { end: ticket.endStation }
-                //                 ]
-                //             }
-                //         ]
-                //     }
-                // });
-                // Update startStation of Ticket table
+
                 await prisma.ticket.update({
                     where: { ticketId: uuid },
                     data: { startStation: employee.stationId },
@@ -111,13 +93,6 @@ const scanData = async (req, res) =>
                     {
                         // Update wallet holdValue
                         console.log("wallet hold value:", holdValue);
-
-                        // await prisma.wallet.update({
-                        //     where: { userId: ticket.userId },
-                        //     data: { holdValue: holdValue - ticketPrice },
-                        // });
-
-
 
                         // Update ticket details and mark journey as started
                         await prisma.ticket.update({
@@ -297,7 +272,7 @@ const scanData = async (req, res) =>
                         // Update ticket details and mark journey as started
                         await prisma.ticket.update({
                             where: { ticketId: uuid },
-                            data: { scannedBy: employee.employeeId, journeyState: 1 },
+                            data: { scannedBy: employee.employeeId, journeyState: 2 },
                         });
 
                         res.status(200).json({ message: 'Journey ended successfully' });

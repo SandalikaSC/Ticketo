@@ -12,28 +12,59 @@ const addEmployee = async (id, firstName, lastName, station, mobileNumber, email
   const birthDate = getBirthDateFromNIC(nic);
 
   console.log(birthDate);
-  const stationId = await getStationId(station);
-
-  const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
-  console.log("added user id", addedUser.id);
-  await updateEmployee(addedUser.id, id, stationId);
-
-  const subject = "Account Creation of Ticketo";
-  const body = `Dear ${addedUser.firstName} ${addedUser.lastName},\n\nYour account has been successfully created in our system. Your NIC number is your initial password. Please change your password upon login.\n\nThank you for joining us!`;
-
-  const userEmail = addedUser.email;
-  const emailResult = await sendEmail(userEmail, subject, body);
-
-
-  if (emailResult.success)
+  if (userType == "STATION_MASTER")
   {
-    console.log("Email sent to user:", emailResult.message);
+    const stationId = await getStationId(station);
+    const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
+    console.log("added user id", addedUser.id);
+    await updateEmployee(addedUser.id, id, stationId);
+
+    const subject = "Account Creation of Ticketo";
+    const body = `Dear ${addedUser.firstName} ${addedUser.lastName},\n\nYour account has been successfully created in our system. Your NIC number is your initial password. Please change your password upon login.\n\nThank you for joining us!`;
+
+    const userEmail = addedUser.email;
+    const emailResult = await sendEmail(userEmail, subject, body);
+
+
+    if (emailResult.success)
+    {
+      console.log("Email sent to user:", emailResult.message);
+    } else
+    {
+      console.error("Failed to send email to user:", emailResult.message);
+    }
+
+    return addedUser;
   } else
   {
-    console.error("Failed to send email to user:", emailResult.message);
+    const stationId = station;
+    console.log("inside checker addition")
+    const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
+    console.log("added user id", addedUser.id);
+    await updateEmployee(addedUser.id, id, stationId);
+
+    const subject = "Account Creation of Ticketo";
+    const body = `Dear ${addedUser.firstName} ${addedUser.lastName},\n\nYour account has been successfully created in our system. Your NIC number is your initial password. Please change your password upon login.\n\nThank you for joining us!`;
+
+    const userEmail = addedUser.email;
+    const emailResult = await sendEmail(userEmail, subject, body);
+
+
+    if (emailResult.success)
+    {
+      console.log("Email sent to user:", emailResult.message);
+    } else
+    {
+      console.error("Failed to send email to user:", emailResult.message);
+    }
+
+    return addedUser;
   }
 
-  return addedUser;
+
+
+
+
   // const addedUser = await addEmployee
 }
 const employeeToPassenger = async (nic) =>
@@ -246,7 +277,7 @@ const refreshToken = async (refreshToken) =>
 const resetPassword = async (req, res) =>
 {
   const { email, mobileNumber, password, confirmPassword } = req.body;
-
+  console.log(email);
   try
   {
     if (password !== confirmPassword)
@@ -258,7 +289,12 @@ const resetPassword = async (req, res) =>
     console.log("hashpassword", hashPassword);
     const updatedUser = await updatePassword(email, mobileNumber, hashPassword);
 
-    await updateLoginStatus(updatedUser.id);
+    console.log(updatedUser.id);
+    if (updatedUser.loginStatus == false)
+    {
+      await updateLoginStatus(updatedUser.id);
+    }
+
     return res.status(200).json({ message: 'Password updated successfully' });
 
   } catch (error)

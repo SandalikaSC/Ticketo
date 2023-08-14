@@ -27,7 +27,7 @@ const getStationId = async (stationName) => {
         console.error("Error in getStationId:", error);
         throw new Error("An error occurred while fetching station ID");
     }
-};
+}; 
 const getStationName = async (id) => {
 
     return await prisma.station.findUnique({
@@ -45,6 +45,7 @@ module.exports = {
     getAllStations,
     getStationId,
     getStationName
+ 
 };
 
 

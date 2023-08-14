@@ -8,7 +8,7 @@ CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
 
 -- CreateEnum
-CREATE TYPE "tripType" AS ENUM ('ONE_WAY', 'ROUND_TRIP');
+CREATE TYPE "tripType" AS ENUM ('ONE_WAY', 'ROUND_TRIP', 'RETURN');
 
 -- CreateEnum
 CREATE TYPE "ticketType" AS ENUM ('NORMAL', 'RESERVATION', 'SEASON', 'PHYSICAL');

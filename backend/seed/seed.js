@@ -2,7 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main()
+{
     const stationData = [
         {
             name: 'Abanpola',
@@ -238,7 +239,9 @@ async function main() {
         // Add more station data here...
     ];
 
-    for (const data of stationData) {
+ 
+    for (const data of stationData)
+    { 
         await prisma.station.create({
             data
         });
@@ -618,13 +621,16 @@ async function main() {
             holdValue: getRandomFloat(100, 400)
         }
 
-    ];
+    ]; 
     for (const data of userData) {
+ 
         await prisma.user.create({
             data
         });
     }
-    for (const data of wallets) {
+ 
+    for (const data of wallets)
+    { 
         await prisma.Wallet.create({
             data
         });
@@ -688,7 +694,9 @@ async function main() {
         },
 
     ];
-    for (const data of employeedata) {
+ 
+    for (const data of employeedata)
+    { 
         await prisma.Employee.create({
             data
         });
@@ -710,7 +718,9 @@ async function main() {
     ];
 
 
-    for (const data of classData) {
+ 
+    for (const data of classData)
+    { 
         await prisma.class.create({
             data,
         });
@@ -729,7 +739,9 @@ async function main() {
         // Add more coach data here...
     ];
 
-    for (const data of coachData) {
+ 
+    for (const data of coachData)
+    { 
         await prisma.coach.create({
             data,
         });
@@ -738,11 +750,14 @@ async function main() {
 
     const uniqueStationPairs = generateUniqueStationPairs(stationData);
 
-    function generateUniqueStationPairs(stationData) {
+    function generateUniqueStationPairs(stationData)
+    {
         const stationPairs = [];
 
-        for (let i = 1; i <= stationData.length; i++) {
-            for (let j = i + 1; j < stationData.length; j++) {
+        for (let i = 1; i <= stationData.length; i++)
+        {
+            for (let j = i + 1; j < stationData.length; j++)
+            {
                 stationPairs.push({ start: i, end: j });
             }
         }
@@ -760,14 +775,16 @@ async function main() {
         seasonThird: getRandomFloat(1000, 1900),
     }));
 
-    for (const data of dummyJourneyPrices) {
+    for (const data of dummyJourneyPrices)
+    {
         await prisma.Journey.create({
             data,
         });
     }
 
 
-    function getRandomFloat(min, max) {
+    function getRandomFloat(min, max)
+    {
         return parseFloat(((Math.random() * (max - min)) + min).toFixed(2));;
     }
 
@@ -776,9 +793,11 @@ async function main() {
 }
 
 main()
-    .catch((e) => {
+    .catch((e) =>
+    {
         throw e;
     })
-    .finally(async () => {
+    .finally(async () =>
+    {
         await prisma.$disconnect();
     });
