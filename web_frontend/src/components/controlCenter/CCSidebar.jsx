@@ -15,39 +15,45 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
+
+const menuItem = [
+
+    
+  {
+    path: "/cc/delays",
+    name: "Delays",
+    icon: <FaBell />,
+  },
+  {
+    path: "/cc/tracktrains",
+    name: "Track trains",
+    icon: <FaMapMarkedAlt />,
+  },
+  {
+    path: "/cc/traininfo",
+    name: "Train info",
+    icon: <FaTrain />,
+  },
+  {
+    path: "/cc/assignGuards",
+    name: "Assign Guards",
+    icon: <FaPersonBooth />,
+  },
+  {
+    path: "/cc/stations",
+    name: "Stations",
+    icon: <FaLocationArrow />,
+  },
+];
+
+
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const [activeItem, setActiveItem] = useState(null);
-  const menuItem = [
-    {
-      path: "/cc/delays",
-      name: "Delays",
-      icon: <FaBell />,
-    },
-    {
-      path: "/cc/tracktrains",
-      name: "Track trains",
-      icon: <FaMapMarkedAlt />,
-    },
-    {
-      path: "/cc/traininfo",
-      name: "Train info",
-      icon: <FaTrain />,
-    },
-    {
-      path: "/cc/assignGuards",
-      name: "Assign Guards",
-      icon: <FaPersonBooth />,
-    },
-    {
-      path: "/cc/stations",
-      name: "Stations",
-      icon: <FaLocationArrow />,
-    },
-  ];
+  const [activeItem, setActiveItem] = useState(menuItem[0].path);
+
 
   const handleSignOut = async () => {
     try {

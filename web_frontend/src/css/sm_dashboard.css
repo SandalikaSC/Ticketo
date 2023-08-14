@@ -15,16 +15,17 @@
 /* } */
 
 .sm-dashboard {
-  display: grid;
+  display: flex-grid;
   grid-template-columns: 2fr 1fr;
   /* Divide the space into two columns with 2:1 ratio */
   gap: 20px;
-  padding: 20px;
+  padding: 2% 5% 0% 2%;
+  overflow-y: hidden;
 
 }
 
 .ss-left-column {
-  width: 100%;
+  
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -32,13 +33,14 @@
 }
 
 .ss-right-column {
-  width: 100%;
+  
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-left: 5px;
-  margin-top: 1px;
+  width: 100%;
+  
 }
 
 /* Adjustments for responsiveness */
@@ -56,11 +58,6 @@
   padding: 20px;
 }
 
-h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #493da3;
-}
 
 .sorting-options {
   margin-bottom: 20px;
@@ -147,15 +144,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-.employee-card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1%;
-  margin: -1%;
-}
-
 /* EmpCard styles can go here or remain in its own CSS file */
 /* EmpCard.css */
 
@@ -203,9 +191,8 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   text-align: center;
-  max-width: 300px;
-  margin-top: 20px;
-  margin-left: 20%;
+  margin-left: 8%;
+  width: 60%;
 }
 
 .income-amount {
@@ -213,4 +200,86 @@ h1 {
   font-weight: bold;
   color: #3f34a2;
   /* Adjust the color as needed */
+}
+
+
+.ss-top-cards-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 104%;
+}
+.ss-top-cards-container .ss-card {
+  
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  flex: 1; /* Equal flex for all top cards */
+  margin-right: 10px; /* Add margin between cards */
+}
+
+
+
+
+.ss-card {
+  display: flex;
+  flex-direction: column; /* Change the flex direction to column */
+  padding: 20px; /* Increase padding for more height */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 44%;
+  align-items: center;
+}
+
+.sm-monthly-amount{
+  display: flex;
+}
+.sm-amount-graph{
+  margin-left: 5%;
+margin-right: 5%;
+
+}
+
+.sm-schedule-card {
+  display: flex;
+  justify-content: space-between;
+  background-color: #3D50AC;
+  border-radius: 5px;
+}
+
+.sm-schedule-table {
+  display: flex;
+  justify-content: space-between;
+  background-color: #3D50AC;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sm-schedule-table p {
+  margin: 5px 0;
+}
+
+.sm-dashboard-heading h1{
+  margin-left: 2%;
+  /* Adjust the left margin as needed */
+  display: flex;
+  align-items: left;
+  color: #1f5288;
+  margin-left: 2%;
+}
+
+.sm-schedule-card-details{
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.sm-schedule-table-info{
+  display: flex;
+  justify-content: space-between;
+ 
+  padding: 10px;
+  border-radius: 5px;
 }

@@ -13,34 +13,40 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
+
+const menuItem = [
+  {
+    path: "/tc/dashboard",
+    name: "Dashboard",
+    icon: <FaTh />,
+  },
+  {
+    path: "/tc/reservations",
+    name: "Reservations",
+    icon: <FaCalendar />,
+  },
+  {
+    path: "/tc/season",
+    name: "Season Cards",
+    icon: <FaCreditCard />,
+  },
+  {
+    path: "/tc/schedules",
+    name: "Schedules",
+    icon: <FaBook />,
+  },
+];
+
+
+
+
+
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const [activeItem, setActiveItem] = useState(null);
-  const menuItem = [
-    {
-      path: "/tc/dashboard",
-      name: "Dashboard",
-      icon: <FaTh />,
-    },
-    {
-      path: "/tc/reservations",
-      name: "Reservations",
-      icon: <FaCalendar />,
-    },
-    {
-      path: "/tc/season",
-      name: "Season Cards",
-      icon: <FaCreditCard />,
-    },
-    {
-      path: "/tc/schedules",
-      name: "Schedules",
-      icon: <FaBook />,
-    },
-  ];
+  const [activeItem, setActiveItem] = useState(menuItem[0].path);
 
   const handleSignOut = async () => {
     try {

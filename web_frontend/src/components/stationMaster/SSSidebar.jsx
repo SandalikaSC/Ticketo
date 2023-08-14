@@ -15,49 +15,52 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
+
+const menuItem = [
+  {
+    path: "/ss/SMDashboard",
+    name: "Dashboard",
+    icon: <FaTh />,
+  },
+  // {
+  //   path: "/ss/addcheckerclerk",
+  //   name: "Employee Details",
+  //   icon: <FaBell />,
+  // },
+  {
+    path: "/ss/TrainDelays",
+    name: "Train Delays",
+    icon: <FaTrain />,
+  },
+  {
+    path: "/ss/addcheckerclerk",
+    name: "Employees",
+    icon: <FaPersonBooth />,
+  },
+  {
+    path: "/ss/seasons",
+    name: "Seasons",
+    icon: <FaCreditCard />,
+  },
+  {
+    path: "/ss/TicketPurchase",
+    name: "Tickets",
+    icon: <FaTicketAlt />,
+  },
+  // {
+  //   path: "/ss/Traindetails",
+  //   name: "Train Info",
+  //   icon: <FaLocationArrow />,
+  // },
+];
+
+
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const [activeItem, setActiveItem] = useState(null);
-  const menuItem = [
-    {
-      path: "/ss/SMDashboard",
-      name: "Dashboard",
-      icon: <FaTh />,
-    },
-    // {
-    //   path: "/ss/addcheckerclerk",
-    //   name: "Employee Details",
-    //   icon: <FaBell />,
-    // },
-    {
-      path: "/ss/TrainDelays",
-      name: "Train Delays",
-      icon: <FaTrain />,
-    },
-    {
-      path: "/ss/addcheckerclerk",
-      name: "Employees",
-      icon: <FaPersonBooth />,
-    },
-    {
-      path: "/ss/seasons",
-      name: "Seasons",
-      icon: <FaCreditCard />,
-    },
-    {
-      path: "/ss/TicketPurchase",
-      name: "Tickets",
-      icon: <FaTicketAlt />,
-    },
-    // {
-    //   path: "/ss/Traindetails",
-    //   name: "Train Info",
-    //   icon: <FaLocationArrow />,
-    // },
-  ];
+  const [activeItem, setActiveItem] = useState(menuItem[0].path);
 
   const handleSignOut = async () => {
     try {
