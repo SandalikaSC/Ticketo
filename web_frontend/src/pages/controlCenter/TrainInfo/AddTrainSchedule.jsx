@@ -14,7 +14,11 @@ import {
 
 const AddTrainSchedule = () => {
   const [trainId, setTrainId] = useState("");
-  const [driverId, setDriverId] = useState("");
+  const [trainName, setTrainName] = useState("");
+  const [startingStation, setStartingStation] = useState("");
+  const [startingTime, setStartingTime] = useState("");
+  const [destination, setDestination] = useState("");
+  const [finishingTime, setFinishingTime] = useState("");
   const [workingDays, setWorkingDays] = useState({
     monday: false,
     tuesday: false,
@@ -24,6 +28,9 @@ const AddTrainSchedule = () => {
     saturday: false,
     sunday: false,
   });
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+
   const [stations, setStations] = useState([]);
   const [newStation, setNewStation] = useState({
     stationName: "",
@@ -69,42 +76,54 @@ const AddTrainSchedule = () => {
             <TextField
               label="Enter Train Code"
               fullWidth
+              value={trainId}
               onChange={(e) => setTrainId(e.target.value)}
+              required
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               label="Enter Train Name"
               fullWidth
-              onChange={(e) => setTrainId(e.target.value)}
+              value={trainName}
+              onChange={(e) => setTrainName(e.target.value)}
+              required
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               label="Starting Station"
               fullWidth
-              onChange={(e) => setDriverId(e.target.value)}
+              value={startingStation}
+              onChange={(e) => setStartingStation(e.target.value)}
+              required
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               label="Starting Time"
               fullWidth
-              onChange={(e) => setDriverId(e.target.value)}
+              value={startingTime}
+              onChange={(e) => setStartingTime(e.target.value)}
+              required
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               label="Destination"
               fullWidth
-              onChange={(e) => setDriverId(e.target.value)}
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              required
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               label="Finishing Time"
               fullWidth
-              onChange={(e) => setDriverId(e.target.value)}
+              value={finishingTime}
+              onChange={(e) => setFinishingTime(e.target.value)}
+              required
             />
           </Grid>
         </Grid>
