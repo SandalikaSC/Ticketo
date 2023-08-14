@@ -45,7 +45,7 @@ class WalletPage extends StatelessWidget {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                'Motta Sandalika', // Replace this with the user's name
+                                'Sandalika Chamari', // Replace this with the user's name
                                 style: TextStyle(
                                   color: Color(0xFF3D50AC),
                                   fontWeight: FontWeight.bold,

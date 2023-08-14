@@ -9,7 +9,7 @@ class shortdetailTicket extends StatelessWidget {
   final int passengers;
   final String status;
   final String? tripType;
-  final Float? price;
+  final double price;
   final String? start;
   final String? end;
   final String? classname;
@@ -36,7 +36,7 @@ class shortdetailTicket extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 250, 241, 241),
+                color: Color.fromARGB(255, 222, 221, 221),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24))),
