@@ -7,6 +7,7 @@ const scanData = async (req, res) =>
 {
     const { id, resultData } = req.body;
 
+    console.log(id, resultData);
     try
     {
         const parsedData = JSON.parse(resultData);

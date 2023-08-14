@@ -164,13 +164,15 @@
 }
 
 .report-options-container {
-  flex: 3; /* Adjust the ratio to control width */
+  flex: 4; /* Adjust the ratio to control width */
+  margin-top: 4%;
   padding: 20px;
   border-right: 1px solid white; /* Add a divider between columns */
 }
 
 .report-view-container {
   flex: 2; /* Adjust the ratio to control width */
+  margin-top: 6%;
   padding: 20px;
   background-color: white;
 }
@@ -229,6 +231,7 @@
 
 .filter-button {
   background-color: #3D51A9;
+  margin-top: 5%;
   color: #fff;
   border: none;
   padding: 8px 20px;

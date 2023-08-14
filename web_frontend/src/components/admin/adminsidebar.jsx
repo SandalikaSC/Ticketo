@@ -48,11 +48,11 @@ const Sidebar = ({ children }) => {
       name: "Complaints",
       icon: <FaStickyNote />,
     },
-    // {
-    //   path: "/admin/viewTraindelays",
-    //   name: "Train Delays",
-    //   icon: <FaTrain />,
-    // },
+    {
+      path: "/admin/ViewDelays",
+      name: "Train Delays",
+      icon: <FaTrain/>,
+    },
   ];
 
   const handleSignOut = async () => {
