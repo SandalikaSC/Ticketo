@@ -81,7 +81,7 @@ const DelayReports = () => {
     <Container style={{ padding: '20px' }}>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
+        <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}>
             <b>Train Delay Reports</b>
         </Typography>
       </div>
@@ -94,16 +94,17 @@ const DelayReports = () => {
             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
             To be Resolved
             </Button>
+
             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
             Already Resolved
             </Button>
-            <div style={{ flex: 1 }}>
-                <Link to="/cc/delayreports" style={{ textDecoration: 'none' }}>
-                <Button variant="outlined" color="primary" style={{ width: '100%', fontWeight: 'bold' }}>
-                    Reports
-                </Button>
-                </Link>
-            </div>               
+
+            <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+                Reports
+            </Button>              
+        </div>
+
+        <div style={{flex: 1}}>
         </div>
         
         <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>

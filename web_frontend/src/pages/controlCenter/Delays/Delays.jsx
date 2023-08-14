@@ -49,7 +49,7 @@ const Delays = () => {
                     </div>
                     <div style={{ flex: 3 }}></div>
                     <div style={{ flex: 2 }}>
-                        <div style={{ display: 'flex' }}>
+                        {/* <div style={{ display: 'flex' }}>
                             <Typography variant="outlined" style={{ marginBottom: '10px', color: '#3D50AC' }}>
                                 <b>Sort Delays by</b>
                             </Typography>
@@ -58,7 +58,16 @@ const Delays = () => {
                                 <MenuItem value="older">Older</MenuItem>
                                 <MenuItem value="latest">Latest</MenuItem>
                             </Select>
-                        </div>
+                        </div> */}
+
+                        <Typography variant="outlined" style={{ marginBottom: '10px', color: '#3D50AC' }}>
+                            <b>Sort Delays by</b>
+                        </Typography>
+
+                        <Select value="" onChange={handleSortChange} fullWidth>
+                            <MenuItem value="older">Older</MenuItem>
+                            <MenuItem value="latest">Latest</MenuItem>
+                        </Select>
                     </div>
                 </div>
             </div>
