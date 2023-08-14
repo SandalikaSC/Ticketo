@@ -171,7 +171,7 @@ const AssignGuards = () => {
       </div>
 
       {/* Right Section */}
-      <div style={{ width: '40%', padding: '10px', backgroundColor: 'white', borderRadius: '10px', marginLeft: '10px',overflowY: 'auto' }}>
+      <div style={{ width: '45%', padding: '10px', backgroundColor: 'white', borderRadius: '10px', marginLeft: '10px',overflowY: 'auto' }}>
         <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC', textAlign: 'center' }}>
           <b>Add Guard Details</b>
         </Typography> 
