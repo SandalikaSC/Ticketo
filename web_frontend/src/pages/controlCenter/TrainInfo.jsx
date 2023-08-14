@@ -98,6 +98,8 @@ const TrainInfo = () => {
                     variant="contained"
                     color="primary"
                     style={{ width: "30%", margin: "2%", marginTop: "3%" }}
+                    component={Link}
+                    to="/cc/traininfo/add-train-schedule"
                   >
                     Add Train Schedule
                   </Button>
