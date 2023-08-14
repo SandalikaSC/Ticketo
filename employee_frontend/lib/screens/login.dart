@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../services/api_service.dart';
 import 'guard_home.dart';
+
 final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
@@ -22,6 +23,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  bool isLoading = false;
   bool isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -35,19 +37,22 @@ class LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _loginUser() async {
+    setState(() {
+      isLoading = true; // Set loading to true when login button is pressed
+    });
+
     if (_formKey.currentState!.validate()) {
       String email = _emailController.text.trim();
       String password = _passwordController.text.trim();
 
       try {
         // Create an instance of ApiService with the base URL
-        final apiService = ApiService('http://192.168.8.158:5000');
+        final apiService = ApiService();
 
 // Call the loginUser method using the instance
         final response = await apiService.loginUser(email, password);
 
         if (response.statusCode == 200) {
-
           final responseData = json.decode(response.body);
           logger.d(responseData);
           if (responseData is List<dynamic>) {
@@ -69,15 +74,18 @@ class LoginPageState extends State<LoginPage> {
             SharedPreferences prefs = await SharedPreferences.getInstance();
 
             await prefs.setString('id', decodedToken['id']);
-            await prefs.setString('nic', decodedToken['nic'] ?? ''); // Use empty string if null
+            await prefs.setString(
+                'nic', decodedToken['nic'] ?? ''); // Use empty string if null
             await prefs.setString('email', decodedToken['email']);
-            await prefs.setString('dob', decodedToken['dob'].toString()); // Convert DateTime to String
+            await prefs.setString('dob',
+                decodedToken['dob'].toString()); // Convert DateTime to String
             await prefs.setString('firstName', decodedToken['firstName']);
             await prefs.setString('lastName', decodedToken['lastName']);
             await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
 
             // Convert userType List to String and store it in shared preferences
-            List<String> userTypeList = List<String>.from(decodedToken['userType']);
+            List<String> userTypeList =
+                List<String>.from(decodedToken['userType']);
             await prefs.setStringList('user_type', userTypeList);
             logger.i('Login successful');
             if (userTypeList.contains("TICKET_CHECKER")) {
@@ -91,15 +99,14 @@ class LoginPageState extends State<LoginPage> {
               }
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const TrainGuardHomePage()),
+                MaterialPageRoute(
+                    builder: (context) => const TrainGuardHomePage()),
               );
-            }
-            else{
+            } else {
               if (kDebugMode) {
                 print("invalid user role");
               }
             }
-
           }
           // Login successful
           // Handle the response data as needed
@@ -142,6 +149,9 @@ class LoginPageState extends State<LoginPage> {
         }
       }
     }
+    setState(() {
+      isLoading = false; // Reset loading to false after login attempt
+    });
   }
 
   @override
@@ -207,7 +217,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -240,7 +252,8 @@ class LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const ResetPasswordPage()),
                     );
                   },
                   child: const Text(
@@ -257,16 +270,25 @@ class LoginPageState extends State<LoginPage> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: _loginUser,
+                      // onPressed: _loginUser,
+                      onPressed: isLoading ? null : _loginUser,
                       style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFF3D50AC),
+                        // primary: const Color(0xFF3D50AC),
+                        primary: isLoading ? Colors.grey : const Color(0xFF3D50AC),
                         padding: const EdgeInsets.all(12.0),
                         minimumSize: const Size.fromHeight(60),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(35),
                         ),
                       ),
-                      child: const Text(
+                      child: isLoading
+                          ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ): const Text(
                         'Login',
                         style: TextStyle(
                           fontFamily: 'Poppins',

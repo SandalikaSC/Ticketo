@@ -3,13 +3,18 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StationService {
-  Future<http.Response> getAllStations() async {
+class TicketService {
+  Future<http.Response> getAllTickets() async {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
       final response = await http.get(
-        Uri.parse('${baseUrl}/allstations'),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse('${baseUrl}/ticket/gettickets'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
       );
       return response;
     } catch (e) {

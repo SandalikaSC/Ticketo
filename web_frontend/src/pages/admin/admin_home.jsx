@@ -8,6 +8,8 @@ import ComplaintsPage from "./ComplaintsPage";
 import ReportPage from "./ReportPage";
 
 import { Route, Routes } from "react-router-dom";
+import ViewDelays from "../admin/viewDelays";
+
 
 const admin_home = () => {
   return (
@@ -25,6 +27,8 @@ const admin_home = () => {
         <Route path="/TrainTicketIncome" element={<TrainTicketIncome />} />
         <Route path="/ComplaintsPage" element={<ComplaintsPage />} />
         <Route path="/ReportPage" element={<ReportPage />} />
+        <Route path="/ViewDelays" element={<ViewDelays/>}/>
+
       </Routes>
     </Sidebar>
   );

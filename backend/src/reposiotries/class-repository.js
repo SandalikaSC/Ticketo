@@ -11,9 +11,20 @@ const classIdgetClassIdByCode = async (code) => {
         },
     });
 };
+const getClassnameById = async (id) => {
+    return await prisma.class.findFirst({
+        where: {
+            classId: id,
+        },
+        select: {
+            code: true,
+        },
+    });
+};
 classIdgetClassIdByCode
 module.exports = {
-    classIdgetClassIdByCode
+    classIdgetClassIdByCode,
+    getClassnameById
 };
 
 

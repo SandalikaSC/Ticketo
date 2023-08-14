@@ -12,7 +12,13 @@ import 'begin.dart';
 
 void main() async {
   await dotenv.load();
-  runApp(const MyApp());
+  runApp(
+    Container(
+      color: Colors.white, // Set the background color here
+      child: const MyApp(),
+    ),
+  );
+  ;
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +31,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primaryColor: Styles.primaryColor, // Set your primary color
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue ), // Set your accent color
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.lightBlue), // Set your accent color
         fontFamily: 'Poppins',
         inputDecorationTheme: InputDecorationTheme(
           // focusedBorder: OutlineInputBorder(

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
@@ -46,7 +45,7 @@ class WalletPage extends StatelessWidget {
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                'Motta Sandalika', // Replace this with the user's name
+                                'Sandalika Chamari', // Replace this with the user's name
                                 style: TextStyle(
                                   color: Color(0xFF3D50AC),
                                   fontWeight: FontWeight.bold,
@@ -432,10 +431,4 @@ class WalletPage extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(const MaterialApp(
-    home: WalletPage(),
-  ));
 }

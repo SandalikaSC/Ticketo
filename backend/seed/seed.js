@@ -4,250 +4,6 @@ const prisma = new PrismaClient();
 
 async function main()
 {
-    const stationData = [
-        {
-            name: 'Abanpola',
-            latitude: 7.9191593978269585,
-            longitude: 80.24610072883551,
-            contactNumber: '0253891292',
-        },
-        {
-            name: 'Agbopura',
-            latitude: 8.326962653569677,
-            longitude: 80.97974659692282,
-            contactNumber: '0771879448',
-        },
-        {
-            name: 'Ahangama',
-            latitude: 5.973381846866456,
-            longitude: 80.36371580669417,
-            contactNumber: '0912283271',
-        },
-        {
-            name: 'Ahungalle',
-            latitude: 6.3129101606375215,
-            longitude: 80.03758907971037,
-            contactNumber: null,
-        },
-        {
-            name: 'Akurala',
-            latitude: 6.192301917328595,
-            longitude: 80.0649127527224,
-            contactNumber: null,
-        },
-        {
-            name: 'Alawwa',
-            latitude: 7.293554459377983,
-            longitude: 80.2385616085557,
-            contactNumber: '0372278171',
-        },
-        {
-            name: 'Alawathupitiya',
-            latitude: 7.116038463034067,
-            longitude: 79.88709429690901,
-            contactNumber: null,
-        },
-        {
-            name: 'Aluthgama',
-            latitude: 6.43207381963862,
-            longitude: 80.00036135272454,
-            contactNumber: '0342275282',
-        },
-        {
-            name: 'Ambalangoda',
-            latitude: 6.235459770328387,
-            longitude: 80.05513779874897,
-            contactNumber: '0912258271',
-        },
-
-        {
-            name: "Colombo Fort",
-            latitude: 6.933492299999999,
-            longitude: 79.85050639999997,
-            contactNumber: ""
-        },
-        {
-            name: "Maradana",
-            latitude: 6.929516,
-            longitude: 79.865854,
-            contactNumber: "0112695722"
-        },
-        {
-            name: "Dematagoda",
-            latitude: 6.937512,
-            longitude: 79.879213,
-            contactNumber: "0112693838"
-        },
-        {
-            name: "Kelaniya",
-            latitude: 6.961020,
-            longitude: 79.894663,
-            contactNumber: "0112911426"
-        },
-        {
-            name: "Wanawasala",
-            latitude: 6.975691,
-            longitude: 79.899310,
-            contactNumber: ""
-        },
-
-        {
-            name: "Hunupitiya",
-            latitude: 6.987990,
-            longitude: 79.900612,
-            contactNumber: "",
-        },
-        {
-            name: "Enderamulla",
-            latitude: 7.000618,
-            longitude: 79.906873,
-            contactNumber: "",
-        },
-        {
-            name: "Horape",
-            latitude: 7.016523,
-            longitude: 79.918262,
-            contactNumber: "",
-        },
-        {
-            name: "Ragama",
-            latitude: 7.029853,
-            longitude: 79.921533,
-            contactNumber: "0112959271",
-        },
-        {
-            name: "Walpola",
-            latitude: 7.047171,
-            longitude: 79.931109,
-            contactNumber: "",
-        },
-        {
-            name: "Batuwatte",
-            latitude: 7.055124,
-            longitude: 79.937164,
-            contactNumber: "",
-        },
-        {
-            name: "Bulugahagoda",
-            latitude: 7.066083,
-            longitude: 79.945698,
-            contactNumber: "",
-        },
-        {
-            name: "Ganemulla",
-            latitude: 7.068667,
-            longitude: 79.960710,
-            contactNumber: "033-2260271",
-        },
-        {
-            name: "Yagoda",
-            latitude: 7.074697,
-            longitude: 79.973860,
-            contactNumber: "",
-        },
-
-
-
-        {
-            name: "Heendeniya",
-            latitude: 7.141153,
-            longitude: 80.047125,
-            contactNumber: "",
-        },
-        {
-            name: "Veyangoda",
-            latitude: 7.152959,
-            longitude: 80.058543,
-            contactNumber: "033-2287271",
-        },
-        {
-            name: "Wandurawa",
-            latitude: 7.167611,
-            longitude: 80.066065,
-            contactNumber: "",
-        },
-        {
-            name: "Keenawala",
-            latitude: 7.185467,
-            longitude: 80.074495,
-            contactNumber: "",
-        },
-
-
-        {
-            name: "Pallewela",
-            latitude: 7.198731,
-            longitude: 80.090028,
-            contactNumber: "033-2273271",
-        },
-        {
-            name: "Ganegoda",
-            latitude: 7.212790,
-            longitude: 80.105402,
-            contactNumber: "",
-        },
-        {
-            name: "Wijayarajadahana",
-            latitude: 7.230748,
-            longitude: 80.118657,
-            contactNumber: "",
-        },
-        {
-            name: "Mirigama",
-            latitude: 7.242565,
-            longitude: 80.126651,
-            contactNumber: "033-2273271",
-        },
-
-
-        {
-            name: "Kitalelle",
-            latitude: 6.861156,
-            longitude: 81.043117,
-            contactNumber: "",
-        },
-        {
-            name: "Elle",
-            latitude: 6.875745,
-            longitude: 81.047106,
-            contactNumber: "057-2228571",
-        },
-        {
-            name: "Demodara",
-            latitude: 6.903082,
-            longitude: 81.062785,
-            contactNumber: "055-2294171",
-        },
-        {
-            name: "Uduwara",
-            latitude: 6.931544,
-            longitude: 81.042117,
-            contactNumber: "",
-        },
-        {
-            name: "Haliela",
-            latitude: 6.954030,
-            longitude: 81.033527,
-            contactNumber: "055-2294271",
-        },
-        {
-            name: "Badulla",
-            latitude: 6.980100,
-            longitude: 81.059679,
-            contactNumber: "055-2222271",
-        },
-        // Add more station data here...
-    ];
-
-    for (const data of stationData)
-    {
-        await prisma.station.create({
-            data
-        });
-    }
-
-
-
     const userData = [
         {
             id: '1',
@@ -538,6 +294,13 @@ async function main()
             userType: ["DRIVER"],
         },
     ];
+    for (const data of userData)
+    {
+        await prisma.user.create({
+            data
+        });
+    }
+
     const wallets = [
         {
             userId: "1",
@@ -621,19 +384,466 @@ async function main()
         }
 
     ];
-    for (const data of userData)
-    {
-        await prisma.user.create({
-            data
-        });
-    }
     for (const data of wallets)
     {
         await prisma.Wallet.create({
             data
         });
     }
+    const stationData = [
+        {
+            name: 'Maradana',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Colombo Fort',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Secretariat Halt',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Slave Island',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kollupitiya',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Bambalapitiya',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Wellawatte',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Mount Laviniya',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Rathmalana',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Angulana',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Lunawa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Moratuwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Koralawella',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Egoda Uyana',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Panadura',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Pinwatte',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Wadduwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Train Halt 01',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kaluthara North',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kaluthara South',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Katukurunda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Payagala North',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Payagala South',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Maggona',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Beruwala',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Hettimulla',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Aluthgama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Bentota',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Induruwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Maha Induruwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kosgoda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Piyagama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Ahungalle',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Patagamgoda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Balapitiya',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Andadola',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kandegoda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Ambalangoda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Madampagama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Akurala',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kahawa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Telwatte',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Seenigama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Hikkaduwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Thirangama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kumarakanda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Dodanduwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Rathgama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Boossa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Ginthota',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Piyadigama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Richmond Hill',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Galle',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Katugoda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Unawatuna',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Talpe',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Habaraduwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Koggala',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kathaluwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Ahangama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Midigama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kumbalgama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Weligama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Polwathumodara',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Mirissa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kamburugamuwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Walgama',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Matara',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Piliduwa',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Weherahena',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Kekanadura',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Bambaranda',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Wewurukannala',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        {
+            name: 'Beliatta',
+            latitude: 7.9191593978269585,
+            longitude: 7.9191593978269585,
+            contactNumber: '0253891292',
+        },
+        // Add more station data here...
+    ];
 
+    for (const data of stationData)
+    {
+        await prisma.station.create({
+            data
+        });
+    }
     const employeedata = [
 
         {
@@ -698,6 +908,585 @@ async function main()
             data
         });
     }
+
+
+
+    const trainData = [
+        {
+            trainName: 'Ruhunu Kumari',
+            trainNumber: '8058',
+        },
+        {
+            trainName: 'Sagarika',
+            trainNumber: '8096',
+        },
+        {
+            trainName: 'Galu Kumari',
+            trainNumber: '8056',
+        },
+        {
+            trainName: 'Dakshina Intercity Express',
+            trainNumber: '8054',
+        },
+
+        {
+            trainName: 'Rajarata Rejini',
+            trainNumber: '4086',
+        },
+        {
+            trainName: 'Samudra Devi',
+            trainNumber: '8327',
+        },
+        {
+            trainName: 'Night Mail',
+            trainNumber: '8775',
+        },
+
+        {
+            trainName: '8050',
+            trainNumber: '8050',
+        },
+        {
+            trainName: '8051',
+            trainNumber: '8051',
+        },
+        {
+            trainName: '8064',
+            trainNumber: '8064',
+        },
+        {
+            trainName: '8060',
+            trainNumber: '8060',
+        },
+        {
+            trainName: '8076',
+            trainNumber: '8076',
+        },
+        {
+            trainName: '8764',
+            trainNumber: '8764',
+        },
+        {
+            trainName: '8320',
+            trainNumber: '8320',
+        },
+        {
+            trainName: '8742',
+            trainNumber: '8742',
+        },
+        // Add more train data...
+    ];
+
+    for (const data of trainData)
+    {
+        await prisma.train.create({
+            data,
+        });
+    }
+
+
+    const scheduleData = [
+        {
+            startTime: new Date('2023-08-15 15:40:00'),
+            endTime: new Date('2023-08-15 18:21:00'),
+            start: 1, // Replace with the actual start stationId
+            end: 68,   // Replace with the actual end stationId
+            driverId: '6',
+            trainId: 1, // Replace with the actual trainId
+            WorkingDays: ['WEEKDAYS', 'WEEKENDS'],
+            notWorking: ['HOLIDAY'],
+        },
+        {
+            startTime: new Date('2023-08-16 06:05:00'),
+            endTime: new Date('2023-08-16 08:49:00'),
+            start: 68, // Replace with the actual start stationId
+            end: 1,   // Replace with the actual end stationId
+            driverId: '7',
+            trainId: 2, // Replace with the actual trainId
+            WorkingDays: ['WEEKDAYS'],
+            notWorking: ['SUNDAY'],
+        },
+        {
+            startTime: new Date('2023-08-16 05:25:00'),
+            endTime: new Date('2023-08-16 09:47:00'),
+            start: 74, // Replace with the actual start stationId
+            end: 1,   // Replace with the actual end stationId
+            driverId: '15',
+            trainId: 3, // Replace with the actual trainId
+            WorkingDays: ['WEEKDAYS'],
+            notWorking: ['SUNDAY'],
+        },
+        // Add more schedule data...
+    ];
+
+    for (const data of scheduleData)
+    {
+        await prisma.schedule.create({
+            data,
+        });
+    }
+
+    // Seed StationSchedule data
+    const stationScheduleData = [
+        {
+            arrivalTime: new Date('2023-08-15 15:40:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-15 15:40:00'),
+            delayTime: 0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 1,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 15:44:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 15:50:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 2,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 16:31:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 16:33:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 20,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 16:47:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 16:48:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 27,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 16:57:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 16:58:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 31,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 17:08:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 17:09:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 38,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 17:19:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 17:20:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 44,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 17:34:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 17:40:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 53,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 17:59:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 18:00:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 60,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 18:07:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 18:08:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 63,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 18:20:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 18:20:00'),
+            delayTime: 0.0,
+            scheduleId: 1, // Replace with the actual scheduleId
+            stationId: 68,  // Replace with the actual stationId
+        },
+
+        //RUHUNU KUMARI MATARA TO MARADANA
+        {
+            arrivalTime: new Date('2023-08-16 06:05:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:05:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 68,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:20:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:21:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 63,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:30:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:31:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 60,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:38:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:39:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 57,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:53:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:03:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 53,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:11:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:12:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 44,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:22:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:23:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 38,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:46:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:47:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 27,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:51:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:53:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 31,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:19:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:21:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 20,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:43:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:45:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 2,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:49:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:49:00'),
+            delayTime: 0.0,
+            scheduleId: 2, // Replace with the actual scheduleId
+            stationId: 1,  // Replace with the actual stationId
+        },
+
+
+        //Galu Kumari Beliatta to Maradana
+        {
+            arrivalTime: new Date('2023-08-16 05:25:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 05:25:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 74,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 05:36:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 05:37:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 73,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 05:41:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 05:42:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 72,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 05:48:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 05:49:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 71,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 05:52:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 05:53:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 70,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:00:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:12:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 68,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:16:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:17:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 67,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:20:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:21:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 66,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:25:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:26:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 65,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:29:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:30:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 64,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:34:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:35:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 63,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:39:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:40:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 62,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:42:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:43:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 61,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:47:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:48:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 60,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:52:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:53:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 59,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:56:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 06:57:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 58,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 06:59:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:00:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 57,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:03:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:04:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 56,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:09:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:10:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 55,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:12:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:13:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 54,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:19:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:27:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 53,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:44:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:45:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 44,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 07:56:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 07:57:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 38,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:06:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:07:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 33,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:19:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:20:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 28,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:23:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:24:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 27,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 08:43:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 08:45:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 20,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 09:01:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 09:03:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 15,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 09:12:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 09:13:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 12,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 09:22:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 09:23:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 8,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 09:40:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 09:42:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 2,  // Replace with the actual stationId
+        },
+        {
+            arrivalTime: new Date('2023-08-16 09:47:00'),
+            waitingTime: 0.0,
+            departureTime: new Date('2023-08-16 09:47:00'),
+            delayTime: 0.0,
+            scheduleId: 3, // Replace with the actual scheduleId
+            stationId: 1,  // Replace with the actual stationId
+        },
+        // Add more station schedule data...
+    ];
+
+    for (const data of stationScheduleData)
+    {
+        await prisma.stationSchedule.create({
+            data,
+        });
+    }
+
+
+
+
+
 
 
 

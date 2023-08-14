@@ -45,9 +45,17 @@ class ScanPageState extends State<ScanPage> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  Text(resultData ?? ''),
+                  Text( resultData != null && resultData!.isNotEmpty
+                      ? 'Scanned successfully'
+                      : 'Error scanning QR code',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: resultData != null && resultData!.isNotEmpty
+                          ? Colors.green
+                          : Colors.red),),
                   const SizedBox(height: 8),
-                  Text(dateTimeInfo ?? ''),
+
                 ],
               ),
             ),
@@ -121,6 +129,31 @@ class ScanPageState extends State<ScanPage> {
     });
   }
 
+  // void _showAlertDialog(BuildContext context, String title, String content) {
+  //   if (isDialogVisible) return; // Prevent multiple dialogs
+  //
+  //   setState(() {
+  //     isDialogVisible = true; // Show dialog
+  //   });
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       // Dismiss dialog after 3 seconds
+  //       Timer(const Duration(seconds: 3), () {
+  //         Navigator.of(context).pop();
+  //         setState(() {
+  //           isDialogVisible = false;
+  //         });
+  //       });
+  //
+  //       return AlertDialog(
+  //         title: Text(title),
+  //         content: Text(content),
+  //       );
+  //     },
+  //   );
+  // }
   void _showAlertDialog(BuildContext context, String title, String content) {
     if (isDialogVisible) return; // Prevent multiple dialogs
 
@@ -140,8 +173,34 @@ class ScanPageState extends State<ScanPage> {
         });
 
         return AlertDialog(
-          title: Text(title),
-          content: Text(content),
+          backgroundColor: Colors.blueGrey, // Set background color
+          title: Row(
+            children: [
+              Image.asset(
+                'assets/icons/scan.png', // Replace with your image asset path
+                width: 24,
+                height: 24,
+                color: Colors.yellow, // Set image color
+              ),
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20, // Set title font size
+                  color: Colors.white, // Set title font color
+                ),
+              ),
+            ],
+          ),
+          content: Text(
+            content,
+            style: const TextStyle(
+              fontSize: 18, // Set content font size
+              color: Colors.white, // Set content font color
+            ),
+            textAlign: TextAlign.center, // Center-align the content
+          ),
         );
       },
     );

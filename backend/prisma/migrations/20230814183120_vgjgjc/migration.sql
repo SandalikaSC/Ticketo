@@ -146,6 +146,7 @@ CREATE TABLE "Ticket" (
     "tripType" "tripType" NOT NULL DEFAULT 'ONE_WAY',
     "returnTicketId" TEXT,
     "ticketType" "ticketType" NOT NULL,
+    "shareTicket" BOOLEAN NOT NULL DEFAULT false,
     "userId" TEXT NOT NULL,
     "startStation" INTEGER NOT NULL,
     "endStation" INTEGER NOT NULL,
@@ -209,7 +210,7 @@ CREATE TABLE "Schedule" (
     "endTime" TIMESTAMP(3) NOT NULL,
     "start" INTEGER,
     "end" INTEGER,
-    "driverId" TEXT NOT NULL,
+    "driverId" TEXT,
     "trainId" INTEGER NOT NULL,
     "WorkingDays" "WorkingDays"[],
     "notWorking" "WorkingDays"[],
@@ -408,9 +409,6 @@ ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_start_fkey" FOREIGN KEY ("start"
 
 -- AddForeignKey
 ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_end_fkey" FOREIGN KEY ("end") REFERENCES "Station"("stationId") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Schedule" ADD CONSTRAINT "Schedule_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Employee"("employeeId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "StationSchedule" ADD CONSTRAINT "StationSchedule_stationId_fkey" FOREIGN KEY ("stationId") REFERENCES "Station"("stationId") ON DELETE SET NULL ON UPDATE CASCADE;
