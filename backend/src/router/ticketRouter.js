@@ -10,5 +10,6 @@ const { verifyToken } = require("../middleware/authenticate");
 ticketRouter.use(verifyToken);
 
 ticketRouter.post('/addticket', addTicket);
+// ticketRouter.post('/gettickets', getTickets);
 
 module.exports = ticketRouter;

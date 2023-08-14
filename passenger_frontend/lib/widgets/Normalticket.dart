@@ -90,7 +90,7 @@ class TicketData extends StatelessWidget {
               ),
               Gap(10),
               Container(
-                width: 120.0,
+                width: 150.0,
                 height: 25.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.0),
@@ -107,7 +107,7 @@ class TicketData extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 0.0, left: 30, right: 30),
+          padding: const EdgeInsets.only(top: 0.0, left: 20, right: 20),
           child: Center(
             child: Container(
               width: 250.0,
@@ -119,30 +119,30 @@ class TicketData extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Spacer(flex: 2),
+            Spacer(flex: 1),
             Text(
               '$start', //start station
               style: TextStyle(
                   color: Styles.primaryColor, fontWeight: FontWeight.bold),
             ),
-            Spacer(flex: 2),
+            Spacer(flex: 1),
             Padding(
-              padding: EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: 5.0),
               child: Icon(
                 CupertinoIcons.tram_fill,
                 color: Styles.secondaryColor,
               ),
             ),
-            Spacer(flex: 2),
+            Spacer(flex: 1),
             Padding(
-              padding: EdgeInsets.only(left: 8.0),
+              padding: EdgeInsets.only(left: 5.0),
               child: Text(
                 '$end', //end station
                 style: TextStyle(
                     color: Styles.primaryColor, fontWeight: FontWeight.bold),
               ),
             ),
-            Spacer(flex: 2),
+            Spacer(flex: 1),
           ],
         ),
         Padding(

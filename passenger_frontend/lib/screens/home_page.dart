@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.transparent,
               content: Center(
                 child: TicketWidget(
-                  width: 350,
+                  width: 550,
                   height: 600,
                   isCornerRounded: true,
                   padding: EdgeInsets.only(top: 0, left: 20, right: 20),

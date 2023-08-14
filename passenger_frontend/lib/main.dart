@@ -12,7 +12,13 @@ import 'begin.dart';
 
 void main() async {
   await dotenv.load();
-  runApp(const MyApp());
+  runApp(
+    Container(
+      color: Colors.white, // Set the background color here
+      child: const MyApp(),
+    ),
+  );
+  ;
 }
 
 class MyApp extends StatelessWidget {
