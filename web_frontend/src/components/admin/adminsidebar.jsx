@@ -15,46 +15,51 @@ import { useDispatch } from "react-redux";
 import { authActions } from "../../store/index";
 import { useNavigate } from "react-router-dom";
 
+const menuItem = [
+  {
+    path: "/admin/Dashboard",
+    name: "Dashboard",
+    icon: <FaTh />,
+  },
+  {
+    path: "/admin/StationMastersPage",
+    name: "Station Masters",
+    icon: <FaUserNurse />,
+  },
+
+  {
+    path: "/admin/TrainTicketIncome",
+    name: "Earnings",
+    icon: <FaMoneyCheckAlt />,
+  },
+  {
+    path: "/admin/ReportPage",
+    name: "Reports",
+    icon: <FaBook />,
+  },
+  {
+    path: "/admin/ComplaintsPage",
+    name: "Complaints",
+    icon: <FaStickyNote />,
+  },
+  // {
+  //   path: "/admin/viewTraindelays",
+  //   name: "Train Delays",
+  //   icon: <FaTrain />,
+  // },
+];
+
+
+
+
+
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const [activeItem, setActiveItem] = useState(null);
-  const menuItem = [
-    {
-      path: "/admin/Dashboard",
-      name: "Dashboard",
-      icon: <FaTh />,
-    },
-    {
-      path: "/admin/StationMastersPage",
-      name: "Station Masters",
-      icon: <FaUserNurse />,
-    },
-
-    {
-      path: "/admin/TrainTicketIncome",
-      name: "Earnings",
-      icon: <FaMoneyCheckAlt />,
-    },
-    {
-      path: "/admin/ReportPage",
-      name: "Reports",
-      icon: <FaBook />,
-    },
-    {
-      path: "/admin/ComplaintsPage",
-      name: "Complaints",
-      icon: <FaStickyNote />,
-    },
-    // {
-    //   path: "/admin/viewTraindelays",
-    //   name: "Train Delays",
-    //   icon: <FaTrain />,
-    // },
-  ];
-
+  const [activeItem, setActiveItem] = useState(menuItem[0].path);
+ 
   const handleSignOut = async () => {
     try {
       // Send a sign-out request to your server if needed
