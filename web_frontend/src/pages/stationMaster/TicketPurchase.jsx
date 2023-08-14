@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Card, Typography, TextField, Button } from '@mui/material';
+import { Container, Card, Typography, TextField, Button, MenuItem } from '@mui/material';
 import QRimage from '../../assets/qr.png';
-import cardImage from '../../assets/Traintk.png';
+import cardImage from '../../assets/tarin-image.png';
 import axios from 'axios';
 
 const TicketPurchase = () => {
@@ -100,7 +100,7 @@ const TicketPurchase = () => {
             onClick={() => handleTabChange('oneWay')}
             style={{
               width: '50%',
-              backgroundColor: selectedTab === 'oneWay' ? '#3D51A9' : '#ccc',
+              backgroundColor: selectedTab === 'oneWay' ? '#3D51A9' : '#DCDCDC',
               textAlign: 'center',
               cursor: 'pointer',
               lineHeight: '2.5',
@@ -112,7 +112,7 @@ const TicketPurchase = () => {
             onClick={() => handleTabChange('roundTrip')}
             style={{
               width: '50%',
-              backgroundColor: selectedTab === 'roundTrip' ? '#3D51A9' : '#ccc',
+              backgroundColor: selectedTab === 'roundTrip' ? '#3D51A9' : '#DCDCDC',
               textAlign: 'center',
               cursor: 'pointer',
               lineHeight: '2.5',
@@ -136,9 +136,9 @@ const TicketPurchase = () => {
           select
         >
           {stations.map(station => (
-            <option key={station.stationId} value={station.stationId}>
+            <MenuItem key={station.stationId} value={station.name}>
               {station.name}
-            </option>
+            </MenuItem>
           ))}
         </TextField>
         <TextField
@@ -156,9 +156,9 @@ const TicketPurchase = () => {
           select
         >
           {stations.map(station => (
-            <option key={station.stationId} value={station.stationId}>
+            <MenuItem key={station.stationId} value={station.name}>
               {station.name}
-            </option>
+            </MenuItem>
           ))}
         </TextField>
         <Typography variant="body2" gutterBottom>
@@ -178,25 +178,30 @@ const TicketPurchase = () => {
           }}
         />
         {selectedTab === 'roundTrip' && (
-          <TextField
-            type="date"
-            fullWidth
-            variant="outlined"
-            margin="normal"
-            error={formErrors.returnDate}
-            helperText={
-              formErrors.returnDate
-                ? 'Return date is required'
-                : selectedTab === 'roundTrip' && returnDate < departureDate
-                ? 'Return date must be after departure date'
-                : ''
-            }
-            value={returnDate}
-            onChange={(e) => {
-              setReturnDate(e.target.value);
-              setFormErrors({ ...formErrors, returnDate: false });
-            }}
-          />
+          <>
+            <Typography variant="body2" gutterBottom>
+              Return Date
+            </Typography>
+            <TextField
+              type="date"
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              error={formErrors.returnDate}
+              helperText={
+                formErrors.returnDate
+                  ? 'Return date is required'
+                  : returnDate < departureDate
+                  ? 'Return date must be after departure date'
+                  : ''
+              }
+              value={returnDate}
+              onChange={(e) => {
+                setReturnDate(e.target.value);
+                setFormErrors({ ...formErrors, returnDate: false });
+              }}
+            />
+          </>
         )}
         <TextField
           label="No of passengers"
@@ -230,7 +235,7 @@ const TicketPurchase = () => {
           variant="contained"
           color="primary"
           onClick={handleQuickTicket}
-          style={{ marginTop: '20px', width: '100%' }}
+          style={{ marginTop: '20px', width: '100%', backgroundColor:'#3D51A9' }}
         >
           Quick Ticket
         </Button>
