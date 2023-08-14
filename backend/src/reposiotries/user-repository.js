@@ -244,7 +244,7 @@ const updateLoginStatus = async (id) =>
       data: { loginStatus: true },
     });
 
-    console.log(`Login status updated for user with id ${userId}`);
+    // console.log(`Login status updated for user with id ${userId}`);
     return user;
   } catch (error)
   {
