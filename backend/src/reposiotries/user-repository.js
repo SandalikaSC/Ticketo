@@ -1,13 +1,16 @@
 const { PrismaClient, userType } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const getUserByEmail = async (email) => {
+const getUserByEmail = async (email) =>
+{
   return await prisma.user.findUnique({ where: { email: email } });
 };
-const getUserByNic = async (nic) => {
+const getUserByNic = async (nic) =>
+{
   return await prisma.user.findUnique({ where: { nic: nic } });
 };
-const getUserByNicEmail = async (nic, email) => {
+const getUserByNicEmail = async (nic, email) =>
+{
   return await prisma.user.findFirst({
     where: {
       OR: [
@@ -18,19 +21,23 @@ const getUserByNicEmail = async (nic, email) => {
   });
 };
 
-const getUserByMobile = async (mobileNumber) => {
+const getUserByMobile = async (mobileNumber) =>
+{
   return await prisma.user.findUnique({ where: { mobileNumber: mobileNumber } });
 }
 
-const updateToken = async (id, refreshToken) => {
+const updateToken = async (id, refreshToken) =>
+{
   return await prisma.user.update({ where: { id: id }, data: { token: refreshToken } });
 }
 
-const updateaccessToken = async (id, accessToken) => {
+const updateaccessToken = async (id, accessToken) =>
+{
   return await prisma.user.update({ where: { id: id }, data: { accessToken: accessToken } });
 }
 
-const addEmployeeAsPassenger = async (nic) => {
+const addEmployeeAsPassenger = async (nic) =>
+{
 
   return await prisma.user.update({
     where: {
@@ -44,11 +51,13 @@ const addEmployeeAsPassenger = async (nic) => {
   });
 };
 
-const updateOTP = async (email, otp, otpGenerateTime) => {
+const updateOTP = async (email, otp, otpGenerateTime) =>
+{
   return await prisma.user.update({ where: { email: email }, data: { otp: otp, otpGenerateTime: otpGenerateTime } });
 }
 
-const getOTP = async (email, mobileNumber) => {
+const getOTP = async (email, mobileNumber) =>
+{
   const user = await prisma.user.findFirst({
     where: {
       OR: [
@@ -67,7 +76,8 @@ const getOTP = async (email, mobileNumber) => {
   return user;
 }
 
-const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber) => {
+const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber) =>
+{
   return await prisma.user.create({
     data: {
       firstName: firstName,
@@ -88,7 +98,7 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
       },
     }
   })
-} 
+}
 
 const updateEmployee = async (employeeId, addedByUserId, stationId) =>
 {
@@ -137,6 +147,50 @@ const insertEmployee = async (nic, email, birthDate, hashPassword, firstName, la
         },
       }
     })
+  } else if (userType == "TICKET_CHECKER")
+  {
+    return await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: ['TICKET_CHECKER'],
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: phoneNumber,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
+  } else if (userType == "TICKET_CLERK")
+  {
+    return await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: ['TICKET_CLERK'],
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: phoneNumber,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
   }
 
 }
@@ -151,30 +205,55 @@ const insertTemperyOtp = async (nic, otp) =>
       otp: otp
     }
   })
-}
-const updatePassword = async (email, mobileNumber, hashPassword) => {
-  if (email) {
+};
+const updatePassword = async (email, mobileNumber, hashPassword) =>
+{
+  if (email)
+  {
     return await prisma.user.update({
       where: { email: email },
       data: { password: hashPassword },
     });
-  } else if (mobileNumber) {
+  } else if (mobileNumber)
+  {
     return await prisma.user.update({
       where: { mobileNumber: mobileNumber },
       data: { password: hashPassword },
     });
-  } else {
+  } else
+  {
     throw new Error('Neither email nor mobileNumber provided.');
   }
 };
-const getTempOtp = async (nic) => {
+const getTempOtp = async (nic) =>
+{
   return await prisma.verificationOtp.findFirst({
     where: { nic: nic },
     orderBy: { time: 'desc' }, // Sort by 'time' in descending order (latest first)
   });
 
 
-}
+};
+
+const updateLoginStatus = async (id) =>
+{
+  try
+  {
+    const user = await prisma.user.update({
+      where: { id: id },
+      data: { loginStatus: true },
+    });
+
+    // console.log(`Login status updated for user with id ${userId}`);
+    return user;
+  } catch (error)
+  {
+    console.error('Error updating login status:', error);
+    throw error;
+  }
+};
+
+
 
 module.exports = {
   getTempOtp,
@@ -191,7 +270,8 @@ module.exports = {
   updatePassword,
   insertTemperyOtp,
   insertEmployee,
-  updateEmployee
+  updateEmployee,
+  updateLoginStatus
 };
 
 

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-//import './App.css';
+import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/LoginPage";
 import Signup from "./pages/Signup";
 import Welcome from "./pages/Welcome";
@@ -8,30 +8,26 @@ import AdminPage from "./pages/admin/admin_home";
 import ControlCentrePage from "./pages/controlCenter/controlCentre_home";
 import TicketClerkPage from "./pages/ticketClerk/ticketClerk_home";
 import StationMasterPage from "./pages/stationMaster/stationMaster_home";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 import ProtectedRoute from "./routes/protectedRoutes";
-import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@emotion/react';
 import ResetPassword from './pages/password_reset';
-
-// const theme = createTheme({
-//   palette: {
-//     background: {
-//       default: '#ececec',
-//     },
-//   },
-// });
-
 
 const App = () =>
 {
   const isLoggedIn = useSelector(state => state.isLoggedIn);
-  console.log(isLoggedIn);
+  const dispatch = useDispatch();
+
+  // Check for authentication token on app initialization
+  useEffect(() =>
+  {
+    const token = localStorage.getItem("accessToken"); // Use the appropriate key
+    if (token)
+    {
+      dispatch({ type: "SET_LOGGED_IN", payload: true }); // Replace with your action
+    }
+  }, [dispatch]);
 
   return (
     <React.Fragment>
-
-      {/* <ThemeProvider theme={theme}> */}
       <main>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -56,7 +52,6 @@ const App = () =>
           />
         </Routes>
       </main>
-      { }
     </React.Fragment>
   );
 };

@@ -11,6 +11,8 @@ import TrainDelays from "./TrainDelays";
 import SMDashboard from "./SMDashboard";
 import EmployeeDetails from "./EmployeeDetails";
 import Seasons from "./Season_ID_Issueing";
+import TicketPurchase from "./TicketPurchase";
+
 const stationMaster_home = () => {
   return (
     <div>
@@ -25,6 +27,8 @@ const stationMaster_home = () => {
           <Route path="/EmployeeDetails" element={<EmployeeDetails />} />
           <Route path="/display" element={<DisplayCheckersClerks />} />
           <Route path="/seasons" element={<Seasons />} />
+          <Route path="/TicketPurchase" element={<TicketPurchase />} />
+
         </Routes>
       </Sidebar>
     </div>
@@ -32,18 +36,4 @@ const stationMaster_home = () => {
 };
 export default stationMaster_home;
 
-//import logo from './logo.svg';
-//import './App.css';
-//import PartOne from './components/PartOne'
 
-//function App() {
-//return (
-//<div className="App">
-
-// <h1>This is my first react project.</h1>
-//<PartOne/>
-//</div>
-// );
-//}
-
-//export default App;

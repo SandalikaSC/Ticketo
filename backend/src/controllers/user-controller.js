@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { PrismaClient } = require('@prisma/client');
 const authService = require('../services/auth-service');
 const prisma = new PrismaClient();
-
+const { findStation } = require('../reposiotries/station-repository')
 // Secret key for JWT
 // const JWT_SECRET_KEY = "TicketoSSSKPN";
 const ACCESS_TOKEN_SECRET = "access-token-secret-ticketo-SSSKPN";
@@ -16,16 +16,16 @@ const addUser = async (req, res) =>
     {
         const authHeader = req.headers.authorization;
         const submittedUser = await authService.verifyToken(authHeader);
+        console.log(submittedUser);
 
-        console.log("submitted user", submittedUser);
-        console.log(submittedUser.id);
         const id = submittedUser.id;
-
+        console.log(req.body);
         if (submittedUser.userType.includes("ADMIN"))
         {
+
             // User has the ADMIN role, proceed to add the user
             const { firstName, lastName, station, mobileNumber, email, nic } = req.body;
-            console.log(station);
+            // console.log(station);
 
             const userType = "STATION_MASTER";
             const addedUser = await authService.addEmployee(id, firstName, lastName, station, mobileNumber, email, nic, userType);
@@ -33,6 +33,34 @@ const addUser = async (req, res) =>
 
             // Respond to the client with a success message and the added user's information
             res.status(201).json({ message: "User added successfully", addedUser });
+
+        } else if (submittedUser.userType.includes("STATION_MASTER"))
+        {
+            const { firstName, lastName, email, jobPosition, nic, mobileNumber } = req.body;
+
+            const station = await findStation(id);
+            console.log(jobPosition);
+            if (jobPosition == "clerk")
+            {
+                userType = "TICKET_CLERK";
+
+
+                const addedUser = await authService.addEmployee(id, firstName, lastName, station, mobileNumber, email, nic, userType);
+                console.log("User added successfully:", addedUser);
+
+                // Respond to the client with a success message and the added user's information
+                res.status(201).json({ message: "User added successfully", addedUser });
+            }
+            else if (jobPosition == "checker")
+            {
+                userType = "TICKET_CHECKER";
+                const addedUser = await authService.addEmployee(id, firstName, lastName, station, mobileNumber, email, nic, userType);
+                console.log("User added successfully:", addedUser);
+
+                // Respond to the client with a success message and the added user's information
+                res.status(201).json({ message: "User added successfully", addedUser });
+            }
+
 
         } else
         {
@@ -113,7 +141,7 @@ const login = async (req, res, next) =>
     if (!existingUser)
     {
         return res.status(400).json({ message: "User not found. Signup Please" });
-        return;
+        //return;
     }
 
     // Check if the provided password matches the hashed password in the database

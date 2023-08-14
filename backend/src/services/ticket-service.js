@@ -2,6 +2,7 @@ const { insertTicket, updateReturnTicket } = require("../reposiotries/ticket-rep
 const { getJourneyPrice } = require("../reposiotries/journey-rerpositary")
 const { getwallet, getavailableBalance } = require("../reposiotries/wallet-repository")
 const { classIdgetClassIdByCode } = require("../reposiotries/class-repository");
+const { getStationName } = require("../reposiotries/station-repository");
 const { Console } = require("console");
 const { ticketType } = require("@prisma/client");
 const qr = require('qrcode');
@@ -59,6 +60,18 @@ const addTicket = async (startStation, endStation, tripType, startDate, returnDa
                     var updateticket = await updateReturnTicket(ticket.ticketId, returnticket.ticketId);
                 }
             }
+            console.log(ticket);
+            if (ticket.journeyState == 0) {
+                ticket.journeyState = "Not Started"
+            }
+            ticket.classId = await classname;
+            var startStation = await getStationName(ticket.startStation);
+            var endStation = await getStationName(ticket.endStation);
+            // console.log(startStation);
+            ticket.startStation = startStation.name;
+            ticket.endStation = endStation.name;
+            ticket.journeyDate = convertdatetoString(ticket.journeyDate);
+
             var qrCode = await generateQRCode(ticket.ticketId, ticket.ticketType);
             console.log("Generated QR Code:", qrCode);
             console.log("Inserted Ticket:", ticket);
@@ -67,13 +80,20 @@ const addTicket = async (startStation, endStation, tripType, startDate, returnDa
 
     } catch (err) {
         console.log(err);
-        throw new Error("Ticket generation failed");
+        throw new Error(err.message);
     }
+}
+const convertdatetoString = (inputdate) => {
+    const date = new Date(inputdate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 const generateQRCode = async (ticketId, ticketType) => {
     try {
         const qrCode = await qr.toBuffer(JSON.stringify(
-            { ticketId: ticketId, ticketType: ticketType }
+            { uuid: ticketId, ticketType: ticketType }
         ));
         return qrCode;
     } catch (error) {
