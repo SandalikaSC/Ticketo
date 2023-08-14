@@ -178,6 +178,7 @@ model Ticket {
   tripType        tripType     @default(ONE_WAY)
   returnTicketId  String?      @unique
   ticketType      ticketType
+  shareTicket     Boolean      @default(false)
   userId          String // Foreign Key to User 
   startStation    Int
   endStation      Int

@@ -9,8 +9,13 @@ const addTicket = async (req, res) => {
     const { startStation, endStation, tripType, startDate, returnDate, passengers, classname } = req.body;
     const user = req.user;
     // Validate startStation, endStation, tripType, startDate, returnDate, passengers, and classname
-    if (!startStation || !endStation || tripType == null || !startDate || !returnDate || !passengers || !classname) {
+    if (!startStation || !endStation || tripType == null || !startDate || !passengers || !classname) {
         return res.status(400).json({ error: 'Missing required fields' });
+    }
+    if (tripType == 1) {
+        if (!returnDate) {
+            return res.status(400).json({ error: 'Return Date Missing' });
+        }
     }
     if (parseInt(passengers) < 1) {
         return res.status(400).json({ error: 'Invalid number of passengers' });
@@ -32,13 +37,14 @@ const addTicket = async (req, res) => {
     try {
         const { qrCode, ticket } = await ticketService.addTicket(startStation, endStation, tripType, departureDay, returnDay, passengers, classname.toLowerCase(), user);
 
+        console.log(ticket);
         if (qrCode && ticket) {
             return res.status(200).json({ ticket, qrCode });
         } else {
             return res.status(400).json({ message: "Ticket and/or QR code not available." });
         }
     } catch (err) {
-        return res.status(500).json({ message: "Internal Server Error" });
+        return res.status(500).json({ message: err.message });
     }
 
 }

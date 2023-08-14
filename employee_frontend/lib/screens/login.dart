@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import '../services/api_service.dart';
 import 'guard_home.dart';
+
 final Logger logger = Logger();
 
 class LoginPage extends StatefulWidget {
@@ -41,13 +42,12 @@ class LoginPageState extends State<LoginPage> {
 
       try {
         // Create an instance of ApiService with the base URL
-        final apiService = ApiService('http://192.168.8.158:5000');
+        final apiService = ApiService();
 
 // Call the loginUser method using the instance
         final response = await apiService.loginUser(email, password);
 
         if (response.statusCode == 200) {
-
           final responseData = json.decode(response.body);
           logger.d(responseData);
           if (responseData is List<dynamic>) {
@@ -69,15 +69,18 @@ class LoginPageState extends State<LoginPage> {
             SharedPreferences prefs = await SharedPreferences.getInstance();
 
             await prefs.setString('id', decodedToken['id']);
-            await prefs.setString('nic', decodedToken['nic'] ?? ''); // Use empty string if null
+            await prefs.setString(
+                'nic', decodedToken['nic'] ?? ''); // Use empty string if null
             await prefs.setString('email', decodedToken['email']);
-            await prefs.setString('dob', decodedToken['dob'].toString()); // Convert DateTime to String
+            await prefs.setString('dob',
+                decodedToken['dob'].toString()); // Convert DateTime to String
             await prefs.setString('firstName', decodedToken['firstName']);
             await prefs.setString('lastName', decodedToken['lastName']);
             await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
 
             // Convert userType List to String and store it in shared preferences
-            List<String> userTypeList = List<String>.from(decodedToken['userType']);
+            List<String> userTypeList =
+                List<String>.from(decodedToken['userType']);
             await prefs.setStringList('user_type', userTypeList);
             logger.i('Login successful');
             if (userTypeList.contains("TICKET_CHECKER")) {
@@ -91,15 +94,14 @@ class LoginPageState extends State<LoginPage> {
               }
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const TrainGuardHomePage()),
+                MaterialPageRoute(
+                    builder: (context) => const TrainGuardHomePage()),
               );
-            }
-            else{
+            } else {
               if (kDebugMode) {
                 print("invalid user role");
               }
             }
-
           }
           // Login successful
           // Handle the response data as needed
@@ -207,7 +209,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Colors.grey,
                         ),
                         onPressed: () {
@@ -240,7 +244,8 @@ class LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+                      MaterialPageRoute(
+                          builder: (context) => const ResetPasswordPage()),
                     );
                   },
                   child: const Text(
