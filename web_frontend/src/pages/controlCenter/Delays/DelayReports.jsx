@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { Container, Typography, Divider, Paper, Select, MenuItem, Button, TextField, FormControl, 
-  InputLabel, Grid, Card, CardContent } from '@mui/material';import DelayReportCard from './../../../components/controlCenter/DelayReportCard';
+  InputLabel, Grid, Card, CardContent } from '@mui/material';
+import DelayReportCard from './../../../components/controlCenter/DelayReportCard';
 import Reports from './../../../components/controlCenter/Reports';
 import { Link } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
 
 const DelayReports = () => {
+
+  const notifications = [
+    { trainName: 'Sagarika', number: 'T1234', destination: 'Katugoda', currentLocation: 'Colombo', arrival: '7.00AM', delay: '2' },
+    { trainName: 'Ella Express', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
+    { trainName: 'Ruhunu Kumari', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
+    { trainName: 'Rajarata Rajini', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
+    { trainName: 'Badulu Express', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
+    { trainName: 'Seethawaka Rajina', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },   
+  ];
+
   const [delayReports, setDelayReports] = useState([]);
 
   const handleSortChange = (event) => {
@@ -16,6 +27,7 @@ const DelayReports = () => {
 
   const handleShowReports = () => {
     // Simulate fetching data from an API
+
     const mockData = [
       {
         trainName: 'Express Train',
@@ -81,37 +93,68 @@ const DelayReports = () => {
     <Container style={{ padding: '20px' }}>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}>
+        <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
+
+       // <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}>
+
             <b>Train Delay Reports</b>
         </Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleShowReports}
+          style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
+        >
+            Get Report
+        </Button>
+
       </div>
+
       <Divider style={{ marginBottom: '20px' }} />
 
-      <div style={{display: 'flex', flex: 2}}></div>
 
-      <div style={{ display: 'flex', flex: 2, gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', gap: '10px' }}>
-            <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-            To be Resolved
-            </Button>
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+          To be Resolved
+        </Button>
 
-            <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-            Already Resolved
-            </Button>
+        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+          Already Resolved
+        </Button>
 
-            <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-                Reports
-            </Button>              
-        </div>
+        <Button variant="outlined" color="primary" style={{ flex:1, fontWeight: 'bold' }}>
+          Reports
+        </Button>
 
-        <div style={{flex: 1}}>
-        </div>
+        <div style={{flex: 3}}></div>
+
+
+//       <div style={{display: 'flex', flex: 2}}></div>
+
+//       <div style={{ display: 'flex', flex: 2, gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
+//         <div style={{ display: 'flex', gap: '10px' }}>
+//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+//             To be Resolved
+//             </Button>
+
+//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+//             Already Resolved
+//             </Button>
+
+//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+//                 Reports
+//             </Button>              
+//         </div>
+
+//         <div style={{flex: 1}}>
+//         </div>
         
+
         <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
           <InputLabel htmlFor="filterDelays">
             Filter Delays
           </InputLabel>
-
           <Select
             label="Filter by"
             inputProps={{
@@ -129,32 +172,65 @@ const DelayReports = () => {
           </Select>
         </FormControl>
 
-        <TextField
-            label="Train Name"
-            variant="outlined"
-            fullWidth
-            value={stationName}
-            onChange={handleStationNameChange}
-            style={{ marginRight: 10, flex: 1, height: '100%', flex: 2 }}
-        />
-
         <Button
-            variant="contained"
-            color="primary"
-            onClick={handleShowReports}
-            style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
+          variant="contained"
+          color="primary"
+          onClick={handleShowReports}
+          style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop: '20px' }}
         >
-            <FaSearch />
-        </Button>
-        
+          Search
+        </Button> 
+           
       </div>
-      <Button
-        variant="contained">
-          Get Report
-      </Button>
 
-      <br></br>
-      <Reports delayReports={delayReports} />
+      <Divider style={{ marginBottom: '20px' }} />
+
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {notifications.map((notification, index) => (
+          <Paper key={index} elevation={3} style={{ display: 'flex', marginBottom: '10px', borderRadius: '10px' }}>
+            <div style={{ flex: 2, padding: '10px', borderRight: '1px solid #ccc' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' }}>
+                    <Typography variant="h5" style={{ fontWeight: 'bold' }}>
+                        {notification.trainName}
+                    </Typography>
+                    <Typography variant="h5" style={{ fontWeight: 'bold', color: '#3D50AC' }}>
+                        {notification.number}
+                    </Typography>
+                </div>
+            </div>
+
+            <div style={{ flex: 3, padding: '10px', borderRight: '1px solid #ccc' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <b>Destination :</b>
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            {notification.destination}
+                        </Typography>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <b>Current location :</b>
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            {notification.currentLocation}
+                        </Typography>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <b>Arrival :</b>
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            {notification.arrival} ({notification.delay} minute delay)
+                        </Typography>
+                    </div>
+                </div>
+            </div>
+          </Paper>
+        ))}
+      </div>
     </Container>
   );
 };
