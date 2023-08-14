@@ -1,15 +1,12 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
-import 'package:passenger_frontend/screens/login.dart';
 import 'package:passenger_frontend/services/station_service.dart';
-import 'package:http/http.dart' as http;
+import 'package:passenger_frontend/widgets/Normalticket.dart';
+import 'package:ticket_widget/ticket_widget.dart';
 
 import '../modals/station.dart';
 import '../utils/error_handler.dart';
@@ -24,14 +21,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _formKey = GlobalKey<FormState>();
-  int selectedIndex=0;
+  int selectedIndex = 0;
   final TextEditingController _startStationController = TextEditingController();
   final TextEditingController _endStationController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _passengerController = TextEditingController(text: '1');
+  final TextEditingController _passengerController =
+      TextEditingController(text: '1');
   String _selectedClass = 'Third Class';
-
 
   late _ToggleButtonGroupState _toggleButtonGroupState;
 
@@ -39,7 +36,6 @@ class _HomePageState extends State<HomePage> {
   Station? _selectedStartStation;
   Station? _selectedEndtStation;
   List<Station> _stations = [];
-
 
   @override
   void initState() {
@@ -73,13 +69,13 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _stations = data
                 .map((stationData) => Station(
-              stationId: stationData['stationId'] ?? 0,
-              // Use a default value if null
-              name: stationData['name'] ?? '',
-              latitude: stationData['latitude'] ?? 0.0,
-              longitude: stationData['longitude'] ?? 0.0,
-              contactNumber: stationData['contactNumber'] ?? '',
-            ))
+                      stationId: stationData['stationId'] ?? 0,
+                      // Use a default value if null
+                      name: stationData['name'] ?? '',
+                      latitude: stationData['latitude'] ?? 0.0,
+                      longitude: stationData['longitude'] ?? 0.0,
+                      contactNumber: stationData['contactNumber'] ?? '',
+                    ))
                 .toList();
           });
         } else {
@@ -123,8 +119,8 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+
   Future<void> _addTicket() async {
-    
     //
     // print(_startDateController.text.runtimeType);
     try {
@@ -132,43 +128,82 @@ class _HomePageState extends State<HomePage> {
       //     '${_startDateController.text } ${ _passengerController.text} ${_selectedClass}');
       // print('${_startStationController.text.runtimeType} ${_endStationController.text.runtimeType} ${selectedIndex.runtimeType} '
       //     '${_startDateController.text.runtimeType } ${ _passengerController.text.runtimeType} ${_selectedClass.runtimeType}');
-      final response = await stationService.addTicket(_selectedStartStation!.stationId.toString(), _selectedEndtStation!.stationId.toString(), selectedIndex, _startDateController.text , _endDateController.text, _passengerController.text, _selectedClass); // Perform search action here
+      final response = await stationService.addTicket(
+          _selectedStartStation!.stationId.toString(),
+          _selectedEndtStation!.stationId.toString(),
+          selectedIndex,
+          _startDateController.text,
+          _endDateController.text,
+          _passengerController.text,
+          _selectedClass); // Perform search action here
 
-      //
-      // final responseData = json.decode(response.body);
-      // final message = responseData['message'];
-      //
-      // if (response.statusCode == 200) {
-      //   // Navigator.push(
-      //   //   context,
-      //   //   MaterialPageRoute(
-      //   //     builder: (context) => OTPVerificationScreen(
-      //   //         firstName: firstName,
-      //   //         lastName: lastName,
-      //   //         emailAddress: email,
-      //   //         phoneNumber: phoneNumber,
-      //   //         password: password,
-      //   //         nic: nic),
-      //   //   ),
-      //   // );
-      //   showCustomToast(context, "success", message);
-      // }  else if (response.statusCode == 400) {
-      //   // Navigator.push(
-      //   //   context,
-      //   //   MaterialPageRoute(
-      //   //     builder: (context) => LoginPage(),
-      //   //   ),
-      //   // );
-      //   showCustomToast(context, "error", message);
-      // } else {
-      //   showCustomToast(context, "error", message);
-      // }
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        var qrCode = List<int>.from(responseData['qrCode']['data']);
+        var ticket = responseData['ticket'];
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Center(
+                child: TicketWidget(
+                  width: 350,
+                  height: 600,
+                  isCornerRounded: true,
+                  padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+                  child: TicketData(
+                    ticketNo: ticket['ticketNumber'],
+                    classname: ticket['classId'],
+                    date: ticket['journeyDate'],
+                    end: ticket['endStation'],
+                    start: ticket['startStation'],
+                    passengers: ticket['noOfPassengers'],
+                    ticketType: ticket['ticketType'],
+                    status: ticket['journeyState'],
+                    tripType: ticket['tripType'],
+                    qrCodeData: qrCode,
+                  ),
+                ),
+              ),
+              actions: [
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the popup
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red, // Set button color to red
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20), // Change border radius
+                      ),
+                    ),
+                    child: Text(
+                      'Close',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (response.statusCode == 400) {
+        final message = responseData['message'];
+        showCustomToast(context, "error", message);
+      } else {
+        final message = responseData['message'];
+        showCustomToast(context, "error", message);
+      }
     } catch (e) {
-      print('Error occurred: $e');
+      // print('Error occurred: $e');
       ErrorHandler.showErrorSnackBar(
           context, 'Unknown error occurred. Please try again later.');
     }
   }
+
   void _selectReturnDate(BuildContext context) async {
     if (_toggleButtonGroupState._selectedIndex == 0) {
       // If selected index is 0 (one-way), set return date to null
@@ -181,12 +216,15 @@ class _HomePageState extends State<HomePage> {
       // setState(() {
       //   _endDateController.text = DateFormat('dd MMM yyyy').format(now);
       // });
-      if (_toggleButtonGroupState._selectedIndex != 0 && _startDateController.text.isNotEmpty) {
-        final DateTime departureDate = DateFormat('dd MMM yyyy').parse(_startDateController.text);
+      if (_toggleButtonGroupState._selectedIndex != 0 &&
+          _startDateController.text.isNotEmpty) {
+        final DateTime departureDate =
+            DateFormat('dd MMM yyyy').parse(_startDateController.text);
         final DateTime? picked = await showDatePicker(
           context: context,
           initialDate: departureDate,
-          firstDate: departureDate, // Allow selection from the departure date onwards
+          firstDate:
+              departureDate, // Allow selection from the departure date onwards
           lastDate: DateTime(2101),
         );
 
@@ -197,7 +235,6 @@ class _HomePageState extends State<HomePage> {
         }
       }
     }
-
   }
 
   Form buildTripForm() {
@@ -235,7 +272,7 @@ class _HomePageState extends State<HomePage> {
               ),
               suggestionsCallback: (pattern) {
                 return _stations.where(
-                      (station) => station.name
+                  (station) => station.name
                       .toLowerCase()
                       .contains(pattern.toLowerCase()),
                 );
@@ -256,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                   return 'Please select a start station.';
                 } else {
                   bool isStationNameInData = _stations.any((station) =>
-                  station.name.toLowerCase() == value?.toLowerCase());
+                      station.name.toLowerCase() == value?.toLowerCase());
 
                   if (!isStationNameInData) {
                     return 'Invalid station';
@@ -273,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(
                   labelText: 'To',
                   prefixIcon:
-                  Icon(Icons.location_on, color: Styles.primaryColor),
+                      Icon(Icons.location_on, color: Styles.primaryColor),
                   // Icon you want to use
                   prefix: Container(
                     width: 1,
@@ -285,7 +322,7 @@ class _HomePageState extends State<HomePage> {
               ),
               suggestionsCallback: (pattern) {
                 return _stations.where(
-                      (station) => station.name
+                  (station) => station.name
                       .toLowerCase()
                       .contains(pattern.toLowerCase()),
                 );
@@ -306,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                   return 'Please select a end station.';
                 } else {
                   bool isStationNameInData = _stations.any((station) =>
-                  station.name.toLowerCase() == value?.toLowerCase());
+                      station.name.toLowerCase() == value?.toLowerCase());
 
                   if (!isStationNameInData) {
                     return 'Invalid station';
@@ -352,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: InputDecoration(
                       labelText: 'Passengers',
                       suffixIcon:
-                      Icon(Icons.person), // Add your desired icon here
+                          Icon(Icons.person), // Add your desired icon here
                     ),
                     keyboardType: TextInputType.number,
                     validator: (value) {
@@ -376,14 +413,14 @@ class _HomePageState extends State<HomePage> {
                     value: _selectedClass,
                     onChanged: (value) {
                       setState(() {
-                        _selectedClass = value!; // Update the selected class variable
+                        _selectedClass =
+                            value!; // Update the selected class variable
                       });
                     },
                     items: ['First Class', 'Second Class', 'Third Class']
                         .map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-
                         child: Text(value),
                       );
                     }).toList(),
@@ -392,7 +429,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -408,7 +444,7 @@ class _HomePageState extends State<HomePage> {
                       onPrimary: Colors.white, // Text color
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(30), // Button border radius
+                            BorderRadius.circular(30), // Button border radius
                       ),
                     ),
                     child: Text('Search Train',
@@ -420,11 +456,11 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Validation successful, handle form submission
-                       selectedIndex = _toggleButtonGroupState._selectedIndex;
+                      selectedIndex = _toggleButtonGroupState._selectedIndex;
                       _showConfirmationDialog(context);
-
                     }
-                    print('${_toggleButtonGroupState._selectedIndex} this is toggle');
+                    print(
+                        '${_toggleButtonGroupState._selectedIndex} this is toggle');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Background color
@@ -432,8 +468,8 @@ class _HomePageState extends State<HomePage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30),
                         side: BorderSide(color: Styles.secondaryColor)
-                      // Button border radius
-                    ),
+                        // Button border radius
+                        ),
                   ),
                   child: Text('Quick ticket',
                       style: TextStyle(
@@ -454,12 +490,16 @@ class _HomePageState extends State<HomePage> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0), // Adjust the radius as needed
+            borderRadius:
+                BorderRadius.circular(20.0), // Adjust the radius as needed
           ),
-
-          title: Center(child: Text('Confirm ticket',style: TextStyle(color: Styles.primaryColor,fontWeight: FontWeight.bold,fontSize: 22))) ,
+          title: Center(
+              child: Text('Confirm ticket',
+                  style: TextStyle(
+                      color: Styles.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22))),
           content: SingleChildScrollView(
-
             child: ListBody(
               children: <Widget>[
                 ListTile(
@@ -474,11 +514,11 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(Icons.date_range),
                   title: Text('Departure: ${_startDateController.text}'),
                 ),
-                 if(selectedIndex==1)
-                ListTile(
-                  leading: Icon(Icons.date_range),
-                  title: Text('Return: ${_endDateController.text}'),
-                ),
+                if (selectedIndex == 1)
+                  ListTile(
+                    leading: Icon(Icons.date_range),
+                    title: Text('Return: ${_endDateController.text}'),
+                  ),
                 ListTile(
                   leading: Icon(Icons.person),
                   title: Text('Passengers  ${_passengerController.text}'),
@@ -503,14 +543,16 @@ class _HomePageState extends State<HomePage> {
                     onPrimary: Styles.secondaryColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
-                      side: BorderSide(color: Styles.secondaryColor), // Red border
+                      side: BorderSide(
+                          color: Styles.secondaryColor), // Red border
                     ),
                   ),
-                  child: Text('Cancel', style: TextStyle(color: Styles.secondaryColor)),
+                  child: Text('Cancel',
+                      style: TextStyle(color: Styles.secondaryColor)),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    // Navigator.of(dialogContext).pop(); // Close the dialog
+                    Navigator.of(dialogContext).pop(); // Close the dialog
                     _addTicket();
                   },
                   style: ElevatedButton.styleFrom(
@@ -697,6 +739,7 @@ class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
     super.initState();
     widget.onStateCreated(this); // Pass the state instance back to the parent
   }
+
   int getSelectedIndex() {
     return _selectedIndex;
   }
@@ -783,7 +826,7 @@ class IconTextToggleButton extends StatelessWidget {
 String _formatTimeWithAMPM(TimeOfDay time) {
   final now = DateTime.now();
   final selectedDateTime =
-  DateTime(now.year, now.month, now.day, time.hour, time.minute);
+      DateTime(now.year, now.month, now.day, time.hour, time.minute);
   final format = DateFormat('hh:mm a'); // Use a custom format
   return format.format(selectedDateTime);
 }

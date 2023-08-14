@@ -239,8 +239,9 @@ async function main()
         // Add more station data here...
     ];
 
+ 
     for (const data of stationData)
-    {
+    { 
         await prisma.station.create({
             data
         });
@@ -620,15 +621,16 @@ async function main()
             holdValue: getRandomFloat(100, 400)
         }
 
-    ];
-    for (const data of userData)
-    {
+    ]; 
+    for (const data of userData) {
+ 
         await prisma.user.create({
             data
         });
     }
+ 
     for (const data of wallets)
-    {
+    { 
         await prisma.Wallet.create({
             data
         });
@@ -692,8 +694,9 @@ async function main()
         },
 
     ];
+ 
     for (const data of employeedata)
-    {
+    { 
         await prisma.Employee.create({
             data
         });
@@ -715,8 +718,9 @@ async function main()
     ];
 
 
+ 
     for (const data of classData)
-    {
+    { 
         await prisma.class.create({
             data,
         });
@@ -735,8 +739,9 @@ async function main()
         // Add more coach data here...
     ];
 
+ 
     for (const data of coachData)
-    {
+    { 
         await prisma.coach.create({
             data,
         });

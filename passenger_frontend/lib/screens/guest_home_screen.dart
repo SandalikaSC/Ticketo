@@ -1,15 +1,11 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
 import 'package:passenger_frontend/screens/login.dart';
 import 'package:passenger_frontend/services/station_service.dart';
-import 'package:http/http.dart' as http;
 
 import '../modals/station.dart';
 import '../utils/error_handler.dart';
@@ -28,9 +24,9 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
   final TextEditingController _endStationController = TextEditingController();
   final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
-  final TextEditingController _passengerController = TextEditingController(text: '1');
+  final TextEditingController _passengerController =
+      TextEditingController(text: '1');
   String _selectedClass = 'Third Class';
-
 
   late _ToggleButtonGroupState _toggleButtonGroupState;
 
@@ -38,7 +34,6 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
   Station? _selectedStartStation;
   Station? _selectedEndtStation;
   List<Station> _stations = [];
-
 
   @override
   void initState() {
@@ -135,12 +130,15 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
       // setState(() {
       //   _endDateController.text = DateFormat('dd MMM yyyy').format(now);
       // });
-      if (_toggleButtonGroupState._selectedIndex != 0 && _startDateController.text.isNotEmpty) {
-        final DateTime departureDate = DateFormat('dd MMM yyyy').parse(_startDateController.text);
+      if (_toggleButtonGroupState._selectedIndex != 0 &&
+          _startDateController.text.isNotEmpty) {
+        final DateTime departureDate =
+            DateFormat('dd MMM yyyy').parse(_startDateController.text);
         final DateTime? picked = await showDatePicker(
           context: context,
           initialDate: departureDate,
-          firstDate: departureDate, // Allow selection from the departure date onwards
+          firstDate:
+              departureDate, // Allow selection from the departure date onwards
           lastDate: DateTime(2101),
         );
 
@@ -151,7 +149,6 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
         }
       }
     }
-
   }
 
   Form buildTripForm() {
@@ -301,28 +298,28 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
             Row(
               children: [
                 //Flexible(
-                  // child: TextFormField(
-                  //   controller: _passengerController,
-                  //   decoration: InputDecoration(
-                  //     labelText: 'Passengers',
-                  //     suffixIcon:
-                  //         Icon(Icons.person), // Add your desired icon here
-                  //   ),
-                  //   keyboardType: TextInputType.number,
-                  //   validator: (value) {
-                  //     if (value == null || value.isEmpty) {
-                  //       return 'Enter passengers.';
-                  //     }
-                  //
-                  //     int? passengers = int.tryParse(value);
-                  //     if (passengers == null || passengers <= 0) {
-                  //       return 'Please enter a valid number of passengers.';
-                  //     }
-                  //
-                  //     return null; // No validation error
-                  //   },
-                  // ),
-               // ),
+                // child: TextFormField(
+                //   controller: _passengerController,
+                //   decoration: InputDecoration(
+                //     labelText: 'Passengers',
+                //     suffixIcon:
+                //         Icon(Icons.person), // Add your desired icon here
+                //   ),
+                //   keyboardType: TextInputType.number,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Enter passengers.';
+                //     }
+                //
+                //     int? passengers = int.tryParse(value);
+                //     if (passengers == null || passengers <= 0) {
+                //       return 'Please enter a valid number of passengers.';
+                //     }
+                //
+                //     return null; // No validation error
+                //   },
+                // ),
+                // ),
                 SizedBox(width: 10),
                 // Flexible(
                 //   // child: DropdownButtonFormField<String>(
@@ -346,7 +343,6 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
               ],
             ),
             SizedBox(height: 20),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -566,6 +562,7 @@ class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
     super.initState();
     widget.onStateCreated(this); // Pass the state instance back to the parent
   }
+
   int getSelectedIndex() {
     return _selectedIndex;
   }
