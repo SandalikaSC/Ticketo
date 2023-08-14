@@ -26,52 +26,52 @@ const AssignGuards = () => {
       schedule: 'Monday to Friday, 9AM - 5PM'
     },
     {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
+      name: 'Sunil Dissanayake',
+      NIC: '897012456V',
+      phone: '077-2345678',
       schedule: 'Saturday, 10AM - 3PM'
     },
     {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
+      name: 'Kapila Priyantha',
+      NIC: '784567345V',
+      phone: '076-1551345',
+      schedule: 'Saturday & Sunday, 10AM - 3PM'
+    },
+    {
+      name: 'Piyal Perera',
+      NIC: '765678345V',
+      phone: '078-3456890',
+      schedule: 'Saturday, 5AM - 12PM'
+    },
+    {
+      name: 'Jagath Lal',
+      NIC: '755678234V',
+      phone: '074-2345678',
+      schedule: 'Sunday, 11AM - 4PM'
+    },
+    {
+      name: 'Kapila Kumara',
+      NIC: '832345890V',
+      phone: '077-1234567',
+      schedule: 'Monday-Friday, 10AM - 3PM'
+    },
+    {
+      name: 'Siripala Perera',
+      NIC: '732345123V',
+      phone: '078-23459045',
       schedule: 'Saturday, 10AM - 3PM'
     },
     {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
+      name: 'Hegoda Arachchi',
+      NIC: '793456718V',
+      phone: '077-2345078',
       schedule: 'Saturday, 10AM - 3PM'
     },
     {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'John Doe',
-      NIC: '123456789',
-      phone: '+1 123-456-7890',
-      schedule: 'Saturday, 10AM - 3PM'
+      name: 'Mohomed Abdulla',
+      NIC: '843456901V',
+      phone: '077-1237895',
+      schedule: 'Sunday, 10AM - 3PM'
     }
   ];
 
