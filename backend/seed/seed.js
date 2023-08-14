@@ -238,11 +238,11 @@ async function main() {
         // Add more station data here...
     ];
 
-    // for (const data of stationData) {
-    //     await prisma.station.create({
-    //         data
-    //     });
-    // }
+    for (const data of stationData) {
+        await prisma.station.create({
+            data
+        });
+    }
 
 
 
@@ -619,16 +619,16 @@ async function main() {
         }
 
     ];
-    // for (const data of userData) {
-    //     await prisma.user.create({
-    //         data
-    //     });
-    // }
-    // for (const data of wallets) {
-    //     await prisma.Wallet.create({
-    //         data
-    //     });
-    // }
+    for (const data of userData) {
+        await prisma.user.create({
+            data
+        });
+    }
+    for (const data of wallets) {
+        await prisma.Wallet.create({
+            data
+        });
+    }
 
     const employeedata = [
 
@@ -688,11 +688,11 @@ async function main() {
         },
 
     ];
-    // for (const data of employeedata) {
-    //     await prisma.Employee.create({
-    //         data
-    //     });
-    // }
+    for (const data of employeedata) {
+        await prisma.Employee.create({
+            data
+        });
+    }
 
 
 
@@ -710,11 +710,11 @@ async function main() {
     ];
 
 
-    // for (const data of classData) {
-    //     await prisma.class.create({
-    //         data,
-    //     });
-    // }
+    for (const data of classData) {
+        await prisma.class.create({
+            data,
+        });
+    }
 
     const coachData = [
         { coachCode: 'TC5', seatCapacity: 48, seatArrangement: 5, classId: 2, reservable: false },
@@ -729,11 +729,11 @@ async function main() {
         // Add more coach data here...
     ];
 
-    // for (const data of coachData) {
-    //     await prisma.coach.create({
-    //         data,
-    //     });
-    // }
+    for (const data of coachData) {
+        await prisma.coach.create({
+            data,
+        });
+    }
 
 
     const uniqueStationPairs = generateUniqueStationPairs(stationData);

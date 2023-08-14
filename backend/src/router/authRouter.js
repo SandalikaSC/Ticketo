@@ -12,6 +12,9 @@ const {
 const {
   getAllStations
 } = require("../controllers/station-controller");
+const {
+  getSchedules
+} = require("../controllers/schedule-controller");
 
 const { addUser } = require("../controllers/user-controller");
 const { scanData } = require("../controllers/ticketChecker/scanData-controller");
@@ -34,6 +37,7 @@ router.get("/refresh", refreshToken);
 router.post("/logout", verifyToken, logout);
 router.post("/generate-otp", generateOtp);
 router.post("/verify-otp", verifyOtp);
+router.get("/getschedules", getSchedules);
 router.get("/allstations", getAllStations);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);

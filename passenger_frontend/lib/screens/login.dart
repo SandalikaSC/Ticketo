@@ -9,7 +9,6 @@ import '../utils/error_handler.dart'; // Import the ErrorHandler
 import '../utils/input_validations.dart'; // Import the Input Validations
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../services/auth_service.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 final Logger logger = Logger();
@@ -46,7 +45,6 @@ class LoginPageState extends State<LoginPage> {
         final response = await userService.loginUser(email, password);
 
         if (response.statusCode == 200) {
-
           final responseData = json.decode(response.body);
           logger.d(responseData);
           if (responseData is List<dynamic>) {
@@ -66,22 +64,24 @@ class LoginPageState extends State<LoginPage> {
             SharedPreferences prefs = await SharedPreferences.getInstance();
 
             await prefs.setString('id', decodedToken['id']);
-            await prefs.setString('nic', decodedToken['nic'] ?? ''); // Use empty string if null
+            await prefs.setString(
+                'nic', decodedToken['nic'] ?? ''); // Use empty string if null
             await prefs.setString('email', decodedToken['email']);
-            await prefs.setString('dob', decodedToken['dob'].toString()); // Convert DateTime to String
+            await prefs.setString('dob',
+                decodedToken['dob'].toString()); // Convert DateTime to String
             await prefs.setString('firstName', decodedToken['firstName']);
             await prefs.setString('lastName', decodedToken['lastName']);
             await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
+            await prefs.setString('accessToken', accessToken);
 
             // Convert userType List to String and store it in shared preferences
-            List<String> userTypeList = List<String>.from(decodedToken['userType']);
+            List<String> userTypeList =
+                List<String>.from(decodedToken['userType']);
             await prefs.setStringList('user_type', userTypeList);
-
-
           }
           // Login successful
           // Handle the response data as needed
-           logger.i('Login successful');
+          logger.i('Login successful');
           // logger.d(response.body);
 
           // Navigate to the home page after successful login

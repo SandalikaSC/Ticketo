@@ -3,10 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiService {
-  final String baseUrl;
-
-  ApiService(this.baseUrl);
-
   Future<http.Response> loginUser(String email, String password) async {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
