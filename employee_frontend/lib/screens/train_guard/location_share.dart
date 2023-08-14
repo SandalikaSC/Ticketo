@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class LocationSharingPage extends StatelessWidget {
-  const LocationSharingPage({super.key});
+  const LocationSharingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,42 +16,50 @@ class LocationSharingPage extends StatelessWidget {
 }
 
 class LocationSharingContent extends StatefulWidget {
-  const LocationSharingContent({super.key});
+  const LocationSharingContent({Key? key}) : super(key: key);
 
   @override
   _LocationSharingContentState createState() => _LocationSharingContentState();
 }
 
 class _LocationSharingContentState extends State<LocationSharingContent> {
-  double _sliderValue = 0.0;
+
+  late GoogleMapController _controller; // Declare the GoogleMapController
+
+  @override
+  void dispose() {
+    _controller.dispose(); // Dispose of the GoogleMapController
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Slider(
-          value: _sliderValue,
-          onChanged: (newValue) {
-            setState(() {
-              _sliderValue = newValue;
-            });
-          },
-        ),
         Expanded(
           child: GoogleMap(
             initialCameraPosition: const CameraPosition(
-              target: LatLng(37.7749, -122.4194), // Initial map position
+              target: LatLng(6.90245046790525, 79.86115289533163), // Updated location
               zoom: 15,
             ),
             markers: {
               const Marker(
                 markerId: MarkerId('marker_id'),
-                position: LatLng(37.7749, -122.4194), // Marker position
+                position: LatLng(6.90245046790525, 79.86115289533163), // Updated location
               ),
+            },
+            onMapCreated: (controller) {
+              _controller = controller; // Assign the controller
             },
           ),
         ),
       ],
     );
   }
+}
+
+void main() {
+  runApp(const MaterialApp(
+    home: LocationSharingPage(),
+  ));
 }
