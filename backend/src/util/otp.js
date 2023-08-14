@@ -7,6 +7,7 @@ const verifyOtp = async (req, res) =>
     const user = await getOTP(email, mobileNumber);
 
     const generatedOTP = parseInt(user.otp);
+    // const otp = parseInt(checkotp);
     const generatedTime = user.otpGenerateTime;
     console.log(otp);
     console.log(generatedOTP);
@@ -28,7 +29,7 @@ const verifyOtp = async (req, res) =>
     // Check if the time difference is less than 2 minutes (120,000 milliseconds)
     if (timeDifference < 120000)
     {
-        if (otp === generatedOTP)
+        if (otp == generatedOTP)
         {
             // OTP matched
             // Send success response

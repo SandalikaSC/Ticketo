@@ -27,32 +27,32 @@ class _HomeContentPageState extends State<HomeContentPage> {
   List<Map<String, dynamic>> dummySchedules = [
     {
       'time': '09:00 AM',
-      'trainName': 'Express Train',
+      'trainName': 'Galu Kumari',
       'platform': 'Platform 3',
     },
     {
       'time': '02:30 PM',
-      'trainName': 'Local Train',
+      'trainName': 'Ruhunu Kumari',
       'platform': 'Platform 1',
     },
     {
       'time': '04:00 PM',
-      'trainName': 'High-speed Train',
+      'trainName': 'Sagarika',
       'platform': 'Platform 5',
     },
     {
       'time': '10:30 AM',
-      'trainName': 'Commuter Train',
+      'trainName': 'Samudra Devi',
       'platform': 'Platform 2',
     },
     {
       'time': '03:45 PM',
-      'trainName': 'Express Route',
+      'trainName': 'Night Mail',
       'platform': 'Platform 4',
     },
     {
       'time': '06:15 PM',
-      'trainName': 'Night Express',
+      'trainName': 'Rajarata Rejina',
       'platform': 'Platform 6',
     },
     // Add more dummy schedules here
