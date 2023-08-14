@@ -112,10 +112,10 @@ const AssignGuards = () => {
   };
 
   return (
-    <Container style={{ padding: '20px', display: 'flex', height: '115vh' }}>
+    <Container style={{ padding: '20px', display: 'flex', height: '115vh',maxWidth: '1400px' }}>
 
       {/* Left Section */}
-      <div style={{ width: '60%', padding: '10px', backgroundColor: 'white',borderRadius: '10px',overflowY: 'auto',marginRight: '10px'  }}>
+      <div style={{ width: '50%', padding: '10px', backgroundColor: 'white',borderRadius: '10px',overflowY: 'auto',marginRight: '10px'  }}>
         <Typography variant="h4" style={{ marginBottom: '20px', color: '#3D50AC', textAlign: 'center' }}>
           <b>All Train Guards</b>
         </Typography>
@@ -171,7 +171,7 @@ const AssignGuards = () => {
       </div>
 
       {/* Right Section */}
-      <div style={{ width: '45%', padding: '10px', backgroundColor: 'white', borderRadius: '10px', marginLeft: '10px',overflowY: 'auto' }}>
+      <div style={{ width: '40%', padding: '10px', backgroundColor: 'white', borderRadius: '10px', marginLeft: '40px',overflowY: 'auto' }}>
         <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC', textAlign: 'center' }}>
           <b>Add Guard Details</b>
         </Typography> 
