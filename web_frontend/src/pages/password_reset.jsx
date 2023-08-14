@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import logoImage from "../assets/logo.png";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Paper,
   TextField,
@@ -12,10 +12,11 @@ import {
   IconButton,
 } from "@mui/material";
 
-import { Visibility, VisibilityOff } from "@material-ui/icons";
+//import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 const PasswordReset = () => {
-  const history = useHistory();
+  //const history = useHistory();
+  const history = useNavigate();
   const [showEmailSection, setShowEmailSection] = useState(true);
   const [showOTPSection, setShowOTPSection] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
@@ -130,13 +131,15 @@ const PasswordReset = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost/api/reset-password",
+          "http://localhost:5000/api/reset-password",
           dataToSend
         );
 
         if (response.status === 200) {
           // Password reset successful, redirect to login page
-          history.push("/login"); // Use the history object to navigate to the login page
+          //history.push("/login"); // Use the history object to navigate to the login page
+          console.log("reset successfully");
+          history("/");
         } else {
           console.log("Password reset failed");
         }
@@ -501,12 +504,12 @@ const PasswordReset = () => {
               )}
               <div>
                 <IconButton onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                  {/* {showPassword ? <Visibility /> : <VisibilityOff />} */}
                 </IconButton>
                 <IconButton
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                  {/* {showConfirmPassword ? <Visibility /> : <VisibilityOff />} */}
                 </IconButton>
               </div>
               <Button
