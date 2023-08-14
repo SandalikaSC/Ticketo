@@ -58,10 +58,12 @@ model Employee {
   addedDate     DateTime @default(now())
   addedByUserId String?
   stationId     Int?
-  addedBy       User?    @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
-  station       Station? @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
-  // schedules     Schedule[] @relation("employeeSchedules")
-  scanedTickets Ticket[] @relation("ticketScanner")
+ 
+  addedBy       User?      @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
+  station       Station?   @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
+  //schedules     Schedule[] @relation("employeeSchedules")
+  scanedTickets Ticket[]   @relation("ticketScanner")
+ 
 }
 
 model Dependent {
@@ -286,7 +288,7 @@ model Schedule {
   endTime         DateTime
   start           Int?
   end             Int?
-  driverId        String
+  driverId        String?
   trainId         Int
   WorkingDays     WorkingDays[]
   notWorking      WorkingDays[]
@@ -296,7 +298,9 @@ model Schedule {
   endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
   routeLine       RouteLine[]
   StationSchedule StationSchedule[] @relation("scheduleOn")
+ 
   // employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
+ 
   reservations    Reservation[]     @relation("scheduleReservations")
   seatReservation SeatReservation[] @relation("reservationSchedule")
 }
