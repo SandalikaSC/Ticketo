@@ -95,7 +95,7 @@ const DelayReports = () => {
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
 
-       // <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}>
+        {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
 
             <b>Train Delay Reports</b>
         </Typography>
@@ -130,13 +130,13 @@ const DelayReports = () => {
         <div style={{flex: 3}}></div>
 
 
-//       <div style={{display: 'flex', flex: 2}}></div>
+    {/* <div style={{display: 'flex', flex: 2}}></div> */}
 
-//       <div style={{ display: 'flex', flex: 2, gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
-//         <div style={{ display: 'flex', gap: '10px' }}>
-//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-//             To be Resolved
-//             </Button>
+      {/* <div style={{ display: 'flex', flex: 2, gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}> */}
+      {/* <div style={{ display: 'flex', gap: '10px' }}> */}
+        {/* <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}> */} */}
+     {/* To be Resolved */}
+        {/* </Button>  
 
 //             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
 //             Already Resolved
@@ -148,7 +148,7 @@ const DelayReports = () => {
 //         </div>
 
 //         <div style={{flex: 1}}>
-//         </div>
+   {/* </div> */}
         
 
         <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
