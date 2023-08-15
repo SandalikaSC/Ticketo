@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../login.dart'; // Import the LoginPage
@@ -9,6 +10,32 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0, // Removes the back button
+        title: const Padding(
+          padding: EdgeInsets.only(top: 20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                CupertinoIcons
+                    .person_crop_circle, // Replace with your desired icon
+                color: Color(0xFF3D51A9), // Blue icon color
+              ),
+              SizedBox(
+                  width: 8), // Add some spacing between icon and text
+              Text(
+                "My Profile",
+                style:
+                TextStyle(color:Color(0xFF3D51A9)), // Blue title color
+              ),
+            ],
+          ),
+        ),
+        centerTitle: true, // Center aligns the title
+        backgroundColor: Colors.white,
+      ),
       body: FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
