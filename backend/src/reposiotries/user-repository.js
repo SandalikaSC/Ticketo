@@ -14,8 +14,8 @@ const getUserByNicEmail = async (nic, email) =>
   return await prisma.user.findFirst({
     where: {
       OR: [
-        { nic: nic }, // Find by nic
-        { email: email }, // Find by email
+        { nic: nic },
+        { email: email },
       ],
     },
   });

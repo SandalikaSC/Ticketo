@@ -49,51 +49,12 @@ const menuItem = [
   // },
 ];
 
-
-
-
-
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
   const history = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [activeItem, setActiveItem] = useState(menuItem[0].path);
-
-  const menuItem = [
-    {
-      path: "/admin/Dashboard",
-      name: "Dashboard",
-      icon: <FaTh />,
-    },
-    {
-      path: "/admin/StationMastersPage",
-      name: "Station Masters",
-      icon: <FaUserNurse />,
-    },
-
-    {
-      path: "/admin/TrainTicketIncome",
-      name: "Earnings",
-      icon: <FaMoneyCheckAlt />,
-    },
-    {
-      path: "/admin/ReportPage",
-      name: "Reports",
-      icon: <FaBook />,
-    },
-    {
-      path: "/admin/ComplaintsPage",
-      name: "Complaints",
-      icon: <FaStickyNote />,
-    },
-    {
-      path: "/admin/ViewDelays",
-      name: "Train Delays",
-      icon: <FaTrain/>,
-    },
-  ];
-
 
   const handleSignOut = async () => {
     try {
@@ -120,16 +81,15 @@ const Sidebar = ({ children }) => {
   return (
     <div className="container">
       <div style={{ width: isOpen ? "18%" : "50px" }} className="sidebar">
-
-      <div
-            style={{
-              marginLeft: isOpen ? "85%" : "30%",
-              marginTop: "8%",
-            }}
-            className="bars grey-text"
-          >
-            <FaBars onClick={toggle} />
-          </div>
+        <div
+          style={{
+            marginLeft: isOpen ? "85%" : "30%",
+            marginTop: "8%",
+          }}
+          className="bars grey-text"
+        >
+          <FaBars onClick={toggle} />
+        </div>
         <div className="top_section">
           <img
             style={{ display: isOpen ? "block" : "none" }}
@@ -138,21 +98,27 @@ const Sidebar = ({ children }) => {
             alt="logo"
             className="logo"
           />
-     
         </div>
         {menuItem.map((item, index) => (
           <NavLink
             to={item.path}
             key={index}
-            className={`link grey-text ${activeItem === item.path ? "active" : ""}`}
+            className={`link grey-text ${
+              activeItem === item.path ? "active" : ""
+            }`}
             activeClassName="active"
-            onClick={() => setActiveItem(item.path)} 
+            onClick={() => setActiveItem(item.path)}
           >
-              <div className={`icon grey-text ${activeItem === item.path ? "active" : ""}`}>{item.icon}</div>
+            <div
+              className={`icon grey-text ${
+                activeItem === item.path ? "active" : ""
+              }`}
+            >
+              {item.icon}
+            </div>
             <div
               style={{
                 display: isOpen ? "block" : "none",
-                
               }}
               className="link_text grey-text"
             >
@@ -173,7 +139,7 @@ const Sidebar = ({ children }) => {
             onClick={handleSignOut}
           >
             <div className="icon grey-text" style={{ marginLeft: "14px" }}>
-              {<FaSignOutAlt className="black-icon"/>}
+              {<FaSignOutAlt className="black-icon" />}
             </div>
             <div
               style={{
