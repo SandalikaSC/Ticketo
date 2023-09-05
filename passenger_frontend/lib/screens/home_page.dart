@@ -4,6 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
+import 'package:passenger_frontend/screens/trainSchedules.dart';
 import 'package:passenger_frontend/services/station_service.dart';
 import 'package:passenger_frontend/widgets/Normalticket.dart';
 import 'package:ticket_widget/ticket_widget.dart';
@@ -447,6 +448,11 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Validation successful, handle form submission
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TrainSchedule()),
+                        );
                       }
                     },
                     style: ElevatedButton.styleFrom(
