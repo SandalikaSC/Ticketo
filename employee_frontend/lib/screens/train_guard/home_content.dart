@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'location_share.dart';
+
 void main() {
   runApp(
     const MaterialApp(
@@ -71,7 +72,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
               ),
               child: Container(
                 color: const Color(0xFF3D50AC),
-                padding: const EdgeInsets.only(top: 60, bottom: 30, left: 40, right: 40),
+                padding: const EdgeInsets.only(
+                    top: 60, bottom: 30, left: 40, right: 40),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -80,7 +82,10 @@ class _HomeContentPageState extends State<HomeContentPage> {
                       children: [
                         const Text(
                           'Welcome Back!',
-                          style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         const SizedBox(height: 10),
                         const Text(
@@ -90,7 +95,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         const SizedBox(height: 5),
                         Text(
                           '14th of August, 2023',
-                          style: TextStyle(fontSize: 16, color: Colors.grey[300]),
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[300]),
                         ),
                       ],
                     ),
@@ -110,7 +116,10 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'My Schedules',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF3D50AC)),
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF3D50AC)),
                 ),
               ),
             ),
@@ -134,10 +143,15 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(7, (index) {
-                    DateTime dayDate = currentDate.add(Duration(days: index - currentDate.weekday + 1));
-                    bool isToday = dayDate.day == currentDate.day && dayDate.month == currentDate.month && dayDate.year == currentDate.year;
+                    DateTime dayDate = currentDate
+                        .add(Duration(days: index - currentDate.weekday + 1));
+                    bool isToday = dayDate.day == currentDate.day &&
+                        dayDate.month == currentDate.month &&
+                        dayDate.year == currentDate.year;
                     bool isTwelfth = dayDate.day == 12;
-                    bool isSelected = dayDate.day == selectedDate.day && dayDate.month == selectedDate.month && dayDate.year == selectedDate.year;
+                    bool isSelected = dayDate.day == selectedDate.day &&
+                        dayDate.month == selectedDate.month &&
+                        dayDate.year == selectedDate.year;
 
                     return GestureDetector(
                       onTap: () {
@@ -154,15 +168,24 @@ class _HomeContentPageState extends State<HomeContentPage> {
                             width: 36,
                             height: 36,
                             decoration: BoxDecoration(
-                              color: isSelected ? const Color(0xFF3D50AC) : (isToday || isTwelfth) ? const Color(0xFF3D50AC) : Colors.transparent,
+                              color: isSelected
+                                  ? const Color(0xFF3D50AC)
+                                  : (isToday || isTwelfth)
+                                      ? const Color(0xFF3D50AC)
+                                      : Colors.transparent,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
                               child: Text(
                                 dayNames[index],
                                 style: TextStyle(
-                                  color: isSelected || isToday || isTwelfth ? Colors.white : Colors.black,
-                                  fontWeight: (isSelected || isToday || isTwelfth) ? FontWeight.bold : FontWeight.normal,
+                                  color: isSelected || isToday || isTwelfth
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight:
+                                      (isSelected || isToday || isTwelfth)
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
                                 ),
                               ),
                             ),
@@ -171,8 +194,12 @@ class _HomeContentPageState extends State<HomeContentPage> {
                           Text(
                             dayDate.day.toString(),
                             style: TextStyle(
-                              color: isSelected || isToday || isTwelfth ? const Color(0xFFFA6F5D) : Colors.black,
-                              fontWeight: (isSelected || isToday || isTwelfth) ? FontWeight.bold : FontWeight.normal,
+                              color: isSelected || isToday || isTwelfth
+                                  ? const Color(0xFFFA6F5D)
+                                  : Colors.black,
+                              fontWeight: (isSelected || isToday || isTwelfth)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
                           ),
                         ],
@@ -197,7 +224,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                       }
                     },
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         color: Colors.white70,
                         boxShadow: [
@@ -219,7 +247,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       schedule['trainName'], // Updated title
@@ -235,7 +264,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => const LocationSharingPage(),
+                                            builder: (context) =>
+                                                const LocationSharingPage(),
                                           ),
                                         );
                                       },
@@ -245,7 +275,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           width: 2.0,
                                         ),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
                                         ),
                                       ),
                                       child: const Text(
@@ -265,13 +296,16 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                   height: 10, // Space between title and divider
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
                                           child: Text(
                                             'Start',
                                             style: TextStyle(
@@ -281,7 +315,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
                                           child: RichText(
                                             text: const TextSpan(
                                               children: [
@@ -309,7 +344,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(
-                                      '--------------------------',
+                                      '--------',
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -318,10 +353,12 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                     ),
                                     const SizedBox(width: 10),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
                                           child: Text(
                                             'End',
                                             style: TextStyle(
@@ -331,7 +368,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16),
                                           child: RichText(
                                             text: const TextSpan(
                                               children: [

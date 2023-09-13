@@ -42,12 +42,11 @@ const menuItem = [
     name: "Complaints",
     icon: <FaStickyNote />,
   },
-  // {
-  //   path: "/admin/viewTraindelays",
-  //   name: "Train Delays",
-  //   icon: <FaTrain />,
-  // },
 ];
+
+
+
+
 
 const Sidebar = ({ children }) => {
   const dispatch = useDispatch();
@@ -55,6 +54,7 @@ const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [activeItem, setActiveItem] = useState(menuItem[0].path);
+
 
   const handleSignOut = async () => {
     try {
@@ -81,6 +81,7 @@ const Sidebar = ({ children }) => {
   return (
     <div className="container">
       <div style={{ width: isOpen ? "18%" : "50px" }} className="sidebar">
+
         <div
           style={{
             marginLeft: isOpen ? "85%" : "30%",
@@ -98,27 +99,21 @@ const Sidebar = ({ children }) => {
             alt="logo"
             className="logo"
           />
+
         </div>
         {menuItem.map((item, index) => (
           <NavLink
             to={item.path}
             key={index}
-            className={`link grey-text ${
-              activeItem === item.path ? "active" : ""
-            }`}
+            className={`link grey-text ${activeItem === item.path ? "active" : ""}`}
             activeClassName="active"
             onClick={() => setActiveItem(item.path)}
           >
-            <div
-              className={`icon grey-text ${
-                activeItem === item.path ? "active" : ""
-              }`}
-            >
-              {item.icon}
-            </div>
+            <div className={`icon grey-text ${activeItem === item.path ? "active" : ""}`}>{item.icon}</div>
             <div
               style={{
                 display: isOpen ? "block" : "none",
+
               }}
               className="link_text grey-text"
             >
