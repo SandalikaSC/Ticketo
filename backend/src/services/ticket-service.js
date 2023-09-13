@@ -21,8 +21,10 @@ const classTypeToCode = {
     "SECOND_CLASS_NOT_RESERVED": "SC",
 };
 
-const addTicket = async (startStation, endStation, tripType, startDate, returnDate, passengers, classname, user) => {
-    try {
+const addTicket = async (startStation, endStation, tripType, startDate, returnDate, passengers, classname, user) =>
+{
+    try
+    {
         //get journey price
         const baseJourneyPrice = await generateJourneyPrice(startStation, endStation, classname);
 
@@ -30,61 +32,70 @@ const addTicket = async (startStation, endStation, tripType, startDate, returnDa
 
         // check wallet balance
         const walletBalance = await getavailableBalance(user.id);
-        if (walletBalance < journeyprice) {
+        if (walletBalance < journeyprice)
+        {
             throw new Error("Insufficient balance please Recharge.");
 
-        } else {
+        } else
+        {
             const classValue = mapClassToValue(classname);
             var classId;
-            if (classValue == 2) {
+            if (classValue == 2)
+            {
                 classId = await classIdgetClassIdByCode(classTypeToCode["SECOND_CLASS_NOT_RESERVED"]);
-            } else {
+            } else
+            {
                 classId = await classIdgetClassIdByCode(classTypeToCode["THIRD_CLASS_NOT_RESERVED"]);
             }
 
 
-            if (tripType == 0) {
+            if (tripType == 0)
+            {
                 var triptypeName = 'ONE_WAY';
 
-            } else {
+            } else
+            {
                 var triptypeName = 'ROUND_TRIP';
             }
             // generate ticket
             var ticket = await insertTicket(
                 passengers, journeyprice, startDate, triptypeName, "NORMAL", user.id, startStation, endStation, classId.classId);;
-            if (tripType == 1) {
+            if (tripType == 1)
+            {
                 var returnticket = await insertTicket(
                     passengers, journeyprice, returnDate, "RETURN", "NORMAL", user.id, endStation, startStation, classId.classId);
 
-                if (ticket) {
+                if (ticket)
+                {
                     var updateticket = await updateReturnTicket(ticket.ticketId, returnticket.ticketId);
                 }
             }
             console.log(ticket);
-            if (ticket.journeyState == 0) {
+            if (ticket.journeyState == 0)
+            {
                 ticket.journeyState = "Not Started"
             }
             ticket.classId = await classname;
             var startStation = await getStationName(ticket.startStation);
             var endStation = await getStationName(ticket.endStation);
-            // console.log(startStation);
             ticket.startStation = startStation.name;
             ticket.endStation = endStation.name;
             ticket.journeyDate = convertdatetoString(ticket.journeyDate);
 
             var qrCode = await generateQRCode(ticket.ticketId, ticket.ticketType);
-            console.log("Generated QR Code:", qrCode);
-            console.log("Inserted Ticket:", ticket);
             return { qrCode, ticket };
         }
 
-    } catch (err) {
+    } catch (err)
+    {
         console.log(err);
         throw new Error(err.message);
     }
 }
-const getTicketsByuser = async (userid) => {
-    try {
+const getTicketsByuser = async (userid) =>
+{
+    try
+    {
         // Get journey price
         var tickets = await getTickets(userid);
         const journeyStateMap = {
@@ -92,7 +103,8 @@ const getTicketsByuser = async (userid) => {
             1: "Started",
             2: "Ended"
         };
-        const formattedTickets = await Promise.all(tickets.map(async (ticket) => {
+        const formattedTickets = await Promise.all(tickets.map(async (ticket) =>
+        {
             return {
                 ...ticket,
                 start: await getStationNameById(ticket.startStation),
@@ -105,22 +117,27 @@ const getTicketsByuser = async (userid) => {
         }));
 
         return formattedTickets; // Return the formatted tickets
-    } catch (err) {
+    } catch (err)
+    {
         console.log(err);
         throw new Error(err.message);
     }
 }
-const getStationNameById = async (stationId) => {
+const getStationNameById = async (stationId) =>
+{
     var Station = await getStationName(stationId);
     return Station.name;
 
 }
-const getClassname = async (ticket) => {
-    try {
+const getClassname = async (ticket) =>
+{
+    try
+    {
         // Logic to fetch class code or data based on classId
         const classCode = await getClassnameById(ticket.classId); // Fetch class code based on classId
         var classname;
-        switch (classCode.code) {
+        switch (classCode.code)
+        {
             case "TCR":
                 classname = "Third Class";
                 break;
@@ -149,7 +166,8 @@ const getClassname = async (ticket) => {
                 classname = "Unknown Class"; // Handle unknown class codes
         }
         return classname;
-    } catch (err) {
+    } catch (err)
+    {
         console.log(err);
         throw new Error(err.message);
     }
@@ -162,36 +180,45 @@ const getClassname = async (ticket) => {
 
 
 
-const convertdatetoString = (inputdate) => {
+const convertdatetoString = (inputdate) =>
+{
     const date = new Date(inputdate);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
-const generateQRCode = async (ticketId, ticketType) => {
-    try {
+const generateQRCode = async (ticketId, ticketType) =>
+{
+    try
+    {
         const qrCode = await qr.toBuffer(JSON.stringify(
             { uuid: ticketId, ticketType: ticketType }
         ));
         return qrCode;
-    } catch (error) {
+    } catch (error)
+    {
         console.error('Error generating QR code:', error);
         throw error;
     }
 };
-const generateJourneyPrice = async (startStation, endStation, classname) => {
-    if (startStation == endStation) {
+const generateJourneyPrice = async (startStation, endStation, classname) =>
+{
+    if (startStation == endStation)
+    {
         return PLATFORM_TICKET;
-    } else {
+    } else
+    {
 
-        try {
+        try
+        {
             const journey = await getJourneyPrice(startStation, endStation);
 
             const classValue = mapClassToValue(classname.toLowerCase());
 
             var price;
-            switch (classValue) {
+            switch (classValue)
+            {
                 case 1:
                     price = journey.firstClass;
                     break;
@@ -207,7 +234,8 @@ const generateJourneyPrice = async (startStation, endStation, classname) => {
             }
             return price;
 
-        } catch (error) {
+        } catch (error)
+        {
             console.error(error);
             throw new Error("Error No journey");
         }
@@ -215,8 +243,10 @@ const generateJourneyPrice = async (startStation, endStation, classname) => {
     }
 
 }
-function mapClassToValue(className) {
-    switch (className.toLowerCase()) {
+function mapClassToValue(className)
+{
+    switch (className.toLowerCase())
+    {
         case 'third class':
             return 3;
         case 'second class':

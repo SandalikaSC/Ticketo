@@ -14,8 +14,8 @@ const getUserByNicEmail = async (nic, email) =>
   return await prisma.user.findFirst({
     where: {
       OR: [
-        { nic: nic }, // Find by nic
-        { email: email }, // Find by email
+        { nic: nic },
+        { email: email },
       ],
     },
   });
@@ -253,7 +253,10 @@ const updateLoginStatus = async (id) =>
   }
 };
 
-
+const getEmployee = async (id) =>
+{
+  return await prisma.employee.findUnique({ where: { employeeId: id } });
+}
 
 module.exports = {
   getTempOtp,
@@ -271,7 +274,8 @@ module.exports = {
   insertTemperyOtp,
   insertEmployee,
   updateEmployee,
-  updateLoginStatus
+  updateLoginStatus,
+  getEmployee
 };
 
 

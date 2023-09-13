@@ -42,11 +42,6 @@ const menuItem = [
     name: "Complaints",
     icon: <FaStickyNote />,
   },
-  // {
-  //   path: "/admin/viewTraindelays",
-  //   name: "Train Delays",
-  //   icon: <FaTrain />,
-  // },
 ];
 
 
@@ -59,40 +54,6 @@ const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const [activeItem, setActiveItem] = useState(menuItem[0].path);
-
-  // const menuItem = [
-  //   {
-  //     path: "/admin/Dashboard",
-  //     name: "Dashboard",
-  //     icon: <FaTh />,
-  //   },
-  //   {
-  //     path: "/admin/StationMastersPage",
-  //     name: "Station Masters",
-  //     icon: <FaUserNurse />,
-  //   },
-
-  //   {
-  //     path: "/admin/TrainTicketIncome",
-  //     name: "Earnings",
-  //     icon: <FaMoneyCheckAlt />,
-  //   },
-  //   {
-  //     path: "/admin/ReportPage",
-  //     name: "Reports",
-  //     icon: <FaBook />,
-  //   },
-  //   {
-  //     path: "/admin/ComplaintsPage",
-  //     name: "Complaints",
-  //     icon: <FaStickyNote />,
-  //   },
-  //   {
-  //     path: "/admin/ViewDelays",
-  //     name: "Train Delays",
-  //     icon: <FaTrain/>,
-  //   },
-  // ];
 
 
   const handleSignOut = async () => {

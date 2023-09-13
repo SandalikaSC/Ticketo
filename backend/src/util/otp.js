@@ -7,13 +7,7 @@ const verifyOtp = async (req, res) =>
     const user = await getOTP(email, mobileNumber);
 
     const generatedOTP = parseInt(user.otp);
-    // const otp = parseInt(checkotp);
     const generatedTime = user.otpGenerateTime;
-    console.log(otp);
-    console.log(generatedOTP);
-    console.log(typeof otp);
-    console.log(typeof generatedOTP);
-
 
     if (!generatedOTP || !generatedTime)
     {
@@ -26,33 +20,19 @@ const verifyOtp = async (req, res) =>
     console.log("generatedTime", generatedTime);
     console.log("Time difference", timeDifference);
 
-    // Check if the time difference is less than 2 minutes (120,000 milliseconds)
     if (timeDifference < 120000)
     {
         if (otp == generatedOTP)
         {
-            // OTP matched
-            // Send success response
-            console.log("otp matched");
             await updateOTP(email, "", null);
             return res.status(200).json({ message: "OTP matched" });
         } else
         {
-            // Invalid OTP
             return res.status(400).json({ message: "Invalid OTP" });
         }
     } else
     {
-        // Delete OTP and otpGenerateTime from the database
         await updateOTP(email, "", null);
-        // await prisma.user.update({
-        //     where: { email: user.email },
-        //     data: {
-        //         otp: "",
-        //         otpGenerateTime: null
-        //     }
-        // });
-
         return res.status(400).json({ message: "OTP expired" });
     }
 }

@@ -1,7 +1,8 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const classIdgetClassIdByCode = async (code) => {
+const classIdgetClassIdByCode = async (code) =>
+{
     return await prisma.class.findFirst({
         where: {
             code: code,
@@ -11,7 +12,8 @@ const classIdgetClassIdByCode = async (code) => {
         },
     });
 };
-const getClassnameById = async (id) => {
+const getClassnameById = async (id) =>
+{
     return await prisma.class.findFirst({
         where: {
             classId: id,
@@ -21,10 +23,16 @@ const getClassnameById = async (id) => {
         },
     });
 };
+
+const getClass = async (classId) =>
+{
+    return await prisma.class.findUnique({ where: { classId: classId } });
+}
 classIdgetClassIdByCode
 module.exports = {
     classIdgetClassIdByCode,
-    getClassnameById
+    getClassnameById,
+    getClass
 };
 
 

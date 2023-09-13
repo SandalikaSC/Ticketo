@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 
-
 const Form = () => {
   const [stations, setStations] = useState([]);
   const [formData, setFormData] = useState({
@@ -40,14 +39,6 @@ const Form = () => {
       console.error("Error fetching stations:", error);
     }
   };
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -132,7 +123,6 @@ const Form = () => {
 
     if (validateForm()) {
       try {
-
         const accessToken = localStorage.getItem("accessToken");
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -167,7 +157,6 @@ const Form = () => {
   };
 
   return (
-
     <div>
       <form className="admin-form" onSubmit={handleSubmit}>
         <div className="admin-form-group">

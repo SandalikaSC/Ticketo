@@ -8,10 +8,7 @@ import {
 } from "@mui/material";
 
 import TrainIcon from "@mui/icons-material/Train";
-//import AddIcon from "@mui/icons-material/Add";
-// import RemoveIcon from "@mui/icons-material/Remove";
 import Grid from "@mui/material/Grid";
-// import Checkbox from "@mui/material/Checkbox";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { FormControl, InputLabel, Select } from "@mui/material";
 import ccBackgroundImage from "../../assets/cc_bg2.png";
@@ -35,7 +32,6 @@ const theme = createTheme({
 
 const TrainInfo = () => {
   const [selectedSchedule, setSelectedSchedule] = useState(null);
-  // const [numberOfCoaches, setNumberOfCoaches] = useState(1);
 
   const scheduleData = [
     { trainName: "Samudra Devi", departure: "9:00 AM", arrival: "11:00 AM" },
@@ -46,7 +42,6 @@ const TrainInfo = () => {
     { trainName: "Ella Odyssey", departure: "11:30 AM", arrival: "1:30 PM" },
     { trainName: "Rajarata Rajina", departure: "11:30 AM", arrival: "1:30 PM" },
     { trainName: "Samudra Devi", departure: "11:30 AM", arrival: "1:30 PM" },
-    // Add more schedule items here
   ];
 
   const handleScheduleClick = (index) => {
@@ -59,7 +54,7 @@ const TrainInfo = () => {
         <div style={{ backgroundColor: "#ECECEC" }}>
           <Typography
             variant="h4"
-            style={{ marginBottom: "10px", color: "#3D50AC" , marginTop: "2%"}}
+            style={{ marginBottom: "10px", color: "#3D50AC", marginTop: "2%" }}
           >
             <b>Train Information Dashboard</b>
           </Typography>
@@ -151,10 +146,8 @@ const TrainInfo = () => {
                             id: "filterTrainName",
                           }}
                         >
-                          {/* Add your train options here */}
                           <MenuItem value="train1">Samudra Devi</MenuItem>
                           <MenuItem value="train2">Galu Kumari</MenuItem>
-                          {/* Add more options as needed */}
                         </Select>
                       </FormControl>
 
@@ -169,10 +162,8 @@ const TrainInfo = () => {
                             id: "filterStartStation",
                           }}
                         >
-                          {/* Add your start station options here */}
                           <MenuItem value="station1">Galle</MenuItem>
                           <MenuItem value="station2">Colombo Fort</MenuItem>
-                          {/* Add more options as needed */}
                         </Select>
                       </FormControl>
 
@@ -187,10 +178,8 @@ const TrainInfo = () => {
                             id: "filterEndStation",
                           }}
                         >
-                          {/* Add your end station options here */}
                           <MenuItem value="stationA">Maradana</MenuItem>
                           <MenuItem value="stationB">Beliaththa</MenuItem>
-                          {/* Add more options as needed */}
                         </Select>
                       </FormControl>
 
@@ -203,7 +192,6 @@ const TrainInfo = () => {
                       </Button>
                     </div>
                   </div>
-                  {/* Second Column: Add Train Schedule */}
                 </div>
 
                 <h2 style={{ color: "#3D51A9", marginBottom: "10px" }}>
@@ -252,28 +240,7 @@ const TrainInfo = () => {
                 </div>
               </div>
             </Grid>
-            {/* <div
-            style={{
-              flex: 1,
-              width: "90%",
-              marginTop: "3%",
-              marginBottom: "3%",
-              marginLeft: "26px",
-              borderRadius: "20px",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <img
-              src={ccBackgroundImage}
-              alt="Illustration"
-              style={{
-                width: "80%", // Set the width of the image
-                height: "100%", // Let the height adjust proportionally
-                marginTop: "20px", // Adjust the spacing as needed
-                marginLeft: "25%",
-              }}
-            />
-          </div> */}
+
             <div
               style={{
                 flex: 1,
@@ -349,7 +316,7 @@ const TrainInfo = () => {
                   >
                     Stop Stations
                   </h3>
-                  {/* <div></div> */}
+
                   <div class="schedule-topic">
                     <h5>Station Name</h5>
                     <h5 style={{ marginLeft: "22%" }}>Arrival</h5>
@@ -367,61 +334,59 @@ const TrainInfo = () => {
                       departureTime="09:15 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Ambalangoda"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Kaluthara"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Moratuwa"
                       arrivalTime="09:00 AM"
                       departureTime="09:15 AM"
                     />
 
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Panadura"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Dehiwala"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Mount Lavinia"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
                     <StationCard
-                      stationIcon="path/to/your/icon.png" // Update with your icon path
+                      stationIcon="path/to/your/icon.png"
                       stationName="Kollupitiya"
                       arrivalTime="10:30 AM"
                       departureTime="10:45 AM"
                     />
-
-                    {/* Add more StationCard components as needed */}
                   </div>
                 </div>
               ) : (
                 <img
-                src={ccBackgroundImage}
-                alt="Illustration"
-                style={{
-                  width: "120%", // Adjust the width as needed
-                  height: "100%", // Let the height adjust proportionally
-                  marginTop: "2%", // Adjust the spacing as needed
-                }}
+                  src={ccBackgroundImage}
+                  alt="Illustration"
+                  style={{
+                    width: "120%",
+                    height: "100%",
+                    marginTop: "2%",
+                  }}
                 />
               )}
             </div>

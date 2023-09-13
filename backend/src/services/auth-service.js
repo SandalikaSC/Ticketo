@@ -11,12 +11,12 @@ const addEmployee = async (id, firstName, lastName, station, mobileNumber, email
   const hashPassword = bcrypt.hashSync(nic, 10);
   const birthDate = getBirthDateFromNIC(nic);
 
-  console.log(birthDate);
+
   if (userType == "STATION_MASTER")
   {
     const stationId = await getStationId(station);
     const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
-    console.log("added user id", addedUser.id);
+    // console.log("added user id", addedUser.id);
     await updateEmployee(addedUser.id, id, stationId);
 
     const subject = "Account Creation of Ticketo";
@@ -60,34 +60,21 @@ const addEmployee = async (id, firstName, lastName, station, mobileNumber, email
 
     return addedUser;
   }
-
-
-
-
-
-  // const addedUser = await addEmployee
 }
 const employeeToPassenger = async (nic) =>
 {
-
   try
   {
     return await addEmployeeAsPassenger(nic);
-
-
   } catch (error)
   {
     throw new Error("An error occurred during login");
   }
-
-
 }
 const signup = async (firstName, lastName, phoneNumber, nic, email, password) =>
 {
   try
   {
-
-
     const hashPassword = bcrypt.hashSync(password, 10);
 
     // Extract the birth year, month, and date from the NIC number
@@ -122,13 +109,9 @@ const accountVerification = async (nic, otp) =>
   {
     throw new Error("Internal Server Error");
   }
-
-
-
 }
 function getBirthDateFromNIC(nic)
 {
-
   if (nic.length == 10)
   {
     new_nic = "19" + nic;
@@ -142,9 +125,6 @@ function getBirthDateFromNIC(nic)
   }
 
   const { month, day } = getMonthAndDayFromTotalDays(dayOfBirth);
-  // console.log(`Month: ${month}, Day: ${day}`);
-
-  // console.log(year + " " + month + " " + day)
   return new Date(year, month - 1, day);
 }
 function getMonthAndDayFromTotalDays(totalDays)
@@ -161,10 +141,8 @@ const isExistPassenger = async (nic, email) =>
 {
   try
   {
-
     const existingUser = await getUserByNicEmail(nic, email);
     return existingUser;
-
   } catch (err)
   {
     console.log(err);
@@ -200,9 +178,7 @@ const login = async (email, password) =>
       loginStatus: existingUser.loginStatus,
     }, ACCESS_TOKEN_SECRET, {
       expiresIn: "2d",
-
     });
-
     const refreshToken = jwt.sign({ id: existingUser.id, email: existingUser.email, userType: existingUser.userType, loginStatus: existingUser.loginStatus, type: "refresh" }, REFRESH_TOKEN_SECRET, {
       expiresIn: "7d",
     });
@@ -212,13 +188,9 @@ const login = async (email, password) =>
     userType = existingUser.userType;
     if (existingUser.loginStatus == false && (existingUser.userType == "ADMIN" || existingUser.userType == "CONTROL_CENTRE" || existingUser.userType == "PASSENGER"))
     {
-
       await updateLoginStatus(existingUser.id);
-      console.log("login status updated");
-
     }
     loginStatus = existingUser.loginStatus;
-    console.log("login successful");
     return { accessToken, refreshToken, userType, loginStatus };
   } catch (error)
   {
@@ -230,10 +202,8 @@ const insertTempOtp = async (nic, otp) =>
 {
   try
   {
-
     const dbresult = await insertTemperyOtp(nic, otp);
     return dbresult;
-
   } catch (err)
   {
     return res.status(500).json({ message: "Internal Server Error" });
@@ -242,54 +212,40 @@ const insertTempOtp = async (nic, otp) =>
 
 const verifyToken = async (token) =>
 {
-  // console.log("service verify token");
-  // console.log(token);
   try
   {
     const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
-
     return decodedToken;
   } catch (error)
   {
     console.error("Token Verification Failed:", error.message);
     throw error; // Re-throw the error to be handled at the calling location
   }
-
 }
 const logout = async (id) =>
 {
   await updateToken(id, "");
-  console.log("inside service");
-  if (!id)
-  {
-    console.log("logout unsuccessful");
-  }
   return id;
 }
 
 const refreshToken = async (refreshToken) =>
 {
   payload = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
-
   return payload;
 }
 
 const resetPassword = async (req, res) =>
 {
   const { email, mobileNumber, password, confirmPassword } = req.body;
-  console.log(email);
   try
   {
     if (password !== confirmPassword)
     {
       return res.status(400).json({ error: 'Passwords do not match' });
     }
-
     const hashPassword = bcrypt.hashSync(password, 10);
-    console.log("hashpassword", hashPassword);
     const updatedUser = await updatePassword(email, mobileNumber, hashPassword);
 
-    console.log(updatedUser.id);
     if (updatedUser.loginStatus == false)
     {
       await updateLoginStatus(updatedUser.id);
