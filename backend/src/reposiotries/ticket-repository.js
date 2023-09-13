@@ -64,10 +64,16 @@ const updateReturnTicket = async (ticket, returnticket) =>
         },
     });
 };
+
+const getTicket = async (uuid) =>
+{
+    return await prisma.ticket.findUnique({ where: { ticketId: uuid } });
+}
 module.exports = {
     insertTicket,
     updateReturnTicket,
-    getTickets
+    getTickets,
+    getTicket
 };
 
 

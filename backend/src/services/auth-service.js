@@ -11,12 +11,12 @@ const addEmployee = async (id, firstName, lastName, station, mobileNumber, email
   const hashPassword = bcrypt.hashSync(nic, 10);
   const birthDate = getBirthDateFromNIC(nic);
 
-  console.log(birthDate);
+
   if (userType == "STATION_MASTER")
   {
     const stationId = await getStationId(station);
     const addedUser = await insertEmployee(nic, email, birthDate, hashPassword, firstName, lastName, mobileNumber, userType);
-    console.log("added user id", addedUser.id);
+    // console.log("added user id", addedUser.id);
     await updateEmployee(addedUser.id, id, stationId);
 
     const subject = "Account Creation of Ticketo";
