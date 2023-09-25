@@ -1,73 +1,23 @@
-// StationMasterCard.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-
+import axios from 'axios';
 
 const StationMasterCard = () => {
-  // Dummy data for station masters
-  const dummyStationMasters = [
-    {
-      id: 1,
-      smNumber: '001',
-      stationName: 'Maradana',
-      stationMasterName: 'Sunil Perera',
-    },
-    {
-      id: 2,
-      smNumber: '002',
-      stationName: 'Colombo Fort',
-      stationMasterName: 'Kamal De Silva',
-    },
-    {
-      id: 3,
-      smNumber: '003',
-      stationName: 'Gampaha',
-      stationMasterName: 'Jayantha Pieris',
-    },
-    {
-      id: 4,
-      smNumber: '004',
-      stationName: 'Galle',
-      stationMasterName: 'Saman De Zoysa',
-    },
+  // Initialize state to hold station master data
+  const [stationMasters, setStationMasters] = useState([]);
 
-    {
-      id: 5,
-      smNumber: '005',
-      stationName: 'Matara',
-      stationMasterName: 'Nimal Perera',
-    },
-    {
-      id: 6,
-      smNumber: '006',
-      stationName: 'Kandy',
-      stationMasterName: 'Gihan Perera',
-    },
-    {
-      id: 7,
-      smNumber: '007',
-      stationName: 'Ahangama',
-      stationMasterName: 'Thilak De Silva',
-    },
-    {
-      id: 8,
-      smNumber: '008',
-      stationName: 'Beliaththa',
-      stationMasterName: 'Sagara Perera',
-    },
-    {
-      id: 9,
-      smNumber: '009',
-      stationName: 'Peradeniya',
-      stationMasterName: 'Sarath Peiris',
-    },
-    {
-      id: 10,
-      smNumber: '010',
-      stationName: 'Polgahawela',
-      stationMasterName: 'Manjula Perera',
-    },
-  ];
+  useEffect(() => {
+    // Fetch station master data from your backend API
+    axios.get('http://localhost:5000/api/stationMasterApi') // Replace with your API endpoint
+      .then((response) => {
+        // Update the stationMasters state with the data from the API
+        setStationMasters(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching station masters:', error);
+      });
+  }, []); // The empty array ensures this runs only once when the component mounts
+
   const handleDeleteClick = (id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -92,14 +42,19 @@ const StationMasterCard = () => {
         <div className="header-item">Station Master Name</div>
         <div className="header-item">Actions</div>
       </div>
-      {dummyStationMasters.map((stationMaster) => (
+      {stationMasters.map((stationMaster) => (
         <div key={stationMaster.id} className="card-content">
           <div className="content-item">{stationMaster.smNumber}</div>
           <div className="content-item">{stationMaster.stationName}</div>
           <div className="content-item">{stationMaster.stationMasterName}</div>
           <div className="content-item">
             <button className="edit-button">Edit</button>
-            <button className="remove-button" onClick={() => handleDeleteClick(stationMaster.id)}>Remove</button>
+            <button
+              className="remove-button"
+              onClick={() => handleDeleteClick(stationMaster.id)}
+            >
+              Remove
+            </button>
           </div>
         </div>
       ))}
