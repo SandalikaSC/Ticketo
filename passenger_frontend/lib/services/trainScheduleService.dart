@@ -8,12 +8,12 @@ class TrainScheduleService {
   Future<http.Response> getSchedules(ReservationTicket reservationTicket) async {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
-      var uri = Uri.parse('${baseUrl}/getallschedules').replace(
+      var uri = Uri.parse('${baseUrl}/getresevationschedules').replace(
         queryParameters: {
           'startStation': reservationTicket.startStation!.stationId,
           'endStation': reservationTicket.endStation!.stationId,
           'departureDate': reservationTicket.depatureDate,
-          'returnDate': reservationTicket.returnDate,
+          'returnDate': reservationTicket.returnDate
         },
       );
 

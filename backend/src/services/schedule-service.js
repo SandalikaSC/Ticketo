@@ -1,4 +1,4 @@
-const { getSchedule } = require("../reposiotries/schedule-repository");
+const { getSchedule, getTripSchedules } = require("../reposiotries/schedule-repository");
 const { getStationName } = require("../reposiotries/station-repository");
 const { getTrain } = require("../reposiotries/trainRepository");
 
@@ -21,16 +21,13 @@ const { getTrain } = require("../reposiotries/trainRepository");
 //     }
 // }
 
-const getGuardSchedule = async (user) =>
-{
-    try
-    {
+const getGuardSchedule = async (user) => {
+    try {
         const schedules = await getSchedule(user.id);
 
         // Fetch station and train information for each schedule
         const schedulesWithInfo = await Promise.all(
-            schedules.map(async (schedule) =>
-            {
+            schedules.map(async (schedule) => {
 
                 const startStation = await getStationName(schedule.start);
 
@@ -50,13 +47,24 @@ const getGuardSchedule = async (user) =>
 
         // console.log(schedulesWithInfo);
         return schedulesWithInfo;
-    } catch (err)
-    {
+    } catch (err) {
         console.log(err);
         throw new Error(err.message);
     }
 }
+//get scheduleses for reservation
+const getScheduleByTrip = async (startStation, endStation, departureDate, returnDate) => {
+    try {
+
+        workingdays = ['WEEKEND'];
+        return await getTripSchedules(startStation, endStation, workingdays);
+    } catch (error) {
+        throw new Error("An error while retrieving data");
+    }
+}
+
 
 module.exports = {
-    getGuardSchedule
+    getGuardSchedule,
+    getScheduleByTrip
 }
