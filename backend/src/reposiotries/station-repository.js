@@ -37,8 +37,6 @@ const getStationId = async (stationName) =>
 const getStationName = async (id) =>
 {
 
-    console.log("inside the get station name", id);
-
     return await prisma.station.findUnique({
         where: {
             stationId: id
@@ -47,6 +45,8 @@ const getStationName = async (id) =>
             name: true
         }
     });
+
+
 };
 module.exports = {
     getAllStations,
