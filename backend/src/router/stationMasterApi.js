@@ -6,6 +6,6 @@ const stationMController = require('../controllers/admin/stationMController');
 router.get('/', stationMController.getStationMasters);
 
 // Add a new station master
-r//outer.post('/', stationMasterController.addStationMaster);
+//router.post('/', stationMasterController.addStationMaster);
 
 module.exports = router;
