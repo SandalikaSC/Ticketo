@@ -1,28 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:passenger_frontend/modals/ReservationTicket.dart';
 import 'package:passenger_frontend/widgets/ScheduleWidject.dart';
 
 class TrainSchedule extends StatefulWidget {
-  const TrainSchedule({super.key});
 
+  final ReservationTicket  reservationTicket; // Replace String with the type of data you want to pass
+
+  TrainSchedule({required this.reservationTicket, Key? key}) : super(key: key);
   @override
   State<TrainSchedule> createState() => _TrainScheduleState();
 }
 
 class _TrainScheduleState extends State<TrainSchedule> {
-  // final List<String> items = [
-  //   scheduleWidget(
-  //     classname: "First class",
-  //     end: "Colombo Fort",
-  //     start: "Galle",
-  //     tripType: "Oneway",
-  //     price: 257.00,
-  //     passengers: 5,
-  //     status: "Started",
-  //     ticketNo: "1235",
-  //     ),
-  // ];
+
+  void _loadSchedules() async {
+    if (!mounted) return;
+    final response = await trainScheduleService.loadSchedules();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadSchedules();
+  }
+
+  @override
+  void dispose() {
+    // Cancel any ongoing operations, such as network requests
+    // or async computations.
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
