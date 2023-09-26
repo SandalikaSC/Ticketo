@@ -8,7 +8,7 @@ const getSchedule = async (userId) => {
         },
     });
 };
-const getTripSchedules = async (startStation, endStation, workingDays) => {
+const getTripSchedules = async (startStation, endStation, working) => {
     console.log("repo");
     return await prisma.schedule.findMany({
         where: {
@@ -18,13 +18,35 @@ const getTripSchedules = async (startStation, endStation, workingDays) => {
             endStation: {
                 name: endStation,
             },
+            WorkingDays: {
+                has: working, // Filter by the specified working days
+            },
         },
-
+        // include: {
+        //     Train: {
+        //         select: {
+        //             trainName: true,
+        //         },
+        //     },
+        // },
     });
 
+};
+const getAllSchedulesByWorkingday = async (workingday) => {
+
+    return await prisma.schedule.findMany({
+        // where: {
+        //     WorkingDays: { has: workingday },
+        // },
+        include: {
+            Train: true,
+            StationSchedule: true,
+        },
+    });
 };
 
 module.exports = {
     getSchedule,
-    getTripSchedules
+    getTripSchedules,
+    getAllSchedulesByWorkingday
 };
