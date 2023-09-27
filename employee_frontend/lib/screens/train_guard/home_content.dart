@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'location_share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart'; // Import the permission_handler package
 
 // Define the Schedule class
 class Schedule {
@@ -28,7 +29,8 @@ class Schedule {
   });
 }
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env"); // Load environment variables
   runApp(
     const MaterialApp(
       home: Scaffold(
@@ -56,6 +58,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
   @override
   void initState() {
     super.initState();
+    requestLocationPermission(); // Request location permission
     fetchSchedules().then((fetchSchedules) {
       setState(() {
         schedules = fetchSchedules;
@@ -66,6 +69,22 @@ class _HomeContentPageState extends State<HomeContentPage> {
         print("Error: $error");
       }
     });
+  }
+
+  Future<void> requestLocationPermission() async {
+    final PermissionStatus status = await Permission.location.request();
+    if (status.isGranted) {
+      // Permission granted, you can now use the location.
+    } else if (status.isDenied) {
+      // Permission denied, handle accordingly (e.g., show a message).
+      if (kDebugMode) {
+        print('Location permission is denied.');
+
+      }
+    } else if (status.isPermanentlyDenied) {
+      // Permission permanently denied, open app settings so the user can enable it.
+      openAppSettings();
+    }
   }
 
   Future<List<Schedule>> fetchSchedules() async {
@@ -115,7 +134,6 @@ class _HomeContentPageState extends State<HomeContentPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +171,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         Text(
                           '14th of August, 2023',
                           style:
-                              TextStyle(fontSize: 16, color: Colors.grey[300]),
+                          TextStyle(fontSize: 16, color: Colors.grey[300]),
                         ),
                       ],
                     ),
@@ -215,7 +233,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const LocationSharingPage(),
+                            builder: (context) => const LocationSharingPage(scheduleId: 0,),
                           ),
                         );
                       },
@@ -228,8 +246,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                               color: isSelected
                                   ? const Color(0xFF3D50AC)
                                   : (isToday || isTwelfth)
-                                      ? const Color(0xFF3D50AC)
-                                      : Colors.transparent,
+                                  ? const Color(0xFF3D50AC)
+                                  : Colors.transparent,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
@@ -240,9 +258,9 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                       ? Colors.white
                                       : Colors.black,
                                   fontWeight:
-                                      (isSelected || isToday || isTwelfth)
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
+                                  (isSelected || isToday || isTwelfth)
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
                                 ),
                               ),
                             ),
@@ -322,7 +340,9 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                            const LocationSharingPage(),
+                                                LocationSharingPage(
+                                                  scheduleId: schedule.scheduleId,
+                                                ),
                                           ),
                                         );
                                       },
