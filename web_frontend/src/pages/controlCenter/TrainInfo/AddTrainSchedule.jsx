@@ -14,6 +14,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { display } from "@mui/system";
 import '../../../css/cc_addTrainSchedule.css';
+import { Link } from 'react-router-dom';
 
 const AddTrainSchedule = () => {
   const [trainId, setTrainId] = useState("");
@@ -35,6 +36,7 @@ const AddTrainSchedule = () => {
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const [stations, setStations] = useState([]);
+
   const [newStation, setNewStation] = useState({
     stationName: "",
     arrivalTime: "",
@@ -59,8 +61,10 @@ const AddTrainSchedule = () => {
     });
   };
 
-  const handleSave = () => {
-    // Handle saving the data here
+  const handleSave = async(event) => {
+    event.preventDefault();
+
+    
   };
 
   return (
@@ -98,10 +102,10 @@ const AddTrainSchedule = () => {
           <div style={{textAlign : "right"}}>
             <Link
                 to={{
-                    pathname: '/cc/resolve',
+                    pathname: '/cc/addschedule',
                     state: {
-                        propKey1: notification.trainName,
-                        propKey2: notification.number,
+                        propKey1: "bye",
+                        propKey2: "hello",
                     },
                 }}
             >
@@ -221,6 +225,7 @@ const AddTrainSchedule = () => {
         >
           <b>Working Days</b>
         </Typography>
+
         <Box display="flex">
           {Object.keys(workingDays).map((day) => (
             <FormControlLabel

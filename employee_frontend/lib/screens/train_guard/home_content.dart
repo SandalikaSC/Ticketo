@@ -1,6 +1,32 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 import 'location_share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Define the Schedule class
+class Schedule {
+  final String trainName;
+  final int scheduleId;
+  final int trainId;
+  final String startStationName;
+  final String endStationName;
+  final String startTime;
+  final String endTime;
+
+  Schedule({
+    required this.trainName,
+    required this.scheduleId,
+    required this.trainId,
+    required this.startStationName,
+    required this.endStationName,
+    required this.startTime,
+    required this.endTime,
+  });
+}
 
 void main() {
   runApp(
@@ -25,39 +51,70 @@ class _HomeContentPageState extends State<HomeContentPage> {
 
   List<String> dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
-  List<Map<String, dynamic>> dummySchedules = [
-    {
-      'time': '09:00 AM',
-      'trainName': 'Galu Kumari',
-      'platform': 'Platform 3',
-    },
-    {
-      'time': '02:30 PM',
-      'trainName': 'Ruhunu Kumari',
-      'platform': 'Platform 1',
-    },
-    {
-      'time': '04:00 PM',
-      'trainName': 'Sagarika',
-      'platform': 'Platform 5',
-    },
-    {
-      'time': '10:30 AM',
-      'trainName': 'Samudra Devi',
-      'platform': 'Platform 2',
-    },
-    {
-      'time': '03:45 PM',
-      'trainName': 'Night Mail',
-      'platform': 'Platform 4',
-    },
-    {
-      'time': '06:15 PM',
-      'trainName': 'Rajarata Rejina',
-      'platform': 'Platform 6',
-    },
-    // Add more dummy schedules here
-  ];
+  List<Schedule> schedules = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchSchedules().then((fetchSchedules) {
+      setState(() {
+        schedules = fetchSchedules;
+      });
+    }).catchError((error) {
+      // Handle the error gracefully, e.g., show an error message.
+      if (kDebugMode) {
+        print("Error: $error");
+      }
+    });
+  }
+
+  Future<List<Schedule>> fetchSchedules() async {
+    final baseUrl = dotenv.env['BASE_URL'];
+    final Uri uri = Uri.parse('$baseUrl/trainguard/get-schedule');
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final accessToken = sharedPreferences.getString('accessToken') ?? '';
+
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      List<Schedule> schedules = [];
+
+      for (var scheduleData in data['schedule']) {
+        // Assuming 'schedule' is the key in the response that contains the schedule data.
+
+        // Parse the date-time strings
+        DateTime startTime = DateTime.parse(scheduleData['startTime']);
+        DateTime endTime = DateTime.parse(scheduleData['endTime']);
+
+        // Format the date-time objects to display only the time portion
+        String startTimeFormatted = DateFormat('HH:mm').format(startTime);
+        String endTimeFormatted = DateFormat('HH:mm').format(endTime);
+
+        Schedule schedule = Schedule(
+          trainName: scheduleData['trainName'],
+          scheduleId: scheduleData['scheduleId'],
+          trainId: scheduleData['trainId'],
+          startStationName: scheduleData['startStationName']['name'],
+          endStationName: scheduleData['endStationName']['name'],
+          startTime: startTimeFormatted,
+          endTime: endTimeFormatted,
+        );
+        schedules.add(schedule);
+      }
+
+      return schedules;
+    } else {
+      throw Exception('Failed to load schedules');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +215,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LocationSharingPage(),
+                            builder: (context) => const LocationSharingPage(),
                           ),
                         );
                       },
@@ -213,14 +270,14 @@ class _HomeContentPageState extends State<HomeContentPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               child: ListView.builder(
-                itemCount: dummySchedules.length,
+                itemCount: schedules.length, // Use the fetched schedules length
                 itemBuilder: (context, index) {
-                  final schedule = dummySchedules[index];
+                  final schedule = schedules[index]; // Get the schedule from the fetched list
                   return GestureDetector(
                     onTap: () {
                       // Handle the tap event
                       if (kDebugMode) {
-                        print('Tapped schedule: ${schedule['trainName']}');
+                        print('Tapped schedule: ${schedule.trainName}');
                       }
                     },
                     child: Container(
@@ -248,10 +305,10 @@ class _HomeContentPageState extends State<HomeContentPage> {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      schedule['trainName'], // Updated title
+                                      schedule.trainName, // Updated title
                                       style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
@@ -265,7 +322,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const LocationSharingPage(),
+                                            const LocationSharingPage(),
                                           ),
                                         );
                                       },
@@ -276,7 +333,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(20.0),
+                                          BorderRadius.circular(20.0),
                                         ),
                                       ),
                                       child: const Text(
@@ -297,11 +354,11 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                 ),
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -318,19 +375,19 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 16),
                                           child: RichText(
-                                            text: const TextSpan(
+                                            text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'Galle\n',
-                                                  style: TextStyle(
+                                                  text: schedule.startStationName + '\n', // Updated start station name
+                                                  style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(0xFF3D50AC),
                                                   ),
                                                 ),
                                                 TextSpan(
-                                                  text: '8:00 a.m',
-                                                  style: TextStyle(
+                                                  text: schedule.startTime,
+                                                  style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -354,7 +411,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                     const SizedBox(width: 10),
                                     Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      CrossAxisAlignment.end,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -371,19 +428,19 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 16),
                                           child: RichText(
-                                            text: const TextSpan(
+                                            text: TextSpan(
                                               children: [
                                                 TextSpan(
-                                                  text: 'Colombo\n',
-                                                  style: TextStyle(
+                                                  text: schedule.endStationName + '\n', // Updated end station name
+                                                  style: const TextStyle(
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.bold,
                                                     color: Color(0xFF3D50AC),
                                                   ),
                                                 ),
                                                 TextSpan(
-                                                  text: '11:00 a.m',
-                                                  style: TextStyle(
+                                                  text: schedule.endTime,
+                                                  style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black,
@@ -407,6 +464,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                 },
               ),
             ),
+
           ],
         ),
       ),

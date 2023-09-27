@@ -58,12 +58,11 @@ model Employee {
   addedDate     DateTime @default(now())
   addedByUserId String?
   stationId     Int?
- 
-  addedBy       User?      @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
-  station       Station?   @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
+
+  addedBy       User?    @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
+  station       Station? @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
   //schedules     Schedule[] @relation("employeeSchedules")
-  scanedTickets Ticket[]   @relation("ticketScanner")
- 
+  scanedTickets Ticket[] @relation("ticketScanner")
 }
 
 model Dependent {
@@ -84,18 +83,22 @@ model Wallet {
 
 // SeasonCard table
 model SeasonCard {
-  seasonId        String    @id @default(uuid()) // Primary Key
-  seasonStartDate DateTime?
-  seasonEndDate   DateTime?
-  duration        Int
-  startStation    Int
-  endStation      Int
-  dateIssued      DateTime?
-  approvedStatus  Boolean   @default(false)
-  certifiedBy     String?
-  price           Float
-  userId          String
-  seasonToken     String?   @default("")
+  seasonId         String    @id @default(uuid()) // Primary Key
+  seasonStartDate  DateTime?
+  seasonEndDate    DateTime?
+  duration         Int
+  startStation     Int
+  endStation       Int
+  designation      String
+  workPlace        String
+  workPlaceAddress String
+  applicationForm  String
+  dateIssued       DateTime?
+  approvedStatus   Boolean   @default(false)
+  certifiedBy      String?
+  price            Float
+  userId           String
+  seasonToken      String?   @default("")
 
   // Relationships
 
@@ -298,9 +301,9 @@ model Schedule {
   endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
   routeLine       RouteLine[]
   StationSchedule StationSchedule[] @relation("scheduleOn")
- 
+
   // employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
- 
+
   reservations    Reservation[]     @relation("scheduleReservations")
   seatReservation SeatReservation[] @relation("reservationSchedule")
 }
