@@ -9,8 +9,11 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
-  Grid,
+  Grid
 } from "@mui/material";
+import { FaSearch } from "react-icons/fa";
+import { display } from "@mui/system";
+import '../../../css/cc_addTrainSchedule.css';
 
 const AddTrainSchedule = () => {
   const [trainId, setTrainId] = useState("");
@@ -61,8 +64,92 @@ const AddTrainSchedule = () => {
   };
 
   return (
-    <Container maxWidth="xl" style={{ marginTop: '20px' }}>
-      <Paper elevation={3} style={{ padding: "20px" }}>
+    <Container maxWidth="xl" className="main-container">
+      <div className="firstContainer">
+        <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
+            <b>Search Train to Add Schedule</b>
+        </Typography>
+
+        <div className="search-box">
+          <TextField 
+          fullWidth
+          variant="outlined">
+
+          </TextField>
+
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
+          >
+            <FaSearch />
+          </Button>
+        </div>        
+
+      </div>
+
+      <Divider style={{marginTop: '20px'}}/>      
+
+
+      <div className="view-all-schdules">
+        <Paper elevation={3} className="train-schedule-part">
+          <h2>Samudra Devi</h2>
+
+          <div style={{textAlign : "right"}}>
+            <Link
+                to={{
+                    pathname: '/cc/resolve',
+                    state: {
+                        propKey1: notification.trainName,
+                        propKey2: notification.number,
+                    },
+                }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
+              >
+                Add Schedule
+              </Button>
+            </Link>
+          </div>          
+
+        </Paper>
+
+        <Paper elevation={3} className="train-schedule-part">
+          <h2>Ruhunu Kumari</h2>
+
+          <div style={{textAlign : "right"}}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
+            >
+              Add Schedule
+            </Button>
+          </div> 
+
+        </Paper>
+
+        <Paper elevation={3} className="train-schedule-part">
+          <h2>Ella Express</h2>
+
+          <div style={{textAlign : "right"}}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
+            >
+              Add Schedule
+            </Button>
+          </div> 
+
+        </Paper>
+      </div>
+      
+
+      {/* <Paper elevation={3} className="view-all-schdules">
         
         <Typography
             variant="h4"
@@ -212,7 +299,7 @@ const AddTrainSchedule = () => {
         >
         Save
         </Button>
-      </Paper>
+      </Paper> */}
     </Container>
   );
 };
