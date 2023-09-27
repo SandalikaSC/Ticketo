@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Typography, Divider, Paper, Select, MenuItem, Button, TextField, FormControl, 
   InputLabel, Grid, Card, CardContent } from '@mui/material';
-import DelayReportCard from './../../../components/controlCenter/DelayReportCard';
-import Reports from './../../../components/controlCenter/Reports';
+import DelayReportCard from '../../../components/controlCenter/DelayReportCard';
+import Reports from '../../../components/controlCenter/Reports';
 import { Link } from 'react-router-dom';
 import { FaSearch } from "react-icons/fa";
 
-const DelayReports = () => {
+const AlreadyResolvedDelays = () => {
 
   const notifications = [
     { trainName: 'Sagarika', number: 'T1234', destination: 'Katugoda', currentLocation: 'Colombo', arrival: '7.00AM', delay: '2' },
@@ -115,40 +115,26 @@ const DelayReports = () => {
 
 
       <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-          To be Resolved
-        </Button>
+          <Link to='/cc/delays' style={{ textDecoration: 'none', flex: 1  }}>
+              <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+                  To be Resolved
+              </Button>
+          </Link>
 
-        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-          Already Resolved
-        </Button>
-
-        <Button variant="outlined" color="primary" style={{ flex:1, fontWeight: 'bold' }}>
-          Reports
-        </Button>
+          <Link to="/cc/alreadyresolveddelays" style={{ textDecoration: 'none', flex: 1  }}>
+              <Button 
+              variant="outlined" 
+              color="primary" 
+              style={{ 
+                flex: 1, 
+                fontWeight: 'bold',
+                backgroundColor: '#1976d2',
+                color: 'white' }}>
+                  Already Resolved
+              </Button>
+          </Link>
 
         <div style={{flex: 3}}></div>
-
-
-    {/* <div style={{display: 'flex', flex: 2}}></div> */}
-
-      {/* <div style={{ display: 'flex', flex: 2, gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}> */}
-      {/* <div style={{ display: 'flex', gap: '10px' }}> */}
-        {/* <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}> */} */}
-     {/* To be Resolved */}
-        {/* </Button>  
-
-//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-//             Already Resolved
-//             </Button>
-
-//             <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
-//                 Reports
-//             </Button>              
-//         </div>
-
-//         <div style={{flex: 1}}>
-   {/* </div> */}
         
 
         <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
@@ -186,11 +172,15 @@ const DelayReports = () => {
 
       <Divider style={{ marginBottom: '20px' }} />
 
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'Repeat(3, 1fr)',
+        gap: '10px'
+        }}>
         {notifications.map((notification, index) => (
           <Paper key={index} elevation={3} style={{ display: 'flex', marginBottom: '10px', borderRadius: '10px' }}>
             <div style={{ flex: 2, padding: '10px', borderRight: '1px solid #ccc' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '10px' }}>
                     <Typography variant="h5" style={{ fontWeight: 'bold' }}>
                         {notification.trainName}
                     </Typography>
@@ -204,26 +194,29 @@ const DelayReports = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-around', flexDirection: 'column', height: '100%' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
                         <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
-                            <b>Destination :</b>
+                            <b>Delayed Location :</b>
                         </Typography>
                         <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
-                            {notification.destination}
-                        </Typography>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
-                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
-                            <b>Current location :</b>
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <br></br>
                             {notification.currentLocation}
                         </Typography>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
                         <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
-                            <b>Arrival :</b>
+                            <b>Notified Time :</b>
                         </Typography>
                         <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
-                            {notification.arrival} ({notification.delay} minute delay)
+                            <br></br>
+                            {notification.arrival}
+                        </Typography>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', flex: 1 }}>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <b>Delayed Duration :</b>
+                        </Typography>
+                        <Typography variant="body1" color="textSecondary" style={{ flex: 1 }}>
+                            <br></br>
+                            {notification.delay} minutes
                         </Typography>
                     </div>
                 </div>
@@ -235,4 +228,4 @@ const DelayReports = () => {
   );
 };
 
-export default DelayReports;
+export default AlreadyResolvedDelays;

@@ -214,6 +214,7 @@ const verifyToken = async (token) =>
 {
   try
   {
+    console.log(token);
     const decodedToken = jwt.verify(token.split(' ')[1], ACCESS_TOKEN_SECRET);
     return decodedToken;
   } catch (error)
