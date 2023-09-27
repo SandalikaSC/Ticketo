@@ -4,12 +4,6 @@ import 'package:passenger_frontend/constants/app_styles.dart';
 // import 'package:passenger_frontend/screens/bottom_bar.dart';
 import 'begin.dart';
 
-// Future<void> main() async {
-//
-//   // await Future.delayed(const Duration(seconds:10));
-//   runApp(const MyApp());
-// }
-
 void main() async {
   await dotenv.load();
   runApp(
