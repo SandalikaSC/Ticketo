@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Container, Typography, Divider, Paper, Select, MenuItem, Button } from '@mui/material';
+import { Container, Typography, Divider, Paper, Select, MenuItem, 
+    Button, FormControl, InputLabel} from '@mui/material';
 import { Link } from 'react-router-dom';
+import '../../../css/cc_addTrainSchedule.css';
 
 const Delays = () => {
     const notifications = [
         { trainName: 'Samdra Devi', number: 'T1234', destination: 'Katugoda', currentLocation: 'Colombo', arrival: '7.00AM', delay: '2' },
-        { trainName: 'Galu Kumari', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
-        { trainName: 'Ruhunu Kumari', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
-        { trainName: 'Rajarata Rajini', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
-        { trainName: 'Ella Express', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },
-        { trainName: 'Sagarika', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '10' },   
+        { trainName: 'Galu Kumari', number: 'T4532', destination: 'Colombo', currentLocation: 'Galle', arrival: '8.30AM', delay: '1' },
+        { trainName: 'Ruhunu Kumari', number: 'T1242', destination: 'Hambantota', currentLocation: 'Matara', arrival: '8.40AM', delay: '4' },
+        { trainName: 'Rajarata Rajini', number: 'T7892', destination: 'Kandy', currentLocation: 'Rambukkana', arrival: '8.50AM', delay: '12' },
+        { trainName: 'Ella Express', number: 'T3574', destination: 'Ella', currentLocation: 'Kandy', arrival: '9.02AM', delay: '18' },
+        { trainName: 'Sagarika', number: 'T9512', destination: 'Maradana', currentLocation: 'Kaluthara', arrival: '9.03AM', delay: '25' },   
     ];
 
     const handleSortChange = (event) => {
@@ -34,41 +36,61 @@ const Delays = () => {
                 <Divider style={{ marginBottom: '20px' }} />
 
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+                    
+
+                    <Link to='/cc/delays' style={{ textDecoration: 'none', flex: 1  }}>
+                        <Button variant="outlined"
+                        color="primary" 
+                        style={{ 
+                            flex: 1, 
+                            fontWeight: 'bold',
+                            backgroundColor: '#1976d2',
+                            color: 'white' }}
+                            fullWidth>
                             To be Resolved
                         </Button>
-                        <Button variant="outlined" color="primary" style={{ flex: 1, fontWeight: 'bold' }}>
+                    </Link>
+
+                    <Link to="/cc/alreadyresolveddelays" style={{ textDecoration: 'none', flex: 1  }}>
+                        <Button 
+                        variant="outlined" 
+                        color="primary" 
+                        style={{ 
+                            flex: 1, 
+                            fontWeight: 'bold' 
+                            }}
+                        fullWidth>
                             Already Resolved
                         </Button>
-                        <Link to="/cc/delayreports" style={{ textDecoration: 'none', flex: 1 }}>
-                            <Button variant="outlined" color="primary" style={{ width: '100%', fontWeight: 'bold' , height: '100%' }}>
-                                Reports
-                            </Button>
-                        </Link>
-                    </div>
+                    </Link>
+                
+                    
                     <div style={{ flex: 3 }}></div>
-                    <div style={{ flex: 2 }}>
-                        {/* <div style={{ display: 'flex' }}>
-                            <Typography variant="outlined" style={{ marginBottom: '10px', color: '#3D50AC' }}>
-                                <b>Sort Delays by</b>
-                            </Typography>
-                            &nbsp;
-                            <Select value="" onChange={handleSortChange} fullWidth>
-                                <MenuItem value="older">Older</MenuItem>
-                                <MenuItem value="latest">Latest</MenuItem>
-                            </Select>
-                        </div> */}
-
-                        <Typography variant="outlined" style={{ marginBottom: '10px', color: '#3D50AC' }}>
-                            <b>Sort Delays by</b>
-                        </Typography>
-
-                        <Select value="" onChange={handleSortChange} fullWidth>
-                            <MenuItem value="older">Older</MenuItem>
-                            <MenuItem value="latest">Latest</MenuItem>
+                    <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
+                        <InputLabel htmlFor="filterDelays">
+                            Filter Delays
+                        </InputLabel>
+                        <Select
+                            label="Filter by"
+                            inputProps={{
+                            name: "filterDelays",
+                            id: "filterDelays",
+                            }}
+                        >
+                            <MenuItem value="Today">Older</MenuItem>
+                            <MenuItem value="Yesterday">Latest</MenuItem>
                         </Select>
-                    </div>
+                        </FormControl>
+
+                        <Button
+                        variant="contained"
+                        color="primary"
+                        // onClick={handleShowReports}
+                        style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop: '20px' }}
+                        >
+                        Sort
+                        </Button> 
                 </div>
             </div>
 

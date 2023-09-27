@@ -1,13 +1,15 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const getSchedule = async (userId) => {
+ 
+const getSchedule = async (userId) => { 
     return await prisma.schedule.findMany({
         where: {
             driverId: userId,
         },
     });
 };
+ 
 const getTripSchedules = async (startStation, endStation, working) => {
     return await prisma.schedule.findMany({
         where: {
@@ -43,5 +45,5 @@ const getAllSchedulesByWorkingday = async (workingday) => {
 module.exports = {
     getSchedule,
     getTripSchedules,
-    getAllSchedulesByWorkingday
+    getAllSchedulesByWorkingday 
 };
