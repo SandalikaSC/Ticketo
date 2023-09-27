@@ -57,13 +57,14 @@ const getScheduleByTrip = async (startStation, endStation, departureDate, return
     try {
 
         workingdays = getWorkingDayType(departureDate);
-        return selectSchedules(startStation, endStation, workingdays);
+
+        return await selectSchedules(startStation, endStation, workingdays);
         // return await getTripSchedules(startStation, endStation, workingdays);
     } catch (error) {
         throw new Error("An error while retrieving data");
     }
 }
-const getWorkingDayType = async (givenDate) => {
+const getWorkingDayType = (givenDate) => {
 
     // Parse the input date string into a Date object
     const date = new Date(givenDate);
@@ -108,7 +109,7 @@ const selectSchedules = async (startStation, endStation, workingdays) => {
             }
 
         });
-
+        console.log(sortSchedule);
         return sortSchedule;
     } catch (error) {
         throw new Error("An error while retrieving data");

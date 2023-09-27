@@ -9,7 +9,6 @@ const getSchedule = async (userId) => {
     });
 };
 const getTripSchedules = async (startStation, endStation, working) => {
-    console.log("repo");
     return await prisma.schedule.findMany({
         where: {
             startStation: {
@@ -29,7 +28,9 @@ const getAllSchedulesByWorkingday = async (workingday) => {
 
     return await prisma.schedule.findMany({
         // where: {
-        //     WorkingDays: { has: workingday },
+        //     WorkingDays: {
+        //         has: workingday, // You can use 'equals' or 'contains' based on your data structure
+        //     },
         // },
         include: {
             Train: true,
@@ -37,6 +38,7 @@ const getAllSchedulesByWorkingday = async (workingday) => {
         },
     });
 };
+
 
 module.exports = {
     getSchedule,
