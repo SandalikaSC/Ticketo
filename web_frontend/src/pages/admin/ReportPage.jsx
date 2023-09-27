@@ -12,14 +12,16 @@ const ReportPage = () => {
   const fetchReportData = (reportOptions) => {
     // Make an API request to your backend with the reportOptions
     axios
-      .get('/api/reports/income', { params: reportOptions })
-      .then((response) => {
-        setSelectedReportData(response.data); // Set the report data received from the backend
-      })
-      .catch((error) => {
-        console.error('Error fetching report data:', error);
-        setSelectedReportData(null); // Handle errors and reset reportData
-      });
+    .get('http://localhost:5000/api/reports/income', { params: reportOptions })
+    .then((response) => {
+      setSelectedReportData(response.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching report data:', error);
+      setSelectedReportData(null);
+    });
+  
+
   };
 
   // Handle the "View Report" event from the IncomeReportOptions component

@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const { PrismaClient } = require('@prisma/client');
 const authRouter = require('./router/authRouter');
 const stationMasterRoutes = require('./router/stationMasterRoutes');
+
 const cors = require('cors');
 
 const prisma = new PrismaClient();
