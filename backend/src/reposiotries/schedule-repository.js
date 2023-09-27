@@ -22,13 +22,6 @@ const getTripSchedules = async (startStation, endStation, working) => {
                 has: working, // Filter by the specified working days
             },
         },
-        // include: {
-        //     Train: {
-        //         select: {
-        //             trainName: true,
-        //         },
-        //     },
-        // },
     });
 
 };
