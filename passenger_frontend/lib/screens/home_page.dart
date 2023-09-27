@@ -4,6 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
+import 'package:passenger_frontend/modals/ReservationTicket.dart';
 import 'package:passenger_frontend/screens/trainSchedules.dart';
 import 'package:passenger_frontend/services/station_service.dart';
 import 'package:passenger_frontend/widgets/Normalticket.dart';
@@ -81,7 +82,6 @@ class _HomePageState extends State<HomePage> {
             _stations = data
                 .map((stationData) => Station(
                       stationId: stationData['stationId'] ?? 0,
-                      // Use a default value if null
                       name: stationData['name'] ?? '',
                       latitude: stationData['latitude'] ?? 0.0,
                       longitude: stationData['longitude'] ?? 0.0,
@@ -130,15 +130,94 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
+  Future<void> _loadSchedule(ReservationTicket reservationTicket)async {
+    try {
+
+      final response = await stationService.addTicket(
+          _selectedStartStation!.stationId.toString(),
+          _selectedEndtStation!.stationId.toString(),
+          selectedIndex,
+          _startDateController.text,
+          _endDateController.text,
+          _passengerController.text,
+          _selectedClass); // Perform search action here
+
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        var qrCode = List<int>.from(responseData['qrCode']['data']);
+        var ticket = responseData['ticket'];
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.transparent,
+              content: Center(
+                child: TicketWidget(
+                  width: 550,
+                  height: 600,
+                  isCornerRounded: true,
+                  padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+                  child: TicketData(
+                    ticketNo: ticket['ticketNumber'],
+                    classname: ticket['classId'],
+                    date: ticket['journeyDate'],
+                    end: ticket['endStation'],
+                    start: ticket['startStation'],
+                    passengers: ticket['noOfPassengers'],
+                    ticketType: ticket['ticketType'],
+                    status: ticket['journeyState'],
+                    tripType: ticket['tripType'],
+                    qrCodeData: qrCode,
+                  ),
+                ),
+              ),
+              actions: [
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the popup
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.red, // Set button color to red
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(20), // Change border radius
+                      ),
+                    ),
+                    child: Text(
+                      'Close',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      } else if (response.statusCode == 400) {
+        final message = responseData['message'];
+        showCustomToast(context, "error", message);
+      } else {
+        final message = responseData['message'];
+        showCustomToast(context, "error", message);
+      }
+    } catch (e) {
+      // print('Error occurred: $e');
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.');
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => TrainSchedule(reservationTicket: reservationTicket)),
+    );
+  }
 
   Future<void> _addTicket() async {
-    //
-    // print(_startDateController.text.runtimeType);
+
     try {
-      // print('${_startStationController.text} ${_endStationController.text} ${selectedIndex} '
-      //     '${_startDateController.text } ${ _passengerController.text} ${_selectedClass}');
-      // print('${_startStationController.text.runtimeType} ${_endStationController.text.runtimeType} ${selectedIndex.runtimeType} '
-      //     '${_startDateController.text.runtimeType } ${ _passengerController.text.runtimeType} ${_selectedClass.runtimeType}');
+
       final response = await stationService.addTicket(
           _selectedStartStation!.stationId.toString(),
           _selectedEndtStation!.stationId.toString(),
@@ -446,13 +525,26 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+
+
                       if (_formKey.currentState!.validate()) {
                         // Validation successful, handle form submission
+                        ReservationTicket reservationTicket=ReservationTicket(
+                            startStation: _selectedStartStation,
+                            endStation: _selectedEndtStation,
+                            depatureDate: _startDateController.text,
+                            returnDate: _endDateController.text,
+                            passengers: _passengerController.text,
+                            classname: _selectedClass
+                        );
+                        
+                        // _loadSchedules(reservationTicket);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TrainSchedule()),
+                              builder: (context) => TrainSchedule(reservationTicket: reservationTicket)),
                         );
+
                       }
                     },
                     style: ElevatedButton.styleFrom(
