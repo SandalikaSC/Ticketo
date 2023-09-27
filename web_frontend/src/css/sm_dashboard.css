@@ -19,13 +19,13 @@
   grid-template-columns: 2fr 1fr;
   /* Divide the space into two columns with 2:1 ratio */
   gap: 20px;
-  padding: 2% 5% 0% 2%;
+  padding: 2% 5% 0 2%;
   overflow-y: hidden;
 
 }
 
 .ss-left-column {
-  
+
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -33,14 +33,14 @@
 }
 
 .ss-right-column {
-  
+
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-left: 5px;
   width: 100%;
-  
+
 }
 
 /* Adjustments for responsiveness */
@@ -57,7 +57,6 @@
   align-items: flex-start;
   padding: 20px;
 }
-
 
 .sorting-options {
   margin-bottom: 20px;
@@ -81,19 +80,29 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform .2s ease-in-out;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  background-color: #d0d4e8;
 }
 
 .flex-card:hover {
   transform: translateY(-5px);
 }
 
+.flex-card-content-center {
+  font-size: 1.5em;
+  color: #3d51a9;
+  text-align: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 25px;
+  font-weight: bold;
+}
+
 .card-topic {
-  font-size: 20px;
+  font-size: 1.5em;
   color: #3d3398;
-  margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
+  padding: 10%;
   /* Align card topic to the left */
 }
 
@@ -202,29 +211,60 @@
   /* Adjust the color as needed */
 }
 
-
 .ss-top-cards-container {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
   width: 104%;
 }
+
 .ss-top-cards-container .ss-card {
-  
+
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  flex: 1; /* Equal flex for all top cards */
-  margin-right: 10px; /* Add margin between cards */
+  flex: 1;
+  /* Equal flex for all top cards */
+  margin-right: 10px;
+  /* Add margin between cards */
 }
 
+.ss-card h2 {
+  color: black;
+  font-weight: 800;
+}
 
+.ss-card-in-box {
+  display: flex;
+  width: 100%;
+  gap: 5%;
+}
 
+.ss-card-in-box-detail {
+  background-color: #3d51a9;
+  font-size: 1.1em;
+  width: 100%;
+  border-radius: 25px;
+  color: white;
+  text-align: center;
+}
+
+.ss-card-in-box-detail h1 {
+  text-align: center;
+  margin-left: 5%;
+}
+
+.ss-card-in-box-detail p {
+  font-weight: 600;
+  font-size: 25px;
+}
 
 .ss-card {
   display: flex;
-  flex-direction: column; /* Change the flex direction to column */
-  padding: 20px; /* Increase padding for more height */
+  flex-direction: column;
+  /* Change the flex direction to column */
+  padding: 20px;
+  /* Increase padding for more height */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -232,12 +272,13 @@
   align-items: center;
 }
 
-.sm-monthly-amount{
+.sm-monthly-amount {
   display: flex;
 }
-.sm-amount-graph{
+
+.sm-amount-graph {
   margin-left: 5%;
-margin-right: 5%;
+  margin-right: 5%;
 
 }
 
@@ -260,7 +301,7 @@ margin-right: 5%;
   margin: 5px 0;
 }
 
-.sm-dashboard-heading h1{
+.sm-dashboard-heading h1 {
   margin-left: 2%;
   /* Adjust the left margin as needed */
   display: flex;
@@ -269,17 +310,17 @@ margin-right: 5%;
   margin-left: 2%;
 }
 
-.sm-schedule-card-details{
+.sm-schedule-card-details {
   display: flex;
   justify-content: space-between;
   background-color: #fff;
   border-radius: 5px;
 }
 
-.sm-schedule-table-info{
+.sm-schedule-table-info {
   display: flex;
   justify-content: space-between;
- 
+
   padding: 10px;
   border-radius: 5px;
 }
