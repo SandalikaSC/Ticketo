@@ -57,7 +57,7 @@ const getScheduleByTrip = async (startStation, endStation, departureDate, return
     try {
 
         workingdays = getWorkingDayType(departureDate);
-        schedule = selectSchedules(startStation, endStation, workingdays);
+        return selectSchedules(startStation, endStation, workingdays);
         // return await getTripSchedules(startStation, endStation, workingdays);
     } catch (error) {
         throw new Error("An error while retrieving data");
@@ -83,23 +83,33 @@ const selectSchedules = async (startStation, endStation, workingdays) => {
     try {
 
         const schedules = await getAllSchedulesByWorkingday(workingdays);
+        var sortSchedule = [];
 
 
+        schedules.forEach(scheduleElement => {
+            const stationSchedule = scheduleElement.StationSchedule;
+            let startIndex = -1;
+            let endIndex = -1;
 
-        schedules.forEach(element => {
-            const stationSchedule = element.StationSchedule;
-
-            stationSchedule.forEach(station => {
-                if (station.id == startStation.id) {
-
+            // Find the index of the start and end stations in the stationSchedule array
+            for (let i = 0; i < stationSchedule.length; i++) {
+                if (stationSchedule[i].stationId === startStation) {
+                    startIndex = i;
                 }
+                if (stationSchedule[i].stationId === endStation) {
+                    endIndex = i;
+                }
+            }
 
-            });
-
+            // Check if both start and end stations were found in the schedule
+            if (startIndex !== -1 && endIndex !== -1 && startIndex < endIndex) {
+                // If the start station appears before the end station, add this schedule to sortSchedule
+                sortSchedule.push(scheduleElement);
+            }
 
         });
 
-        console.log("set");
+        return sortSchedule;
     } catch (error) {
         throw new Error("An error while retrieving data");
     }

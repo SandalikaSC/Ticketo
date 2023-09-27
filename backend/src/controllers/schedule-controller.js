@@ -14,9 +14,9 @@ const getResevationSchedules = async (req, res) => {
 
     try {
         const schedules = await scheduleService.getScheduleByTrip(startStation, endStation, departureDate, returnDate);
-        console.log("WAAAA");
+        // console.log("WAAAA");
         if (schedules) {
-            return res.status(200).json({ schedules: schedules });
+            return res.status(200).json({ schedules });
         } else {
             return res.status(400).json({ message: "Not schedules" });
         }
