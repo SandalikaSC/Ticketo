@@ -8,7 +8,6 @@ const IncomeReportOptions = ({ onViewReport }) => {
 
   const handleViewClick = () => {
     const reportData = {
-      selectedOption: "dateRange", // Add logic to determine the selected option
       startDate,
       endDate,
       selectedMonth,
@@ -16,7 +15,6 @@ const IncomeReportOptions = ({ onViewReport }) => {
     };
     onViewReport(reportData);
   };
-  
 
   return (
     <div className="report-options">
