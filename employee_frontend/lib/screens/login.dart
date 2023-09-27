@@ -82,7 +82,6 @@ class LoginPageState extends State<LoginPage> {
             await prefs.setString('firstName', decodedToken['firstName']);
             await prefs.setString('lastName', decodedToken['lastName']);
             await prefs.setString('mobileNumber', decodedToken['mobileNumber']);
-            await prefs.setString('accessToken', accessToken);
 
             // Convert userType List to String and store it in shared preferences
             List<String> userTypeList =

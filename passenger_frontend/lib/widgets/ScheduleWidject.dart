@@ -6,7 +6,6 @@ import 'package:passenger_frontend/constants/app_styles.dart';
 
 class scheduleWidget extends StatelessWidget {
   final String date;
-  final int passengers;
   final String endTime;
   final String? StartTime;
   final String name;
@@ -17,7 +16,6 @@ class scheduleWidget extends StatelessWidget {
   const scheduleWidget(
       {Key? key,
       required this.date,
-      required this.passengers,
       required this.endTime,
       required this.StartTime,
       required this.name,

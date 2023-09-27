@@ -22,15 +22,8 @@ const createCoachArrangements = async (coachArrangementData) =>
     });
 };
 
-const getTrain = async (trainId) =>
-{
-    return await prisma.train.findUnique({
-        where: { trainId: trainId },
-    });
-}
 module.exports = {
     createTrain,
     findCoachByCode,
     createCoachArrangements,
-    getTrain
 };
