@@ -53,11 +53,12 @@ const getGuardSchedule = async (user) => {
     }
 }
 //get scheduleses for reservation
+
 const getScheduleByTrip = async (startStation, endStation, departureDate, returnDate) => {
     try {
 
         workingdays = getWorkingDayType(departureDate);
-
+        console.log("x");
         return await selectSchedules(startStation, endStation, workingdays);
         // return await getTripSchedules(startStation, endStation, workingdays);
     } catch (error) {
