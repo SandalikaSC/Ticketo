@@ -4,6 +4,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:gap/gap.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:intl/intl.dart';
+import 'package:passenger_frontend/modals/ReservationTicket.dart';
+import 'package:passenger_frontend/screens/guestTrainSchedule.dart';
 import 'package:passenger_frontend/screens/login.dart';
 import 'package:passenger_frontend/screens/trainSchedules.dart';
 import 'package:passenger_frontend/services/station_service.dart';
@@ -352,10 +354,20 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Validation successful, handle form submission
+                        ReservationTicket reservationTicket=ReservationTicket(
+                            startStation: _selectedStartStation,
+                            endStation: _selectedEndtStation,
+                            depatureDate: _startDateController.text,
+                            returnDate: _endDateController.text,
+                            passengers: _passengerController.text,
+                            classname: _selectedClass
+                        );
+
+                        // _loadSchedules(reservationTicket);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TrainSchedule()),
+                              builder: (context) => GuestTrainSchedule(reservationTicket: reservationTicket)),
                         );
                       }
                     },
