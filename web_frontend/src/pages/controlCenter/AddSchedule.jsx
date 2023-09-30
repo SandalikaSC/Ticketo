@@ -15,35 +15,7 @@ import { Repeat } from "@mui/icons-material";
 
 const AddSchedule = () =>{
 
-    const [errors, setErrors] = useState({});
-
-    const initialStations = [
-        {
-          stationName: "",
-          arrivalTime: "",
-          waitingTime: "",
-          departureTime: "",
-        },
-        {
-          stationName: "",
-          arrivalTime: "",
-          waitingTime: "",
-          departureTime: "",
-        },
-        {
-            stationName: "",
-            arrivalTime: "",
-            waitingTime: "",
-            departureTime: "",
-          },
-          {
-            stationName: "",
-            arrivalTime: "",
-            waitingTime: "",
-            departureTime: "",
-          }
-        
-      ];
+    const [errors, setErrors] = useState({});    
 
     const [formData, setFormData] = useState({
         startingStation: " ",
@@ -51,7 +23,6 @@ const AddSchedule = () =>{
         destination: "",
         finishingTime: "",
         workingDays: [],
-        middleStations: initialStations,
     });
 
     const handleChange = (event) => {
@@ -80,41 +51,39 @@ const AddSchedule = () =>{
         sunday: false,
     });
 
-    const [stations, setStations] = useState([]);
-
     const validateForm = () => {
         
         const newErrors = {};
     
         if (!formData.startingStation) {
-            console.log("startingStation start");
+            // console.log("startingStation start");
           newErrors.startingStation = "Starting station is required";
         }
     
         if (!formData.startingTime) {
-          console.log("startingTime start");
+        //   console.log("startingTime start");
           newErrors.startingTime = "Starting time is required";
         }
     
         if (!formData.destination) {
-            console.log("destination start");
+            // console.log("destination start");
           newErrors.destination = "Destination is required";
         }
 
         if (!formData.finishingTime) {
-            console.log("finishingTime start");
+            // console.log("finishingTime start");
             newErrors.finishingTime = "Finishing time is required";
           }
 
         if (formData.workingDays.length===0) {
-            console.log(formData.workingDays);
+            // console.log(formData.workingDays);
             newErrors.workingDays = "Working days are required";
         }
 
-        if (formData.middleStations.length===0) {
-            console.log(formData.middleStations);
-            newErrors.middleStations = "Required to enter middle stations";
-        }
+        // if (formData.middleStations.length===0) {
+        //     console.log(formData.middleStations);
+        //     newErrors.middleStations = "Required to enter middle stations";
+        // }
     
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0; // Return true if there are no errors
@@ -137,79 +106,8 @@ const AddSchedule = () =>{
         console.log("Updated workingDays:", workingDays);
     };
 
-    const [newStation, setNewStation] = useState({
-        stationName: "",
-        arrivalTime: "",
-        waitingTime: "",
-        departureTime: "",
-      });
-
     
 
-    const handleStationChange = (event, index) => {
-        const { name, value } = event.target;
-        console.log("Name:", name);
-        console.log("Value:", value);
-
-        // Copy the current state
-        const updatedStations = [...formData.middleStations];
-
-        // Update the specific station based on the index
-        updatedStations[index] = {
-            ...updatedStations[index],
-            [name]: value,
-        };
-
-        // Update formData with the updated station data
-        setFormData({
-            ...formData,
-            middleStations: updatedStations,
-        });
-
-    };
-
-    const handleAddStation = () => {
-
-        // Create a new array for the station from newStation state
-        const stationData = {
-            stationName: newStation.stationName,
-            arrivalTime: newStation.arrivalTime,
-            waitingTime: newStation.waitingTime,
-            departureTime: newStation.departureTime,
-        };
-
-        // Update stations array
-        setStations((prevStations) => [...prevStations, stationData]);
-
-        // Update formData.middleStations with the new station array
-        setFormData((prevData) => ({
-            ...prevData,
-            middleStations: [...prevData.middleStations, stationData],
-        }));
-
-        // Reset newStation state to clear the text fields
-        setNewStation({
-            stationName: "",
-            arrivalTime: "",
-            waitingTime: "",
-            departureTime: "",
-        });
-
-        // Initial Code
-        // setStations((prevStations) => [...prevStations, newStation]);
-        // setNewStation({
-        //   stationName: "",
-        //   arrivalTime: "",
-        //   waitingTime: "",
-        //   departureTime: "",
-        // });
-
-        // // Add the new station to the middleStations array
-        // setFormData((prevData) => ({
-        //     ...prevData,
-        //     middleStations: [...prevData.middleStations, newStation],
-        // }));
-    };
 
     const[saveClicked, setSaveClicked] = useState(false);
 
@@ -355,7 +253,7 @@ const AddSchedule = () =>{
                         
                     </Box>
 
-                    {formData.middleStations.map((station, index) => (
+                    {/* {formData.middleStations.map((station, index) => (
                         <div key={index} style={{ marginTop: "20px" }}>
                             <Typography variant="subtitle1" style={{color: "#3D50AC"}}>
                                 <b>Station {index + 1}</b>
@@ -368,7 +266,6 @@ const AddSchedule = () =>{
                                     type="text"
                                     name={`stationName-${index}`}
                                     value={station.stationName}
-                                    onChange={(e) => handleStationChange(e, index)} 
                                     fullWidth
                                     style={{marginRight: "20px" }}
                                     />
@@ -380,7 +277,6 @@ const AddSchedule = () =>{
                                     type="time"
                                     name={`arrivalTime-${index}`}
                                     value={station.arrivalTime}
-                                    onChange={(e) => handleStationChange(e, index)}
                                     fullWidth
                                     style={{marginRight: "20px" }}
                                     />
@@ -392,7 +288,6 @@ const AddSchedule = () =>{
                                 type="text"
                                 name={`waitingTime-${index}`}
                                 value={station.waitingTime}
-                                onChange={(e) => handleStationChange(e, index)}
                                 fullWidth
                                 style={{marginRight: "20px" }}
                                 />
@@ -404,7 +299,6 @@ const AddSchedule = () =>{
                                 type="time"
                                 name={`departureTime-${index}`}
                                 value={station.departureTime}
-                                onChange={(e) => handleStationChange(e, index)}
                                 fullWidth
                                 style={{marginRight: "20px" }}
                                 />
@@ -422,16 +316,15 @@ const AddSchedule = () =>{
                             </Grid>
                             
                         </div>
-                    ))}
+                    ))} */}
 
                     <br></br>
                     <br></br>
-                    <div style={{ color: 'red' }}>{errors.middleStations}</div>
+                    {/* <div style={{ color: 'red' }}>{errors.middleStations}</div> */}
 
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleAddStation}
                         style={{ marginTop: "20px" }}
                         >
                         Add Station
