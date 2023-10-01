@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const scheduleService = require("../services/schedule-service");
+const authService = require('../services/auth-service');
 const prisma = new PrismaClient();
 
 const getResevationSchedules = async (req, res) => {
@@ -28,6 +29,28 @@ const getResevationSchedules = async (req, res) => {
 
 
 }
+
+const addTrainSchedule = async (req, res) => {
+    const { startingStation, startingTime, destination, finishingTime, workingDays, stations } = req.body;
+    if (!startingStation || !destination || !startingTime || !finishingTime) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try{
+        const authHeader = req.headers.authorization;
+        const submittedUser = await authService.verifyToken(authHeader);
+        const id = submittedUser.id;
+        if (submittedUser.userType.includes("CONTROL_CENTRE"))
+        {
+            const addTrainSchedules = await scheduleService.addSchedule(startingStation, startingTime, destination, finishingTime, workingDays, stations);
+            
+        }
+    }catch(error)
+    {
+
+    }
+}
 module.exports = {
-    getResevationSchedules
+    getResevationSchedules,
+    addTrainSchedule
 };

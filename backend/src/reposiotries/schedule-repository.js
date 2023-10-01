@@ -1,6 +1,33 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const addTrainSchedule = async (startStationId,endStationId,startingTime,
+    finishingTime,workingDays) => {
+    return await prisma.user.create({
+        data:{
+            startTime: startingTime,
+            endTime: finishingTime,
+            start: startStationId,
+            end: endStationId,
+            trainId: '4',
+            WorkingDays: workingDays,
+        }
+    })
+}
+
+const getScheduleID = async (startStationId,endStationId,startingTime) => {
+    return await prisma.station.findUnique({
+        where: {
+            start:startStationId,
+            end: endStationId,
+            startTime:startingTime,
+            trainId: '4'
+        },
+        select: {
+            scheduleId: true
+        }
+    });
+}
  
 const getSchedule = async (userId) => { 
     return await prisma.schedule.findMany({
@@ -45,5 +72,7 @@ const getAllSchedulesByWorkingday = async (workingday) => {
 module.exports = {
     getSchedule,
     getTripSchedules,
-    getAllSchedulesByWorkingday 
+    getAllSchedulesByWorkingday,
+    addTrainSchedule,
+    getScheduleID
 };

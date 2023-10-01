@@ -13,7 +13,8 @@ const {
   getAllStations
 } = require("../controllers/station-controller");
 const {
-  getResevationSchedules
+  getResevationSchedules,
+  addTrainSchedule
 } = require("../controllers/schedule-controller");
 
 const { addUser } = require("../controllers/user-controller");
@@ -44,6 +45,7 @@ router.get("/allstations", getAllStations);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
+router.post("/add-schedule", addTrainSchedule);
 
 router.post("/reset-password", resetPassword);
 module.exports = router;

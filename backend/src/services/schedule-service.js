@@ -1,7 +1,9 @@
  
 const { getSchedule, getTripSchedules, getAllSchedulesByWorkingday } = require("../reposiotries/schedule-repository"); 
+const { getStationId } = require('../reposiotries/station-repository')
 const { getStationName } = require("../reposiotries/station-repository");
 const { getTrain } = require("../reposiotries/trainRepository");
+const { addTrainSchedule, getScheduleID } = require("../reposiotries/schedule-repository");
 
 // const getGuardSchedule = async (userId) =>
 // {
@@ -22,7 +24,22 @@ const { getTrain } = require("../reposiotries/trainRepository");
 //     }
 // }
 
- 
+//Add train Schedule
+const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations) =>
+{
+    const startStationId = await getStationId(startingStation);
+    const endStationId = await getStationId(destination);
+
+    const addedSchedule = await addTrainSchedule(startStationId,endStationId,startingTime,
+        finishingTime,workingDays);
+
+    const getScheduleID = await getScheduleID(startStationId,endStationId,startingTime);
+
+    // insert for each of the arrays in stations
+    // await updateStationSchedule
+
+}
+
 const getGuardSchedule = async (user) => {
     try { 
         const schedules = await getSchedule(user.id);
@@ -123,5 +140,6 @@ const selectSchedules = async (startStation, endStation, workingdays) => {
 
 module.exports = {
     getGuardSchedule,
-    getScheduleByTrip 
+    getScheduleByTrip,
+    addSchedule
 }
