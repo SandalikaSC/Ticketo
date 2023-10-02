@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/modals/ReservationTicket.dart';
+import 'package:passenger_frontend/modals/Traveller.dart';
 
 class ReservationInformationScreen extends StatefulWidget {
   final String selectedCoach;
@@ -22,6 +23,7 @@ class ReservationInformationScreen extends StatefulWidget {
 
 class _ReservationInformationScreenState
     extends State<ReservationInformationScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,15 +86,36 @@ class _ReservationInformationScreenState
                         ),
                       ),
                       SizedBox(height: 10.0),
-                      for (final passenger=int.parse(widget.reservationTicket.passengers;))
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Name: ${passenger.name}'),
-                            Text('NIC: ${passenger.nic}'),
-                            SizedBox(height: 10.0),
-                          ],
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(
+                          int.parse(widget.reservationTicket.passengers),
+                              (index) {
+                            final passenger = Traveler[index];
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextField(
+                                  onChanged: (text) {
+                                    // Update passenger name when text changes
+                                    Traveler[index] = Traveler(name: text, nic: passenger.nic);
+                                  },
+                                  decoration: InputDecoration(labelText: 'Name'),
+                                ),
+                                TextField(
+                                  onChanged: (text) {
+                                    // Update passenger NIC when text changes
+                                    Traveler[index] = Traveler(name: passenger.name, nic: text);
+                                  },
+                                  decoration: InputDecoration(labelText: 'NIC'),
+                                ),
+                                SizedBox(height: 10.0),
+                              ],
+                            );
+                          },
                         ),
+                      )
                     ],
                   ),
                 ),
