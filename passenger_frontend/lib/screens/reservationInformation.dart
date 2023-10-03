@@ -225,10 +225,10 @@ class _ReservationInformationScreenState
                       // Example usage of the ConfirmationDialog
                       ConfirmationDialog.showConfirmationDialog(
                         context,
-                        seats: "A1, A2",
+                        seats: "C2, C3",
                         coachData: "Coach A",
-                        startDestination: "City A",
-                        trainName: "Express Train",
+                        startDestination: widget.reservationTicket.startStation!.name,
+                        trainName: "Galu Kumari Train",
                         onConfirm: () {
                           // Add your confirmation logic here
                           // This code will be executed when the "Confirm" button is pressed.

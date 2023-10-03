@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'package:passenger_frontend/widgets/customSnackBar.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String seats;
@@ -39,7 +41,13 @@ class ConfirmationDialog extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             onConfirm(); // Call the provided callback function
-            Navigator.of(context).pop(); // Close the dialog
+            Navigator.of(context).pop();
+            showCustomToast(context, "success", "Reservation Completed");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const BottomBar()),
+            );
+            // Close the dialog
           },
           child: Text('Confirm'),
         ),
