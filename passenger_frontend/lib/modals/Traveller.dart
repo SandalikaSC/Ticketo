@@ -1,6 +1,6 @@
 class Traveler{
-  final String? name;
-  final String? nic;
+  late final String? name;
+  late final String? nic;
 
   Traveler({
     required this.name,
