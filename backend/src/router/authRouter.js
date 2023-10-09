@@ -20,7 +20,7 @@ const {
 const { addUser } = require("../controllers/user-controller");
 const { scanData } = require("../controllers/ticketChecker/scanData-controller");
 const {
-  addTrain
+  addTrain, getAllTrains
 } = require("../controllers/train-controller");
 
 const { verifyToken } = require("../middleware/authenticate");
@@ -42,6 +42,7 @@ router.post("/generate-otp", generateOtp);
 router.post("/verify-otp", verifyOtp);
 router.get("/getresevationschedules", getResevationSchedules);
 router.get("/allstations", getAllStations);
+router.get("/alltrains", getAllTrains);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);

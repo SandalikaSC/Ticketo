@@ -5,6 +5,7 @@ const addUser = async (req, res) =>
 {
     try
     {
+        
         const authHeader = req.headers.authorization;
         const submittedUser = await authService.verifyToken(authHeader);
         const id = submittedUser.id;

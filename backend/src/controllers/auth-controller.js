@@ -46,6 +46,7 @@ const signup = async (req, res) =>
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
 const verifyAccount = async (req, res) =>
 {
   const { firstName, lastName, phoneNumber, nic, email, password } = req.body;
@@ -178,36 +179,11 @@ const login = async (req, res) =>
   {
     return res.status(400).json({ message: error.message });
   }
+
 };
 
 
-// GET Request - Get user details using the JWT token
-// const getUser = async (req, res) =>
-// {
-//   const id = req.id;
-//   console.log(req.id);
-//   try
-//   {
-//     // Find the user in the database based on their user ID
-//     const user = await prisma.user.findUnique({
-//       where: { id: id },
-//       select: { id: true, firstName: true, email: true, userType: true },
-//     });
 
-//     // Check if the user exists
-//     if (!user)
-//     {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     // Return the user details in the response
-//     return res.status(200).json({ user });
-//   } catch (err)
-//   {
-//     // Handle the error if any occurred during the database query
-//     console.error(err);
-//     return res.status(500).json({ message: "Internal server error" });
-//   }
-// };
 const getUser = async (req, res) =>
 {
   const id = req.id;

@@ -149,6 +149,8 @@ const isExistPassenger = async (nic, email) =>
     return res.status(500).json({ message: "Internal Server Error" });
   }
 }
+
+
 const login = async (email, password) =>
 {
   try
@@ -198,6 +200,8 @@ const login = async (email, password) =>
     throw new Error("An error occurred during login");
   }
 };
+
+
 const insertTempOtp = async (nic, otp) =>
 {
   try

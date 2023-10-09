@@ -237,11 +237,13 @@ const LoginPage = () => {
               >
                 Login
               </button>
+
               {loginError && (
                 <div style={{ color: "red", marginTop: "10px" }}>
                   {loginError}
                 </div>
               )}
+              
               <div
                 style={{
                   marginTop: "4%",

@@ -1,6 +1,13 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const getAllTrains = async () =>
+{
+    return await prisma.train.findMany({
+        orderBy: { name: 'asc' },
+    });
+};
+
 const createTrain = async (trainData) =>
 {
     return await prisma.train.create({
@@ -29,6 +36,7 @@ const getTrain = async (trainId) =>
     });
 }
 module.exports = {
+    getAllTrains,
     createTrain,
     findCoachByCode,
     createCoachArrangements,
