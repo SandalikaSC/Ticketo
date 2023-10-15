@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/modals/ReservationTicket.dart';
+import 'package:passenger_frontend/modals/Traveller.dart';
 import 'package:passenger_frontend/screens/reservationInformation.dart';
 import 'package:passenger_frontend/widgets/customSnackBar.dart';
 
@@ -176,6 +177,10 @@ class _SeatBookingScreenState extends State<SeatBookingScreen> {
                     //     int.parse(widget.reservationTicket.passengers)) {
                     //   showCustomToast(context, "info", "More Seats to Select");
                     // } else {
+                    List<Traveler> travelers = List.generate(
+                      int.parse(widget.reservationTicket.passengers),
+                          (index) => Traveler(name: '', nic: ''),
+                    );
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -183,7 +188,11 @@ class _SeatBookingScreenState extends State<SeatBookingScreen> {
                             selectedCoach: selectedCoach,
                             selectedSeats: seatArrangement,
                             reservationTicket: widget.reservationTicket,
-                            scheduleID: widget.scheduleId),
+                            scheduleID: widget.scheduleId,
+                            travelers:travelers
+
+
+                        ),
                       ),
                     );
                     // }

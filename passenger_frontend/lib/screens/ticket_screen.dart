@@ -225,7 +225,25 @@ class TicketScreenState extends State<TicketScreen> {
                     ),
             ),
             Center(
-              child: Text("Reservations"),
+              child: Column(
+                children: tickets.map((ticket) {
+                  return GestureDetector(
+                    onTap: () {
+                      _showTicketDetails(context, ticket);
+                    },
+                    child: shortdetailTicket(
+                        start: ticket['start'],
+                        end: ticket['end'],
+                        classname: ticket['className'],
+                        passengers: ticket['noOfPassengers'],
+                        price: ticket['price'].toDouble(),
+                        status: ticket['journeyStatus'],
+                        ticketNo: ticket['ticketNumber'],
+                        tripType: ticket['tripType']),
+                  );
+                }).toList(),
+              ),
+
             ),
             Center(
               child: Text("Seasons"),
