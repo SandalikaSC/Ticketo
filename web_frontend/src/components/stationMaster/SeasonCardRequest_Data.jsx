@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-import '../../css/ticketClerk_applicationForm.css';
+import '../../css/seasonRequest_displayForm.css';
 
 const ApplicationData = ({ data }) => {
     return (
