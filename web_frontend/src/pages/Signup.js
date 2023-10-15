@@ -26,6 +26,7 @@ const Signup = () =>
         'TICKET_CHECKER',
         'PASSENGER'
     ];
+    
     const sendRequest = async () =>
     {
         try
@@ -56,6 +57,7 @@ const Signup = () =>
         //send http request
         sendRequest().then(() => history("/"));
     };
+
     const handleChange = (e) =>
     {
         setInputs(prev => ({

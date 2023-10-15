@@ -13,10 +13,20 @@ import {
   Checkbox
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
+import Popup from "../../components/controlCenter/popup"
 
 const AssignGuards = () => {
   const [selectedTrain, setSelectedTrain] = useState('');
   const [isAddingGuard, setIsAddingGuard] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   const guards = [
     {
@@ -261,10 +271,14 @@ const AssignGuards = () => {
         )}
 
 
-        <Button variant="contained" color="primary" fullWidth>
+        <Button variant="contained" color="primary" fullWidth onClick={handleButtonClick}>
           Add Guard
         </Button>
         
+        {isPopupOpen && (
+        <Popup message="Driver added successfully" onClose={handleClosePopup} />
+        )}
+
       </div>
     </Container>
   );

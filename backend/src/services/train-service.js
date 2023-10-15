@@ -176,6 +176,17 @@ const addTrain = async (trainData) =>
     }
 };
 
+const getTrains = async() =>{
+    try
+    {
+      return await getAllTrains();
+    } catch (error)
+    {
+      throw new Error("An error occurred during login");
+    }
+}
+
 module.exports = {
     addTrain,
+    getTrains
 };

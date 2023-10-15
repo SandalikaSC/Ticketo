@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from 'axios';
 import "../../css/stationmaster.css";
 import { Modal, Box, Typography, Button } from "@mui/material";
 import EmpCard from "../../components/stationMaster/EmpCard"; // Update the path to EmpCard component if necessary
@@ -61,6 +61,13 @@ const AddCheckerClerk = () => {
   const [isErrorDialogOpen, setIsErrorDialogOpen] = useState(false);
 
   const handleSubmit = async (event) => {
+    console.log(formData.firstName); 
+    console.log(formData.lastName);
+    console.log(formData.email);
+    console.log(formData.mobileNumber);
+    console.log(formData.nic);
+    console.log(formData.jobPosition);
+
     event.preventDefault();
 
     const newErrors = {};
@@ -159,7 +166,7 @@ const AddCheckerClerk = () => {
               Email:
               <br />
               <input
-                type="email"
+                type="text"
                 className="box"
                 placeholder="Please enter a valid email address"
                 name="email"
@@ -315,8 +322,8 @@ const AddCheckerClerk = () => {
             sx={{ width: 200, bgcolor: "white", p: 3, borderRadius: "25px" }}
           >
             <ErrorIcon sx={{ color: "red", fontSize: 40, marginBottom: 2 }} />
-            <Typography variant="h6">Error</Typography>
-            <Typography variant="body1">An error occurred</Typography>
+            <Typography variant="h6">Adding Failed!</Typography>
+            <Typography variant="body1">Something went wrong..</Typography>
             <Button onClick={closeErrorDialog}>Close</Button>
           </Box>
         </Box>

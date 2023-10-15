@@ -5,10 +5,12 @@ const getUserByEmail = async (email) =>
 {
   return await prisma.user.findUnique({ where: { email: email } });
 };
+
 const getUserByNic = async (nic) =>
 {
   return await prisma.user.findUnique({ where: { nic: nic } });
 };
+
 const getUserByNicEmail = async (nic, email) =>
 {
   return await prisma.user.findFirst({
