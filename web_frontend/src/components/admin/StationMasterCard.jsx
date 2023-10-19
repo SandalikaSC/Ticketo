@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const StationMasterCard = () => {
   const [stationMasters, setStationMasters] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchStationMasters();
@@ -14,7 +15,7 @@ const StationMasterCard = () => {
       const response = await axios.get('http://localhost:5000/api/station-masters'); // Adjust the URL
       setStationMasters(response.data);
     } catch (error) {
-      console.error('Error fetching station masters:', error);
+      setError(error); // Capture the error for display
     }
   };
 
@@ -36,9 +37,14 @@ const StationMasterCard = () => {
 
   return (
     <div className="station-master-card">
+      {error && (
+        <div className="error-message">
+          Error fetching station masters: {error.message}
+        </div>
+      )}
       <div className="card-header">
         <div className="header-item">SM Number</div>
-        <div className="header-item">Station Name</div>
+        <div className ="header-item">Station Name</div>
         <div className="header-item">Station Master Name</div>
         <div className="header-item">Actions</div>
       </div>
