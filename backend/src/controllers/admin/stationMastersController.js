@@ -12,7 +12,6 @@ const getStationMasters = async (req, res) => {
       },
     });
 
-    console.log('Fetched Station Masters:', stationMasters); // Log the fetched data
     return res.status(200).json(stationMasters);
   } catch (error) {
     console.error(error);

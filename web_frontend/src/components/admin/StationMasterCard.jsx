@@ -11,10 +11,8 @@ const StationMasterCard = () => {
 
   const fetchStationMasters = async () => {
     try {
-      // Make a GET request to your API endpoint to retrieve station masters
-      const response = await axios.get('http://localhost:5000/api/station-masters'); // Update the URL
-      console.log('Response Data:', response.data); // Log the data received from the API
-      setStationMasters(response.data); // Assuming the response is an array of station masters
+      const response = await axios.get('http://localhost:5000/api/station-masters'); // Adjust the URL
+      setStationMasters(response.data);
     } catch (error) {
       console.error('Error fetching station masters:', error);
     }
