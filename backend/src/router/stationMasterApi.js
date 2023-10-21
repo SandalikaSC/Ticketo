@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const stationMController = require('../controllers/admin/stationMController');
+const stationMController = require('../controllers/admin/stationMastersController');
 
 // Get all station masters
 router.get('/', stationMController.getStationMasters);
