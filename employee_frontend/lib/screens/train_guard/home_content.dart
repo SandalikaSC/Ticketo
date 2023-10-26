@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'location_share.dart';
+import 'schedule_share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart'; // Import the permission_handler package
 
@@ -164,7 +165,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          'Nadee Darshika',
+                          'NadeeDarshika',
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                         const SizedBox(height: 5),
@@ -340,7 +341,8 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                LocationSharingPage(
+                                                ScheduleSharePage(
+                                                  trainName: schedule.trainName,
                                                   scheduleId: schedule.scheduleId,
                                                 ),
                                           ),
