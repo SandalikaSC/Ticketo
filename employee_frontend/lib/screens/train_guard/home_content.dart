@@ -334,9 +334,11 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                         color: Colors.black,
                                       ),
                                     ),
+
                                     OutlinedButton(
                                       onPressed: () {
                                         // Handle the start button press
+
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

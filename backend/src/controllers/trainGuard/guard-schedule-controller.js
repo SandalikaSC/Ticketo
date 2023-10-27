@@ -8,6 +8,15 @@ const getGuardSchedules = async (req, res) =>
     return res.status(200).json({ schedule });
 }
 
+const getAllScheduleStations = async (req, res) =>
+{
+    const scheduleId = req.body.scheduleId;
+    console.log(scheduleId);
+    const stations = await scheduleService.getAllScheduleStations(scheduleId);
+    return res.status(200).json({ stations });
+}
+
 module.exports = {
-    getGuardSchedules
+    getGuardSchedules,
+    getAllScheduleStations
 };
