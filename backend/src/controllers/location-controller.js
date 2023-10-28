@@ -1,4 +1,4 @@
-const { stationlocationUpdate, stationlocationInsert } = require("../services/location-service");
+const { stationlocationUpdate, stationlocationInsert, getAllLocations } = require("../services/location-service");
 
 const locationUpdate = async (req, res) =>
 {
@@ -19,4 +19,11 @@ const locationInsert = async (req, res) =>
     return res.status(200).json({ result: result });
 }
 
-module.exports = { locationInsert, locationUpdate };
+const getLocations = async (req, res) =>
+{
+    const scheduleId = req.body.scheduleId;
+    console.log(scheduleId);
+    const stations = await getAllLocations(scheduleId);
+    return res.status(200).json({ stations });
+}
+module.exports = { locationInsert, locationUpdate, getLocations };

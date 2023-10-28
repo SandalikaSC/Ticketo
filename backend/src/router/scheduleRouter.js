@@ -5,7 +5,9 @@ const {
     getAllScheduleStations
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
-
+const {
+    getLocations
+} = require("../controllers/location-controller");
 const { verifyToken } = require("../middleware/authenticate");
 
 scheduleRouter.use(verifyToken);
@@ -14,5 +16,6 @@ scheduleRouter.use(verifyToken);
 
 
 scheduleRouter.get('/get-schedule', getGuardSchedules);
-scheduleRouter.post('/get-all-stations', getAllScheduleStations)
+scheduleRouter.post('/get-all-stations', getAllScheduleStations);
+scheduleRouter.post('/get-locations', getLocations);
 module.exports = scheduleRouter;

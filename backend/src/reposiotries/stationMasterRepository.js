@@ -27,6 +27,21 @@ const addStationMasterToDatabase = async (firstName, lastName, email, password, 
   }
 };
 
+const getAllStationMasters = async () =>
+{
+
+  const stationMasters = await prisma.user.findMany({
+    where: {
+      userType: {
+        has: "STATION_MASTER" // Use "in" to filter by enum values
+      }
+    }
+  });
+
+  return stationMasters;
+
+}
 module.exports = {
-  addStationMasterToDatabase
+  addStationMasterToDatabase,
+  getAllStationMasters,
 };
