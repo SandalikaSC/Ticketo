@@ -17,9 +17,28 @@ const getavailableBalance = async (userid) => {
 
     return wallet.walletBalance - wallet.holdValue;
 };
+async function getWalletInfoAndPayments(userId) {
+    console.log("repo");
+    const walletInfo = await prisma.wallet.findUnique({
+        where: {
+            userId: userId,
+        },
+        include: {
+            payment: {
+                orderBy: {
+                    date: 'desc', // Sort payments by date in descending order (most recent first)
+                },
+            },
+        },
+    });
+
+    return walletInfo;
+}
+
 module.exports = {
     getwallet,
-    getavailableBalance
+    getavailableBalance,
+    getWalletInfoAndPayments
 };
 
 
