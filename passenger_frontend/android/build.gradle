@@ -13,6 +13,10 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
+        maven {
+            url  "https://repo.repsy.io/mvn/payhere/payhere-mobilesdk-android/"
+        }
         google()
         mavenCentral()
     }
