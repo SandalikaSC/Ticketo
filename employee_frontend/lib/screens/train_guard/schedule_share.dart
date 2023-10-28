@@ -1,5 +1,48 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+class StationData {
+  final int stationId;
+  final String stationName;
+  final String arrivalTime;
+  final String actualArrivalTime;
+  final int delayArrival;
+  final String departureTime;
+  final String actualDepartureTime;
+  final int delayDeparture;
+  int arrivalStatus;
+  String date;
+  String reason;
+
+  StationData({
+    required this.stationId,
+    required this.stationName,
+    required this.arrivalTime,
+    required this.actualArrivalTime,
+    required this.delayArrival,
+    required this.departureTime,
+    required this.actualDepartureTime,
+    required this.delayDeparture,
+    required this.arrivalStatus,
+    required this.date,
+    required this.reason,
+  });
+
+  @override
+  String toString() {
+    return 'StationData(stationId: $stationId, stationName: $stationName, '
+        'arrivalTime: $arrivalTime, actualArrivalTime: $actualArrivalTime, '
+        'delayArrival: $delayArrival, departureTime: $departureTime, '
+        'actualDepartureTime: $actualDepartureTime, delayDeparture: $delayDeparture, '
+        'arrivalStatus: $arrivalStatus, date: $date, reason: $reason)';
+  }
+}
 
 class ScheduleSharePage extends StatefulWidget {
   final String trainName;
@@ -17,6 +60,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
   final StreamController<DateTime> _timeStream = StreamController<DateTime>();
   late Stream<DateTime> _time;
 
+  List<StationData> stationDataList = [];
+
   _ScheduleSharePageState() {
     _time = _timeStream.stream;
 
@@ -24,6 +69,72 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       _timeStream.sink.add(DateTime.now());
     });
+  }
+
+
+
+  @override
+  void initState(){
+    super.initState();
+    fetchScheduleStations(widget.scheduleId);
+  }
+
+  void fetchScheduleStations(int scheduleId) async {
+    final baseUrl = dotenv.env['BASE_URL'];
+    final Uri uri = Uri.parse('$baseUrl/trainguard/get-all-stations');
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final accessToken = sharedPreferences.getString('accessToken') ?? '';
+
+    if (kDebugMode) {
+      print("here is the schedule id $scheduleId");
+    }
+    final response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: json.encode({
+        'scheduleId': scheduleId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      if (responseData.containsKey('stations')) {
+        final List<dynamic> stations = responseData['stations'];
+
+        // Transform and store the response data in the stationDataList
+        stationDataList = stations.map((station) {
+          return StationData(
+            stationId: station['id'],
+            stationName: station['stationName']['name'],
+            arrivalTime: station['arrivalTime'],
+            actualArrivalTime: '06:05 AM', // Default value
+            delayArrival: 0, // Default value
+            departureTime: station['departureTime'],
+            actualDepartureTime: '06:05 AM', // Default value
+            delayDeparture: 0, // Default value
+            arrivalStatus: 0, // Default value
+            date: DateTime.now().toLocal().toString(), // Current date
+            reason: 'null', // Default value
+          );
+        }).toList();
+
+        if (kDebugMode) {
+          print(stationDataList);
+        }
+      } else {
+        if (kDebugMode) {
+          print('Response does not contain a "stations" key.');
+        }
+      }
+    } else {
+      if (kDebugMode) {
+        print('Failed to fetch schedule stations. Status code: ${response.statusCode}');
+      }
+    }
   }
 
   @override
