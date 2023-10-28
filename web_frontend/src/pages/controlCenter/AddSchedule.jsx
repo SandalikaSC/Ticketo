@@ -58,7 +58,7 @@ const AddSchedule = () =>{
         } catch (error) {
           console.error("Error fetching stations:", error);
         }
-      };
+    };
 
     const [errors, setErrors] = useState({});    
 
@@ -208,6 +208,9 @@ const AddSchedule = () =>{
         
     };
 
+
+    const propKey1 = this.props.propKey1;
+
     return(
         <Container maxWidth="xl" className="secnd-main-container" 
         style={{
@@ -217,7 +220,7 @@ const AddSchedule = () =>{
         }}>
             <Paper elevation={3} className="existing-schedules">
                 <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
-                    <b>Existing Schedules for Train Name</b>
+                    <b>Existing Schedules for {propKey1}</b>
                 </Typography>
             </Paper>
 
@@ -235,7 +238,7 @@ const AddSchedule = () =>{
                         <Grid item xs={6}>
                         
                         <InputLabel>Select Starting Station</InputLabel>
-                            {/* <Select
+                            <Select
                                 name="startingStation"
                                 value={formData.startingStation}
                                 onChange={handleChange}
@@ -248,14 +251,8 @@ const AddSchedule = () =>{
                                     {station.name}
                                 </option>
                                 ))}
-                            </Select> */}
-                            <TextField
-                            type="text"
-                            name="startingStation"
-                            value={formData.startingStation}
-                            onChange={handleChange}
-                            fullWidth
-                            />                           
+                            </Select>
+                            
                             <div style={{ color: 'red' }}>{errors.startingStation}</div>
                             
                         </Grid>
@@ -277,7 +274,7 @@ const AddSchedule = () =>{
                         <Grid item xs={6}>
                             <InputLabel>Select destination</InputLabel>
 
-                            {/* <Select
+                            <Select
                                 name="destination"
                                 value={formData.destination}
                                 onChange={handleChange}
@@ -290,15 +287,15 @@ const AddSchedule = () =>{
                                     {station.name}
                                 </option>
                                 ))}
-                            </Select> */}
+                            </Select>
 
-                            <TextField
+                            {/* <TextField
                             type="text"
                             name="destination"
                             value={formData.startingStation}
                             onChange={handleChange}
                             fullWidth
-                            /> 
+                            />  */}
 
                             <div style={{ color: 'red' }}>{errors.destination}</div>
                         </Grid>
@@ -362,7 +359,7 @@ const AddSchedule = () =>{
                         return(
                             <div key={index}>
                                 <Grid container spacing={2}>
-                                {/* <Grid item xs={6}>
+                                <Grid item xs={6}>
                                     <InputLabel>Select station</InputLabel>
                                     <Select
                                         name={'stationName'}
@@ -378,10 +375,10 @@ const AddSchedule = () =>{
                                         </option>
                                         ))}
                                     </Select>
-                                </Grid> */}
+                                </Grid>
                                 
 
-                                <Grid item xs={6}>
+                                {/* <Grid item xs={6}>
                                     <InputLabel>Select station</InputLabel>
                                     <TextField
                                     label="Station Name"
@@ -392,7 +389,7 @@ const AddSchedule = () =>{
                                     fullWidth
                                     style={{marginRight: "20px" }}
                                     />
-                                </Grid>
+                                </Grid> */}
 
                                 <Grid item xs={6}>
                                     <InputLabel>Arrival Time</InputLabel>

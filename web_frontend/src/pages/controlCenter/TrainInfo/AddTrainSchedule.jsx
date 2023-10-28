@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import {
   Container,
@@ -17,13 +17,14 @@ import { Link } from 'react-router-dom';
 const AddTrainSchedule = () => {
   const [trains, setTrains] = useState([]);
 
+  useEffect(() => {
+    fetchTrains();
+  }, []);
+
   const fetchTrains = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/alltrains");
-      setTrains(response.data.stations);
-      for (let i = 0; i < trains.length; i++) {
-        console.log(trains[i]);
-      }
+      setTrains(response.data.trains);
     } catch (error) {
       console.error("Error fetching stations:", error);
     }
@@ -55,13 +56,7 @@ const AddTrainSchedule = () => {
 
       </div>
 
-      <Divider style={{marginTop: '20px'}}/>      
-
-      <Grid container spacing={2}>
-        
-      </Grid>
-
-      
+      <Divider style={{marginTop: '20px'}}/> <br></br>  
 
       <div className="view-all-schdules">
         {trains.map((train,index) => (
@@ -73,8 +68,8 @@ const AddTrainSchedule = () => {
                   to={{
                       pathname: '/cc/addschedule',
                       state: {
-                          propKey1: "bye",
-                          propKey2: "hello",
+                          propKey1: train.trainName,
+                          propKey2: train.trainId,
                       },
                   }}
               >
@@ -91,39 +86,10 @@ const AddTrainSchedule = () => {
           </Paper>
         ))}
         
-
-        {/* <Paper elevation={3} className="train-schedule-part">
-          <h2>Ruhunu Kumari</h2>
-
-          <div style={{textAlign : "right"}}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
-            >
-              Add Schedule
-            </Button>
-          </div> 
-
-        </Paper>
-
-        <Paper elevation={3} className="train-schedule-part">
-          <h2>Ella Express</h2>
-
-          <div style={{textAlign : "right"}}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
-            >
-              Add Schedule
-            </Button>
-          </div> 
-
-        </Paper> */}
       </div>
       
-
+      <br></br>
+      <br></br>
       
     </Container>
   );

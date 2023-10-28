@@ -27,12 +27,33 @@ const Delays = () => {
         setRedirectToResolve(true);
     };
 
+    const handleShowReports = () => {
+        console.log("OK!");
+    }
+
     return (
         <Container style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="h4" style={{ marginBottom: '10px', color: '#3D50AC' }}>
-                    <b>Train Delays</b>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
+
+                {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
+
+                    <b>Train Delay Reports</b>
                 </Typography>
+
+                <Button
+                variant="contained"
+                color="primary"
+                onClick={handleShowReports}
+                style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
+                >
+                    Get Report
+                </Button>
+
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                
                 <Divider style={{ marginBottom: '20px' }} />
 
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
