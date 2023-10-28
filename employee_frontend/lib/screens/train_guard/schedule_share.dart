@@ -1,21 +1,21 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class StationData {
   final int stationId;
   final String stationName;
   final String arrivalTime;
-  final String actualArrivalTime;
-  final int delayArrival;
+  String actualArrivalTime;
+  int delayArrival;
   final String departureTime;
-  final String actualDepartureTime;
-  final int delayDeparture;
+  String actualDepartureTime;
+  int delayDeparture;
   int arrivalStatus;
   String date;
   String reason;
@@ -61,6 +61,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
   late Stream<DateTime> _time;
 
   List<StationData> stationDataList = [];
+  int nextStationIndex = 0;
 
   _ScheduleSharePageState() {
     _time = _timeStream.stream;
@@ -71,12 +72,20 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     });
   }
 
-
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     fetchScheduleStations(widget.scheduleId);
+    findInitialNextStationIndex(); // Find the initial next station index
+  }
+
+  void findInitialNextStationIndex() {
+    for (int i = 0; i < stationDataList.length; i++) {
+      if (stationDataList[i].arrivalStatus == 0) {
+        nextStationIndex = i;
+        break;
+      }
+    }
   }
 
   void fetchScheduleStations(int scheduleId) async {
@@ -137,6 +146,205 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     }
   }
 
+  void calculateDelayAndUpdateTime(StationData station) {
+    final DateTime currentTime = DateTime.now();
+    final DateFormat format = DateFormat('hh:mm a');
+    final String formattedCurrentTime = format.format(currentTime);
+
+    if (isArrival) {
+      final DateTime arrivalTime = format.parse(station.arrivalTime);
+      final String formattedArrivalTime = format.format(arrivalTime);
+      final Duration delay = currentTime.isAfter(arrivalTime) ? currentTime.difference(arrivalTime) : const Duration();
+
+      station.actualArrivalTime = formattedCurrentTime;
+      station.delayArrival = delay.inMinutes;
+    } else {
+      final DateTime departureTime = format.parse(station.departureTime);
+      final String formattedDepartureTime = format.format(departureTime);
+      final Duration delay = currentTime.isAfter(departureTime) ? currentTime.difference(departureTime) : const Duration();
+
+      station.actualDepartureTime = formattedCurrentTime;
+      station.delayDeparture = delay.inMinutes;
+    }
+  }
+
+  // Future<void> handleArriveButtonClick() async {
+  //   if (nextStationIndex < stationDataList.length) {
+  //     StationData currentStation = stationDataList[nextStationIndex];
+  //     if (currentStation.arrivalStatus == 0) {
+  //       currentStation.arrivalStatus = 1;
+  //       calculateDelayAndUpdateTime(currentStation);
+  //
+  //       // Send HTTP request to update the database (implement this part)
+  //       // ...
+  //
+  //       final baseUrl = dotenv.env['BASE_URL'];
+  //       final Uri uri = Uri.parse('$baseUrl/location-update');
+  //       final sharedPreferences = await SharedPreferences.getInstance();
+  //       final accessToken = sharedPreferences.getString('accessToken') ?? '';
+  //
+  //
+  //       final response = await http.post(
+  //         uri,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer $accessToken',
+  //         },
+  //         body: json.encode({
+  //           'stationId': currentStation.stationId,
+  //           'arrivalStatus': currentStation.arrivalStatus,
+  //           'actualArrivalTime': currentStation.actualArrivalTime,
+  //           'delayArrival': currentStation.delayArrival,
+  //           'actualDepartureTime': currentStation.actualDepartureTime,
+  //           'delayDeparture': currentStation.delayDeparture,
+  //           'date': currentStation.date,
+  //           'reason': currentStation.reason,
+  //         }),
+  //       );
+  //
+  //       // if(response.statusCode==200){
+  //       //   if (kDebugMode) {
+  //       //     print("\n\nupdated successfully\n\n");
+  //       //     // nextStationIndex++;
+  //       //   }
+  //       // }
+  //       // Do not change nextStationIndex
+  //     } else if (currentStation.arrivalStatus == 1) {
+  //       currentStation.arrivalStatus = 2;
+  //       calculateDelayAndUpdateTime(currentStation);
+  //
+  //       // Send HTTP request to update the database (implement this part)
+  //       // ...
+  //
+  //       // Update the table by adding the current station's details
+  //       // ...
+  //
+  //       final baseUrl = dotenv.env['BASE_URL'];
+  //       final Uri uri = Uri.parse('$baseUrl/location-update');
+  //       final sharedPreferences = await SharedPreferences.getInstance();
+  //       final accessToken = sharedPreferences.getString('accessToken') ?? '';
+  //
+  //
+  //       final response = await http.post(
+  //         uri,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer $accessToken',
+  //         },
+  //         body: json.encode({
+  //           'stationId': currentStation.stationId,
+  //           'arrivalStatus': currentStation.arrivalStatus,
+  //           'actualArrivalTime': currentStation.actualArrivalTime,
+  //           'delayArrival': currentStation.delayArrival,
+  //           'actualDepartureTime': currentStation.actualDepartureTime,
+  //           'delayDeparture': currentStation.delayDeparture,
+  //           'date': currentStation.date,
+  //           'reason': currentStation.reason,
+  //         }),
+  //       );
+  //
+  //       // if(response.statusCode==200){
+  //       //   if (kDebugMode) {
+  //       //     print("\n\nupdated successfully\n\n");
+  //       //     // nextStationIndex++;
+  //       //   }
+  //       // }
+  //       nextStationIndex++;
+  //     }
+  //
+  //     setState(() {});
+  //   }
+  // }
+
+  Future<void> handleArriveButtonClick() async {
+    if (nextStationIndex < stationDataList.length) {
+      StationData currentStation = stationDataList[nextStationIndex];
+      if (currentStation.arrivalStatus == 0) {
+        currentStation.arrivalStatus = 1;
+        calculateDelayAndUpdateTime(currentStation);
+
+        final baseUrl = dotenv.env['BASE_URL'];
+        final Uri uri = Uri.parse('$baseUrl/location-update');
+        final sharedPreferences = await SharedPreferences.getInstance();
+        final accessToken = sharedPreferences.getString('accessToken') ?? '';
+
+        final response = await http.post(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: json.encode({
+            'stationId': currentStation.stationId,
+            'arrivalStatus': currentStation.arrivalStatus,
+            'actualArrivalTime': currentStation.actualArrivalTime,
+            'delayArrival': currentStation.delayArrival,
+            'actualDepartureTime': currentStation.actualDepartureTime,
+            'delayDeparture': currentStation.delayDeparture,
+            'date': currentStation.date,
+            'reason': currentStation.reason,
+          }),
+        );
+
+        // if (response.statusCode == 200) {
+        //   // Successfully updated the database
+        //   updateNextStation(); // Move to the next station
+        // }
+      } else if (currentStation.arrivalStatus == 1) {
+        currentStation.arrivalStatus = 2;
+        calculateDelayAndUpdateTime(currentStation);
+
+        final baseUrl = dotenv.env['BASE_URL'];
+        final Uri uri = Uri.parse('$baseUrl/location-update');
+        final sharedPreferences = await SharedPreferences.getInstance();
+        final accessToken = sharedPreferences.getString('accessToken') ?? '';
+
+        final response = await http.post(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $accessToken',
+          },
+          body: json.encode({
+            'stationId': currentStation.stationId,
+            'arrivalStatus': currentStation.arrivalStatus,
+            'actualArrivalTime': currentStation.actualArrivalTime,
+            'delayArrival': currentStation.delayArrival,
+            'actualDepartureTime': currentStation.actualDepartureTime,
+            'delayDeparture': currentStation.delayDeparture,
+            'date': currentStation.date,
+            'reason': currentStation.reason,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          // Successfully updated the database
+          updateNextStation();
+          if (kDebugMode) {
+            print("\n\n\nafter updating next index $nextStationIndex\n\n\n");
+          }// Move to the next station
+        }
+      }
+
+      setState(() {});
+    }
+  }
+
+  void updateNextStation() {
+    // Move to the next station index
+    if (kDebugMode) {
+      print("\n\nbefore incrementing $nextStationIndex\n\n");
+    }
+    nextStationIndex++;
+
+    // Skip stations with arrivalStatus 0 or 1
+    // while (nextStationIndex < stationDataList.length &&
+    //     (stationDataList[nextStationIndex].arrivalStatus == 0 ||
+    //         stationDataList[nextStationIndex].arrivalStatus == 1)) {
+    //   nextStationIndex++;
+    // }
+  }
+
   @override
   void dispose() {
     _timeStream.close();
@@ -172,7 +380,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
             const SizedBox(height: 16),
             _buildInfoBox(),
             const SizedBox(height: 16),
-            const ScheduleTable(),
+            ScheduleTable(stationDataList: stationDataList, isArrival: isArrival),
+
           ],
         ),
       ),
@@ -181,8 +390,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
 
   Widget _buildInfoBox() {
     return Container(
-      padding:  const EdgeInsets.all(16),
-      margin:  const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         color: Colors.lightBlue,
         borderRadius: BorderRadius.circular(10),
@@ -191,24 +400,20 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Next Station: Colombo'),
-                Text(isArrival ? 'Arrival Time: 3:45 a.m' : 'Departure Time: 3:54 a.m'),
-
-              ],
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Next Station: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].stationName : ""}'),
+              Text(isArrival ? 'Arrival Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].arrivalTime : ""}' : 'Departure Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].departureTime : ""}'),
+            ],
           ),
-
-              const SizedBox(height: 16),
-           Row(
+          const SizedBox(height: 16),
+          Row(
             children: [
               StreamBuilder<DateTime>(
                 stream: _time,
                 builder: (context, snapshot) {
                   final currentTime = snapshot.data;
-                  final formattedTime = currentTime != null
-                      ? '${currentTime.hour}:${currentTime.minute}:${currentTime.second}'
-                      : '00:00:00';
+                  final formattedTime = currentTime != null ? '${currentTime.hour}:${currentTime.minute}:${currentTime.second}' : '00:00:00';
 
                   return Text('Current Time: $formattedTime');
                 },
@@ -218,8 +423,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              // Toggle between Arrival and Departure
               setState(() {
+                handleArriveButtonClick();
                 isArrival = !isArrival;
               });
             },
@@ -232,14 +437,17 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
 }
 
 class ScheduleTable extends StatefulWidget {
-  const ScheduleTable({Key? key}) : super(key: key);
+  final List<StationData> stationDataList;
+  final bool isArrival;
+
+  const ScheduleTable({Key? key, required this.stationDataList, required this.isArrival}) : super(key: key);
 
   @override
   _ScheduleTableState createState() => _ScheduleTableState();
 }
 
 class _ScheduleTableState extends State<ScheduleTable> {
-  bool showTable = true; // Automatically show the table when loaded
+  bool showTable = true;
 
   @override
   Widget build(BuildContext context) {
@@ -254,23 +462,15 @@ class _ScheduleTableState extends State<ScheduleTable> {
           DataColumn(label: Text('Delay')),
           DataColumn(label: Text('Reason')),
         ],
-        rows: const [
-          DataRow(cells: [
-            DataCell(Text('Station 1')),
-            DataCell(Text('10:00 AM')),
-            DataCell(Text('10:15 AM')),
-            DataCell(Text('5 min')),
-            DataCell(Text('Late arrival')),
-          ]),
-          DataRow(cells: [
-            DataCell(Text('Station 2')),
-            DataCell(Text('10:30 AM')),
-            DataCell(Text('10:45 AM')),
-            DataCell(Text('10 min')),
-            DataCell(Text('Signal issue')),
-          ]),
-          // Add more rows with your schedule data here
-        ],
+        rows: widget.stationDataList.map((station) {
+          return DataRow(cells: [
+            DataCell(Text(station.stationName)),
+            DataCell(Text(station.arrivalTime)),
+            DataCell(Text(station.departureTime)),
+            DataCell(Text(widget.isArrival ? (station.delayArrival > 0 ? '${station.delayArrival} min' : '-') : (station.delayDeparture > 0 ? '${station.delayDeparture} min' : '-'))),
+            DataCell(Text(station.reason)),
+          ]);
+        }).toList(),
       ),
     );
   }

@@ -28,9 +28,11 @@ const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
+const locationRouter = require('./locationRouter');
 
 router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
+router.use('/location-update', locationRouter);
 
 router.post("/login", login);
 router.post("/signup", signup);
