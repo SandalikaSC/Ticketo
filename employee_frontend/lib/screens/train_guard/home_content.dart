@@ -8,6 +8,7 @@ import 'location_share.dart';
 import 'schedule_share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart'; // Import the permission_handler package
+//import 'package:socket_io_client/socket_io_client.dart' as io;
 
 // Define the Schedule class
 class Schedule {
@@ -135,8 +136,10 @@ class _HomeContentPageState extends State<HomeContentPage> {
     }
   }
 
+  // late final io.Socket socket;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -346,6 +349,7 @@ class _HomeContentPageState extends State<HomeContentPage> {
                                                 ScheduleSharePage(
                                                   trainName: schedule.trainName,
                                                   scheduleId: schedule.scheduleId,
+                                                  // socket: socket
                                                 ),
                                           ),
                                         );

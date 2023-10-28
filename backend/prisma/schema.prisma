@@ -298,7 +298,7 @@ model Schedule {
   endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
   routeLine       RouteLine[]
   StationSchedule StationSchedule[] @relation("scheduleOn")
-  locationShare   locationShare[]   @relation("locationShareSchedule")
+  //locationShare   locationShare[]   @relation("locationShareSchedule")
 
   // employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
 
@@ -321,20 +321,19 @@ model StationSchedule {
 }
 
 model locationShare {
-  id                  Int       @id @default(autoincrement()) // Primary Key  
+  id                  Int      @id @default(autoincrement()) // Primary Key  
   actualArrivalTime   DateTime
-  delayarrival        DateTime
+  delayarrival        String
   actualDepartureTime DateTime
-  delaydeparture      DateTime
+  delaydeparture      String
   reason              String?
   scheduleId          Int?
   stationId           Int?
-  date                DateTime
-  arrived             Boolean
-  departure           Boolean
+  date                String
+  arrived             Int
   // Relationships  
-  Station             Station?  @relation("locationShareStation", fields: [stationId], references: [stationId])
-  Schedule            Schedule? @relation("locationShareSchedule", fields: [scheduleId], references: [scheduleId])
+  Station             Station? @relation("locationShareStation", fields: [stationId], references: [stationId])
+  //Schedule            Schedule? @relation("locationShareSchedule", fields: [scheduleId], references: [scheduleId])
 }
 
 enum WorkingDays {

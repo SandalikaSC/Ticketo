@@ -89,10 +89,6 @@ CREATE TABLE "SeasonCard" (
     "duration" INTEGER NOT NULL,
     "startStation" INTEGER NOT NULL,
     "endStation" INTEGER NOT NULL,
-    "designation" TEXT NOT NULL,
-    "workPlace" TEXT NOT NULL,
-    "workPlaceAddress" TEXT NOT NULL,
-    "applicationForm" TEXT NOT NULL,
     "dateIssued" TIMESTAMP(3),
     "approvedStatus" BOOLEAN NOT NULL DEFAULT false,
     "certifiedBy" TEXT,
@@ -233,6 +229,22 @@ CREATE TABLE "StationSchedule" (
     "stationId" INTEGER,
 
     CONSTRAINT "StationSchedule_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "locationShare" (
+    "id" SERIAL NOT NULL,
+    "actualArrivalTime" TIMESTAMP(3) NOT NULL,
+    "delayarrival" TEXT NOT NULL,
+    "actualDepartureTime" TIMESTAMP(3) NOT NULL,
+    "delaydeparture" TEXT NOT NULL,
+    "reason" TEXT,
+    "scheduleId" INTEGER,
+    "stationId" INTEGER,
+    "date" TIMESTAMP(3) NOT NULL,
+    "arrived" INTEGER NOT NULL,
+
+    CONSTRAINT "locationShare_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -419,6 +431,9 @@ ALTER TABLE "StationSchedule" ADD CONSTRAINT "StationSchedule_stationId_fkey" FO
 
 -- AddForeignKey
 ALTER TABLE "StationSchedule" ADD CONSTRAINT "StationSchedule_scheduleId_fkey" FOREIGN KEY ("scheduleId") REFERENCES "Schedule"("scheduleId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "locationShare" ADD CONSTRAINT "locationShare_stationId_fkey" FOREIGN KEY ("stationId") REFERENCES "Station"("stationId") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Coach" ADD CONSTRAINT "Coach_classId_fkey" FOREIGN KEY ("classId") REFERENCES "Class"("classId") ON DELETE RESTRICT ON UPDATE CASCADE;
