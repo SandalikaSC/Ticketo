@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:passenger_frontend/constants/payhereCredentials.dart';
+import 'package:passenger_frontend/widgets/customSnackBar.dart';
+import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 
 class TopUpWalletPage extends StatefulWidget {
   const TopUpWalletPage({Key? key}) : super(key: key);
@@ -77,7 +80,9 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Form is valid, you can process the payment here.
+                    int? paymentAmount = int.tryParse(_payAmountController.text);
+
+                    displayGateway(paymentAmount!);
                   }
                 },
                 style: ButtonStyle(
@@ -98,6 +103,48 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void displayGateway(int payAmount) {
+
+    Map paymentObject = {
+      "sandbox": true,             // true if using Sandbox Merchant ID
+      "merchant_id":PayHereAccountCredentials().merchantId,
+      "merchant_secret":PayHereAccountCredentials().merchantSecret,       // See step 4e
+      "notify_url": "http://sample.com/notify",
+      "order_id": "ItemNo12345",
+      "items": "One Time Payment",
+      "amount":payAmount,
+      "currency": "LKR",
+      "first_name": "Dileepa",
+      "last_name": "Bandara",
+      "email": "contact.dileepabandara@gmail.com",
+      "phone": "0712691003",
+      "address": "No.474/1, Ranjanagama Road, Gepallwa, Uhumeeya",
+      "city": "Kurunegala",
+      "country": "Sri Lanka",
+      "delivery_address": "No. 46, Galle road, Kalutara South",
+      "delivery_city": "Kalutara",
+      "delivery_country": "Sri Lanka",
+      "custom_1": "",
+      "custom_2": ""
+    };
+
+    PayHere.startPayment(
+        paymentObject,
+            (paymentId) {
+          print("One Time Payment Success. Payment Id: $paymentId");
+          showCustomToast(context, "error", "Success");
+        },
+            (error) {
+          print("One Time Payment Failed. Error: $error");
+          showCustomToast(context, "error",error);
+        },
+            (){
+          print("One Time Payment Dismissed");
+          showCustomToast(context, "error", "Dismissed");
+        }
     );
   }
 }

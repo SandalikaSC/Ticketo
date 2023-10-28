@@ -1,9 +1,15 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:passenger_frontend/modals/payment.dart';
 import 'package:passenger_frontend/screens/topupWalletPage.dart';
+import 'package:passenger_frontend/services/WalletService.dart';
+import 'package:passenger_frontend/utils/error_handler.dart';
 
 class WalletPage extends StatefulWidget{
   const WalletPage({Key? key}) : super(key: key);
@@ -12,9 +18,57 @@ class WalletPage extends StatefulWidget{
 }
 
 class _WalletPageState extends State<WalletPage>{
+  final WalletService walletService = WalletService();
+  String walletId = '';
+  String userId = '';
+  double walletBalance = 0.0;
+  double holdValue = 0.0;
+  double available = 0.0;
+  List<Payment> paymentList = [];
+  NumberFormat numberFormat = NumberFormat("0.00", "en_US"); // "0.00" means two decimal places
 
 
+  @override
+  void initState() {
+    super.initState();
+    LoadWalletInfo();
 
+  }
+  Future<void> LoadWalletInfo() async {
+    if (!mounted) return; // Check if the widget is still mounted
+
+    try {
+      final response = await walletService.getWalletInfo();
+      final responseData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        final dynamic decodedResponse = json.decode(response.body);
+        if (decodedResponse != null) {
+
+
+          setState(() {
+            walletId = decodedResponse['walletId'];
+            userId = decodedResponse['userId'];
+            walletBalance = decodedResponse['walletBalance'];
+            holdValue = decodedResponse['holdValue'];
+            paymentList = (decodedResponse['payment'] as List)
+                .map((paymentJson) => Payment.fromJson(paymentJson))
+                .toList();
+            // payments = decodedResponse['payment']
+               ;
+          });
+          setState(() {
+
+            available=  ((walletBalance-holdValue) * 100).round() / 100.0;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error occurred: $e'); // Print the exception details
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.$e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -176,7 +230,7 @@ class _WalletPageState extends State<WalletPage>{
                               ),
                               SizedBox(height: 8),
                               Text(
-                                ' \Rs.100',
+                             'Rs. $available',
                                 style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
@@ -205,7 +259,7 @@ class _WalletPageState extends State<WalletPage>{
                                         color: Styles.primaryColor),
                                   ),
                                   SizedBox(height: 8),
-                                  Text('Rs.75',
+                                  Text('Rs.$holdValue',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -223,7 +277,7 @@ class _WalletPageState extends State<WalletPage>{
                                         color: Styles.primaryColor),
                                   ),
                                   SizedBox(height: 8),
-                                  Text('Rs.25',
+                                  Text('Rs. $walletBalance',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -367,15 +421,15 @@ class _WalletPageState extends State<WalletPage>{
                   ),
                   Expanded(
                     // Add horizontal padding here
-                    child: ListView.builder(
-                      itemCount:
-                          3, // Replace with the actual number of transactions
+                   child: ListView.builder(
+                      itemCount: min(3, paymentList.length), // Display the first 3 items or less
                       itemBuilder: (context, index) {
+                        // Build your list item here using payments[index]
+                        Payment payment = paymentList[index]; // Access the payment object
+
                         return ClipRRect(
                           // Wrap Card with ClipRRect for border radius
-
-                          borderRadius: BorderRadius.circular(
-                              50.0), // Set the desired border radius
+                          borderRadius: BorderRadius.circular(50.0), // Set the desired border radius
                           child: Card(
                             // elevation: 2,
                             color: Colors.white,
@@ -386,29 +440,24 @@ class _WalletPageState extends State<WalletPage>{
                                   const Icon(
                                     CupertinoIcons.ticket,
                                     size: 30,
-                                    // color: Color(0xFFFA6F5D),
                                     color: Colors.grey,
                                   ),
                                   const SizedBox(width: 20),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Normal Ticket',
+                                        Text(
+                                         payment.relatedName ?? '', // Access payment-related data
                                           style: TextStyle(
                                             fontFamily: "poppins",
-                                            color: Color.fromARGB(255, 91, 88,
-                                                88), // Change the color as desired
-                                            fontWeight: FontWeight
-                                                .bold, // Bold the text
-                                            fontSize:
-                                                16, // Increase the font size as desired
+                                            color: Color.fromARGB(255, 91, 88, 88),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
                                           ),
                                         ),
                                         Text(
-                                          '${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}',
+                                          '${DateFormat('yyyy-MM-dd HH:mm').format(payment.date)}',
                                           style: const TextStyle(
                                             fontFamily: "poppins",
                                             color: Colors.black38,
@@ -419,8 +468,8 @@ class _WalletPageState extends State<WalletPage>{
                                       ],
                                     ),
                                   ),
-                                  const Text(
-                                    'Rs 500.00',
+                                  Text(
+                                    'Rs ${numberFormat.format(payment.amount)}', // Access payment-related data and format it
                                     style: TextStyle(
                                       fontFamily: "poppins",
                                       color: Color(0xFF3D50AC),
@@ -435,6 +484,9 @@ class _WalletPageState extends State<WalletPage>{
                         );
                       },
                     ),
+
+
+
                   )
                 ],
               ),
@@ -445,3 +497,4 @@ class _WalletPageState extends State<WalletPage>{
     );
   }
 }
+
