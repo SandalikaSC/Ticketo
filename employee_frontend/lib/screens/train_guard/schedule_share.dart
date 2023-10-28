@@ -48,6 +48,7 @@ class ScheduleSharePage extends StatefulWidget {
   final String trainName;
   final int scheduleId;
 
+
   const ScheduleSharePage({Key? key, required this.trainName, required this.scheduleId})
       : super(key: key);
 
@@ -62,7 +63,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
 
   List<StationData> stationDataList = [];
   int nextStationIndex = 0;
-
+  int id=0;
   _ScheduleSharePageState() {
     _time = _timeStream.stream;
 
@@ -71,6 +72,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
       _timeStream.sink.add(DateTime.now());
     });
   }
+
+
 
   @override
   void initState() {
@@ -257,6 +260,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
   // }
 
   Future<void> handleArriveButtonClick() async {
+    //int id = 0;
     if (nextStationIndex < stationDataList.length) {
       StationData currentStation = stationDataList[nextStationIndex];
       if (currentStation.arrivalStatus == 0) {
@@ -264,7 +268,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
         calculateDelayAndUpdateTime(currentStation);
 
         final baseUrl = dotenv.env['BASE_URL'];
-        final Uri uri = Uri.parse('$baseUrl/location-update');
+        final Uri uri = Uri.parse('$baseUrl/location-update/l-insert');
         final sharedPreferences = await SharedPreferences.getInstance();
         final accessToken = sharedPreferences.getString('accessToken') ?? '';
 
@@ -275,6 +279,9 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
             'Authorization': 'Bearer $accessToken',
           },
           body: json.encode({
+            'arrivalTime':currentStation.arrivalTime,
+            'departureTime':currentStation.departureTime,
+            'scheduleId':widget.scheduleId,
             'stationId': currentStation.stationId,
             'arrivalStatus': currentStation.arrivalStatus,
             'actualArrivalTime': currentStation.actualArrivalTime,
@@ -286,11 +293,22 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           }),
         );
 
-        // if (response.statusCode == 200) {
-        //   // Successfully updated the database
-        //   updateNextStation(); // Move to the next station
-        // }
+
+        if (kDebugMode) {
+          print(response.body);
+        }
+          final Map<String, dynamic> responseBody = json.decode(response.body);
+
+          id = responseBody['result']['id'];
+          if (kDebugMode) {
+            print("\n\nid in response $id\n\n\n");
+          }
+
+
       } else if (currentStation.arrivalStatus == 1) {
+        if (kDebugMode) {
+          print("\n\n\nin after$id");
+        }
         currentStation.arrivalStatus = 2;
         calculateDelayAndUpdateTime(currentStation);
 
@@ -306,6 +324,10 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
             'Authorization': 'Bearer $accessToken',
           },
           body: json.encode({
+            'id': id,
+            'arrivalTime':currentStation.arrivalTime,
+            'departureTime':currentStation.departureTime,
+            'scheduleId':widget.scheduleId,
             'stationId': currentStation.stationId,
             'arrivalStatus': currentStation.arrivalStatus,
             'actualArrivalTime': currentStation.actualArrivalTime,

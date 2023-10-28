@@ -83,22 +83,18 @@ model Wallet {
 
 // SeasonCard table
 model SeasonCard {
-  seasonId         String    @id @default(uuid()) // Primary Key
-  seasonStartDate  DateTime?
-  seasonEndDate    DateTime?
-  duration         Int
-  startStation     Int
-  endStation       Int
-  designation      String
-  workPlace        String
-  workPlaceAddress String
-  applicationForm  String
-  dateIssued       DateTime?
-  approvedStatus   Boolean   @default(false)
-  certifiedBy      String?
-  price            Float
-  userId           String
-  seasonToken      String?   @default("")
+  seasonId        String    @id @default(uuid()) // Primary Key
+  seasonStartDate DateTime?
+  seasonEndDate   DateTime?
+  duration        Int
+  startStation    Int
+  endStation      Int
+  dateIssued      DateTime?
+  approvedStatus  Boolean   @default(false)
+  certifiedBy     String?
+  price           Float
+  userId          String
+  seasonToken     String?   @default("")
 
   // Relationships
 
@@ -167,6 +163,7 @@ model Station {
   scheduleStart   Schedule[]        @relation("scheduleStart")
   scheduleEnd     Schedule[]        @relation("scheduleEnd")
   StationSchedule StationSchedule[] @relation("stationOn")
+  locationShare   locationShare[]   @relation("locationShareStation")
 }
 
 // Ticket table
@@ -301,6 +298,7 @@ model Schedule {
   endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
   routeLine       RouteLine[]
   StationSchedule StationSchedule[] @relation("scheduleOn")
+  //locationShare   locationShare[]   @relation("locationShareSchedule")
 
   // employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
 
@@ -320,6 +318,22 @@ model StationSchedule {
   // Relationships  
   Station       Station?  @relation("stationOn", fields: [stationId], references: [stationId])
   Schedule      Schedule? @relation("scheduleOn", fields: [scheduleId], references: [scheduleId])
+}
+
+model locationShare {
+  id                  Int      @id @default(autoincrement()) // Primary Key  
+  actualArrivalTime   DateTime
+  delayarrival        String
+  actualDepartureTime DateTime
+  delaydeparture      String
+  reason              String?
+  scheduleId          Int?
+  stationId           Int?
+  date                String
+  arrived             Int
+  // Relationships  
+  Station             Station? @relation("locationShareStation", fields: [stationId], references: [stationId])
+  //Schedule            Schedule? @relation("locationShareSchedule", fields: [scheduleId], references: [scheduleId])
 }
 
 enum WorkingDays {
