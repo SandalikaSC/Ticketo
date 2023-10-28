@@ -1,9 +1,10 @@
-// admin.js
+// adminRoutes.js
 const express = require('express');
-const reportsController = require('/../controllers/admin/reportsController');
 const router = express.Router();
+const reportController = require('../controllers/reportController');
 
-// Define the '/income' route in the admin router
-router.get('/income', reportsController.generateIncomeReport);
+
+// Route for Income Report
+router.get('/income-report', reportController.getIncomeReport);
 
 module.exports = router;
