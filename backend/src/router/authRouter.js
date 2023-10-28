@@ -27,13 +27,15 @@ const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const ticketRouter = require('./ticketRouter');
-const scheduleRouter = require('./scheduleRouter'); 
-const walletRouter = require('./walletRouter'); 
+const scheduleRouter = require('./scheduleRouter');
+const walletRouter = require('./walletRouter');
+const locationRouter = require('./locationRouter');
+
+router.use('/location-update', locationRouter);
 router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
-router.use('/wallet', walletRouter); 
-const locationRouter = require('./locationRouter');
-router.use('/location-update', locationRouter); 
+router.use('/wallet', walletRouter);
+
 
 router.post("/login", login);
 router.post("/signup", signup);

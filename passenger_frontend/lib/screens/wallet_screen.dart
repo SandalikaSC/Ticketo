@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/modals/payment.dart';
+import 'package:passenger_frontend/screens/paymentHistory.dart';
 import 'package:passenger_frontend/screens/topupWalletPage.dart';
 import 'package:passenger_frontend/services/WalletService.dart';
 import 'package:passenger_frontend/utils/error_handler.dart';
@@ -372,6 +373,12 @@ class _WalletPageState extends State<WalletPage>{
                               child: IconButton(
                                 onPressed: () {
                                   // Add your history logic here
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PaymentHistory(paymentList: paymentList),
+                                    ),
+                                  );
                                 },
                                 icon: const Icon(
                                   Icons.history,
