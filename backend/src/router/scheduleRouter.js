@@ -5,9 +5,12 @@ const {
     getAllScheduleStations
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
+
 const { verifyToken } = require("../middleware/authenticate");
 
 scheduleRouter.use(verifyToken);
+
+
 
 
 scheduleRouter.get('/get-schedule', getGuardSchedules);
