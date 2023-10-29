@@ -208,6 +208,7 @@ const insertTemperyOtp = async (nic, otp) =>
     }
   })
 };
+
 const updatePassword = async (email, mobileNumber, hashPassword) =>
 {
   if (email)

@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const getAllTrains = async () =>
 {
     return await prisma.train.findMany({
-        orderBy: { name: 'asc' },
+        orderBy: { trainId: 'asc' },
     });
 };
 

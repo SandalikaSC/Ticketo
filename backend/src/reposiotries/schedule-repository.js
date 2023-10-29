@@ -1,21 +1,31 @@
 const { PrismaClient } = require('@prisma/client');
 const { parse } = require('path');
 const prisma = new PrismaClient();
+ 
+const addTrainSchedule = async (startStationId,endStationId,startingTime,
+    finishingTime,workingDays,trainID) => 
+    {
 
-const addTrainSchedule = async (startStationId, endStationId, startingTime,
-    finishingTime, workingDays) =>
-{
-    return await prisma.user.create({
-        data: {
+    console.log("reached repo");    
+    // console.log(startStationId);    
+    // console.log(endStationId);    
+    // console.log(startingTime);    
+    // console.log(finishingTime);    
+    // console.log(workingDays);    
+    // console.log(trainID);    
+    return await prisma.schedule.create({
+        data:{
+ 
             startTime: startingTime,
             endTime: finishingTime,
             start: startStationId,
             end: endStationId,
-            trainId: '4',
-            WorkingDays: workingDays,
+            driverId: " ",
+            trainId: trainID,
+            WorkingDays: workingDays
         }
     })
-}
+};
 
 const getScheduleID = async (startStationId, endStationId, startingTime) =>
 {

@@ -1,4 +1,4 @@
-const trainRepository = require('../reposiotries/trainRepository');
+const { getAllTrains } = require('../reposiotries/trainRepository');
 
 const addTrain = async (trainData) =>
 {
@@ -176,7 +176,8 @@ const addTrain = async (trainData) =>
     }
 };
 
-const getTrains = async() =>{
+const getTrains = async() =>
+{
     try
     {
       return await getAllTrains();
