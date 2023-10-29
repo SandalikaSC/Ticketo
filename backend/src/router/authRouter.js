@@ -27,16 +27,19 @@ const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const { getStationMasters } = require("../controllers/stationMasterController");
+const { getDelays } = require("../controllers/location-controller");
+
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
 const walletRouter = require('./walletRouter');
+const seasonRouter = require('./seasonRouter');
 const locationRouter = require('./locationRouter');
-const { getDelays } = require("../controllers/location-controller");
 
 router.use('/location-update', locationRouter);
 router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
 router.use('/wallet', walletRouter);
+router.use('/season', seasonRouter);
 
 
 router.post("/login", login);
