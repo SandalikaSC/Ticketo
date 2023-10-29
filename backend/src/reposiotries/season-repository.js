@@ -1,0 +1,36 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function addSeasonRequest(userId, duration, startStation, endStation, designation, workplace, workplaceAddress, seasonType, seasonClass, price, applicationForm) {
+    const newSeasonCardData = {
+
+        duration: duration,               // Set the duration (you can adjust this)
+        startStation: startStation,            // Set the start station ID (you can adjust this)
+        endStation: endStation,              // Set the end station ID (you can adjust this)
+        designation: designation,
+        workplace: workplace,
+        workplaceAddress: workplaceAddress,
+        applyedDate: new Date(),
+        seasonType: seasonType, // Set the season type (e.g., 'monthly', 'annual', etc.)
+        seasonClass: seasonClass,             // Set the season class (you can adjust this)
+        approvedStatus: 'PENDING',  // Set the approved status (e.g., 'pending', 'approved', etc.)
+        applicationForm: applicationForm, // Set the application form (if any)
+        price: price,               // Set the price (you can adjust this)
+        userId: userId,          // Set the user ID to associate the card with 
+    };
+
+
+    const seasonRequest = await prisma.seasonCard.create({
+        data: newSeasonCardData,
+    });
+
+
+    return seasonRequest;
+
+}
+
+module.exports = {
+    addSeasonRequest
+};
+
+
