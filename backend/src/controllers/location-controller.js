@@ -1,4 +1,4 @@
-const { stationlocationUpdate, stationlocationInsert, getAllLocations } = require("../services/location-service");
+const { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays } = require("../services/location-service");
 
 const locationUpdate = async (req, res) =>
 {
@@ -26,4 +26,77 @@ const getLocations = async (req, res) =>
     const stations = await getAllLocations(scheduleId);
     return res.status(200).json({ stations });
 }
-module.exports = { locationInsert, locationUpdate, getLocations };
+
+const getDelays = async (req, res) =>
+{
+    // const notifications = [
+    //     {
+    //         trainName: "Samdra Devi",
+    //         number: "T1234",
+    //         destination: "Katugoda",
+    //         currentLocation: "Colombo",
+    //         arrival: "7.00AM",
+    //         delay: "2",
+    //     },
+    //     {
+    //         trainName: "Galu Kumari",
+    //         number: "T4532",
+    //         destination: "Colombo",
+    //         currentLocation: "Galle",
+    //         arrival: "8.30AM",
+    //         delay: "1",
+    //     },
+    //     {
+    //         trainName: "Ruhunu Kumari",
+    //         number: "T1242",
+    //         destination: "Hambantota",
+    //         currentLocation: "Matara",
+    //         arrival: "8.40AM",
+    //         delay: "4",
+    //     },
+    //     {
+    //         trainName: "Rajarata Rajini",
+    //         number: "T7892",
+    //         destination: "Kandy",
+    //         currentLocation: "Rambukkana",
+    //         arrival: "8.50AM",
+    //         delay: "12",
+    //     },
+    //     {
+    //         trainName: "Ella Express",
+    //         number: "T3574",
+    //         destination: "Ella",
+    //         currentLocation: "Kandy",
+    //         arrival: "9.02AM",
+    //         delay: "18",
+    //     },
+    //     {
+    //         trainName: "Galu Kumari",
+    //         number: "T3574",
+    //         destination: "Ella",
+    //         currentLocation: "Kandy",
+    //         arrival: "9.02AM",
+    //         delay: "18",
+    //     },
+    //     {
+    //         trainName: "Galu Kumari",
+    //         number: "T3574",
+    //         destination: "Ella",
+    //         currentLocation: "Kandy",
+    //         arrival: "9.02AM",
+    //         delay: "18",
+    //     },
+    //     {
+    //         trainName: "Sagarika",
+    //         number: "T9512",
+    //         destination: "Maradana",
+    //         currentLocation: "Kaluthara",
+    //         arrival: "9.03AM",
+    //         delay: "25",
+    //     },
+    // ];
+    //console.log(notifications);
+    const notifications = await getLocationDelays();
+    return res.status(200).json({ notifications });
+}
+module.exports = { locationInsert, locationUpdate, getLocations, getDelays };
