@@ -23,6 +23,10 @@ const {
   addTrain, getAllTrains
 } = require("../controllers/train-controller");
 
+const{
+  getAllScheduleStations
+} = require("../controllers/trainGuard/guard-schedule-controller");
+
 const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
@@ -47,6 +51,7 @@ router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
+router.post("/get-schedule", getAllScheduleStations);
 
 router.post("/reset-password", resetPassword);
 module.exports = router;

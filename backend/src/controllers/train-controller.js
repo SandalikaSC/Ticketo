@@ -39,10 +39,9 @@ const addTrain = async (req, res) =>
 };
 
 const getAllTrains = async (req, res) => {
-    console.log("Reached controller");
     try {
         const trains = await trainService.getTrains();
-        console.log(trains);
+        // console.log(trains);
         if (trains) {
             return res.status(200).json({ trains: trains });
         } else {

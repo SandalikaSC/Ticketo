@@ -25,18 +25,23 @@ const { addTrainSchedule, getScheduleID } = require("../reposiotries/schedule-re
 // }
 
 //Add train Schedule
-const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations) =>
+const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations, trainID) =>
 {
+    console.log("reached service");
     const startStationId = await getStationId(startingStation);
     const endStationId = await getStationId(destination);
 
+    console.log(startStationId);
+    console.log(endStationId);
+
     const addedSchedule = await addTrainSchedule(startStationId,endStationId,startingTime,
-        finishingTime,workingDays);
+        finishingTime,workingDays, trainID);
 
     const getScheduleID = await getScheduleID(startStationId,endStationId,startingTime);
 
     // insert for each of the arrays in stations
     // await updateStationSchedule
+    return addedSchedule;
 
 }
 
