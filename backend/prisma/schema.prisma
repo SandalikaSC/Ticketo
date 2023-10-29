@@ -115,6 +115,7 @@ enum approvedStatus {
   PENDING
   APPROVED
   REJECTED
+  DELETED
 }
 
 enum seasonType {
