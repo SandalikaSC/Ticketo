@@ -7,14 +7,16 @@ import 'package:passenger_frontend/screens/ticket_screen.dart';
 import 'package:passenger_frontend/screens/wallet_screen.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({Key? key}) : super(key: key);
+  final int initialIndex;
+  const BottomBar({Key? key, this.initialIndex = 0}) : super(key: key);
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  State<BottomBar> createState() => _BottomBarState(initialIndex: initialIndex); // Pass the initialIndex to the state
 }
 
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
+  _BottomBarState({required int initialIndex}) : _selectedIndex = initialIndex;
   static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
     const TicketScreen(),
