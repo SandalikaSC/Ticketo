@@ -111,6 +111,18 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
       }),
     );
 
+    final Uri uri2 = Uri.parse('$baseUrl/trainguard/get-locations');
+    final response2 = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: json.encode({
+        'scheduleId': scheduleId,
+      }),
+    );
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
 

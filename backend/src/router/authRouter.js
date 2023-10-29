@@ -26,6 +26,7 @@ const {
 const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
+const { getStationMasters } = require("../controllers/stationMasterController");
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
 const walletRouter = require('./walletRouter');
@@ -52,6 +53,6 @@ router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
-
-router.post("/reset-password", resetPassword);
+router.post("/")
+router.get("/get-station-masters", getStationMasters);
 module.exports = router;
