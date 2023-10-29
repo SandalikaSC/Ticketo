@@ -31,8 +31,9 @@ const createCoachArrangements = async (coachArrangementData) =>
 
 const getTrain = async (trainId) =>
 {
+    const tid = parseInt(trainId);
     return await prisma.train.findUnique({
-        where: { trainId: trainId },
+        where: { trainId: tid },
     });
 }
 module.exports = {

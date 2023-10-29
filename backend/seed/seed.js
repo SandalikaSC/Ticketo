@@ -41,24 +41,7 @@ async function main() {
             otpGenerateTime: null,
             userType: ['CONTROL_CENTRE'],
         },
-        {
-            id: '16',
-            nic: "997000510v",
-            email: "paridew99@gmail.com",
-            dob: new Date('1999-07-18T00:00:00.000Z'),
-            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
-            firstName: "Parindi",
-            lastName: "Dewmini",
-            loginStatus: false,
-            accountStatus: true,
-            registeredDate: new Date('2023-08-02T18:01:26.384Z'),
-            mobileNumber: "0765848013",
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VyVHlwZSI6WyJBRE1JTiJdLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY5MTU2Mzg2NiwiZXhwIjoxNjkyMTY4NjY2fQ.gEwxAcO8BtGpCjekib1iN_nof5hpoxBmQTQ3K84CB0U",
-            otp: "",
-            accessToken: "",
-            otpGenerateTime: null,
-            userType: ["ADMIN"],
-        },
+
         {
             id: '3',
             nic: "997791550V",
@@ -291,6 +274,23 @@ async function main() {
             accessToken: "",
             otpGenerateTime: null,
             userType: ["DRIVER"],
+        }, {
+            id: '16',
+            nic: "997000510v",
+            email: "paridew99@gmail.com",
+            dob: new Date('1999-07-18T00:00:00.000Z'),
+            password: "$2b$10$JTgdBGD.4LpSa1sCuDn1lOGUxUbk9cq1/NtrrtOtnmRkjwqZI8WmO",
+            firstName: "Parindi",
+            lastName: "Dewmini",
+            loginStatus: false,
+            accountStatus: true,
+            registeredDate: new Date('2023-08-02T18:01:26.384Z'),
+            mobileNumber: "0765848013",
+            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VyVHlwZSI6WyJBRE1JTiJdLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY5MTU2Mzg2NiwiZXhwIjoxNjkyMTY4NjY2fQ.gEwxAcO8BtGpCjekib1iN_nof5hpoxBmQTQ3K84CB0U",
+            otp: "",
+            accessToken: "",
+            otpGenerateTime: null,
+            userType: ["ADMIN"],
         },
     ];
     for (const data of userData) {
@@ -1542,8 +1542,10 @@ async function main() {
         firstClass: getRandomFloat(1000, 2000),
         secondClass: getRandomFloat(500, 1200),
         thirdClass: getRandomFloat(100, 500),
-        seasonSecond: getRandomFloat(2000, 2600),
-        seasonThird: getRandomFloat(1000, 1900),
+        govenmentSecond: getRandomFloat(1000, 2600),
+        govenmentThird: getRandomFloat(500, 1900),
+        privateSecond: getRandomFloat(2000, 3600),
+        privateThird: getRandomFloat(1000, 2000),
     }));
 
     for (const data of dummyJourneyPrices) {

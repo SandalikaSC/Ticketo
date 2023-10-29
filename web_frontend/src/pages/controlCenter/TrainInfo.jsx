@@ -6,7 +6,6 @@ import {
   Button,
   Container,
 } from "@mui/material";
-
 import TrainIcon from "@mui/icons-material/Train";
 import Grid from "@mui/material/Grid";
 import { ThemeProvider, createTheme } from "@mui/material/styles";

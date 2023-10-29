@@ -83,22 +83,25 @@ model Wallet {
 
 // SeasonCard table
 model SeasonCard {
-  seasonId         String    @id @default(uuid()) // Primary Key
+  seasonId         String         @id @default(uuid()) // Primary Key
   seasonStartDate  DateTime?
   seasonEndDate    DateTime?
   duration         Int
   startStation     Int
   endStation       Int
   designation      String
-  workPlace        String
-  workPlaceAddress String
-  applicationForm  String
+  workplace        String
+  workplaceAddress String
+  seasonType       seasonType
+  seasonClass      Int
+  applyedDate      DateTime?
   dateIssued       DateTime?
-  approvedStatus   Boolean   @default(false)
+  approvedStatus   approvedStatus
+  applicationForm  String?
   certifiedBy      String?
   price            Float
   userId           String
-  seasonToken      String?   @default("")
+  seasonToken      String?        @default("")
 
   // Relationships
 
@@ -106,6 +109,18 @@ model SeasonCard {
   start   Station   @relation(name: "seasonStartStation", fields: [startStation], references: [stationId])
   end     Station   @relation(name: "seasonEndStation", fields: [endStation], references: [stationId])
   Payment Payment[] @relation(name: "seasonPay")
+}
+
+enum approvedStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DELETED
+}
+
+enum seasonType {
+  Government
+  Private
 }
 
 // Payment table
@@ -147,6 +162,7 @@ enum payRelatedType {
   Ticket
   SeasonCard
   Refund
+  TopUpWallet
 }
 
 model Station {
@@ -167,6 +183,7 @@ model Station {
   scheduleStart   Schedule[]        @relation("scheduleStart")
   scheduleEnd     Schedule[]        @relation("scheduleEnd")
   StationSchedule StationSchedule[] @relation("stationOn")
+  locationShare   locationShare[]   @relation("locationShareStation")
 }
 
 // Ticket table
@@ -301,6 +318,7 @@ model Schedule {
   endStation      Station?          @relation("scheduleEnd", fields: [end], references: [stationId])
   routeLine       RouteLine[]
   StationSchedule StationSchedule[] @relation("scheduleOn")
+  //locationShare   locationShare[]   @relation("locationShareSchedule")
 
   // employee        Employee          @relation("employeeSchedules", fields: [driverId], references: [employeeId])
 
@@ -320,6 +338,22 @@ model StationSchedule {
   // Relationships  
   Station       Station?  @relation("stationOn", fields: [stationId], references: [stationId])
   Schedule      Schedule? @relation("scheduleOn", fields: [scheduleId], references: [scheduleId])
+}
+
+model locationShare {
+  id                  Int      @id @default(autoincrement()) // Primary Key  
+  actualArrivalTime   DateTime
+  delayarrival        String
+  actualDepartureTime DateTime
+  delaydeparture      String
+  reason              String?
+  scheduleId          Int?
+  stationId           Int?
+  date                String
+  arrived             Int
+  // Relationships  
+  Station             Station? @relation("locationShareStation", fields: [stationId], references: [stationId])
+  //Schedule            Schedule? @relation("locationShareSchedule", fields: [scheduleId], references: [scheduleId])
 }
 
 enum WorkingDays {
@@ -366,18 +400,20 @@ model CoachArrangement {
 
 // Journey table
 model Journey {
-  journeyId    Int     @id @default(autoincrement()) // Primary Key
-  start        Int
-  end          Int
-  firstClass   Decimal
-  secondClass  Decimal
-  thirdClass   Decimal
-  seasonSecond Decimal
-  seasonThird  Decimal
+  journeyId       Int     @id @default(autoincrement()) // Primary Key
+  start           Int
+  end             Int
+  firstClass      Decimal
+  secondClass     Decimal
+  thirdClass      Decimal
+  govenmentSecond Decimal
+  govenmentThird  Decimal
+  privateSecond   Decimal
+  privateThird    Decimal
   //relationships
   // class        Class[]
-  startStation Station @relation(name: "journeyStart", fields: [start], references: [stationId])
-  endStation   Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
+  startStation    Station @relation(name: "journeyStart", fields: [start], references: [stationId])
+  endStation      Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
 }
 
 // SeatReservation table

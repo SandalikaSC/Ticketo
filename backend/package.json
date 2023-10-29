@@ -24,7 +24,8 @@
     "nodemailer": "^6.9.4",
     "prisma": "^5.0.0",
     "qrcode": "^1.5.3",
-    "rand-token": "^1.0.1"
+    "rand-token": "^1.0.1",
+    "socket.io": "^4.7.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

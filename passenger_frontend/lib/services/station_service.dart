@@ -9,7 +9,9 @@ class StationService {
       var baseUrl = dotenv.env['BASE_URL'];
       final response = await http.get(
         Uri.parse('${baseUrl}/allstations'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Content-Type': 'application/json',
+        },
       );
       return response;
     } catch (e) {

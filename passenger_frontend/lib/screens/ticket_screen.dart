@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:passenger_frontend/screens/seasonPage.dart';
 import 'package:passenger_frontend/services/ticket_service.dart';
 import 'package:passenger_frontend/widgets/Normalticket.dart';
 import 'package:passenger_frontend/widgets/shortdetail.dart';
@@ -225,10 +226,28 @@ class TicketScreenState extends State<TicketScreen> {
                     ),
             ),
             Center(
-              child: Text("Reservations"),
+              child: Column(
+                children: tickets.map((ticket) {
+                  return GestureDetector(
+                    onTap: () {
+                      _showTicketDetails(context, ticket);
+                    },
+                    child: shortdetailTicket(
+                        start: ticket['start'],
+                        end: ticket['end'],
+                        classname: ticket['className'],
+                        passengers: ticket['noOfPassengers'],
+                        price: ticket['price'].toDouble(),
+                        status: ticket['journeyStatus'],
+                        ticketNo: ticket['ticketNumber'],
+                        tripType: ticket['tripType']),
+                  );
+                }).toList(),
+              ),
+
             ),
             Center(
-              child: Text("Seasons"),
+              child: SeasonPage(),
             ),
           ],
         ),
