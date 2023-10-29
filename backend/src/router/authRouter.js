@@ -30,6 +30,7 @@ const { getStationMasters } = require("../controllers/stationMasterController");
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
 const locationRouter = require('./locationRouter');
+const { getDelays } = require("../controllers/location-controller");
 
 router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
@@ -52,4 +53,8 @@ router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
 router.post("/")
 router.get("/get-station-masters", getStationMasters);
+
+
+
+router.get("/get-delays", getDelays);
 module.exports = router;
