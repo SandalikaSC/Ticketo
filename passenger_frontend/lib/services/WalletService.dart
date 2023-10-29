@@ -23,5 +23,27 @@ class WalletService {
     }
   }
 
+  Future<http.Response> toUpWallet(amount) async{
 
-}
+    try {
+      var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
+      final response = await http.post(
+        Uri.parse('${baseUrl}/wallet/topupwallet'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode({
+          'amount': amount
+        }),
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
+  }
+

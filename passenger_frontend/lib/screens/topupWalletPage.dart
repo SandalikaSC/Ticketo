@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/constants/payhereCredentials.dart';
+import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'package:passenger_frontend/services/WalletService.dart';
+import 'package:passenger_frontend/utils/error_handler.dart';
 import 'package:passenger_frontend/widgets/customSnackBar.dart';
 import 'package:payhere_mobilesdk_flutter/payhere_mobilesdk_flutter.dart';
 
@@ -14,6 +19,7 @@ class TopUpWalletPage extends StatefulWidget {
 
 class _TopUpWalletPageState extends State<TopUpWalletPage> {
   final _formKey = GlobalKey<FormState>();
+  final WalletService walletService = WalletService();
   final TextEditingController _payAmountController = TextEditingController();
 
   @override
@@ -105,7 +111,34 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
       ),
     );
   }
+  Future<void> topUpWallet(amount) async {
+    if (!mounted) return; // Check if the widget is still mounted
 
+    try {
+      final response = await walletService.toUpWallet(amount);
+      final responseData = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>  BottomBar(initialIndex: 2),
+
+          ),
+        );
+        showCustomToast(context, "success", "You have successfully topup the wallet");
+
+      }
+      if (response.statusCode == 400) {
+        showCustomToast(context, "error", "Something went wrong try again");
+
+      }
+
+    } catch (e) {
+      print('Error occurred: $e'); // Print the exception details
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.$e');
+    }
+  }
   void displayGateway(int payAmount) {
 
     Map paymentObject = {
@@ -135,15 +168,16 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
         paymentObject,
             (paymentId) {
           print("One Time Payment Success. Payment Id: $paymentId");
-          showCustomToast(context, "error", "Success");
+          showCustomToast(context, "success", "Success");
         },
             (error) {
           print("One Time Payment Failed. Error: $error");
           showCustomToast(context, "error",error);
         },
             (){
-          print("One Time Payment Dismissed");
-          showCustomToast(context, "error", "Dismissed");
+topUpWallet(payAmount);
+
+
         }
     );
   }

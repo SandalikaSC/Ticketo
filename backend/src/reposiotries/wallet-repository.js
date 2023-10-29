@@ -34,11 +34,39 @@ async function getWalletInfoAndPayments(userId) {
 
     return walletInfo;
 }
+async function topupWallet(userId, amount) {
+    const result = await prisma.$transaction(async (prisma) => {
+
+        const updatedWallet = await prisma.wallet.update({
+            where: { userId: userId },
+            data: {
+                walletBalance: {
+                    increment: amount,
+                },
+            },
+        });
+        const newPayment = await prisma.payment.create({
+            data: {
+                amount: amount,
+                date: new Date(),
+                payment_method: 'Online',
+                RelatedName: 'TopUpWallet',
+                walletId: updatedWallet.walletId,
+            },
+        });
+
+
+        return { updatedWallet, newPayment };
+    });
+    return result;
+
+}
 
 module.exports = {
     getwallet,
     getavailableBalance,
-    getWalletInfoAndPayments
+    getWalletInfoAndPayments,
+    topupWallet
 };
 
 

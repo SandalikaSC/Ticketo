@@ -143,6 +143,7 @@ enum payRelatedType {
   Ticket
   SeasonCard
   Refund
+  TopUpWallet
 }
 
 model Station {

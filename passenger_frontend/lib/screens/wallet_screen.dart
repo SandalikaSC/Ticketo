@@ -50,8 +50,8 @@ class _WalletPageState extends State<WalletPage>{
           setState(() {
             walletId = decodedResponse['walletId'];
             userId = decodedResponse['userId'];
-            walletBalance = decodedResponse['walletBalance'];
-            holdValue = decodedResponse['holdValue'];
+            walletBalance = (decodedResponse['walletBalance'] * 100).round() / 100.0;
+            holdValue = (decodedResponse['holdValue'] * 100).round() / 100.0;
             paymentList = (decodedResponse['payment'] as List)
                 .map((paymentJson) => Payment.fromJson(paymentJson))
                 .toList();
