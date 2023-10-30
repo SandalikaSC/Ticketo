@@ -114,6 +114,7 @@ model SeasonCard {
 enum approvedStatus {
   PENDING
   APPROVED
+  PAID
   REJECTED
   DELETED
 }

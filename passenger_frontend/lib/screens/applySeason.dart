@@ -26,7 +26,9 @@ class _SeasonApplicationState extends State<SeasonApplication> {
   String? _endStation;
   String? _month;
   String _duration = '1 Month';
+  int newduration = 1;
   String _travelClass = '2nd Class';
+  int classTravel = 2;
   String? _designation;
   String? _workPlace;
   String? _workplaceAddress;
@@ -57,14 +59,14 @@ class _SeasonApplicationState extends State<SeasonApplication> {
   Future<void> sendSeasonRequest() async {
     try {
       final response = await seasonService.sendSeasonRequest(
-          _duration,
+          newduration,
           _selectedStartStation!.name,
           _selectedEndtStation!.name,
           _designation,
           _workPlace,
           _workplaceAddress,
           _workingSector,
-          _travelClass,
+          classTravel,
           _selectedImage); // Perform search action here
 
       final responseData = json.decode(response.body);
@@ -273,14 +275,13 @@ class _SeasonApplicationState extends State<SeasonApplication> {
                   );
                 }).toList(),
                 onChanged: (value) {
-                  var newduration;
-                  if (value == "1 Month") {
-                    newduration = 1;
-                  } else {
-                    newduration = 3;
-                  }
                   setState(() {
-                    _duration = newduration;
+                    _duration = value.toString();
+                    if (value == "1 Month") {
+                      newduration = 1;
+                    } else {
+                      newduration = 3;
+                    }
                   });
                 },
                 value: _duration,
@@ -296,6 +297,11 @@ class _SeasonApplicationState extends State<SeasonApplication> {
                 onChanged: (value) {
                   setState(() {
                     _travelClass = value.toString();
+                    if (value == "2nd Class") {
+                      classTravel = 2;
+                    } else {
+                      classTravel = 3;
+                    }
                   });
                 },
                 value: _travelClass,
