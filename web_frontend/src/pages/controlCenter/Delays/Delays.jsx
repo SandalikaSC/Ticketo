@@ -110,6 +110,15 @@ const Delays = () => {
   //     setRedirectToResolve(true);
   //   };
 
+  const handleResolveClick = (notification) => {
+    // Store the specific notification object in local storage
+    localStorage.setItem("resolvedNotification", JSON.stringify(notification));
+
+    // Perform any necessary actions here
+    // For example, you can navigate to the resolve page
+    // or update the state to reflect that the notification is resolved.
+  };
+
   return (
     <Container style={{ padding: "20px" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -340,10 +349,17 @@ const Delays = () => {
                     state: {
                       propKey1: notification.trainName,
                       propKey2: notification.number,
+                      // notificationDetails: notification,
                     },
                   }}
                 >
-                  <Button variant="contained" color="primary" size="small">
+                  {/* console.log("Notification Object (Delays):", notification); */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleResolveClick(notification)}
+                  >
                     Resolve
                   </Button>
                 </Link>
