@@ -24,7 +24,6 @@ const Filter = () => {
         />
         <select value={selectedOption} onChange={handleOptionChange}>
           <option value="All">All</option>
-          <option value="Option1">By Name</option>
           <option value="Option2">By Station</option>
           {/* Add more filter options here */}
         </select>

@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
+const { parse } = require('path');
 const prisma = new PrismaClient();
-
+ 
 const addTrainSchedule = async (startStationId,endStationId,startingTime,
     finishingTime,workingDays,trainID) => 
     {
@@ -14,6 +15,7 @@ const addTrainSchedule = async (startStationId,endStationId,startingTime,
     // console.log(trainID);    
     return await prisma.schedule.create({
         data:{
+ 
             startTime: startingTime,
             endTime: finishingTime,
             start: startStationId,
@@ -47,9 +49,9 @@ const getSchedulebytrainID = async(trainID) => {
 const getScheduleID = async (startStationId,endStationId,startingTime) => {
     return await prisma.station.findUnique({
         where: {
-            start:startStationId,
+            start: startStationId,
             end: endStationId,
-            startTime:startingTime,
+            startTime: startingTime,
             trainId: '4'
         },
         select: {
@@ -57,16 +59,18 @@ const getScheduleID = async (startStationId,endStationId,startingTime) => {
         }
     });
 }
- 
-const getSchedule = async (userId) => { 
+
+const getSchedule = async (userId) =>
+{
     return await prisma.schedule.findMany({
         where: {
             driverId: userId,
         },
     });
 };
- 
-const getTripSchedules = async (startStation, endStation, working) => {
+
+const getTripSchedules = async (startStation, endStation, working) =>
+{
     return await prisma.schedule.findMany({
         where: {
             startStation: {
@@ -82,7 +86,8 @@ const getTripSchedules = async (startStation, endStation, working) => {
     });
 
 };
-const getAllSchedulesByWorkingday = async (workingday) => {
+const getAllSchedulesByWorkingday = async (workingday) =>
+{
 
     return await prisma.schedule.findMany({
         // where: {
@@ -97,6 +102,25 @@ const getAllSchedulesByWorkingday = async (workingday) => {
     });
 };
 
+
+const scheduleStations = async (scheduleId) =>
+{
+    return await prisma.stationSchedule.findMany({
+        where: {
+            scheduleId: scheduleId,
+        },
+    });
+};
+
+const getScheduleDetails = async (scheduleId) =>
+{
+    const sId = parseInt(scheduleId);
+    return await prisma.schedule.findMany({
+        where: {
+            scheduleId: sId,
+        },
+    });
+};
 
 module.exports = {
     getSchedule,

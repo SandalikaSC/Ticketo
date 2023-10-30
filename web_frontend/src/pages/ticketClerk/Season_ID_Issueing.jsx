@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form} from 'react-bootstrap';
 import '../../css/seasonCardRequests.css'; // Make sure the CSS file path is correct
-import ApplicationData from '../../components/ticketClerk/SeasonCardRequest_Data';
+import ApplicationData from '../../components/stationMaster/SeasonCardRequest_Data';
 
 
 const SeasonCardRequests = () => {
