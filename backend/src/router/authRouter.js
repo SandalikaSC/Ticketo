@@ -10,7 +10,8 @@ const {
   generateOtp
 } = require("../controllers/auth-controller");
 const {
-  getAllStations
+  getAllStations,
+  getStationMaster
 } = require("../controllers/station-controller");
 const {
   getResevationSchedules,
@@ -24,7 +25,7 @@ const {
 } = require("../controllers/train-controller");
 
 const{
-  getAllScheduleStations
+  getTrainSchedules
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
 const { verifyToken } = require("../middleware/authenticate");
@@ -51,7 +52,7 @@ router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
-router.post("/get-schedule", getAllScheduleStations);
+router.post("/get-schedule-for-train", getTrainSchedules);
 
 router.post("/reset-password", resetPassword);
 module.exports = router;

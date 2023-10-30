@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const stationService = require("../services/station-service");
+const getSMDetails = require("../services/station-service");
 const prisma = new PrismaClient();
 
 //POST Request - Add user to a database
@@ -16,6 +17,7 @@ const getAllStations = async (req, res) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
 
 module.exports = {
     getAllStations

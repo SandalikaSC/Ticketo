@@ -58,6 +58,7 @@ const addTrainSchedule = async (req, res) => {
         console.error("Error fetching schedules:", error);
     }
 }
+
 module.exports = {
     getResevationSchedules,
     addTrainSchedule
