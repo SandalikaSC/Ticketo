@@ -28,9 +28,36 @@ async function addSeasonRequest(userId, duration, startStation, endStation, desi
     return seasonRequest;
 
 }
+async function getUserSeason(userId) {
+    return await prisma.seasonCard.findFirst({
+        where: {
+            userId: userId,
+            approvedStatus: "PAID",
+        },
+        orderBy: {
+            dateIssued: 'desc' // Sort by most recent one
+        },
+    });
 
+}
+async function getUserSeasonRequest(userId) {
+    return await prisma.seasonCard.findFirst({
+        where: {
+            userId: userId,
+            approvedStatus: {
+                in: ['APPROVED', 'PENDING', 'REJECTED']
+            },
+        },
+        orderBy: {
+            dateIssued: 'desc' // Sort by most recent one
+        },
+    });
+
+}
 module.exports = {
-    addSeasonRequest
+    addSeasonRequest,
+    getUserSeasonRequest,
+    getUserSeason
 };
 
 

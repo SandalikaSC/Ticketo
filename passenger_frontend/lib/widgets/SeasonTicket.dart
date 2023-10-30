@@ -62,113 +62,127 @@ class SeasonTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Gap(20),
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Container(
-              //   width: 10.0,
-              //   height: 10.0,
-              //   decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //       image: AssetImage(
-              //           'assets/images/logopic.png'), // Replace with your image asset path
-              //       fit: BoxFit.cover, // Adjust the fit as needed
-              //     ),
-              //   ),
-              // ),
-              Text(
-                'My Season',
-                style: TextStyle(
-                    color: Styles.primaryColor,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        color: Color.fromARGB(255, 243, 245, 249),
+        // decoration: BoxDecoration(
+        //   // color: Colors.transparent, // Set the background color to transparent
+
+        //   borderRadius: BorderRadius.circular(
+        //       12.0), // Set the border radius for round corners
+        // ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Gap(10),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Container(
+                  //   width: 10.0,
+                  //   height: 10.0,
+                  //   decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //       image: AssetImage(
+                  //           'assets/images/logopic.png'), // Replace with your image asset path
+                  //       fit: BoxFit.cover, // Adjust the fit as needed
+                  //     ),
+                  //   ),
+                  // ),
+                  Text(
+                    'My Season',
+                    style: TextStyle(
+                        color: Styles.primaryColor,
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Gap(10),
+                  Container(
+                    width: 150.0,
+                    height: 25.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      border:
+                          Border.all(width: 1.0, color: Styles.secondaryColor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '$classname', //class name
+                        style: TextStyle(color: Styles.secondaryColor),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Gap(10),
-              Container(
-                width: 150.0,
-                height: 25.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.0),
-                  border: Border.all(width: 1.0, color: Styles.secondaryColor),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 0.0, left: 20, right: 20),
+              child: Center(
+                child: Container(
+                  width: 250.0,
+                  height: 250.0,
+                  child: Image.memory(Uint8List.fromList(qrCodeData)),
                 ),
-                child: Center(
-                  child: Text(
-                    '$classname', //class name
-                    style: TextStyle(color: Styles.secondaryColor),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Spacer(flex: 1),
+                Text(
+                  '$start', //start station
+                  style: TextStyle(
+                      color: Styles.primaryColor, fontWeight: FontWeight.bold),
+                ),
+                Spacer(flex: 1),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.0),
+                  child: Icon(
+                    CupertinoIcons.tram_fill,
+                    color: Styles.secondaryColor,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 0.0, left: 20, right: 20),
-          child: Center(
-            child: Container(
-              width: 250.0,
-              height: 250.0,
-              child: Image.memory(Uint8List.fromList(qrCodeData)),
+                Spacer(flex: 1),
+                Padding(
+                  padding: EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    '$end', //end station
+                    style: TextStyle(
+                        color: Styles.primaryColor,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Spacer(flex: 1),
+              ],
             ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Spacer(flex: 1),
-            Text(
-              '$start', //start station
-              style: TextStyle(
-                  color: Styles.primaryColor, fontWeight: FontWeight.bold),
-            ),
-            Spacer(flex: 1),
             Padding(
-              padding: EdgeInsets.only(left: 5.0),
-              child: Icon(
-                CupertinoIcons.tram_fill,
-                color: Styles.secondaryColor,
+              padding: const EdgeInsets.only(top: 25.0),
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ticketDetailsWidget('Type', "$type", 'Month',
+                      '$month'), //ticket niumber,journey date
+                ],
               ),
             ),
-            Spacer(flex: 1),
-            Padding(
-              padding: EdgeInsets.only(left: 5.0),
-              child: Text(
-                '$end', //end station
-                style: TextStyle(
-                    color: Styles.primaryColor, fontWeight: FontWeight.bold),
-              ),
-            ),
-            Spacer(flex: 1),
+
+            // const Padding(
+            //   padding: EdgeInsets.only(top: 10.0, left: 75.0, right: 75.0),
+            //   child: Text(
+            //     '0000 +9230 2884 5163',
+            //     style: TextStyle(
+            //       color: Colors.black,
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 30),
+            // const Text('         Developer: instagram.com/DholaSain')
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 25.0),
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ticketDetailsWidget('Type', "$type", 'Month',
-                  '$month'), //ticket niumber,journey date
-            ],
-          ),
-        ),
-
-        // const Padding(
-        //   padding: EdgeInsets.only(top: 10.0, left: 75.0, right: 75.0),
-        //   child: Text(
-        //     '0000 +9230 2884 5163',
-        //     style: TextStyle(
-        //       color: Colors.black,
-        //     ),
-        //   ),
-        // ),
-        // const SizedBox(height: 30),
-        // const Text('         Developer: instagram.com/DholaSain')
-      ],
+      ),
     );
   }
 }

@@ -8,7 +8,7 @@ class RequestInformationCard extends StatelessWidget {
   final String endStation;
   final String travelClass;
   final String appliedMonth;
-  final double price;
+  final String price;
 
   RequestInformationCard({
     required this.status,
@@ -83,7 +83,7 @@ class RequestInformationCard extends StatelessWidget {
                       Text(startStation),
                       Text(endStation),
                       Text(travelClass),
-                      Text('\$${price.toStringAsFixed(2)}'),
+                      Text("Rs. " + price),
                     ],
                   ),
                 ],
@@ -106,20 +106,21 @@ class RequestInformationCard extends StatelessWidget {
                   ),
                   child: Text('Delete'),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Add your button click action here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Styles.primaryColor, // Background color
-                    onPrimary: Colors.white, // Text color
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(20.0), // Round corners
+                if (status != 'REJECTED')
+                  ElevatedButton(
+                    onPressed: () {
+                      // Add your button click action here
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Styles.primaryColor, // Background color
+                      onPrimary: Colors.white, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(20.0), // Round corners
+                      ),
                     ),
+                    child: Text('Pay'),
                   ),
-                  child: Text('Pay'),
-                ),
               ],
             ),
           ],

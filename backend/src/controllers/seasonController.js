@@ -35,6 +35,46 @@ const addSeasonRequest = async (req, res) => {
     }
 
 }
+const getSeason = async (req, res) => {
+
+
+    const user = req.user;
+    try {
+        const myseason = await seasonService.getSeasonbyUser(user.id);
+        const seasonReq = await seasonService.getSeasonRequestbyUser(user.id);
+
+
+        if (myseason || seasonReq) {
+            // At least one of them is not null, so return 200
+            return res.status(200).json({ myseason, seasonReq });
+        } else {
+            // Both are null, still return 200
+            return res.status(200).json({ myseason, seasonReq });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+}
+const getSeasonRequest = async (req, res) => {
+
+
+    const user = req.user;
+    try {
+        const tickets = await seasonService.getSeasonRequestbyUser(user.id);
+
+        if (tickets) {
+            return res.status(200).json(tickets);
+        } else {
+            return res.status(404).json(tickets);
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+}
 module.exports = {
-    addSeasonRequest
+    addSeasonRequest,
+    getSeason,
+    getSeasonRequest
 };

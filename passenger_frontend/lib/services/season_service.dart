@@ -42,4 +42,23 @@ class SeasonService {
       rethrow;
     }
   }
+
+  Future<http.Response> getSeasonInfo() async {
+    try {
+      var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
+      final response = await http.get(
+        Uri.parse('${baseUrl}/season/getseasoninfo'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
 }
