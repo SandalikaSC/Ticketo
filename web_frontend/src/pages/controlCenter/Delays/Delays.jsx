@@ -129,93 +129,124 @@ const Delays = () => {
           <b>Train Delays</b>
         </Typography>
         <Divider style={{ marginBottom: "20px" }} />
- 
-    const handleShowReports = () => {
-        console.log("OK!");
-    }
 
-    return (
-        <Container style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px",
+            justifyContent: "space-between",
+          }}
+        >
+          <Link to="/cc/delays" style={{ textDecoration: "none", flex: 1 }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              style={{
+                flex: 1,
+                fontWeight: "bold",
+                backgroundColor: "#1976d2",
+                color: "white",
+              }}
+              fullWidth
+            >
+              To be Resolved
+            </Button>
+          </Link>
 
-                {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
+          <Link
+            to="/cc/alreadyresolveddelays"
+            style={{ textDecoration: "none", flex: 1 }}
+          >
+            <Button
+              variant="outlined"
+              color="primary"
+              style={{
+                flex: 1,
+                fontWeight: "bold",
+              }}
+              fullWidth
+            >
+              Already Resolved
+            </Button>
+          </Link>
 
-                    <b>Train Delay Reports</b>
-                </Typography>
+          <div style={{ flex: 3 }}></div>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            style={{ marginRight: 10, height: "100%", flex: 2 }}
+          >
+            <InputLabel htmlFor="filterDelays">Filter Delays</InputLabel>
+            <Select
+              label="Filter by"
+              inputProps={{
+                name: "filterDelays",
+                id: "filterDelays",
+              }}
+            >
+              <MenuItem value="Today">Older</MenuItem>
+              <MenuItem value="Yesterday">Latest</MenuItem>
+            </Select>
+          </FormControl>
 
-                <Button
-                variant="contained"
-                color="primary"
-                onClick={handleShowReports}
-                style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
+          <Button
+            variant="contained"
+            color="primary"
+            // onClick={handleShowReports}
+            style={{
+              maxHeight: "50px",
+              minWidth: "30px",
+              minHeight: "50px",
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            Sort
+          </Button>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {Array.isArray(notifications) &&
+          notifications.map((notification, index) => (
+            <Paper
+              key={index}
+              elevation={3}
+              style={{
+                display: "flex",
+                marginBottom: "10px",
+                borderRadius: "10px",
+              }}
+            >
+              <div
+                style={{
+                  flex: 2,
+                  padding: "10px",
+                  borderRight: "1px solid #ccc",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
                 >
-                    Get Report
-                </Button>
-
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                
-                <Divider style={{ marginBottom: '20px' }} />
-
-                <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
-                    
-
-                    <Link to='/cc/delays' style={{ textDecoration: 'none', flex: 1  }}>
-                        <Button variant="outlined"
-                        color="primary" 
-                        style={{ 
-                            flex: 1, 
-                            fontWeight: 'bold',
-                            backgroundColor: '#1976d2',
-                            color: 'white' }}
-                            fullWidth>
-                            To be Resolved
-                        </Button>
-                    </Link>
-
-                    <Link to="/cc/alreadyresolveddelays" style={{ textDecoration: 'none', flex: 1  }}>
-                        <Button 
-                        variant="outlined" 
-                        color="primary" 
-                        style={{ 
-                            flex: 1, 
-                            fontWeight: 'bold' 
-                            }}
-                        fullWidth>
-                            Already Resolved
-                        </Button>
-                    </Link>
-                
-                    
-                    <div style={{ flex: 3 }}></div>
-                    <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
-                        <InputLabel htmlFor="filterDelays">
-                            Filter Delays
-                        </InputLabel>
-                        <Select
-                            label="Filter by"
-                            inputProps={{
-                            name: "filterDelays",
-                            id: "filterDelays",
-                            }}
-                        >
-                            <MenuItem value="Today">Older</MenuItem>
-                            <MenuItem value="Yesterday">Latest</MenuItem>
-                        </Select>
-                        </FormControl>
-
-                        <Button
-                        variant="contained"
-                        color="primary"
-                        // onClick={handleShowReports}
-                        style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop: '20px' }}
-                        >
-                        Sort
-                        </Button> 
- 
+                  <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                    {notification.trainName}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    style={{ fontWeight: "bold", color: "#3D50AC" }}
+                  >
+                    {notification.number}
+                  </Typography>
                 </div>
               </div>
 
