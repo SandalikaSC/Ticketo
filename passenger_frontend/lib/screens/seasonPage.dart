@@ -85,8 +85,8 @@ class _SeasonPageState extends State<SeasonPage> {
           0,
           SeasonTicket(
               qrCodeData: List<int>.from(myseasonData['qrcode']['data']),
-              start: myseasonData['startStation'].toString(),
-              end: myseasonData['endStation'].toString(),
+              start: myseasonData['start']['name'].toString(),
+              end: myseasonData['end']['name'].toString(),
               classname: myseasonData['seasonClass'].toString() + " Class",
               month: myseasonData['month'].toString(),
               type: myseasonData['seasonType']));
@@ -100,8 +100,8 @@ class _SeasonPageState extends State<SeasonPage> {
             seasonId: seasonReqData['seasonId'],
             status: seasonReqData['status'],
             appliedDate: seasonReqData['applyedDate'],
-            startStation: seasonReqData['startStation'].toString(),
-            endStation: seasonReqData['endStation'].toString(),
+            startStation: seasonReqData['start']['name'].toString(),
+            endStation: seasonReqData['end']['name'].toString(),
             travelClass: seasonReqData['seasonClass'].toString() + " Class",
             appliedMonth: seasonReqData['month'],
             price: seasonReqData['price'],

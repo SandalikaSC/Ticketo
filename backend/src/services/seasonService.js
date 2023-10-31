@@ -84,15 +84,15 @@ const getSeasonbyUser = async (userid) => {
             const formattedseason =
             {
                 ...season,
-                start: getStationName(season.startStation),
-                end: getStationName(season.endStation),
+                start: await getStationName(season.startStation),
+                end: await getStationName(season.endStation),
                 qrcode: await generateQRCode(season.seasonId),
                 status: season.approvedStatus,
                 className: season.seasonClass,
                 seasonType: season.seasonType,
                 price: season.price,
                 applyDate: season.applyedDate,
-                month: getAppliedSeasonMonth(season.applyedDate)
+                month: await getAppliedSeasonMonth(season.applyedDate)
             };
 
 
@@ -113,8 +113,8 @@ const getSeasonRequestbyUser = async (userid) => {
             const formattedseason =
             {
                 ...season,
-                start: getStationName(season.startStation),
-                end: getStationName(season.endStation),
+                start: await getStationName(season.startStation),
+                end: await getStationName(season.endStation),
                 qrcode: await generateQRCode(season.seasonId),
                 status: season.approvedStatus,
                 className: season.seasonClass,
