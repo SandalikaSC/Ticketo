@@ -107,6 +107,9 @@ const getAllUpdates = async (req, res) =>
     const scheduleupdates = await scheduleUpdatesLatest();
     //console.log("schedule updates", scheduleupdates);
     // return scheduleupdates;
+
+
+
     return res.status(200).json({ scheduleupdates });
 }
 module.exports = { locationInsert, locationUpdate, getLocations, getDelays, getAllUpdates };

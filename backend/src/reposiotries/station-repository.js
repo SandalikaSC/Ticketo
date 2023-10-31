@@ -122,10 +122,32 @@ const getStationName = async (id) =>
         }
     });
 };
+
+const getStation = async (stationId) =>
+{
+    try
+    {
+        //console.log("inside get station", stationId);
+        // Use Prisma's findOne method to query the station table by stationId
+        const station = await prisma.station.findUnique({
+            where: {
+                stationId: stationId,
+            },
+        });
+
+        return station;
+    } catch (error)
+    {
+        // Handle any potential errors
+        throw new Error(`Error fetching station: ${error.message}`);
+    }
+};
+
 module.exports = {
     getAllStations,
     getStationId,
-    getStationName
+    getStationName,
+    getStation
 
 };
 
