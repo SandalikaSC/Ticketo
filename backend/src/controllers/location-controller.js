@@ -1,10 +1,11 @@
-const { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays } = require("../services/location-service");
+const { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays, scheduleUpdatesLatest } = require("../services/location-service");
+const { scheduleUpdates } = require("../reposiotries/location-repository");
 
 const locationUpdate = async (req, res) =>
 {
     const stationlocation = req.body;
 
-    console.log(stationlocation);
+    // console.log(stationlocation);
     const result = await stationlocationUpdate(stationlocation);
     return res.status(200).json({ result: result });
 }
@@ -14,7 +15,7 @@ const locationInsert = async (req, res) =>
     const stationlocation = req.body;
 
     const result = await stationlocationInsert(stationlocation);
-    console.log("result here");
+    // console.log("result here");
     console.log(result);
     return res.status(200).json({ result: result });
 }
@@ -22,7 +23,7 @@ const locationInsert = async (req, res) =>
 const getLocations = async (req, res) =>
 {
     const scheduleId = req.body.scheduleId;
-    console.log(scheduleId);
+    // console.log(scheduleId);
     const stations = await getAllLocations(scheduleId);
     return res.status(200).json({ stations });
 }
@@ -96,7 +97,19 @@ const getDelays = async (req, res) =>
     //     },
     // ];
     //console.log(notifications);
+
     const notifications = await getLocationDelays();
     return res.status(200).json({ notifications });
 }
-module.exports = { locationInsert, locationUpdate, getLocations, getDelays };
+
+const getAllUpdates = async (req, res) =>
+{
+    const scheduleupdates = await scheduleUpdatesLatest();
+    //console.log("schedule updates", scheduleupdates);
+    // return scheduleupdates;
+
+
+
+    return res.status(200).json({ scheduleupdates });
+}
+module.exports = { locationInsert, locationUpdate, getLocations, getDelays, getAllUpdates };
