@@ -79,8 +79,8 @@ const Delays = () => {
     }
   };
 
-  console.log("hihihih");
-  console.log(notifications);
+  // console.log("hihihih");
+  // console.log(notifications);
   // Use the useEffect hook to fetch data every 5 seconds
   useEffect(() => {
     // Initial fetch when the component mounts
