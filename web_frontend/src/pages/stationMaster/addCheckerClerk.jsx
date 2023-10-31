@@ -156,9 +156,13 @@ const AddCheckerClerk = () => {
   };
 
   return (
-    <div className="main_container">
+    <div className="sm-main_container">
+
+      <div className="sm-emp-heading">
+          <h1 className="title-sm-emp">Station Employees</h1>
+      </div>
+      <div className="sm-form-emp">
       <div className="left_container">
-        <h1 className="title-sm-emp">Station Employees</h1>
         <div className="form_container">
           <h3 className="title-sm-emp title-sm-emp2">Add Employee</h3>
           <form className="addcheckerclerk_form" onSubmit={handleSubmit}>
@@ -276,6 +280,7 @@ const AddCheckerClerk = () => {
           </div>
         </div>
       </div>
+      </div>
 
       <Modal open={isSuccessDialogOpen} onClose={closeSuccessDialog}>
         <Box
@@ -328,7 +333,9 @@ const AddCheckerClerk = () => {
           </Box>
         </Box>
       </Modal>
-    </div>
+      
+      </div>
+  
   );
 };
 
