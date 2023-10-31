@@ -18,13 +18,15 @@ const getAllScheduleStations = async (req, res) =>
 
 const getTrainSchedules = async (req, res) => {
     try {
-        //get trainId as a query parameter
-        const { trainId } = req.query.trainId; 
 
+        //get trainId 
+        console.log(req.body);
+        const { trainId } = req.body; 
+        console.log(trainId);
         if (!trainId) {
+            console.log("trainID missing");
             return res.status(400).json({ message: 'Train ID is missing in the request' });
         }
-
         const schedules = await scheduleService.getAllSchedulebyID(trainId);
 
         if (!schedules) {

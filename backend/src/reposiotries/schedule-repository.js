@@ -1,49 +1,84 @@
 const { PrismaClient } = require('@prisma/client');
 const { parse } = require('path');
 const prisma = new PrismaClient();
+const { getStationId, getStationName } = require("../reposiotries/station-repository");
  
 const addTrainSchedule = async (startStationId,endStationId,startingTime,
-    finishingTime,workingDays,trainID) => 
-    {
+    finishingTime,workingDays,trainID,notWorkingDays, stations) => 
+    {  
 
-    console.log("reached repo");    
-    // console.log(startStationId);    
-    // console.log(endStationId);    
-    // console.log(startingTime);    
-    // console.log(finishingTime);    
-    // console.log(workingDays);    
-    // console.log(trainID);    
-    return await prisma.schedule.create({
-        data:{
- 
+        console.log(stations);
+
+        //Convert trainID to int
+        trainIdInteger = parseInt(trainID);
+
+    const added = await prisma.schedule.create({
+        data:{ 
             startTime: startingTime,
             endTime: finishingTime,
             start: startStationId,
             end: endStationId,
             driverId: " ",
-            trainId: trainID,
-            WorkingDays: workingDays
+            trainId: trainIdInteger,
+            WorkingDays: workingDays,
+            notWorking: notWorkingDays
         }
-    })
+    });
+
+    console.log(added);
+
+    if(added){
+        for (let station of stations) {
+            console.log("got into stations");
+            const stationid = await getStationId(station.stationName);
+            console.log(typeof(stationid));
+            console.log(stationid);
+            //
+            let timeParts = station.arrivalTime.split(":");
+            let arrival = new Date(2023, 11, 1, timeParts[0], timeParts[1]).toISOString();
+
+            let timeParts3= station.departureTime.split(":");
+            let departure = new Date(2023, 11, 1, timeParts3[0], timeParts3[1]).toISOString();
+
+            await prisma.stationSchedule.create({
+              data: {
+                arrivalTime: arrival,
+                waitingTime: station.waitingTime,
+                departureTime: departure,
+                delayTime: 0,
+                scheduleId: added.scheduleId,
+                stationId: stationid
+              },
+            });
+          }
+
+        return true;
+    }
+
+    
 };
 
 //Gets all schedules by trainID
 const getSchedulebytrainID = async(trainID) => {
-    try {
-        const schedules = await prisma.stationSchedule.findMany({
-          where: {
-            schedule: {
-              train: {
-                id: trainID,
-              },
-            },
-          },
-        });
+    const train = parseInt(trainID);
+
+    let temp = await prisma.schedule.findMany({
+        where: {
+            trainId: train,
+        },
+    });
+
+    let newschedules = [];
+
+    for(let t of temp){
+        const startS = await getStationName(t.start);
+        t.start = startS;
+        const endS = await getStationName(t.end);
+        t.end = endS;
+    }
+
+    return temp;
     
-        return schedules;
-      } catch (error) {
-        throw new Error(`Error retrieving schedules for train ID ${trainID}: ${error.message}`);
-      }
 }
 
 const getScheduleID = async (startStationId,endStationId,startingTime) => {
@@ -102,12 +137,13 @@ const getAllSchedulesByWorkingday = async (workingday) =>
     });
 };
 
-
-const scheduleStations = async (scheduleId) =>
+const scheduleStations = async (trainID) =>
 {
-    return await prisma.stationSchedule.findMany({
+
+    //Have to get the individual stations
+    return await prisma.schedule.findMany({
         where: {
-            scheduleId: scheduleId,
+            trainId: trainID,
         },
     });
 };
@@ -128,5 +164,6 @@ module.exports = {
     getAllSchedulesByWorkingday,
     addTrainSchedule,
     getScheduleID,
-    getSchedulebytrainID
+    getSchedulebytrainID,
+    scheduleStations
 };

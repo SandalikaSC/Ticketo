@@ -68,14 +68,26 @@ const AddSchedule = () =>{
         try {
           const response = await axios.get("http://localhost:5000/api/allStations");
           setStations(response.data.stations);
+          console.log(stations);
         } catch (error) {
           console.error("Error fetching stations:", error);
         }
     };
 
     const fetchSchedules = async (trainID) => {
+        
         try{
-            const response = await axios.get("http://localhost:5000/api/get-schedule-for-train?trainID=${trainID}");
+            const accessToken = localStorage.getItem("accessToken");
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+            };
+
+            const response = await axios.post(
+                "http://localhost:5000/api/get-schedule-for-train",
+                { trainId: trainID },
+                { headers }
+                );
+            console.log("responeseeefefrfr");
             setSchedules(response.data.schedules);
         }catch(error){
             console.error("Error fetching schedules:", error);
@@ -110,13 +122,10 @@ const AddSchedule = () =>{
 
     
     const [workingDays, setWorkingDays] = useState({
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
+        WEEKDAYS: false,
+        WEEKENDS: false,
+        SUNDAY: false,               
+        HOLIDAY: false,
     });
 
     const validateForm = () => {
@@ -175,6 +184,7 @@ const AddSchedule = () =>{
     }; 
 
 
+
     const[saveClicked, setSaveClicked] = useState(false);
 
     const handleSave = async (event) => {
@@ -190,11 +200,11 @@ const AddSchedule = () =>{
         }));
 
         //Check if values are properly set
-        // console.log(formData.startingStation);
-        // console.log(formData.startingTime);
-        // console.log(formData.destination);
-        // console.log(formData.finishingTime);
-        // console.log(formData.workingDays);
+        console.log(formData.startingStation);
+        console.log(formData.startingTime);
+        console.log(formData.destination);
+        console.log(formData.finishingTime);
+        console.log(formData.workingDays);
         
 
         setFormData((prevData) => ({
@@ -203,7 +213,7 @@ const AddSchedule = () =>{
         }));
 
         //Check if intermediate stations are properly set
-        //console.log(formData.stations);
+        console.log(1);
 
         if(validateForm()){
 
@@ -218,17 +228,6 @@ const AddSchedule = () =>{
                 formData,
                 { headers }
                 );
-
-                if (response.status === 201) {
-                    // Clear form data after successful submission
-                    setFormData({
-                      startingStation: "",
-                      startingTime: "",
-                      destination: "",
-                      finishingTime: "",
-                      workingDays: "",
-                    });
-                  }
 
             }catch(error){
                 console.error("Error submitting form" , error);
@@ -249,9 +248,31 @@ const AddSchedule = () =>{
                     <b>Existing Schedules for {trainName}</b>
                 </Typography>
 
-                {schedules.map((s) => (
-                    console.log(s)
+                <br></br>
+                <br></br>
+                
+                {schedules.map((element) => (
+                    <Paper>
+                        <div style={{display: 'flex'}}>
+                            <Typography variant="h5" style={{color: '#3D50AC'}}>
+                                Schedule ID : 
+                            </Typography>
+
+                            <Typography variant="subtitle1">
+                                {element}
+                            </Typography>
+                        </div>
+                        
+
+                        <Typography variant="h5" style={{color: '#3D50AC'}}>
+                            Starting Station
+                        </Typography>
+                    </Paper>
                 ))}
+
+                {/* {schedules.map((s) => (
+                    console.log(s)
+                ))} */}
 
                 
             </Paper>

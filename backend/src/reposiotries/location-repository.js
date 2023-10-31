@@ -86,6 +86,6 @@ const insertLocation = async (locationData) =>
 
 const getAllLocation = async () =>
 {
-    return await prisma.locationShare.findMany();
+    // return await prisma.locationShare.findMany();
 }
 module.exports = { updateLocation, insertLocation, getAllLocation };

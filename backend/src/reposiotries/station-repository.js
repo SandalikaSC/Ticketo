@@ -5,26 +5,33 @@ const prisma = new PrismaClient();
 const getAllStations = async () =>
 {
     //Get the stations
-    const stations = await prisma.station.findMany({
+    return await prisma.station.findMany({
+        orderBy: { name: 'asc' },
+    });
+};
+
+const getAllStationsWithSMs = () => {
+    //Get the stations
+    return prisma.station.findMany({
         orderBy: { name: 'asc' },
     });
 
     //Get station master details
-    const stationM = await prisma.user.findMany({
-        where: {
-            userType: {
-                has: 'STATION_MASTER'
-            }
-        }
-    });
+    // const stationM = await prisma.user.findMany({
+    //     where: {
+    //         userType: {
+    //             has: 'STATION_MASTER'
+    //         }
+    //     }
+    // });
 
     //get station master id and station id
-    const employeeData = await prisma.employee.findMany({
-        select: {
-            employeeId: true,
-            stationId: true,
-        },
-    });
+    // const employeeData = await prisma.employee.findMany({
+    //     select: {
+    //         employeeId: true,
+    //         stationId: true,
+    //     },
+    // });
 
     const stationsWithEmployees = [];
 
@@ -73,7 +80,6 @@ const getAllStations = async () =>
 
     return stationsWithEmployees;
     
-
 };
 
 const getStationId = async (stationName) =>
@@ -119,7 +125,8 @@ const getStationName = async (id) =>
 module.exports = {
     getAllStations,
     getStationId,
-    getStationName
+    getStationName,
+    getAllStationsWithSMs
 
 };
 

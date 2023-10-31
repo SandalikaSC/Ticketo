@@ -52,7 +52,7 @@ enum userType {
   PASSENGER
 }
 
-oyee {
+model Employee {
   employeeId    String   @id // Primary Key
   Employee      User     @relation("employee", fields: [employeeId], references: [id])
   addedDate     DateTime @default(now())
@@ -61,7 +61,7 @@ oyee {
 
   addedBy       User?    @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
   station       Station? @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
-  //smodel Emplchedules     Schedule[] @relation("employeeSchedules")
+  //schedules     Schedule[] @relation("employeeSchedules")
   scanedTickets Ticket[] @relation("ticketScanner")
 }
 
