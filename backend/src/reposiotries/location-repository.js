@@ -88,4 +88,28 @@ const getAllLocation = async () =>
 {
     return await prisma.locationShare.findMany();
 }
-module.exports = { updateLocation, insertLocation, getAllLocation };
+
+const scheduleUpdates = async () =>
+{
+    const scheduleUpdates = await prisma.locationShare.findMany({
+        where: {
+            arrived: 2,
+            date: {
+                startsWith: currentDate,
+            },
+        },
+        orderBy: {
+            date: 'desc',
+        },
+        distinct: ['scheduleId'],
+        select: {
+            scheduleId: true,
+            stationId: true,
+        },
+    });
+
+    return scheduleUpdates;
+}
+
+
+module.exports = { updateLocation, insertLocation, getAllLocation, scheduleUpdates };
