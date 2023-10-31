@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { GoogleApiWrapper, Map, Circle, Marker } from "google-maps-react";
+import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import axios from "axios";
 
 const TrackingMapWithAnimation = (props) => {
@@ -40,7 +40,16 @@ const TrackingMapWithAnimation = (props) => {
         <Marker
           key={index}
           position={{ lat: update.latitude, lng: update.longitude }}
-          label={update.name}
+          label={{
+            text: `${update.trainName} is at ${update.name} now`,
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "black", // Text color
+          }}
+          icon={{
+            url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+            labelOrigin: { x: 10, y: 15 },
+          }}
         />
       ))}
     </Map>
@@ -48,5 +57,5 @@ const TrackingMapWithAnimation = (props) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCayfe5rzCzRtSRad2wjuByc8-KhjPDu8Y",
+  apiKey: "Your-API-Key-Here",
 })(TrackingMapWithAnimation);

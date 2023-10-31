@@ -2,6 +2,7 @@ const { updateLocation, insertLocation, getAllLocation, scheduleUpdates } = requ
 const { getScheduleDetails } = require('../reposiotries/schedule-repository');
 const { getTrain } = require('../reposiotries/trainRepository');
 const { getStationName, getStation } = require("../reposiotries/station-repository");
+const { get } = require('http');
 
 
 const stationlocationUpdate = async (stationlocation) =>
@@ -115,6 +116,11 @@ const scheduleUpdatesLatest = async () =>
             // Fetch station details for each stationId
             const stationDetails = await getStation(update.stationId);
 
+            const scheduleDetails = await getScheduleDetails(update.scheduleId);
+
+            const trainDetails = await getTrain(scheduleDetails[0].trainId);
+            console.log("train details", trainDetails);
+
             // Create a new object with the desired format
             const transformedUpdate = {
                 scheduleId: update.scheduleId,
@@ -123,6 +129,9 @@ const scheduleUpdatesLatest = async () =>
                 latitude: stationDetails.latitude,
                 longitude: stationDetails.longitude,
                 contactNumber: stationDetails.contactNumber,
+                trainId: trainDetails.trainId,
+                trainName: trainDetails.trainName,
+                trainNumber: trainDetails.trainNumber,
             };
 
             return transformedUpdate;
