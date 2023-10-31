@@ -52,7 +52,7 @@ enum userType {
   PASSENGER
 }
 
-oyee {
+model Employee {
   employeeId    String   @id // Primary Key
   Employee      User     @relation("employee", fields: [employeeId], references: [id])
   addedDate     DateTime @default(now())

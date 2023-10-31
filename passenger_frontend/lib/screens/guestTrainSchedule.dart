@@ -8,21 +8,22 @@ import 'package:passenger_frontend/services/trainScheduleService.dart';
 import 'package:passenger_frontend/widgets/ScheduleWidject.dart';
 
 class GuestTrainSchedule extends StatefulWidget {
+  final ReservationTicket
+      reservationTicket; // Replace String with the type of data you want to pass
 
-  final ReservationTicket  reservationTicket; // Replace String with the type of data you want to pass
-
-  GuestTrainSchedule({required this.reservationTicket, Key? key}) : super(key: key);
+  GuestTrainSchedule({required this.reservationTicket, Key? key})
+      : super(key: key);
   @override
   State<GuestTrainSchedule> createState() => _GuestTrainScheduleState();
 }
 
 class _GuestTrainScheduleState extends State<GuestTrainSchedule> {
-
   void _loadSchedules() async {
     if (!mounted) return;
 
-    final TrainScheduleService trainScheduleService= TrainScheduleService();
-    final response = await trainScheduleService.getSchedules(widget.reservationTicket);
+    final TrainScheduleService trainScheduleService = TrainScheduleService();
+    final response =
+        await trainScheduleService.getSchedules(widget.reservationTicket);
 
     final responseData = json.decode(response.body);
     // Print the response body (content)
@@ -101,39 +102,36 @@ class _GuestTrainScheduleState extends State<GuestTrainSchedule> {
             children: [
               scheduleWidget(
                 classname: "First class",
-                end: "Colombo Fort",
-                start: "Galle",
+                end: "Galle",
+                start: "Ahangama",
                 StartTime: "08:55 AM",
                 name: "Gale Kumari",
                 endTime: "10:15 AM",
                 date: "2023-08-15",
-              ),
-              scheduleWidget(
-                classname: "First class",
-                end: "Colombo Fort",
-                start: "Matara",
-                StartTime: "06:55 AM",
-                name: "Ruhunu Kumari",
-                endTime: "09:25 AM",
-                date: "2023-08-15",
-              ),
-              scheduleWidget(
-                classname: "First class",
-                end: "Beliatta",
-                start: "Maradana",
-                StartTime: "02:55 PM",
-                name: "Gale Kumari",
-                endTime: "06:30 PM",
-                date: "2023-08-16",
+                endingStation: "Colombo Fort",
+                startingStation: "Beliatta",
               ),
               scheduleWidget(
                 classname: "First class",
                 end: "Galle",
-                start: "Maradana",
+                start: "Ahangama",
+                StartTime: "06:55 AM",
+                name: "Ruhunu Kumari",
+                endTime: "09:25 AM",
+                date: "2023-08-15",
+                endingStation: "Colombo Fort",
+                startingStation: "Matara",
+              ),
+              scheduleWidget(
+                classname: "First class",
+                end: "Galle",
+                start: "Ahangama",
                 StartTime: "04:55 AM",
-                name: "Sagarika",
+                name: "Samudra Devi",
                 endTime: "08:20 AM",
                 date: "2023-08-16",
+                endingStation: "Maradana",
+                startingStation: "Galle",
               ),
             ],
           );
