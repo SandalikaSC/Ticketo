@@ -16,15 +16,15 @@ import axios from "axios";
 
 const Delays = () => {
   const [notifications, setNotifications] = useState([]);
-  //   const notifications = [
-  //     {
-  //       trainName: "Samdra Devi",
-  //       number: "T1234",
-  //       destination: "Katugoda",
-  //       currentLocation: "Colombo",
-  //       arrival: "7.00AM",
-  //       delay: "2",
-  //     },
+    const notification = [
+      {
+        trainName: "Samdra Devi",
+        number: "T1234",
+        destination: "Katugoda",
+        currentLocation: "Colombo",
+        arrival: "7.00AM",
+        delay: "2",
+      }]
   //     {
   //       trainName: "Galu Kumari",
   //       number: "T4532",
@@ -110,41 +110,30 @@ const Delays = () => {
   //     setRedirectToResolve(true);
   //   };
 
-  return (
-    <Container style={{ padding: "20px" }}>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <Typography
-          variant="h4"
-          style={{ marginBottom: "10px", color: "#3D50AC" }}
-        >
-          <b>Train Delays</b>
-        </Typography>
-        <Divider style={{ marginBottom: "20px" }} />
- 
-    const handleShowReports = () => {
-        console.log("OK!");
-    }
+  const handleShowReports = () => {
+    console.log("OK");
+  }
 
     return (
         <Container style={{ padding: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
 
-                {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
+              {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
 
-                    <b>Train Delay Reports</b>
-                </Typography>
+                  <b>Train Delay Reports</b>
+              </Typography>
 
-                <Button
-                variant="contained"
-                color="primary"
-                onClick={handleShowReports}
-                style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
-                >
-                    Get Report
-                </Button>
+              <Button
+              variant="contained"
+              color="primary"
+              onClick={handleShowReports}
+              style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
+              >
+                  Get Report
+              </Button>
 
-            </div>
+          </div>
 
             <div style={{ display: 'flex', flexDirection: 'column' }}>
                 
@@ -317,9 +306,9 @@ const Delays = () => {
                   </Button>
                 </Link>
               </div>
-            </Paper>
+            {/* </Paper>
           ))}
-      </div>
+      </div> */}
     </Container>
   );
 };
