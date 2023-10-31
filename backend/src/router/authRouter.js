@@ -10,7 +10,8 @@ const {
   generateOtp
 } = require("../controllers/auth-controller");
 const {
-  getAllStations
+  getAllStations,
+  getStationMaster
 } = require("../controllers/station-controller");
 const {
   getResevationSchedules,
@@ -23,15 +24,15 @@ const {
   addTrain, getAllTrains
 } = require("../controllers/train-controller");
 
-const{
-  getAllScheduleStations
+const {
+  getTrainSchedules
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
 const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const { getStationMasters } = require("../controllers/stationMasterController");
-const { getDelays } = require("../controllers/location-controller");
+const { getDelays, getAllUpdates } = require("../controllers/location-controller");
 
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
@@ -60,10 +61,10 @@ router.get("/alltrains", getAllTrains);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
-router.post("/add-schedule", addTrainSchedule); 
-router.post("/get-schedule", getAllScheduleStations); 
-router.post("/")
-router.get("/get-station-masters", getStationMasters); 
+router.post("/add-schedule", addTrainSchedule);
+router.post("/get-schedule-for-train", getTrainSchedules);
 
 router.get("/get-delays", getDelays);
+router.get("/get-all-updates", getAllUpdates);
+
 module.exports = router;

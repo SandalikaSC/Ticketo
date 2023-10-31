@@ -36,15 +36,16 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  CupertinoIcons.creditcard_fill, // Replace with your desired icon
+                  CupertinoIcons
+                      .creditcard_fill, // Replace with your desired icon
                   color: Styles.secondaryColor, // Blue icon color
                 ),
                 const SizedBox(
                     width: 8), // Add some spacing between icon and text
                 Text(
                   "Top Up My Wallet",
-                  style: TextStyle(
-                      color: Styles.primaryColor), // Blue title color
+                  style:
+                      TextStyle(color: Styles.primaryColor), // Blue title color
                 ),
               ],
             ),
@@ -53,7 +54,8 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
       ),
       body: Form(
         key: _formKey, // Wrap the form widget with the Form widget
-        child: SingleChildScrollView( // Wrap the content with SingleChildScrollView
+        child: SingleChildScrollView(
+          // Wrap the content with SingleChildScrollView
           child: Column(
             children: <Widget>[
               Padding(
@@ -63,10 +65,12 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
                   decoration: InputDecoration(
                     labelText: 'Enter Payment Amount',
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Styles.primaryColor), // Change to your desired color
+                      borderSide: BorderSide(
+                          color: Styles
+                              .primaryColor), // Change to your desired color
                     ),
-                    suffixIcon:
-                    Icon(Icons.monetization_on_outlined), // Add your desired icon here
+                    suffixIcon: Icon(Icons
+                        .monetization_on_outlined), // Add your desired icon here
                   ),
                   keyboardType: TextInputType.number,
                   validator: (value) {
@@ -86,19 +90,23 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    int? paymentAmount = int.tryParse(_payAmountController.text);
+                    int? paymentAmount =
+                        int.tryParse(_payAmountController.text);
 
-                    displayGateway(paymentAmount!);
+                    displayGateway(paymentAmount ?? 200);
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Styles.primaryColor), // Background color
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Styles.primaryColor), // Background color
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                      borderRadius:
+                          BorderRadius.circular(20.0), // Rounded corners
                     ),
                   ),
-                  foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Text color
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Colors.white), // Text color
                 ),
                 child: Text('Process Payment'),
               ),
@@ -111,6 +119,7 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
       ),
     );
   }
+
   Future<void> topUpWallet(amount) async {
     if (!mounted) return; // Check if the widget is still mounted
 
@@ -121,34 +130,32 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
       if (response.statusCode == 200) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) =>  BottomBar(initialIndex: 2),
-
+            builder: (context) => BottomBar(initialIndex: 2),
           ),
         );
-        showCustomToast(context, "success", "You have successfully topup the wallet");
-
+        showCustomToast(
+            context, "success", "You have successfully topup the wallet");
       }
       if (response.statusCode == 400) {
         showCustomToast(context, "error", "Something went wrong try again");
-
       }
-
     } catch (e) {
       print('Error occurred: $e'); // Print the exception details
       ErrorHandler.showErrorSnackBar(
           context, 'Unknown error occurred. Please try again later.$e');
     }
   }
-  void displayGateway(int payAmount) {
 
+  void displayGateway(int payAmount) {
     Map paymentObject = {
-      "sandbox": true,             // true if using Sandbox Merchant ID
-      "merchant_id":PayHereAccountCredentials().merchantId,
-      "merchant_secret":PayHereAccountCredentials().merchantSecret,       // See step 4e
+      "sandbox": true, // true if using Sandbox Merchant ID
+      "merchant_id": PayHereAccountCredentials().merchantId,
+      "merchant_secret":
+          PayHereAccountCredentials().merchantSecret, // See step 4e
       "notify_url": "http://sample.com/notify",
       "order_id": "ItemNo12345",
       "items": "One Time Payment",
-      "amount":payAmount,
+      "amount": payAmount,
       "currency": "LKR",
       "first_name": "Dileepa",
       "last_name": "Bandara",
@@ -164,21 +171,14 @@ class _TopUpWalletPageState extends State<TopUpWalletPage> {
       "custom_2": ""
     };
 
-    PayHere.startPayment(
-        paymentObject,
-            (paymentId) {
-          print("One Time Payment Success. Payment Id: $paymentId");
-          showCustomToast(context, "success", "Success");
-        },
-            (error) {
-          print("One Time Payment Failed. Error: $error");
-          showCustomToast(context, "error",error);
-        },
-            (){
-topUpWallet(payAmount);
-
-
-        }
-    );
+    PayHere.startPayment(paymentObject, (paymentId) {
+      print("One Time Payment Success. Payment Id: $paymentId");
+      showCustomToast(context, "success", "Success");
+    }, (error) {
+      print("One Time Payment Failed. Error: $error");
+      showCustomToast(context, "error", error);
+    }, () {
+      topUpWallet(payAmount);
+    });
   }
 }

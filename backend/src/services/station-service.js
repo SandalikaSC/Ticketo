@@ -1,4 +1,4 @@
-const { getAllStations } = require("../reposiotries/station-repository");
+const { getAllStations, getSMbyStation } = require("../reposiotries/station-repository");
 
 const getStations = async () =>
 {

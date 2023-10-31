@@ -3,7 +3,7 @@ const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkin
 const { getStationId } = require('../reposiotries/station-repository')
 const { getStationName } = require("../reposiotries/station-repository");
 const { getTrain } = require("../reposiotries/trainRepository");
-const { addTrainSchedule, getScheduleID } = require("../reposiotries/schedule-repository");
+const { addTrainSchedule, getScheduleID, getSchedulebytrainID } = require("../reposiotries/schedule-repository");
 
 function formatTime(time)
 {
@@ -42,6 +42,8 @@ const addSchedule = async (startingStation, startingTime, destination, finishing
 
 }
 
+
+
 const getAllScheduleStations = async (scheduleId) =>
 {
     try
@@ -73,10 +75,8 @@ const getAllScheduleStations = async (scheduleId) =>
     }
 }
 
-const getGuardSchedule = async (user) =>
-{
-    try
-    {
+const getGuardSchedule = async (user) => {
+    try { 
         const schedules = await getSchedule(user.id);
 
         // Fetch station and train information for each schedule
@@ -110,12 +110,42 @@ const getGuardSchedule = async (user) =>
     }
 }
 
-//get scheduleses for reservation
-
-const getScheduleByTrip = async (startStation, endStation, departureDate, returnDate) =>
+//get schedule by train ID
+const getAllSchedulebyID = async (trainID) =>
 {
     try
     {
+        const schedules = await scheduleStations(trainID);
+
+        //sort schedules by scheduleID
+        schedules.sort((a, b) => a.scheduleId - b.scheduleId);
+
+        // Grouping the schedules by scheduleId
+        const groupedSchedules = schedules.reduce((acc, schedule) => {
+        const { scheduleId } = schedule;
+        if (!acc[scheduleId]) {
+          acc[scheduleId] = [];
+        }
+        acc[scheduleId].push(schedule);
+        return acc;
+      }, {});
+
+        // Converting the grouped schedules object to a two-dimensional array
+        const formattedStations = Object.values(groupedSchedules);
+
+        console.log(formattedStations);
+        return formattedStations;
+    } catch (err)
+    {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
+
+ 
+//get schedules for reservation
+const getScheduleByTrip = async (startStation, endStation, departureDate, returnDate) => {
+    try {
 
         workingdays = getWorkingDayType(departureDate);
         console.log("x");
@@ -146,10 +176,9 @@ const getWorkingDayType = (givenDate) =>
         return "WEEKDAYS"; // Monday to Friday
     }
 }
-const selectSchedules = async (startStation, endStation, workingdays) =>
-{
-    try
-    {
+
+const selectSchedules = async (startStation, endStation, workingdays) => {
+    try {
 
         const schedules = await getAllSchedulesByWorkingday(workingdays);
         var sortSchedule = [];
@@ -195,5 +224,6 @@ module.exports = {
     getGuardSchedule,
     getScheduleByTrip,
     addSchedule,
-    getAllScheduleStations
+    getAllScheduleStations,
+    getAllSchedulebyID
 }

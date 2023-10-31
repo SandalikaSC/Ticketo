@@ -16,15 +16,15 @@ import axios from "axios";
 
 const Delays = () => {
   const [notifications, setNotifications] = useState([]);
-    const notification = [
-      {
-        trainName: "Samdra Devi",
-        number: "T1234",
-        destination: "Katugoda",
-        currentLocation: "Colombo",
-        arrival: "7.00AM",
-        delay: "2",
-      }]
+  //   const notifications = [
+  //     {
+  //       trainName: "Samdra Devi",
+  //       number: "T1234",
+  //       destination: "Katugoda",
+  //       currentLocation: "Colombo",
+  //       arrival: "7.00AM",
+  //       delay: "2",
+  //     },
   //     {
   //       trainName: "Galu Kumari",
   //       number: "T4532",
@@ -79,8 +79,8 @@ const Delays = () => {
     }
   };
 
-  console.log("hihihih");
-  console.log(notifications);
+  // console.log("hihihih");
+  // console.log(notifications);
   // Use the useEffect hook to fetch data every 5 seconds
   useEffect(() => {
     // Initial fetch when the component mounts
@@ -110,92 +110,143 @@ const Delays = () => {
   //     setRedirectToResolve(true);
   //   };
 
-  const handleShowReports = () => {
-    console.log("OK");
-  }
+  const handleResolveClick = (notification) => {
+    // Store the specific notification object in local storage
+    localStorage.setItem("resolvedNotification", JSON.stringify(notification));
 
-    return (
-        <Container style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '20px ' }}>
+    // Perform any necessary actions here
+    // For example, you can navigate to the resolve page
+    // or update the state to reflect that the notification is resolved.
+  };
 
-              {/* <Typography variant="h4" style={{color: '#3D50AC', flex: 4, marginBottom: '10px' }}> */}
+  return (
+    <Container style={{ padding: "20px" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Typography
+          variant="h4"
+          style={{ marginBottom: "10px", color: "#3D50AC" }}
+        >
+          <b>Train Delays</b>
+        </Typography>
+        <Divider style={{ marginBottom: "20px" }} />
 
-                  <b>Train Delay Reports</b>
-              </Typography>
-
-              <Button
-              variant="contained"
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            marginBottom: "20px",
+            justifyContent: "space-between",
+          }}
+        >
+          <Link to="/cc/delays" style={{ textDecoration: "none", flex: 1 }}>
+            <Button
+              variant="outlined"
               color="primary"
-              onClick={handleShowReports}
-              style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1}}
+              style={{
+                flex: 1,
+                fontWeight: "bold",
+                backgroundColor: "#1976d2",
+                color: "white",
+              }}
+              fullWidth
+            >
+              To be Resolved
+            </Button>
+          </Link>
+
+          <Link
+            to="/cc/alreadyresolveddelays"
+            style={{ textDecoration: "none", flex: 1 }}
+          >
+            <Button
+              variant="outlined"
+              color="primary"
+              style={{
+                flex: 1,
+                fontWeight: "bold",
+              }}
+              fullWidth
+            >
+              Already Resolved
+            </Button>
+          </Link>
+
+          <div style={{ flex: 3 }}></div>
+          <FormControl
+            fullWidth
+            variant="outlined"
+            margin="normal"
+            style={{ marginRight: 10, height: "100%", flex: 2 }}
+          >
+            <InputLabel htmlFor="filterDelays">Filter Delays</InputLabel>
+            <Select
+              label="Filter by"
+              inputProps={{
+                name: "filterDelays",
+                id: "filterDelays",
+              }}
+            >
+              <MenuItem value="Today">Older</MenuItem>
+              <MenuItem value="Yesterday">Latest</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button
+            variant="contained"
+            color="primary"
+            // onClick={handleShowReports}
+            style={{
+              maxHeight: "50px",
+              minWidth: "30px",
+              minHeight: "50px",
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: "20px",
+            }}
+          >
+            Sort
+          </Button>
+        </div>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {Array.isArray(notifications) &&
+          notifications.map((notification, index) => (
+            <Paper
+              key={index}
+              elevation={3}
+              style={{
+                display: "flex",
+                marginBottom: "10px",
+                borderRadius: "10px",
+              }}
+            >
+              <div
+                style={{
+                  flex: 2,
+                  padding: "10px",
+                  borderRight: "1px solid #ccc",
+                }}
               >
-                  Get Report
-              </Button>
-
-          </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                
-                <Divider style={{ marginBottom: '20px' }} />
-
-                <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', justifyContent: 'space-between' }}>
-                    
-
-                    <Link to='/cc/delays' style={{ textDecoration: 'none', flex: 1  }}>
-                        <Button variant="outlined"
-                        color="primary" 
-                        style={{ 
-                            flex: 1, 
-                            fontWeight: 'bold',
-                            backgroundColor: '#1976d2',
-                            color: 'white' }}
-                            fullWidth>
-                            To be Resolved
-                        </Button>
-                    </Link>
-
-                    <Link to="/cc/alreadyresolveddelays" style={{ textDecoration: 'none', flex: 1  }}>
-                        <Button 
-                        variant="outlined" 
-                        color="primary" 
-                        style={{ 
-                            flex: 1, 
-                            fontWeight: 'bold' 
-                            }}
-                        fullWidth>
-                            Already Resolved
-                        </Button>
-                    </Link>
-                
-                    
-                    <div style={{ flex: 3 }}></div>
-                    <FormControl fullWidth variant="outlined" margin="normal" style={{ marginRight: 10, height: '100%', flex: 2 }}>
-                        <InputLabel htmlFor="filterDelays">
-                            Filter Delays
-                        </InputLabel>
-                        <Select
-                            label="Filter by"
-                            inputProps={{
-                            name: "filterDelays",
-                            id: "filterDelays",
-                            }}
-                        >
-                            <MenuItem value="Today">Older</MenuItem>
-                            <MenuItem value="Yesterday">Latest</MenuItem>
-                        </Select>
-                        </FormControl>
-
-                        <Button
-                        variant="contained"
-                        color="primary"
-                        // onClick={handleShowReports}
-                        style={{ maxHeight: '50px', minWidth: '30px', minHeight: '50px',flex:1,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop: '20px' }}
-                        >
-                        Sort
-                        </Button> 
- 
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <Typography variant="h5" style={{ fontWeight: "bold" }}>
+                    {notification.trainName}
+                  </Typography>
+                  <Typography
+                    variant="h5"
+                    style={{ fontWeight: "bold", color: "#3D50AC" }}
+                  >
+                    {notification.number}
+                  </Typography>
                 </div>
               </div>
 
@@ -298,17 +349,24 @@ const Delays = () => {
                     state: {
                       propKey1: notification.trainName,
                       propKey2: notification.number,
+                      // notificationDetails: notification,
                     },
                   }}
                 >
-                  <Button variant="contained" color="primary" size="small">
+                  {/* console.log("Notification Object (Delays):", notification); */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleResolveClick(notification)}
+                  >
                     Resolve
                   </Button>
                 </Link>
               </div>
-            {/* </Paper>
+            </Paper>
           ))}
-      </div> */}
+      </div>
     </Container>
   );
 };
