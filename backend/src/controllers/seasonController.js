@@ -73,8 +73,58 @@ const getSeasonRequest = async (req, res) => {
     }
 
 }
+const deleteSeason = async (req, res) => {
+
+
+    const user = req.user;
+    const { seasonId } = req.body;
+    if (
+        !seasonId
+    ) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const requestResult = await seasonService.deleteSeasonRequest(user.id, seasonId);
+
+        if (requestResult) {
+            return res.status(200).json(requestResult);
+        } else {
+            return res.status(404).json("Something Went Wrong Try Again");
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+}
+const paySeason = async (req, res) => {
+
+
+    const user = req.user;
+    const { seasonId } = req.body;
+    if (
+        !seasonId
+    ) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const requestResult = await seasonService.PayForSeason(user.id, seasonId);
+
+        if (requestResult) {
+            return res.status(200).json(requestResult);
+        } else {
+            return res.status(404).json("Something Went Wrong Try Again");
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+
+}
 module.exports = {
     addSeasonRequest,
     getSeason,
-    getSeasonRequest
+    getSeasonRequest,
+    deleteSeason,
+    paySeason
 };

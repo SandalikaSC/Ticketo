@@ -1,5 +1,5 @@
 
-const { addSeasonRequest, getUserSeason, getUserSeasonRequest } = require("../reposiotries/season-repository")
+const { addSeasonRequest, getUserSeason, getUserSeasonRequest, paySeason, deleteRequeset } = require("../reposiotries/season-repository")
 const { getStationId, getStationName } = require("../reposiotries/station-repository")
 const { getJourneyPrice } = require("../reposiotries/journey-rerpositary")
 const { PrismaClient } = require("@prisma/client");
@@ -29,6 +29,30 @@ const makeSeasonRequest = async (
     }
 }
 
+const deleteSeasonRequest = async (
+    userId, seasonId) => {
+    try {
+
+
+        const status = await deleteRequeset(userId, seasonId);
+
+        return status;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
+const PayForSeason = async (
+    userId, seasonId) => {
+    try {
+        const status = await paySeason(userId, seasonId);
+
+        return status;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
 const calculateSeasonPrice = async (seasonType, seasonClass, duration, journey) => {
     var price = 0;
 
@@ -151,5 +175,7 @@ const getAppliedSeasonMonth = async (currentDate) => {
 module.exports = {
     makeSeasonRequest,
     getSeasonbyUser,
-    getSeasonRequestbyUser
+    getSeasonRequestbyUser,
+    deleteSeasonRequest,
+    PayForSeason
 };

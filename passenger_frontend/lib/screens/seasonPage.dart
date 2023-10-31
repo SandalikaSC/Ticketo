@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'dart:js_interop';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,48 +59,63 @@ class _SeasonPageState extends State<SeasonPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> children = [
+      Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SeasonApplication()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red, // Background color
+            onPrimary: Colors.white, // Text color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0), // Round corners
+            ),
+          ),
+          child: Text('Apply Season'),
+        ),
+      ),
+    ];
+
+    if (myseasonData != null) {
+      children.insert(
+          0,
+          SeasonTicket(
+              qrCodeData: List<int>.from(myseasonData['qrcode']['data']),
+              start: myseasonData['startStation'].toString(),
+              end: myseasonData['endStation'].toString(),
+              classname: myseasonData['seasonClass'].toString() + " Class",
+              month: myseasonData['month'].toString(),
+              type: myseasonData['seasonType']));
+    } else {
+      children.insert(0, Center(child: Text('No Seasons')));
+    }
+    if (seasonReqData != null) {
+      children.insert(
+          2,
+          RequestInformationCard(
+            seasonId: seasonReqData['seasonId'],
+            status: seasonReqData['status'],
+            appliedDate: seasonReqData['applyedDate'],
+            startStation: seasonReqData['startStation'].toString(),
+            endStation: seasonReqData['endStation'].toString(),
+            travelClass: seasonReqData['seasonClass'].toString() + " Class",
+            appliedMonth: seasonReqData['month'],
+            price: seasonReqData['price'],
+          ));
+    } else {
+      children.insert(2, Center(child: Text('No Requests')));
+    }
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0), // Add padding for spacing
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SeasonTicket(
-                qrCodeData: List<int>.from(myseasonData['qrcode']['data']),
-                start: myseasonData['startStation'].toString(),
-                end: myseasonData['endStation'].toString(),
-                classname: myseasonData['seasonClass'].toString() + " Class",
-                month: myseasonData['month'].toString(),
-                type: myseasonData['seasonType']),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SeasonApplication()),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red, // Background color
-                  onPrimary: Colors.white, // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0), // Round corners
-                  ),
-                ),
-                child: Text('Apply Season'),
-              ),
-            ),
-            RequestInformationCard(
-              status: seasonReqData['status'],
-              appliedDate: seasonReqData['applyedDate'],
-              startStation: seasonReqData['startStation'].toString(),
-              endStation: seasonReqData['endStation'].toString(),
-              travelClass: seasonReqData['seasonClass'].toString() + " Class",
-              appliedMonth: seasonReqData['month'],
-              price: seasonReqData['price'].toStringAsFixed(2),
-            ),
-          ],
+          children: children,
         ),
       ),
     );

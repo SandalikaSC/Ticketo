@@ -54,10 +54,31 @@ async function getUserSeasonRequest(userId) {
     });
 
 }
+async function deleteRequeset(userId, seasonId) {
+    return await prisma.seasonCard.delete({
+        where: {
+            userId,
+            seasonId,
+        },
+    });
+}
+async function paySeason(userId, seasonId) {
+    return await prisma.seasonCard.update({
+        where: {
+
+            seasonId: seasonId
+        },
+        data: {
+            approvedStatus: 'PAID',
+        },
+    });
+}
 module.exports = {
     addSeasonRequest,
     getUserSeasonRequest,
-    getUserSeason
+    getUserSeason,
+    deleteRequeset,
+    paySeason
 };
 
 

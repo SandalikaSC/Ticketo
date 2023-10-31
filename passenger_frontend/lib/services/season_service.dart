@@ -43,6 +43,46 @@ class SeasonService {
     }
   }
 
+  Future<http.Response> paySeason(seasonId) async {
+    try {
+      var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
+      final response = await http.put(
+        Uri.parse('${baseUrl}/season/payseason'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode({"seasonId": seasonId}),
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
+
+  Future<http.Response> deleteSeason(seasonId) async {
+    try {
+      var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
+      final response = await http.delete(
+        Uri.parse('${baseUrl}/season/deleteseason'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode({"seasonId": seasonId}),
+      );
+      return response;
+    } catch (e) {
+      // You can handle errors here if needed
+      rethrow;
+    }
+  }
+
   Future<http.Response> getSeasonInfo() async {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
