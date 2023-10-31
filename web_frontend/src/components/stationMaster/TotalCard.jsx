@@ -16,7 +16,7 @@ const TotalCard = ({ totalIncome }) => {
         </div>
         <div className="sm-schedule-card-details">
         <div className="sm-schedule-table-info">
-          <p>GaluKumari</p>
+          <p>Samudra Devi </p>
         </div>
         <div className="sm-schedule-table-info">
           <p>07:20 am</p>
@@ -29,7 +29,7 @@ const TotalCard = ({ totalIncome }) => {
       </div>
       <div className="sm-schedule-card-details">
         <div className="sm-schedule-table-info">
-          <p>Sagarika</p>
+          <p>Sagarika Train</p>
         </div>
         <div className="sm-schedule-table-info">
           <p>07:40 am</p>
@@ -42,7 +42,7 @@ const TotalCard = ({ totalIncome }) => {
 
       <div className="sm-schedule-card-details">
         <div className="sm-schedule-table-info">
-          <p>Express Train Beliaththa</p>
+          <p>Rajarata Rejini</p>
         </div>
         <div className="sm-schedule-table-info">
           <p>07:41 am</p>
