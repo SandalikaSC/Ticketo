@@ -61,7 +61,7 @@ const AddSchedule = () =>{
 
     useEffect(() => {
         fetchStations();
-        fetchSchedules();
+        fetchSchedules(trainID);
       }, []);
 
     const fetchStations = async () => {
@@ -73,11 +73,9 @@ const AddSchedule = () =>{
         }
     };
 
-    const fetchSchedules = async () => {
+    const fetchSchedules = async (trainID) => {
         try{
-            const response = await axios.get("http://localhost:5000/api/get-schedule",
-            formData
-            );
+            const response = await axios.get("http://localhost:5000/api/get-schedule-for-train?trainID=${trainID}");
             setSchedules(response.data.schedules);
         }catch(error){
             console.error("Error fetching schedules:", error);
@@ -221,7 +219,17 @@ const AddSchedule = () =>{
                 { headers }
                 );
 
-                setSaveClicked(true);
+                if (response.status === 201) {
+                    // Clear form data after successful submission
+                    setFormData({
+                      startingStation: "",
+                      startingTime: "",
+                      destination: "",
+                      finishingTime: "",
+                      workingDays: "",
+                    });
+                  }
+
             }catch(error){
                 console.error("Error submitting form" , error);
             }

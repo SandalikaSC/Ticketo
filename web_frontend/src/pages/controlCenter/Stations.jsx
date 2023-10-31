@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Container, Typography, Divider, Paper, Select, MenuItem, Button, TextField, FormControl, 
   InputLabel, Grid, Card, CardContent } from '@mui/material';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -6,11 +7,37 @@ import { FaSearch } from "react-icons/fa";
 
 const Stations = () => {
 
-    const [stationName, setStationName] = useState("");
     const [filterOption, setFilterOption] = useState(""); // Added filterOption state
+    const [stationName, setStationName] = useState("");
     
     const handleStationNameChange = (event) => {
         setStationName(event.target.value);
+    };
+
+    const [stations, setStations] = useState([]);
+
+    useEffect(() => {
+      fetchStations();
+    }, []);
+
+    const fetchStations = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/allstations");
+        setStations(response.data.stations);
+        console.log(typeof(stations));
+        stations.forEach(element => {
+          console.log(element);
+        });
+
+        
+
+        // const response2 = await axios.get("http://localhost:5000/api/getStationMaster", {
+        //   data: stations, // Pass 'stations' as data if required by the backend
+        // });
+        
+      } catch (error) {
+        console.error("Error fetching stations:", error);
+      }
     };
 
     const handleFilterChange = (event) => {
@@ -22,81 +49,6 @@ const Stations = () => {
         // Implement API calls or any other logic here.
         console.log("Searching for station:", stationName, "Filter by:", filterOption);
     };
-
-    const stations = [
-      {
-          name: 'Maradana',
-          location: '(6.926997, 79.863984)',
-          sm: 'Kasun Silva',
-          sm_contact: '077-1236547',
-          phone: '011-4567412',
-          trainLine: 'Main line'
-      },
-      {
-          name: 'Colombo Fort',
-          location: '(6.926997, 80.863984)',
-          sm: 'Damith Perera',
-          sm_contact: '077-1236547',
-          phone: '011-4562389',
-          trainLine: 'Main line'
-      },
-      {
-        name: 'Kandy',
-        location: '(6.926997, 79.863984)',
-        sm: 'Nihal Soysa',
-        sm_contact: '077-1236547',
-        phone: '011-8527413',
-        trainLine: 'Mathale line'
-      },
-      {
-        name: 'Jaffna',
-        location: '(6.926997, 80.863984)',
-        sm: 'Sugathapala De Mel',
-        sm_contact: '077-1236547',
-        phone: '021-3579512',
-        trainLine: 'Northern line'
-      },
-      {
-        name: 'Rambukkana',
-        location: '(6.926997, 80.863984)',
-        sm: 'Nadeeka Subasinghe',
-        sm_contact: '077-1236547',
-        phone: '041-3579632',
-        trainLine: 'Mathale line'
-      },
-      {
-          name: 'Galle',
-          location: '(6.926997, 80.863984)',
-          sm: 'Kithsiri Mewan',
-          sm_contact: '077-1236547',
-          phone: '081-1239875',
-          trainLine: 'Coastal line'
-      },
-      {
-        name: 'Moratuwa',
-        location: '(6.926997, 80.863984)',
-        sm: 'Buwaneka Rodrigo',
-        sm_contact: '077-1236547',
-        phone: '045-6985321',
-        trainLine: 'Coastal line'
-      },
-      {
-        name: 'Kaluthara',
-        location: '(6.926997, 80.863984)',
-        sm: 'Ranga Gunathilaka',
-        sm_contact: '077-1236547',
-        phone: '012-7896543',
-        trainLine: 'Coastal line'
-      },
-      {
-        name: 'Trincomalee',
-        location: '(6.926997, 80.863984)',
-        sm: 'Murali Tharan',
-        sm_contact: '077-1236547',
-        phone: '045-7896932',
-        trainLine: 'Trincomalee line'
-      }
-    ];
 
     return (
         <Container style={{ padding: '20px' }}>
@@ -159,19 +111,19 @@ const Stations = () => {
                       <Card>
                           <CardContent>
                               <div style={{display: 'flex'}}>
-                              <Typography variant="h6" style={{flex: 1}}>{station.name}</Typography>
-                              <Typography variant="h6" color="#3d51a9" style={{flex: 1}}>S2341</Typography>
+                              <Typography variant="h6" style={{flex: 1}}>{station[1]}</Typography>
+                              <Typography variant="h6" color="#3d51a9" style={{flex: 1}}>{station[0]}</Typography>
                               </div>
                               
                               <Divider style={{ marginBottom: '20px' }} />
 
                               <div style={{ display: 'flex', marginTop: '15px' }}>
                                   <div style={{ flex: 1 }}>
-                                      <Typography variant="subtitle1">Location:</Typography>
-                                      <Typography variant="subtitle1">SM:</Typography>
-                                      <Typography variant="subtitle1">SM Contact:</Typography>
-                                      <Typography variant="subtitle1">Station Contact:</Typography>
-                                      <Typography variant="subtitle1">Train Line:</Typography>
+                                      <Typography variant="subtitle1"><b>Location:</b> {station[3]} , {station[4]}</Typography>
+                                      <Typography variant="subtitle1">SM: {station[6]+ " "+ station[7]}</Typography>
+                                      <Typography variant="subtitle1">SM Contact: {station[8]}</Typography>
+                                      <Typography variant="subtitle1">Station Contact: {station[2]}</Typography>
+                                      <Typography variant="subtitle1">Station Master Login Status: {station[9]}</Typography>
                                   </div>
                                   <div style={{ flex: 1 }}>
                                       <Typography variant="subtitle1" color="textSecondary">{station.location}</Typography>

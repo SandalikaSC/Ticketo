@@ -27,8 +27,26 @@ const addTrainSchedule = async (startStationId,endStationId,startingTime,
     })
 };
 
-const getScheduleID = async (startStationId, endStationId, startingTime) =>
-{
+//Gets all schedules by trainID
+const getSchedulebytrainID = async(trainID) => {
+    try {
+        const schedules = await prisma.stationSchedule.findMany({
+          where: {
+            schedule: {
+              train: {
+                id: trainID,
+              },
+            },
+          },
+        });
+    
+        return schedules;
+      } catch (error) {
+        throw new Error(`Error retrieving schedules for train ID ${trainID}: ${error.message}`);
+      }
+}
+
+const getScheduleID = async (startStationId,endStationId,startingTime) => {
     return await prisma.station.findUnique({
         where: {
             start: startStationId,
@@ -110,6 +128,5 @@ module.exports = {
     getAllSchedulesByWorkingday,
     addTrainSchedule,
     getScheduleID,
-    scheduleStations,
-    getScheduleDetails,
+    getSchedulebytrainID
 };
