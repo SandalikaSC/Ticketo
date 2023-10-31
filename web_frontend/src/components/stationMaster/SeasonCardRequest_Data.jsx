@@ -33,12 +33,14 @@ const ApplicationData = ({ data }) => {
                 <div className="tc-data-field">
                     <strong>Institution/Work Place Address:</strong> {data.work_place_address}
                 </div>
-                <div className="tc-data-field">
+
+                {/* <div className="tc-data-field">
                     <strong>Photograph:</strong> {data.id_photograph}
                 </div>
                 <div className="tc-data-field">
                     <strong>Application Form Photograph:</strong> {data.application_photograph}
-                </div>
+                </div> */}
+                
             </Card.Body>
            <Card.Footer  className="tc-app-card-footer">
                 <Button variant="danger" className="tc-form-approve-button">
