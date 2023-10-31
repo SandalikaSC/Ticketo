@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 // import 'package:passenger_frontend/screens/bottom_bar.dart';
 import 'begin.dart';
 
 void main() async {
   await dotenv.load();
+  await initializeDateFormatting();
   runApp(
     Container(
       color: Colors.white, // Set the background color here

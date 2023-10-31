@@ -1,24 +1,75 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/modals/ReservationTicket.dart';
 import 'package:passenger_frontend/modals/Traveller.dart';
 import 'package:passenger_frontend/screens/reservationInformation.dart';
+import 'package:passenger_frontend/services/trainScheduleService.dart';
+import 'package:passenger_frontend/utils/error_handler.dart';
 import 'package:passenger_frontend/widgets/customSnackBar.dart';
 
 class SeatBookingScreen extends StatefulWidget {
   final ReservationTicket reservationTicket;
   final int scheduleId;
+  final Map<String, dynamic> schedule;
 
-  SeatBookingScreen(this.reservationTicket, this.scheduleId);
+  SeatBookingScreen({
+    Key? key,
+    required this.reservationTicket,
+    required this.scheduleId,
+    required this.schedule,
+  }) : super(key: key);
   @override
-  _SeatBookingScreenState createState() => _SeatBookingScreenState();
+  _SeatBookingScreenState createState() =>
+      _SeatBookingScreenState(reservationTicket, scheduleId, schedule);
 }
 
 class _SeatBookingScreenState extends State<SeatBookingScreen> {
+  final ReservationTicket reservationTicket;
+  final int scheduleId;
+  Map<String, dynamic> schedule;
+  _SeatBookingScreenState(
+      this.reservationTicket, this.scheduleId, this.schedule);
   List<List<int>> seatArrangement =
       List.generate(8, (row) => List.generate(5, (col) => 0));
   String selectedCoach = 'Coach A';
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadTrainInfo();
+  }
+
+  void loadTrainInfo() async {
+    if (!mounted) return;
+    try {
+      final TrainScheduleService trainScheduleService = TrainScheduleService();
+      final response = await trainScheduleService.getTrainInfo(
+          scheduleId, reservationTicket.depatureDate);
+
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 200) {
+        final dynamic decodedResponse = json.decode(response.body);
+        if (decodedResponse != null && decodedResponse['schedules'] != null) {
+          setState(() {});
+        } else {}
+      } else {}
+    } catch (e) {
+      print('Error occurred: $e'); // Print the exception details
+      ErrorHandler.showErrorSnackBar(
+          context, 'Unknown error occurred. Please try again later.');
+    }
+  }
+
+  @override
+  void dispose() {
+    // Cancel any ongoing operations, such as network requests
+    // or async computations.
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +230,7 @@ class _SeatBookingScreenState extends State<SeatBookingScreen> {
                     // } else {
                     List<Traveler> travelers = List.generate(
                       int.parse(widget.reservationTicket.passengers),
-                          (index) => Traveler(name: '', nic: ''),
+                      (index) => Traveler(name: '', nic: ''),
                     );
                     Navigator.push(
                       context,
@@ -189,10 +240,7 @@ class _SeatBookingScreenState extends State<SeatBookingScreen> {
                             selectedSeats: seatArrangement,
                             reservationTicket: widget.reservationTicket,
                             scheduleID: widget.scheduleId,
-                            travelers:travelers
-
-
-                        ),
+                            travelers: travelers),
                       ),
                     );
                     // }
