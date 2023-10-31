@@ -28,7 +28,8 @@ const getAllStations = async () =>
 
     const stationsWithEmployees = [];
 
-    stations.forEach(element => {
+    stations.forEach(element =>
+    {
         const employeeArray = [];
         employeeArray.push(element.stationId);
         employeeArray.push(element.name);
@@ -38,8 +39,10 @@ const getAllStations = async () =>
         stationsWithEmployees.push(employeeArray);
     });
 
-    stationsWithEmployees.forEach(element => {
-        employeeData.forEach(empData => {
+    stationsWithEmployees.forEach(element =>
+    {
+        employeeData.forEach(empData =>
+        {
             element.push(empData.employeeId);
         });
     });
@@ -53,13 +56,16 @@ const getAllStations = async () =>
     //             element.push(master.mobileNumber);
     //             element.push(master.loginStatus);
     //         }
-            
+
     //     });
     // });
 
-    stationM.forEach(master => {
-        stationsWithEmployees.forEach(element => {
-            if(element[5] = master.id){
+    stationM.forEach(master =>
+    {
+        stationsWithEmployees.forEach(element =>
+        {
+            if (element[5] = master.id)
+            {
                 console.log(master.firstName);
                 element.push(master.firstName);
                 element.push(master.lastName);
@@ -69,10 +75,10 @@ const getAllStations = async () =>
         });
     });
 
-    console.log(typeof(stations));
+    //console.log(typeof(stations));
 
     return stationsWithEmployees;
-    
+
 
 };
 
@@ -105,7 +111,7 @@ const getStationId = async (stationName) =>
 const getStationName = async (id) =>
 {
 
-    console.log("inside the get station name", id);
+    // console.log("inside the get station name", id);
 
     return await prisma.station.findUnique({
         where: {

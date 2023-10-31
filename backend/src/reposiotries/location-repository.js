@@ -91,6 +91,9 @@ const getAllLocation = async () =>
 
 const scheduleUpdates = async () =>
 {
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    // Query the LocationShare table
     const scheduleUpdates = await prisma.locationShare.findMany({
         where: {
             arrived: 2,
@@ -108,8 +111,20 @@ const scheduleUpdates = async () =>
         },
     });
 
+    console.log(scheduleUpdates);
     return scheduleUpdates;
 }
+
+const getAllScheduleIds = async () =>
+{
+    return await prisma.schedule.findMany({
+        select: {
+            scheduleId: true,
+        },
+    });
+}
+
+
 
 
 module.exports = { updateLocation, insertLocation, getAllLocation, scheduleUpdates };

@@ -1,4 +1,4 @@
-const { updateLocation, insertLocation, getAllLocation } = require('../reposiotries/location-repository');
+const { updateLocation, insertLocation, getAllLocation, scheduleUpdates } = require('../reposiotries/location-repository');
 const { getScheduleDetails } = require('../reposiotries/schedule-repository');
 const { getTrain } = require('../reposiotries/trainRepository');
 const { getStationName } = require("../reposiotries/station-repository");
@@ -56,16 +56,16 @@ const getLocationDelays = async () =>
     for (const delay of delays)
     {
         const { scheduleId, stationId } = delay;
-        console.log("Schedule id is here", scheduleId);
+        //console.log("Schedule id is here", scheduleId);
         const scheduleDetails = await getScheduleDetails(scheduleId);
-        console.log("schedule details", scheduleDetails);
+        //console.log("schedule details", scheduleDetails);
 
         //const { trainId, start, end } = scheduleDetails;
 
         const trainId = scheduleDetails[0].trainId;
         const start = scheduleDetails[0].start;
         const end = scheduleDetails[0].end;
-        console.log("train id", trainId);
+        //console.log("train id", trainId);
         const train = trainId ? await getTrain(trainId) : null;
         const startStation = start ? await getStationName(start) : null;
         const endStation = end ? await getStationName(end) : null;
@@ -100,7 +100,16 @@ const getLocationDelays = async () =>
 
     }
 
-    console.log("delays with schedules", delaysWithSchedules);
+    //console.log("delays with schedules", delaysWithSchedules);
     return delaysWithSchedules;
 }
-module.exports = { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays };
+
+
+const scheduleUpdatesLatest = async () =>
+{
+    const scheduleUpdate = await scheduleUpdates();
+
+    console.log(scheduleUpdates);
+    return scheduleUpdate;
+}
+module.exports = { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays, scheduleUpdatesLatest };
