@@ -84,6 +84,7 @@ async function getSeasonRepo()  {
             user: {
               select: {
                 firstName: true,
+                lastName:true,
                 email: true,
                 mobileNumber: true,
                 nic: true,
