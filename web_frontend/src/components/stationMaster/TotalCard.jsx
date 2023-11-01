@@ -42,7 +42,7 @@ const TotalCard = ({ totalIncome }) => {
 
       <div className="sm-schedule-card-details">
         <div className="sm-schedule-table-info">
-          <p>Rajarata Rejini</p>
+          <p>Rajarata Rajini</p>
         </div>
         <div className="sm-schedule-table-info">
           <p>07:41 am</p>
