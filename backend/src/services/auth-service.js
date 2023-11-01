@@ -1,10 +1,38 @@
-const { getTempOtp, insertTemperyOtp, updateEmployee, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail, insertEmployee, updateLoginStatus } = require("../reposiotries/user-repository");
+const { getTempOtp, insertTemperyOtp, updateEmployee, getUserByEmail, addEmployeeAsPassenger, updateToken, updateaccessToken, insertUser, updatePassword, getUserByNicEmail, insertEmployee, updateLoginStatus,insertDriver, guardInsert } = require("../reposiotries/user-repository");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-const { getStationId } = require('../reposiotries/station-repository')
+const { getStationId } = require('../reposiotries/station-repository');
 const { sendEmail } = require('../middleware/sendEmail');
+const {updateSchedule} = require('../reposiotries/schedule-repository');
+//Adding Driver
+const addDriver = async (firstName, lastName, email, nic, mobile, scheduleID) =>
+{
+  const hashPassword = bcrypt.hashSync(nic, 10);
+  const birthDate = getBirthDateFromNIC(nic);
+  
+  const addedDriver = await insertDriver(firstName, lastName, email, nic, mobile, scheduleID, birthDate, hashPassword);
+
+  return addedDriver;
+}
+
+const addGuard = async (firstName, lastName, email, nic, mobile, scheduleID) => {
+  const hashPassword = bcrypt.hashSync(nic, 10);
+  const birthDate = getBirthDateFromNIC(nic);
+
+  const addedGuard = await guardInsert(nic, email, birthDate, hashPassword, firstName, lastName, mobile);
+
+  console.log("guard id",addedGuard.id);
+  // await updateSchedule(addedGuard.id,scheduleId);
+  for (const id of scheduleID) {
+    console.log("schdeuleId",id);
+    const updatedScheduleResult = await updateSchedule(addedGuard.id, id);
+  }
+
+  return addedGuard;
+}
+
 
 const addEmployee = async (id, firstName, lastName, station, mobileNumber, email, nic, userType) =>
 {
@@ -277,6 +305,8 @@ module.exports = {
   employeeToPassenger,
   isExistPassenger,
   insertTempOtp,
-  addEmployee
+  addEmployee,
+  addDriver,
+  addGuard
 };
 

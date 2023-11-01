@@ -1,6 +1,43 @@
 const authService = require('../services/auth-service');
 const { findStation } = require('../reposiotries/station-repository')
 
+const addDriver = async (req, res) => 
+{
+    try{
+        const authHeader = req.headers.authorization;
+        const submittedUser = await authService.verifyToken(authHeader);
+        console.log(submittedUser);
+        const id = submittedUser.id;
+        if (submittedUser.userType.includes("CONTROL_CENTRE")){
+            const { firstName, lastName, email, nic, mobile, scheduleID } = req.body;
+
+            const userType = "TRAIN_GUARD";
+            const addedDriver = await authService.addDriver(firstName, lastName, email, nic, mobile, scheduleID);
+            console.log("ädded driver",addedDriver);
+            return addedDriver;
+
+        }
+    }catch(error){
+        console.error("Error in add user:", error);
+        res.status(500).json({ error: "An error occurred" });
+    }
+}
+
+const addGuard = async (req,res) => {
+    const authHeader = req.headers.authorization;
+    const submittedUser = await authService.verifyToken(authHeader);
+    //console.log(submittedUser);
+    const id = submittedUser.id;
+    console.log(req.body);
+    const { firstName, lastName, email, nic, mobile, scheduleID } = req.body;
+
+    //const userType = "TRAIN_GUARD";
+    const addedGuard = await authService.addGuard( firstName, lastName, email, nic, mobile, scheduleID);
+
+    res.status(201).json({ message: "User added successfully", addedGuard });
+
+}
+
 const addUser = async (req, res) =>
 {
     try
@@ -54,4 +91,6 @@ const addUser = async (req, res) =>
 // Export the functions for use in other modules
 module.exports = {
     addUser,
+    addDriver,
+    addGuard
 };

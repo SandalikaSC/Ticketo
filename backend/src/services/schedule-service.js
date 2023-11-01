@@ -1,5 +1,5 @@
 
-const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkingday } = require("../reposiotries/schedule-repository");
+const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkingday, deleteSchedule } = require("../reposiotries/schedule-repository");
 const { getStationId } = require('../reposiotries/station-repository')
 const { getStationName } = require("../reposiotries/station-repository");
 const { getReservedSeats } = require("../reposiotries/reservation-repository");
@@ -20,8 +20,10 @@ function formatTime(time) {
     return timeString;
 }
 
-//Add train Schedule
-const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations, trainID) => {
+
+const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations, trainID,notWorkingDays) =>
+{
+
     console.log("reached service");
     const startStationId = await getStationId(startingStation);
     const endStationId = await getStationId(destination);
@@ -29,11 +31,11 @@ const addSchedule = async (startingStation, startingTime, destination, finishing
     console.log(startStationId);
     console.log(endStationId);
 
-    const addedSchedule = await addTrainSchedule(startStationId, endStationId, startingTime,
-        finishingTime, workingDays, trainID);
+    const addedSchedule = await addTrainSchedule(startStationId,endStationId,startingTime,
+        finishingTime,workingDays, trainID, notWorkingDays, stations);
 
 
-    const getScheduleID = await getScheduleID(startStationId, endStationId, startingTime);
+    // const getScheduleID = await getScheduleID(startStationId, endStationId, startingTime);
 
     // insert for each of the arrays in stations
     // await updateStationSchedule
@@ -42,31 +44,48 @@ const addSchedule = async (startingStation, startingTime, destination, finishing
 }
 
 
-const getAllScheduleStations = async (scheduleId) => {
-    try {
-        const stations = await scheduleStations(scheduleId);
-        const formattedStations = await Promise.all(
-            stations.map(async (station) => {
-                const arrivalTime = formatTime(station.arrivalTime);
-                const departureTime = formatTime(station.departureTime);
-                const stationName = await getStationName(station.stationId);
+const deleteSchedulebyID = async (scheduleId) => 
+{
+    try
+    {
+        const isDeleted = await deleteSchedule(scheduleId);
+        return isDeleted;
+    }catch(err){
 
-                return {
-                    id: station.id,
-                    arrivalTime,
-                    departureTime,
-                    delayTime: station.delayTime,
-                    stationName,
-                };
-            })
-        );
-
-        console.log(formattedStations);
-        return formattedStations;
-    } catch (err) {
         console.log(err);
         throw new Error(err.message);
     }
+}
+
+const getAllScheduleStations = async (scheduleId) =>
+{
+    // try
+    // {
+    //     const stations = await scheduleStations(scheduleId);
+    //     const formattedStations = await Promise.all(
+    //         stations.map(async (station) =>
+    //         {
+    //             const arrivalTime = formatTime(station.arrivalTime);
+    //             const departureTime = formatTime(station.departureTime);
+    //             const stationName = await getStationName(station.stationId);
+
+    //             return {
+    //                 id: station.id,
+    //                 arrivalTime,
+    //                 departureTime,
+    //                 delayTime: station.delayTime,
+    //                 stationName,
+    //             };
+    //         })
+    //     );
+
+    //     console.log(formattedStations);
+    //     return formattedStations;
+    // } catch (err)
+    // {
+    //     console.log(err);
+    //     throw new Error(err.message);
+    // }
 }
 
 const getGuardSchedule = async (user) => {
@@ -103,29 +122,35 @@ const getGuardSchedule = async (user) => {
 }
 
 //get schedule by train ID
-const getAllSchedulebyID = async (trainID) => {
-    try {
-        const schedules = await scheduleStations(trainID);
 
-        //sort schedules by scheduleID
-        schedules.sort((a, b) => a.scheduleId - b.scheduleId);
+const getAllSchedulebyID = async (trainID) =>
+{
+    try
+    {
+        const schedules = await getSchedulebytrainID(trainID);
 
-        // Grouping the schedules by scheduleId
-        const groupedSchedules = schedules.reduce((acc, schedule) => {
-            const { scheduleId } = schedule;
-            if (!acc[scheduleId]) {
-                acc[scheduleId] = [];
-            }
-            acc[scheduleId].push(schedule);
-            return acc;
-        }, {});
+
+    //     //sort schedules by scheduleID
+    //     schedules.sort((a, b) => a.scheduleId - b.scheduleId);
+    //     // Grouping the schedules by scheduleId
+    //     const groupedSchedules = schedules.reduce((acc, schedule) => {
+    //     const { scheduleId } = schedule;
+    //     if (!acc[scheduleId]) {
+    //       acc[scheduleId] = [];
+    //     }
+    //     acc[scheduleId].push(schedule);
+    //     return acc;
+    //   }, {});
 
         // Converting the grouped schedules object to a two-dimensional array
-        const formattedStations = Object.values(groupedSchedules);
+        // const formattedStations = Object.values(groupedSchedules);
 
-        console.log(formattedStations);
-        return formattedStations;
-    } catch (err) {
+
+        // console.log(formattedStations);
+        return schedules;
+    } catch (err)
+    {
+
         console.log(err);
         throw new Error(err.message);
     }
@@ -260,5 +285,7 @@ module.exports = {
     addSchedule,
     getAllScheduleStations,
     getAllSchedulebyID,
-    getReservationSchedule
+
+    deleteSchedulebyID,
+    getReservationSchedule,
 }

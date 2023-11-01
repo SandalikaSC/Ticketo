@@ -1,6 +1,54 @@
 const { PrismaClient, userType } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const insertDriver = async (firstName, lastName, email, nic, mobile, scheduleID, birthDate, hashPassword) =>
+{
+  const result = await prisma.$transaction(async(prisma) => {
+    const user = await prisma.user.create({
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: hashPassword,
+        userType: { set: ['DRIVER'] },
+        nic: nic,
+        dob: birthDate,
+        mobileNumber: mobile,
+        accountStatus: true,
+        token: "",
+        wallet: {
+          create: {
+            walletBalance: 0.0,
+            holdValue: 0.0,
+          },
+        },
+      }
+    })
+
+    const updatedSchedules = [];
+
+    for (const id of scheduleID) {
+      const updatedSchedule = await prisma.schedule.update({
+        where: {
+          scheduleId: id,
+        },
+        data: {
+          driverId: user.id, // Assuming user.id is the correct value for the driverId
+        },
+      });
+
+      updatedSchedules.push(updatedSchedule);
+    }
+
+    return { user, updatedSchedules };
+
+  });
+
+  return result;
+
+  
+}
+
 const getUserByEmail = async (email) =>
 {
   return await prisma.user.findUnique({ where: { email: email } });
@@ -87,6 +135,30 @@ const insertUser = async (nic, email, birthDate, hashPassword, firstName, lastNa
       email: email,
       password: hashPassword,
       userType: { set: ['PASSENGER'] },
+      nic: nic,
+      dob: birthDate,
+      mobileNumber: phoneNumber,
+      accountStatus: true,
+      token: "",
+      wallet: {
+        create: {
+          walletBalance: 0.0,
+          holdValue: 0.0,
+        },
+      },
+    }
+  })
+}
+
+const guardInsert = async (nic, email, birthDate, hashPassword, firstName, lastName, phoneNumber) =>
+{
+  return await prisma.user.create({
+    data: {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: hashPassword,
+      userType: { set: ['DRIVER'] },
       nic: nic,
       dob: birthDate,
       mobileNumber: phoneNumber,
@@ -278,7 +350,9 @@ module.exports = {
   insertEmployee,
   updateEmployee,
   updateLoginStatus,
-  getEmployee
+  getEmployee,
+  insertDriver,
+  guardInsert
 };
 
 

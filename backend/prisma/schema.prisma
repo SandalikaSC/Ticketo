@@ -61,7 +61,7 @@ model Employee {
 
   addedBy       User?    @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
   station       Station? @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
-  //smodel Emplchedules     Schedule[] @relation("employeeSchedules")
+  //schedules     Schedule[] @relation("employeeSchedules")
   scanedTickets Ticket[] @relation("ticketScanner")
 }
 

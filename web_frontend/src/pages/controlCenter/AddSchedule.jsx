@@ -17,8 +17,11 @@ import { Paper,
  } from "@mui/material";
 import '../../css/cc_addTrainSchedule.css';
 import { Repeat } from "@mui/icons-material";
+import { padding } from "@mui/system";
 
 const AddSchedule = () =>{
+
+    let loadSchedules = false;
 
     //Get the train ID and train Name here
     const location = useLocation();
@@ -38,6 +41,21 @@ const AddSchedule = () =>{
         data[index][event.target.name] = event.target.value;
         setFormFields(data);
     }
+
+    useEffect(() => {
+        if (formFields) {
+            setFormData((prevData) => ({
+                ...prevData,
+                stations: formFields,
+            }));
+        }
+      }, [formFields]);
+
+    useEffect(() => {
+    if (loadSchedules) {
+        fetchSchedules(trainID);
+    }
+    }, [loadSchedules]);
 
     const addFields = () => {
         let object = {
@@ -68,14 +86,26 @@ const AddSchedule = () =>{
         try {
           const response = await axios.get("http://localhost:5000/api/allStations");
           setStations(response.data.stations);
+          console.log(stations);
         } catch (error) {
           console.error("Error fetching stations:", error);
         }
     };
 
     const fetchSchedules = async (trainID) => {
+        
         try{
-            const response = await axios.get("http://localhost:5000/api/get-schedule-for-train?trainID=${trainID}");
+            const accessToken = localStorage.getItem("accessToken");
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+            };
+
+            const response = await axios.post(
+                "http://localhost:5000/api/get-schedule-for-train",
+                { trainId: trainID },
+                { headers }
+                );
+            //console.log("responeseeefefrfr");
             setSchedules(response.data.schedules);
         }catch(error){
             console.error("Error fetching schedules:", error);
@@ -110,13 +140,10 @@ const AddSchedule = () =>{
 
     
     const [workingDays, setWorkingDays] = useState({
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false,
+        WEEKDAYS: false,
+        WEEKENDS: false,
+        SUNDAY: false,               
+        HOLIDAY: false,
     });
 
     const validateForm = () => {
@@ -175,6 +202,7 @@ const AddSchedule = () =>{
     }; 
 
 
+
     const[saveClicked, setSaveClicked] = useState(false);
 
     const handleSave = async (event) => {
@@ -196,14 +224,14 @@ const AddSchedule = () =>{
         // console.log(formData.finishingTime);
         // console.log(formData.workingDays);
         
-
+        //Setting the middle stations
         setFormData((prevData) => ({
             ...prevData,
             stations: formFields,
         }));
 
         //Check if intermediate stations are properly set
-        //console.log(formData.stations);
+        console.log(formData.stations);
 
         if(validateForm()){
 
@@ -226,9 +254,12 @@ const AddSchedule = () =>{
                       startingTime: "",
                       destination: "",
                       finishingTime: "",
-                      workingDays: "",
+                      workingDays: [],
+                      stations: []
                     });
-                  }
+
+                    handleChange = true;
+                }
 
             }catch(error){
                 console.error("Error submitting form" , error);
@@ -237,6 +268,29 @@ const AddSchedule = () =>{
         
     };
 
+    const handleDelete = async (scheduleId) => {
+        try{
+            console.log(scheduleId);
+            const accessToken = localStorage.getItem("accessToken");
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+            };
+
+            const response = await axios.post(
+                "http://localhost:5000/api/delete-train-Schedule",
+                { scheduleID: scheduleId },
+                { headers }
+                );
+            console.log("responeseeefefrfr");
+            
+            if(response.status === 200){
+                fetchSchedules(trainID);
+            }
+        }catch(error){
+            console.error("Error fetching schedules:", error);
+        }
+    }
+
     return(
         <Container maxWidth="xl" className="secnd-main-container" 
         style={{
@@ -244,14 +298,102 @@ const AddSchedule = () =>{
             gridTemplateColumns: '1fr 1fr',
             gap: '20px'
         }}>
+
+            {/* Viewing existing schedules */}
             <Paper elevation={3} className="existing-schedules">
                 <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
                     <b>Existing Schedules for {trainName}</b>
                 </Typography>
 
-                {schedules.map((s) => (
-                    console.log(s)
+                <br></br>
+                <br></br>
+                
+                {schedules.map((element) => (
+                    <Paper style={{marginBottom: '10px', padding: '10px', display: 'flex'}}>
+                        <div>
+                            <div style={{display: 'flex'}}>
+                                <Typography variant="h5" style={{color: '#3D50AC'}}>
+                                    <b>Schedule ID : </b>
+                                </Typography>
+
+                                <Typography variant="h5">
+                                    {element.scheduleId}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Starting Station :</b> 
+                                </Typography>
+
+                                <Typography>
+                                    {element.start}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Starting Time :</b> 
+                                </Typography>
+
+                                <Typography>
+                                    {element.startTime}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Ending Station :</b>
+                                </Typography>
+
+                                <Typography>
+                                    {element.end}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                            <Typography style={{color: '#3D50AC'}}>
+                                <b>Ending time :</b> 
+                            </Typography>
+
+                            <Typography>
+                                {element.endTime}
+                            </Typography>
+                        </div>
+
+                        <div style={{display: 'flex'}}>
+                            <Typography style={{color: '#3D50AC'}}>
+                                <b>Available Days :</b> 
+                            </Typography>
+
+                            <Typography>
+                                {element.workingDays}
+                            </Typography>
+                        </div>
+                            
+                        </div>
+
+                        <div>
+                            <Button style={{backgroundColor : 'Maroon', 
+                            color: 'White', 
+                            borderRadius: '10px',
+                            marginLeft: '100px',
+                            marginTop: '100px'
+                            }}
+                            onClick={() => handleDelete(element.scheduleId)}
+                            >
+                                Delete
+                            </Button>
+                        </div>
+
+                    </Paper>
+
+                    
                 ))}
+
+                {/* {schedules.map((s) => (
+                    console.log(s)
+                ))} */}
 
                 
             </Paper>
@@ -411,20 +553,6 @@ const AddSchedule = () =>{
                                         ))}
                                     </select>
                                 </Grid>
-                                
-
-                                {/* <Grid item xs={6}>
-                                    <InputLabel>Select station</InputLabel>
-                                    <TextField
-                                    label="Station Name"
-                                    type="text"
-                                    name={'stationName'}
-                                    onChange={event => handleFormChange(event,index)}
-                                    value={form.name}
-                                    fullWidth
-                                    style={{marginRight: "20px" }}
-                                    />
-                                </Grid> */}
 
                                 <Grid item xs={6}>
                                     <InputLabel>Arrival Time</InputLabel>

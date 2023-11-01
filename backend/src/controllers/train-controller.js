@@ -38,6 +38,20 @@ const addTrain = async (req, res) =>
     }
 };
 
+const getalldrivers = async (req,res) => {
+    try{
+        const drivers = await trainService.getDrivers();
+
+        if (drivers) {
+            return res.status(200).json({ drivers: drivers });
+        } else {
+            return res.status(400).json({ message: "Not found" });
+        }
+    }catch(err){
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
 const getAllTrains = async (req, res) => {
     try {
         const trains = await trainService.getTrains();
@@ -55,5 +69,6 @@ const getAllTrains = async (req, res) => {
 
 module.exports = {
     addTrain,
-    getAllTrains
+    getAllTrains,
+    getalldrivers
 };

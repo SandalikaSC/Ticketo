@@ -7,7 +7,20 @@ const getAllTrains = async () => {
     });
 };
 
-const createTrain = async (trainData) => {
+const getAllDrivers = async () =>
+{
+    const driverUsers = await prisma.user.findMany({
+        where: {
+          userType: {
+            has: 'DRIVER',
+          },
+        },
+      });
+      return driverUsers;
+};
+
+const createTrain = async (trainData) =>
+{
     return await prisma.train.create({
         data: trainData,
     });
@@ -39,4 +52,5 @@ module.exports = {
     findCoachByCode,
     createCoachArrangements,
     getTrain,
+    getAllDrivers,
 };

@@ -1,4 +1,4 @@
-const { getAllTrains } = require('../reposiotries/trainRepository');
+const { getAllTrains, getAllDrivers } = require('../reposiotries/trainRepository');
 
 const addTrain = async (trainData) =>
 {
@@ -176,6 +176,15 @@ const addTrain = async (trainData) =>
     }
 };
 
+const getDrivers = async() =>
+{
+    try{
+        return await getAllDrivers();
+    }catch(error){
+        throw new Error("An error occurred in the service");
+    }
+}
+
 const getTrains = async() =>
 {
     try
@@ -189,5 +198,6 @@ const getTrains = async() =>
 
 module.exports = {
     addTrain,
-    getTrains
+    getTrains,
+    getDrivers
 };
