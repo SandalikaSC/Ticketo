@@ -155,11 +155,64 @@ const getAllSeasonRequests = async(req, res) =>{
     }
 };
 
+const acceptSeasonRequest = async (req, res) => {
+    try {
+
+        const user = req.user;
+        const { seasonId } = req.body;
+        if (
+            !seasonId
+        ) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        const cardsData = await seasonService.acceptSeasonRequest(seasonId);
+        console.log(cardsData);
+        if (cardsData) {
+            return res.status(200).json(cardsData);
+        } else {
+            return res.status(404).json({ message: "No season card requests found" });
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }
+};
+const rejectSeasonRequest = async (req, res) => {
+    try {
+
+        const user = req.user;
+        const { seasonId } = req.body;
+        if (
+            !seasonId
+        ) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        const cardsData = await seasonService.rejectSeasonRequest(seasonId);
+        console.log(cardsData);
+        if (cardsData) {
+            return res.status(200).json(cardsData);
+        } else {
+            return res.status(404).json({ message: "No season card requests found" });
+        }
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return res.status(500).json({ error: 'Internal Server Error' })
+    }
+};
+
+
+
+
 module.exports = {
     addSeasonRequest,
     getSeason,
     getSeasonRequest,
     deleteSeason,
     paySeason,
-    getAllSeasonRequests
+    getAllSeasonRequests,
+    acceptSeasonRequest,
+    rejectSeasonRequest
+    
 };

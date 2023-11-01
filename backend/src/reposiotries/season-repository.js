@@ -103,13 +103,51 @@ async function getSeasonRepo()  {
 // async function getSeasonRequests(){
 //     return await prisma.seasonCard.findMany();
 // }
+
+
+async function rejectRequeset(seasonId) {
+    return await prisma.seasonCard.update({
+        where: {
+
+            seasonId: seasonId
+        },
+        data: {
+            approvedStatus: 'REJECTED',
+        },
+    });
+}
+
+async function acceptRequeset(seasonId) {
+    return await prisma.seasonCard.update({
+        where: {
+
+            seasonId: seasonId
+        },
+        data: {
+            approvedStatus: 'APPROVED',
+        },
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 module.exports = {
     addSeasonRequest,
     getUserSeasonRequest,
     getUserSeason,
     deleteRequeset,
     paySeason,
-    getSeasonRepo
+    getSeasonRepo,
+    rejectRequeset,
+    acceptRequeset
 };
 
 
