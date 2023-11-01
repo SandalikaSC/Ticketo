@@ -22,8 +22,8 @@ class StationData {
 
   StationData({
     required this.stationId,
-    required this.stationName,
-    required this.arrivalTime,
+    this.stationName="Maradana",
+    this.arrivalTime ="06.05 a.m",
     required this.actualArrivalTime,
     required this.delayArrival,
     required this.departureTime,
@@ -31,7 +31,7 @@ class StationData {
     required this.delayDeparture,
     required this.arrivalStatus,
     required this.date,
-    required this.reason,
+    this.reason ='No reason',
   });
 
   @override
@@ -60,6 +60,8 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
   bool isArrival = true;
   final StreamController<DateTime> _timeStream = StreamController<DateTime>();
   late Stream<DateTime> _time;
+  bool showReasonTextField = false;
+  TextEditingController reasonController = TextEditingController();
 
   List<StationData> stationDataList = [];
   int nextStationIndex = 0;
@@ -183,93 +185,6 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     }
   }
 
-  // Future<void> handleArriveButtonClick() async {
-  //   if (nextStationIndex < stationDataList.length) {
-  //     StationData currentStation = stationDataList[nextStationIndex];
-  //     if (currentStation.arrivalStatus == 0) {
-  //       currentStation.arrivalStatus = 1;
-  //       calculateDelayAndUpdateTime(currentStation);
-  //
-  //       // Send HTTP request to update the database (implement this part)
-  //       // ...
-  //
-  //       final baseUrl = dotenv.env['BASE_URL'];
-  //       final Uri uri = Uri.parse('$baseUrl/location-update');
-  //       final sharedPreferences = await SharedPreferences.getInstance();
-  //       final accessToken = sharedPreferences.getString('accessToken') ?? '';
-  //
-  //
-  //       final response = await http.post(
-  //         uri,
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': 'Bearer $accessToken',
-  //         },
-  //         body: json.encode({
-  //           'stationId': currentStation.stationId,
-  //           'arrivalStatus': currentStation.arrivalStatus,
-  //           'actualArrivalTime': currentStation.actualArrivalTime,
-  //           'delayArrival': currentStation.delayArrival,
-  //           'actualDepartureTime': currentStation.actualDepartureTime,
-  //           'delayDeparture': currentStation.delayDeparture,
-  //           'date': currentStation.date,
-  //           'reason': currentStation.reason,
-  //         }),
-  //       );
-  //
-  //       // if(response.statusCode==200){
-  //       //   if (kDebugMode) {
-  //       //     print("\n\nupdated successfully\n\n");
-  //       //     // nextStationIndex++;
-  //       //   }
-  //       // }
-  //       // Do not change nextStationIndex
-  //     } else if (currentStation.arrivalStatus == 1) {
-  //       currentStation.arrivalStatus = 2;
-  //       calculateDelayAndUpdateTime(currentStation);
-  //
-  //       // Send HTTP request to update the database (implement this part)
-  //       // ...
-  //
-  //       // Update the table by adding the current station's details
-  //       // ...
-  //
-  //       final baseUrl = dotenv.env['BASE_URL'];
-  //       final Uri uri = Uri.parse('$baseUrl/location-update');
-  //       final sharedPreferences = await SharedPreferences.getInstance();
-  //       final accessToken = sharedPreferences.getString('accessToken') ?? '';
-  //
-  //
-  //       final response = await http.post(
-  //         uri,
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Authorization': 'Bearer $accessToken',
-  //         },
-  //         body: json.encode({
-  //           'stationId': currentStation.stationId,
-  //           'arrivalStatus': currentStation.arrivalStatus,
-  //           'actualArrivalTime': currentStation.actualArrivalTime,
-  //           'delayArrival': currentStation.delayArrival,
-  //           'actualDepartureTime': currentStation.actualDepartureTime,
-  //           'delayDeparture': currentStation.delayDeparture,
-  //           'date': currentStation.date,
-  //           'reason': currentStation.reason,
-  //         }),
-  //       );
-  //
-  //       // if(response.statusCode==200){
-  //       //   if (kDebugMode) {
-  //       //     print("\n\nupdated successfully\n\n");
-  //       //     // nextStationIndex++;
-  //       //   }
-  //       // }
-  //       nextStationIndex++;
-  //     }
-  //
-  //     setState(() {});
-  //   }
-  // }
 
   Future<void> handleArriveButtonClick() async {
     //int id = 0;
@@ -359,10 +274,15 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           }// Move to the next station
         }
       }
+      // if (nextStationIndex >= stationDataList.length) {
+      //   await generateAndSavePDF(stationDataList);
+      //   // Add code here to automatically trigger a download or open the PDF.
+      // }
 
       setState(() {});
     }
   }
+
 
   void updateNextStation() {
     // Move to the next station index
@@ -371,12 +291,6 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     }
     nextStationIndex++;
 
-    // Skip stations with arrivalStatus 0 or 1
-    // while (nextStationIndex < stationDataList.length &&
-    //     (stationDataList[nextStationIndex].arrivalStatus == 0 ||
-    //         stationDataList[nextStationIndex].arrivalStatus == 1)) {
-    //   nextStationIndex++;
-    // }
   }
 
   @override
@@ -398,15 +312,20 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Train Name: ${widget.trainName}',
-                    style: const TextStyle(fontSize: 20),
+                    // style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(
+                      color: Color(0xFF3D51A9), // Text color
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,// Font size
+                    ),
                   ),
                   Text(
-                    'Schedule ID: ${widget.scheduleId}',
-                    style: const TextStyle(fontSize: 20),
+                    DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                    style: const TextStyle(color: Color(0xFF3D51A9),fontSize: 20),
                   ),
                 ],
               ),
@@ -427,7 +346,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
-        color: Colors.lightBlue,
+        color: const Color(0xFF3D51A9),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -436,11 +355,26 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Next Station: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].stationName : ""}'),
-              Text(isArrival ? 'Arrival Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].arrivalTime : ""}' : 'Departure Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].departureTime : ""}'),
+              Text(
+                'Next Station: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].stationName : ""}',
+                style: const TextStyle(
+                  color: Colors.white, // Text color
+                  fontSize: 16, // Font size
+                ),
+              ),
+              Text(
+                isArrival
+                    ? 'Arrival Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].arrivalTime : ""}'
+                    : 'Departure Time: ${nextStationIndex < stationDataList.length ? stationDataList[nextStationIndex].departureTime : ""}',
+                style: const TextStyle(
+                  color: Colors.white, // Text color
+                  fontSize: 16, // Font size
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
+
           Row(
             children: [
               StreamBuilder<DateTime>(
@@ -449,25 +383,50 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
                   final currentTime = snapshot.data;
                   final formattedTime = currentTime != null ? '${currentTime.hour}:${currentTime.minute}:${currentTime.second}' : '00:00:00';
 
-                  return Text('Current Time: $formattedTime');
+                  return Text(
+                    'Current Time: $formattedTime',
+                    style: const TextStyle(
+                      color: Colors.white, // Text color
+                      fontSize: 16, // Font size
+                    ),
+                  );
                 },
               ),
             ],
           ),
           const SizedBox(height: 16),
+
           ElevatedButton(
             onPressed: () {
               setState(() {
                 handleArriveButtonClick();
                 isArrival = !isArrival;
+                showReasonTextField = true;
               });
             },
-            child: Text(isArrival ? 'Arrive' : 'Departure'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(const Color(0xFFFA6F5D)), // Button color
+            ),
+            child: Text(
+              isArrival ? 'Arrive' : 'Departure',
+              style: const TextStyle(
+                color: Colors.white, // Button text color
+                fontSize: 20, // Button text font size
+              ),
+            ),
           ),
+          // if (showReasonTextField)
+          //   TextField(
+          //     controller: reasonController,
+          //     decoration: const InputDecoration(
+          //       labelText: 'Enter Reason',
+          //     ),
+          //   ),
         ],
       ),
     );
   }
+
 }
 
 class ScheduleTable extends StatefulWidget {
