@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'login.dart'; // Import the LoginPage
+import 'login.dart';
+import './train_guard/notification_page.dart'; // Import the LoginPage
 
 class ProfilePage extends StatelessWidget {
   static const routeName = '/profile';
@@ -10,7 +11,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
@@ -74,6 +74,9 @@ class ProfilePage extends StatelessWidget {
                 _buildOption(
                   icon: Icons.notifications_none,
                   title: 'Notification',
+                  onTap: () {
+                    Navigator.pushNamed(context, NotificationPage.routeName);
+                  },
                 ),
                 const SizedBox(height: 20),
                 _buildOption(

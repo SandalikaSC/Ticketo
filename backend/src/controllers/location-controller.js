@@ -1,5 +1,6 @@
 const { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays, scheduleUpdatesLatest } = require("../services/location-service");
 const { scheduleUpdates } = require("../reposiotries/location-repository");
+const { get } = require("http");
 
 const locationUpdate = async (req, res) =>
 {
@@ -112,4 +113,12 @@ const getAllUpdates = async (req, res) =>
 
     return res.status(200).json({ scheduleupdates });
 }
-module.exports = { locationInsert, locationUpdate, getLocations, getDelays, getAllUpdates };
+
+const getNotification = async (req, res) =>
+{
+    const notifications = await getLocationDelays();
+    console.log("notifications", notifications);
+    return res.status(200).json({ notifications });
+
+};
+module.exports = { locationInsert, locationUpdate, getLocations, getDelays, getAllUpdates, getNotification };

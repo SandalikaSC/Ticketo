@@ -71,9 +71,10 @@ const Delays = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/get-delays");
-      //console.log(response.data);
+      // console.log(response.data);
 
-      setNotifications(response.data.notifications); // Update the state with the response data
+      setNotifications(response.data.notifications);
+      // Update the state with the response data
     } catch (error) {
       console.error("Error fetching data:", error);
     }
