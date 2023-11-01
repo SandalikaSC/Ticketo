@@ -2,10 +2,16 @@
 CREATE TYPE "userType" AS ENUM ('ADMIN', 'CONTROL_CENTRE', 'STATION_MASTER', 'DRIVER', 'TICKET_CLERK', 'TICKET_CHECKER', 'PASSENGER');
 
 -- CreateEnum
+CREATE TYPE "approvedStatus" AS ENUM ('PENDING', 'APPROVED', 'PAID', 'REJECTED', 'DELETED');
+
+-- CreateEnum
+CREATE TYPE "seasonType" AS ENUM ('Government', 'Private');
+
+-- CreateEnum
 CREATE TYPE "PaymentMethod" AS ENUM ('Wallet', 'Online');
 
 -- CreateEnum
-CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund');
+CREATE TYPE "payRelatedType" AS ENUM ('Fine', 'Ticket', 'SeasonCard', 'Refund', 'TopUpWallet');
 
 -- CreateEnum
 CREATE TYPE "tripType" AS ENUM ('ONE_WAY', 'ROUND_TRIP', 'RETURN');
@@ -89,8 +95,15 @@ CREATE TABLE "SeasonCard" (
     "duration" INTEGER NOT NULL,
     "startStation" INTEGER NOT NULL,
     "endStation" INTEGER NOT NULL,
+    "designation" TEXT NOT NULL,
+    "workplace" TEXT NOT NULL,
+    "workplaceAddress" TEXT NOT NULL,
+    "seasonType" "seasonType" NOT NULL,
+    "seasonClass" INTEGER NOT NULL,
+    "applyedDate" TIMESTAMP(3),
     "dateIssued" TIMESTAMP(3),
-    "approvedStatus" BOOLEAN NOT NULL DEFAULT false,
+    "approvedStatus" "approvedStatus" NOT NULL,
+    "applicationForm" TEXT,
     "certifiedBy" TEXT,
     "price" DOUBLE PRECISION NOT NULL,
     "userId" TEXT NOT NULL,
@@ -241,7 +254,7 @@ CREATE TABLE "locationShare" (
     "reason" TEXT,
     "scheduleId" INTEGER,
     "stationId" INTEGER,
-    "date" TIMESTAMP(3) NOT NULL,
+    "date" TEXT NOT NULL,
     "arrived" INTEGER NOT NULL,
 
     CONSTRAINT "locationShare_pkey" PRIMARY KEY ("id")
@@ -285,8 +298,10 @@ CREATE TABLE "Journey" (
     "firstClass" DECIMAL(65,30) NOT NULL,
     "secondClass" DECIMAL(65,30) NOT NULL,
     "thirdClass" DECIMAL(65,30) NOT NULL,
-    "seasonSecond" DECIMAL(65,30) NOT NULL,
-    "seasonThird" DECIMAL(65,30) NOT NULL,
+    "govenmentSecond" DECIMAL(65,30) NOT NULL,
+    "govenmentThird" DECIMAL(65,30) NOT NULL,
+    "privateSecond" DECIMAL(65,30) NOT NULL,
+    "privateThird" DECIMAL(65,30) NOT NULL,
 
     CONSTRAINT "Journey_pkey" PRIMARY KEY ("journeyId")
 );
@@ -301,6 +316,15 @@ CREATE TABLE "SeatReservation" (
     "coachArrangementId" INTEGER,
 
     CONSTRAINT "SeatReservation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Seats" (
+    "seatID" SERIAL NOT NULL,
+    "seatCode" INTEGER NOT NULL,
+    "SeatReservationID" INTEGER NOT NULL,
+
+    CONSTRAINT "Seats_pkey" PRIMARY KEY ("seatID")
 );
 
 -- CreateTable
@@ -458,6 +482,9 @@ ALTER TABLE "SeatReservation" ADD CONSTRAINT "SeatReservation_scheduleId_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "SeatReservation" ADD CONSTRAINT "SeatReservation_coachArrangementId_fkey" FOREIGN KEY ("coachArrangementId") REFERENCES "CoachArrangement"("arrangementId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Seats" ADD CONSTRAINT "Seats_SeatReservationID_fkey" FOREIGN KEY ("SeatReservationID") REFERENCES "SeatReservation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_DependentToUser" ADD CONSTRAINT "_DependentToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Dependent"("dependentId") ON DELETE CASCADE ON UPDATE CASCADE;

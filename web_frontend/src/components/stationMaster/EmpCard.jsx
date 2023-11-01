@@ -1,5 +1,5 @@
 import React from 'react';
-// import './EmpCard.css';
+ import "../../css/emp_card.css";
 
 const EmpCard = ({ employee }) => {
   return (

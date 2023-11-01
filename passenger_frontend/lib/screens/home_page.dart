@@ -130,9 +130,9 @@ class _HomePageState extends State<HomePage> {
       });
     }
   }
-  Future<void> _loadSchedule(ReservationTicket reservationTicket)async {
-    try {
 
+  Future<void> _loadSchedule(ReservationTicket reservationTicket) async {
+    try {
       final response = await stationService.addTicket(
           _selectedStartStation!.stationId.toString(),
           _selectedEndtStation!.stationId.toString(),
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                       primary: Colors.red, // Set button color to red
                       shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.circular(20), // Change border radius
+                            BorderRadius.circular(20), // Change border radius
                       ),
                     ),
                     child: Text(
@@ -210,14 +210,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => TrainSchedule(reservationTicket: reservationTicket)),
+          builder: (context) =>
+              TrainSchedule(reservationTicket: reservationTicket)),
     );
   }
 
   Future<void> _addTicket() async {
-
     try {
-
       final response = await stationService.addTicket(
           _selectedStartStation!.stationId.toString(),
           _selectedEndtStation!.stationId.toString(),
@@ -525,26 +524,26 @@ class _HomePageState extends State<HomePage> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-
-
                       if (_formKey.currentState!.validate()) {
                         // Validation successful, handle form submission
-                        ReservationTicket reservationTicket=ReservationTicket(
-                            startStation: _selectedStartStation,
-                            endStation: _selectedEndtStation,
-                            depatureDate: _startDateController.text,
-                            returnDate: _endDateController.text,
-                            passengers: _passengerController.text,
-                            classname: _selectedClass
+
+                        ReservationTicket reservationTicket = ReservationTicket(
+                          startStation: _selectedStartStation,
+                          endStation: _selectedEndtStation,
+                          depatureDate: _startDateController.text,
+                          returnDate: _endDateController.text,
+                          passengers: _passengerController.text,
+                          classname: _selectedClass,
+                          tripType: _toggleButtonGroupState._selectedIndex,
                         );
-                        
+
                         // _loadSchedules(reservationTicket);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TrainSchedule(reservationTicket: reservationTicket)),
+                              builder: (context) => TrainSchedule(
+                                  reservationTicket: reservationTicket)),
                         );
-
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -555,7 +554,7 @@ class _HomePageState extends State<HomePage> {
                             BorderRadius.circular(30), // Button border radius
                       ),
                     ),
-                    child: Text('Search Train',
+                    child: Text('Search Train / Book',
                         style: TextStyle(fontFamily: "Poppins")),
                   ),
                 ),

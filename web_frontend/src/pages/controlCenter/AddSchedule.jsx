@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
+
 import { Paper,
     Typography,
     Container,
@@ -17,6 +19,15 @@ import '../../css/cc_addTrainSchedule.css';
 import { Repeat } from "@mui/icons-material";
 
 const AddSchedule = () =>{
+
+    //Get the train ID and train Name here
+    const location = useLocation();
+    const search = location.search;
+    const params = new URLSearchParams(search);
+    const trainID = params.get('trainID');
+    const trainName = params.get('trainName');
+    //console.log(trainID);
+    //console.log(trainName);
 
     const[formFields, setFormFields] = useState([
         {stationName: '', arrivalTime: '', waitingTime: '', departureTime: ''},
@@ -46,9 +57,11 @@ const AddSchedule = () =>{
     }
 
     const [stations, setStations] = useState([]);
+    const [schedules, setSchedules] = useState([]);
 
     useEffect(() => {
         fetchStations();
+        fetchSchedules(trainID);
       }, []);
 
     const fetchStations = async () => {
@@ -58,17 +71,27 @@ const AddSchedule = () =>{
         } catch (error) {
           console.error("Error fetching stations:", error);
         }
-      };
+    };
+
+    const fetchSchedules = async (trainID) => {
+        try{
+            const response = await axios.get("http://localhost:5000/api/get-schedule-for-train?trainID=${trainID}");
+            setSchedules(response.data.schedules);
+        }catch(error){
+            console.error("Error fetching schedules:", error);
+        }
+    };
 
     const [errors, setErrors] = useState({});    
 
     const [formData, setFormData] = useState({
-        startingStation: " ",
+        startingStation: "",
         startingTime: "",
         destination: "",
         finishingTime: "",
         workingDays: [],
         stations: [],
+        trainID: trainID
     });
 
     const handleChange = (event) => {
@@ -85,14 +108,7 @@ const AddSchedule = () =>{
         });
     };
 
-    // const handleStationChange = (event) => {
-    //     const selectedValue = event.target.value;
-    //     setFormData({
-    //         ...formData,
-    //         [name]: value,
-    //     });
-    // };
-
+    
     const [workingDays, setWorkingDays] = useState({
         monday: false,
         tuesday: false,
@@ -173,18 +189,21 @@ const AddSchedule = () =>{
             workingDays: selectedDays,
         }));
 
-        console.log(formData.startingStation);
-        console.log(formData.startingTime);
-        console.log(formData.destination);
-        console.log(formData.finishingTime);
-        console.log(formData.workingDays);
+        //Check if values are properly set
+        // console.log(formData.startingStation);
+        // console.log(formData.startingTime);
+        // console.log(formData.destination);
+        // console.log(formData.finishingTime);
+        // console.log(formData.workingDays);
         
 
         setFormData((prevData) => ({
             ...prevData,
             stations: formFields,
         }));
-        console.log(formData.stations);
+
+        //Check if intermediate stations are properly set
+        //console.log(formData.stations);
 
         if(validateForm()){
 
@@ -200,7 +219,17 @@ const AddSchedule = () =>{
                 { headers }
                 );
 
-                setSaveClicked(true);
+                if (response.status === 201) {
+                    // Clear form data after successful submission
+                    setFormData({
+                      startingStation: "",
+                      startingTime: "",
+                      destination: "",
+                      finishingTime: "",
+                      workingDays: "",
+                    });
+                  }
+
             }catch(error){
                 console.error("Error submitting form" , error);
             }
@@ -217,8 +246,14 @@ const AddSchedule = () =>{
         }}>
             <Paper elevation={3} className="existing-schedules">
                 <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
-                    <b>Existing Schedules for Train Name</b>
+                    <b>Existing Schedules for {trainName}</b>
                 </Typography>
+
+                {schedules.map((s) => (
+                    console.log(s)
+                ))}
+
+                
             </Paper>
 
             <Paper elevation={3} className="adding-schedules">
@@ -235,27 +270,22 @@ const AddSchedule = () =>{
                         <Grid item xs={6}>
                         
                         <InputLabel>Select Starting Station</InputLabel>
-                            {/* <Select
+                            <select
                                 name="startingStation"
                                 value={formData.startingStation}
                                 onChange={handleChange}
                                 label="Starting Station"
+                                className="scheduleSelect"
                                 fullWidth
                             >
-                                <option value="">Select a station</option>
+                                
                                 {stations.map((station) => (
                                 <option key={station.id} value={station.id}>
                                     {station.name}
                                 </option>
                                 ))}
-                            </Select> */}
-                            <TextField
-                            type="text"
-                            name="startingStation"
-                            value={formData.startingStation}
-                            onChange={handleChange}
-                            fullWidth
-                            />                           
+                            </select>
+                            
                             <div style={{ color: 'red' }}>{errors.startingStation}</div>
                             
                         </Grid>
@@ -277,28 +307,29 @@ const AddSchedule = () =>{
                         <Grid item xs={6}>
                             <InputLabel>Select destination</InputLabel>
 
-                            {/* <Select
+                            <select
                                 name="destination"
                                 value={formData.destination}
                                 onChange={handleChange}
                                 label="Destination"
+                                className="scheduleSelect"
                                 fullWidth
                             >
-                                <option value="">Select a station</option>
+                            
                                 {stations.map((station) => (
                                 <option key={station.id} value={station.id}>
                                     {station.name}
                                 </option>
                                 ))}
-                            </Select> */}
+                            </select>
 
-                            <TextField
+                            {/* <TextField
                             type="text"
                             name="destination"
                             value={formData.startingStation}
                             onChange={handleChange}
                             fullWidth
-                            /> 
+                            />  */}
 
                             <div style={{ color: 'red' }}>{errors.destination}</div>
                         </Grid>
@@ -362,13 +393,14 @@ const AddSchedule = () =>{
                         return(
                             <div key={index}>
                                 <Grid container spacing={2}>
-                                {/* <Grid item xs={6}>
+                                <Grid item xs={6}>
                                     <InputLabel>Select station</InputLabel>
-                                    <Select
+                                    <select
                                         name={'stationName'}
                                         value={form.name}
                                         onChange={event => handleFormChange(event,index)}
                                         label="Destination"
+                                        className="scheduleSelect"
                                         fullWidth
                                     >
                                         <option value="">Select a station</option>
@@ -377,11 +409,11 @@ const AddSchedule = () =>{
                                             {station.name}
                                         </option>
                                         ))}
-                                    </Select>
-                                </Grid> */}
+                                    </select>
+                                </Grid>
                                 
 
-                                <Grid item xs={6}>
+                                {/* <Grid item xs={6}>
                                     <InputLabel>Select station</InputLabel>
                                     <TextField
                                     label="Station Name"
@@ -392,7 +424,7 @@ const AddSchedule = () =>{
                                     fullWidth
                                     style={{marginRight: "20px" }}
                                     />
-                                </Grid>
+                                </Grid> */}
 
                                 <Grid item xs={6}>
                                     <InputLabel>Arrival Time</InputLabel>
@@ -407,9 +439,8 @@ const AddSchedule = () =>{
                                 </Grid>
                                 
                                 <Grid item xs={6}>
-                                    <InputLabel>Waiting Time</InputLabel>
+                                    <InputLabel>Waiting Time (In minutes)</InputLabel>
                                     <TextField
-                                    type="time"
                                     name={'waitingTime'}
                                     onChange={event => handleFormChange(event,index)}
                                     value={form.waitingTime}

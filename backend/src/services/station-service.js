@@ -1,12 +1,9 @@
-const { getAllStations } = require("../reposiotries/station-repository");
+const { getAllStations, getSMbyStation } = require("../reposiotries/station-repository");
 
-const getStations = async () =>
-{
-  try
-  {
+const getStations = async () => {
+  try {
     return await getAllStations();
-  } catch (error)
-  {
+  } catch (error) {
     throw new Error("An error occurred during login");
   }
 }

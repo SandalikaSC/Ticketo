@@ -61,7 +61,7 @@ model Employee {
 
   addedBy       User?    @relation("AddedByEmployee", fields: [addedByUserId], references: [id]) // Overlapped relation with User model
   station       Station? @relation(fields: [stationId], references: [stationId]) // One-to-one relationship with Station model
-  //schedules     Schedule[] @relation("employeeSchedules")
+  //smodel Emplchedules     Schedule[] @relation("employeeSchedules")
   scanedTickets Ticket[] @relation("ticketScanner")
 }
 
@@ -83,18 +83,25 @@ model Wallet {
 
 // SeasonCard table
 model SeasonCard {
-  seasonId        String    @id @default(uuid()) // Primary Key
-  seasonStartDate DateTime?
-  seasonEndDate   DateTime?
-  duration        Int
-  startStation    Int
-  endStation      Int
-  dateIssued      DateTime?
-  approvedStatus  Boolean   @default(false)
-  certifiedBy     String?
-  price           Float
-  userId          String
-  seasonToken     String?   @default("")
+  seasonId         String         @id @default(uuid()) // Primary Key
+  seasonStartDate  DateTime?
+  seasonEndDate    DateTime?
+  duration         Int
+  startStation     Int
+  endStation       Int
+  designation      String
+  workplace        String
+  workplaceAddress String
+  seasonType       seasonType
+  seasonClass      Int
+  applyedDate      DateTime?
+  dateIssued       DateTime?
+  approvedStatus   approvedStatus
+  applicationForm  String?
+  certifiedBy      String?
+  price            Float
+  userId           String
+  seasonToken      String?        @default("")
 
   // Relationships
 
@@ -102,6 +109,19 @@ model SeasonCard {
   start   Station   @relation(name: "seasonStartStation", fields: [startStation], references: [stationId])
   end     Station   @relation(name: "seasonEndStation", fields: [endStation], references: [stationId])
   Payment Payment[] @relation(name: "seasonPay")
+}
+
+enum approvedStatus {
+  PENDING
+  APPROVED
+  PAID
+  REJECTED
+  DELETED
+}
+
+enum seasonType {
+  Government
+  Private
 }
 
 // Payment table
@@ -369,7 +389,7 @@ model Coach {
 // CoachArrangement table
 model CoachArrangement {
   arrangementId Int    @id @default(autoincrement()) // Primary Key 
-  Code          String //A B C ...
+  code          String //A B C ...
   coachId       Int // Foreign Key to Coach
   trainId       Int // Foreign Key to Train
   // Relationship 
@@ -381,18 +401,20 @@ model CoachArrangement {
 
 // Journey table
 model Journey {
-  journeyId    Int     @id @default(autoincrement()) // Primary Key
-  start        Int
-  end          Int
-  firstClass   Decimal
-  secondClass  Decimal
-  thirdClass   Decimal
-  seasonSecond Decimal
-  seasonThird  Decimal
+  journeyId       Int     @id @default(autoincrement()) // Primary Key
+  start           Int
+  end             Int
+  firstClass      Decimal
+  secondClass     Decimal
+  thirdClass      Decimal
+  govenmentSecond Decimal
+  govenmentThird  Decimal
+  privateSecond   Decimal
+  privateThird    Decimal
   //relationships
   // class        Class[]
-  startStation Station @relation(name: "journeyStart", fields: [start], references: [stationId])
-  endStation   Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
+  startStation    Station @relation(name: "journeyStart", fields: [start], references: [stationId])
+  endStation      Station @relation(name: "journeyEnd", fields: [end], references: [stationId])
 }
 
 // SeatReservation table
@@ -404,7 +426,16 @@ model SeatReservation {
   scheduleId         Int?
   coachArrangementId Int?
   // // Relationships  
+  Seats              Seats[]
   Reservation        Reservation?      @relation("reservationSeats", fields: [ticketId], references: [ticketId])
   Schedule           Schedule?         @relation("reservationSchedule", fields: [scheduleId], references: [scheduleId])
   CoachArrangement   CoachArrangement? @relation("reservationCoachArrange", fields: [coachArrangementId], references: [arrangementId])
+}
+
+model Seats {
+  seatID   Int @id @default(autoincrement())
+  seatCode Int
+
+  SeatReservation   SeatReservation @relation(fields: [SeatReservationID], references: [id])
+  SeatReservationID Int
 }

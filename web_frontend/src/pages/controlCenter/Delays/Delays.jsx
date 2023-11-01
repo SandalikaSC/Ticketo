@@ -71,16 +71,17 @@ const Delays = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/get-delays");
-      //console.log(response.data);
+      // console.log(response.data);
 
-      setNotifications(response.data.notifications); // Update the state with the response data
+      setNotifications(response.data.notifications);
+      // Update the state with the response data
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  console.log("hihihih");
-  console.log(notifications);
+  // console.log("hihihih");
+  // console.log(notifications);
   // Use the useEffect hook to fetch data every 5 seconds
   useEffect(() => {
     // Initial fetch when the component mounts
@@ -109,6 +110,15 @@ const Delays = () => {
   //     // Perform any necessary actions here
   //     setRedirectToResolve(true);
   //   };
+
+  const handleResolveClick = (notification) => {
+    // Store the specific notification object in local storage
+    localStorage.setItem("resolvedNotification", JSON.stringify(notification));
+
+    // Perform any necessary actions here
+    // For example, you can navigate to the resolve page
+    // or update the state to reflect that the notification is resolved.
+  };
 
   return (
     <Container style={{ padding: "20px" }}>
@@ -340,10 +350,17 @@ const Delays = () => {
                     state: {
                       propKey1: notification.trainName,
                       propKey2: notification.number,
+                      // notificationDetails: notification,
                     },
                   }}
                 >
-                  <Button variant="contained" color="primary" size="small">
+                  {/* console.log("Notification Object (Delays):", notification); */}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleResolveClick(notification)}
+                  >
                     Resolve
                   </Button>
                 </Link>

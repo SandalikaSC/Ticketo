@@ -10,7 +10,8 @@ const {
   generateOtp
 } = require("../controllers/auth-controller");
 const {
-  getAllStations
+  getAllStations,
+  getStationMaster
 } = require("../controllers/station-controller");
 const {
   getResevationSchedules,
@@ -23,21 +24,28 @@ const {
   addTrain, getAllTrains
 } = require("../controllers/train-controller");
 
+const {
+  getTrainSchedules
+} = require("../controllers/trainGuard/guard-schedule-controller");
+
 const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const { getStationMasters } = require("../controllers/stationMasterController");
+const { getDelays, getAllUpdates } = require("../controllers/location-controller");
+
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
 const walletRouter = require('./walletRouter');
+const seasonRouter = require('./seasonRouter');
 const locationRouter = require('./locationRouter');
-const { getDelays } = require("../controllers/location-controller");
 
 router.use('/location-update', locationRouter);
 router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
 router.use('/wallet', walletRouter);
-
+router.use('/season', seasonRouter);
+router.use('/schedule', scheduleRouter);
 
 router.post("/login", login);
 router.post("/signup", signup);
@@ -54,10 +62,9 @@ router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
-router.post("/")
-router.get("/get-station-masters", getStationMasters);
-
-
+router.post("/get-schedule-for-train", getTrainSchedules);
 
 router.get("/get-delays", getDelays);
+router.get("/get-all-updates", getAllUpdates);
+
 module.exports = router;

@@ -10,6 +10,8 @@ class scheduleWidget extends StatelessWidget {
   final String? start;
   final String? end;
   final String? classname;
+  final String? startingStation;
+  final String? endingStation;
 
   const scheduleWidget(
       {Key? key,
@@ -19,7 +21,9 @@ class scheduleWidget extends StatelessWidget {
       required this.name,
       required this.start,
       required this.end,
-      required this.classname})
+      required this.classname,
+      required this.startingStation,
+      required this.endingStation})
       : super(key: key);
 
   @override
@@ -182,6 +186,26 @@ class scheduleWidget extends StatelessWidget {
                     ),
                     Text(
                       "$endTime", //journey status
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "$startingStation", //trip type
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "$endingStation", //journey status
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,

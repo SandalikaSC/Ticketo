@@ -1,7 +1,8 @@
-const { updateLocation, insertLocation, getAllLocation } = require('../reposiotries/location-repository');
+const { updateLocation, insertLocation, getAllLocation, scheduleUpdates } = require('../reposiotries/location-repository');
 const { getScheduleDetails } = require('../reposiotries/schedule-repository');
 const { getTrain } = require('../reposiotries/trainRepository');
-const { getStationName } = require("../reposiotries/station-repository");
+const { getStationName, getStation } = require("../reposiotries/station-repository");
+const { get } = require('http');
 
 
 const stationlocationUpdate = async (stationlocation) =>
@@ -56,16 +57,16 @@ const getLocationDelays = async () =>
     for (const delay of delays)
     {
         const { scheduleId, stationId } = delay;
-        console.log("Schedule id is here", scheduleId);
+        //console.log("Schedule id is here", scheduleId);
         const scheduleDetails = await getScheduleDetails(scheduleId);
-        console.log("schedule details", scheduleDetails);
+        //console.log("schedule details", scheduleDetails);
 
         //const { trainId, start, end } = scheduleDetails;
 
         const trainId = scheduleDetails[0].trainId;
         const start = scheduleDetails[0].start;
         const end = scheduleDetails[0].end;
-        console.log("train id", trainId);
+        //console.log("train id", trainId);
         const train = trainId ? await getTrain(trainId) : null;
         const startStation = start ? await getStationName(start) : null;
         const endStation = end ? await getStationName(end) : null;
@@ -100,7 +101,45 @@ const getLocationDelays = async () =>
 
     }
 
-    console.log("delays with schedules", delaysWithSchedules);
+    //console.log("delays with schedules", delaysWithSchedules);
     return delaysWithSchedules;
 }
-module.exports = { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays };
+
+
+const scheduleUpdatesLatest = async () =>
+{
+    const scheduleUpdate = await scheduleUpdates();
+
+    const updatesWithStationDetails = await Promise.all(
+        scheduleUpdate.map(async (update) =>
+        {
+            // Fetch station details for each stationId
+            const stationDetails = await getStation(update.stationId);
+
+            const scheduleDetails = await getScheduleDetails(update.scheduleId);
+
+            const trainDetails = await getTrain(scheduleDetails[0].trainId);
+            console.log("train details", trainDetails);
+
+            // Create a new object with the desired format
+            const transformedUpdate = {
+                scheduleId: update.scheduleId,
+                stationId: update.stationId,
+                name: stationDetails.name,
+                latitude: stationDetails.latitude,
+                longitude: stationDetails.longitude,
+                contactNumber: stationDetails.contactNumber,
+                trainId: trainDetails.trainId,
+                trainName: trainDetails.trainName,
+                trainNumber: trainDetails.trainNumber,
+            };
+
+            return transformedUpdate;
+        })
+    );
+
+    console.log(updatesWithStationDetails);
+    return updatesWithStationDetails;
+};
+
+module.exports = { stationlocationUpdate, stationlocationInsert, getAllLocations, getLocationDelays, scheduleUpdatesLatest };

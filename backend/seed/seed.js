@@ -1484,14 +1484,6 @@ async function main()
         });
     }
 
-
-
-
-
-
-
-
-
     const classData = [
         { className: 'THIRD_CLASS_RESERVED', code: 'TCR' },
         { className: 'THIRD_CLASS_NOT_RESERVED', code: 'TC' },
@@ -1525,14 +1517,33 @@ async function main()
         // Add more coach data here...
     ];
 
-    for (const data of coachData)
-    {
+ 
+    const coachArrangement = [
+        { code: 'A', coachId: 5, trainId: 3 },
+        { code: 'B', coachId: 5, trainId: 3 },
+        { code: 'C', coachId: 8, trainId: 3 },
+        { code: 'D', coachId: 8, trainId: 3 },
+        { code: 'E', coachId: 3, trainId: 3 },
+        { code: 'F', coachId: 3, trainId: 3 },
+        { code: 'A', coachId: 5, trainId: 2 },
+        { code: 'B', coachId: 5, trainId: 2 },
+        { code: 'C', coachId: 8, trainId: 2 },
+        { code: 'D', coachId: 8, trainId: 2 },
+        { code: 'E', coachId: 3, trainId: 2 },
+        { code: 'F', coachId: 3, trainId: 2 },
+        // Add more coach data here...
+    ];
+    for (const data of coachData) { 
         await prisma.coach.create({
             data,
         });
     }
 
-
+    for (const data of coachArrangement) {
+        await prisma.CoachArrangement.create({
+            data,
+        });
+    }
     const uniqueStationPairs = generateUniqueStationPairs(stationData);
 
     function generateUniqueStationPairs(stationData)

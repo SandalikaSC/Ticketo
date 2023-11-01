@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
+import {Link, useLocation} from "react-router-dom";
+
 import {
   Container,
   Paper,
@@ -12,18 +14,22 @@ import {
 import { FaSearch } from "react-icons/fa";
 import { display } from "@mui/system";
 import '../../../css/cc_addTrainSchedule.css';
-import { Link } from 'react-router-dom';
 
 const AddTrainSchedule = () => {
   const [trains, setTrains] = useState([]);
 
+  useEffect(() => {
+    fetchTrains();
+  }, []);
+
   const fetchTrains = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/alltrains");
-      setTrains(response.data.stations);
-      for (let i = 0; i < trains.length; i++) {
-        console.log(trains[i]);
-      }
+      setTrains(response.data.trains);
+      trains.forEach(element => {
+        console.log(element);
+      });
+      
     } catch (error) {
       console.error("Error fetching stations:", error);
     }
@@ -39,8 +45,10 @@ const AddTrainSchedule = () => {
         <div className="search-box">
           <TextField 
           fullWidth
-          variant="outlined">
-
+          variant="outlined"
+          placeholder="Search train name"
+          >
+          
           </TextField>
 
           <Button
@@ -55,27 +63,22 @@ const AddTrainSchedule = () => {
 
       </div>
 
-      <Divider style={{marginTop: '20px'}}/>      
-
-      <Grid container spacing={2}>
-        
-      </Grid>
-
-      
+      <Divider style={{marginTop: '20px'}}/> <br></br>  
 
       <div className="view-all-schdules">
-        {trains.map((train,index) => (
-          <Paper elevation={3} className="train-schedule-part" key={index}>
+        {trains.map((train) => (
+          <Paper elevation={3} className="train-schedule-part">
             <h2>{train.trainName}</h2>
 
             <div style={{textAlign : "right"}}>
               <Link
+                  key={train.trainId}
                   to={{
                       pathname: '/cc/addschedule',
-                      state: {
-                          propKey1: "bye",
-                          propKey2: "hello",
-                      },
+                      search: `?trainID=${train.trainId}&trainName=${train.trainName}`
+                      // state: {
+                      //     trainID: train.trainId
+                      // },  
                   }}
               >
                 <Button
@@ -91,39 +94,10 @@ const AddTrainSchedule = () => {
           </Paper>
         ))}
         
-
-        {/* <Paper elevation={3} className="train-schedule-part">
-          <h2>Ruhunu Kumari</h2>
-
-          <div style={{textAlign : "right"}}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
-            >
-              Add Schedule
-            </Button>
-          </div> 
-
-        </Paper>
-
-        <Paper elevation={3} className="train-schedule-part">
-          <h2>Ella Express</h2>
-
-          <div style={{textAlign : "right"}}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ maxWidth: '90px', maxHeight: '90px', minWidth: '30px', minHeight: '50px', flex: 1 }}
-            >
-              Add Schedule
-            </Button>
-          </div> 
-
-        </Paper> */}
       </div>
       
-
+      <br></br>
+      <br></br>
       
     </Container>
   );
