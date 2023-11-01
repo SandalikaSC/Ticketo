@@ -25,7 +25,8 @@ const {
 } = require("../controllers/train-controller");
 
 const{
-  getTrainSchedules
+  getTrainSchedules,
+  deleteTrainSchedule
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
 const { verifyToken } = require("../middleware/authenticate");
@@ -63,6 +64,7 @@ router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
 router.post("/get-schedule-for-train", getTrainSchedules);
+router.post("/delete-train-Schedule", deleteTrainSchedule);
 
 router.get("/get-delays", getDelays);
 module.exports = router;

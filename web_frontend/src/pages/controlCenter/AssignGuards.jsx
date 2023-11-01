@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Container,
   Typography,
@@ -20,6 +21,37 @@ const AssignGuards = () => {
   const [isAddingGuard, setIsAddingGuard] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    nic: "",
+    mobile: "",
+    train: ""
+  });
+
+  const [errors, setErrors] = useState({}); 
+
+  const handleSave = async(event) => {
+    event.preventDefault();
+
+    console.log("AYO!!");
+  }
+
+const handleChange = (event) => {
+  const { name, value } = event.target;
+
+  setFormData({
+      ...formData,
+      [name]: value,
+  });
+
+  setErrors({
+      ...errors,
+      [name]: undefined,
+  });
+};
+
   const handleButtonClick = () => {
     setIsPopupOpen(true);
   };
@@ -34,54 +66,6 @@ const AssignGuards = () => {
       NIC: '789645199V',
       phone: '077-1236547',
       schedule: 'Monday to Friday, 9AM - 5PM'
-    },
-    {
-      name: 'Sunil Dissanayake',
-      NIC: '897012456V',
-      phone: '077-2345678',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'Kapila Priyantha',
-      NIC: '784567345V',
-      phone: '076-1551345',
-      schedule: 'Saturday & Sunday, 10AM - 3PM'
-    },
-    {
-      name: 'Piyal Perera',
-      NIC: '765678345V',
-      phone: '078-3456890',
-      schedule: 'Saturday, 5AM - 12PM'
-    },
-    {
-      name: 'Jagath Lal',
-      NIC: '755678234V',
-      phone: '074-2345678',
-      schedule: 'Sunday, 11AM - 4PM'
-    },
-    {
-      name: 'Kapila Kumara',
-      NIC: '832345890V',
-      phone: '077-1234567',
-      schedule: 'Monday-Friday, 10AM - 3PM'
-    },
-    {
-      name: 'Siripala Perera',
-      NIC: '732345123V',
-      phone: '078-23459045',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'Hegoda Arachchi',
-      NIC: '793456718V',
-      phone: '077-2345078',
-      schedule: 'Saturday, 10AM - 3PM'
-    },
-    {
-      name: 'Mohomed Abdulla',
-      NIC: '843456901V',
-      phone: '077-1237895',
-      schedule: 'Sunday, 10AM - 3PM'
     }
   ];
 
@@ -104,7 +88,48 @@ const AssignGuards = () => {
     }
   ];
 
-  const trainOptions = ['SamudraDevi', 'GaluKumari', 'RuhunuKumari', 'Sagarika'];
+  const [trains, setTrains] = useState([]);
+
+  useEffect(() => {
+    fetchTrains();
+  }, []);
+
+  const fetchTrains = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/alltrains");
+      setTrains(response.data.trains);
+      trains.forEach(element => {
+        console.log(element);
+      });
+      
+    } catch (error) {
+      console.error("Error fetching stations:", error);
+    }
+  };
+
+  const [schedules, setSchedules] = useState([]);
+
+  const fetchSchedules = async (trainID) => {
+    console.log("This methdo");
+        
+    try{
+        const accessToken = localStorage.getItem("accessToken");
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        const response = await axios.post(
+            "http://localhost:5000/api/get-schedule-for-train",
+            { trainId: trainID },
+            { headers }
+            );
+        console.log("responeseeefefrfr");
+        setSchedules(response.data.schedules);
+        console.log(schedules);
+    }catch(error){
+        console.error("Error fetching schedules:", error);
+    }
+};
 
   const [selectedSchedules, setSelectedSchedules] = useState([]);
   const handleSelectSchedule = (index) => {
@@ -120,6 +145,8 @@ const AssignGuards = () => {
   const handleCloseForm = () => {
     setIsAddingGuard(false);
   };
+
+  let trainName;
 
   return (
     <Container style={{ padding: '20px', display: 'flex', height: '115vh' }}>
@@ -186,33 +213,81 @@ const AssignGuards = () => {
           <b>Add Guard Details</b>
         </Typography> 
 
-        <TextField label="First Name" margin="normal" fullWidth />
-        <TextField label="Last Name" margin="normal" fullWidth />
-        <TextField label="Email" margin="normal" fullWidth />
-        <TextField label="NIC" margin="normal" fullWidth />
-        <TextField label="Mobile Number" margin="normal" fullWidth />
-        <FormControl style={{ width: '100%', marginTop: '10px', marginBottom: '10px' }}>
-          <InputLabel>Train</InputLabel>
-          <Select
-            value={selectedTrain}
-            onChange={(e) => setSelectedTrain(e.target.value)}
+        <form onSubmit={handleSave}>
+          <TextField 
+            label="First Name" 
+            margin="normal" 
+            type='text'
+            name='firstName'
+            value={formData.firstName}
+            onChange={handleChange}
+            fullWidth />
+
+          <TextField 
+          label="Last Name" 
+          margin="normal"
+          type='text'
+          name='lastName'
+          value={formData.lastName}
+          onChange={handleChange} 
+          fullWidth />
+
+          <TextField 
+          label="Email" 
+          margin="normal"
+          type='text'
+          name='email'
+          value={formData.email}
+          onChange={handleChange} 
+          fullWidth />
+
+          <TextField 
+          label="NIC" 
+          margin="normal" 
+          type='text'
+          name='nic'
+          value={formData.nic}
+          onChange={handleChange}
+          fullWidth />
+
+          <TextField 
+          label="Mobile Number" 
+          margin="normal" 
+          type='text'
+          name='mobile'
+          value={formData.mobile}
+          onChange={handleChange}
+          fullWidth />
+
+          <InputLabel>Select Train</InputLabel>
+          <select
+              name="train"
+              value={formData.train}
+              onChange={handleChange}
+              label="Train"
+              fullWidth
+              style={{marginBottom: '10px'}}
+              className="scheduleSelect"
           >
-            {trainOptions.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
+                      
+            {trains.map((train) => (
+            <option key={train.trainId} value={train.trainId}>
+                
+                {train.trainName}
+            </option>
             ))}
-          </Select>
-        </FormControl>
+        </select>
+        </form>
 
         {/* Display train schedules based on selectedTrain */}
-        {selectedTrain && (
+        {fetchSchedules(formData.train)}
+        {formData.train && (
           <div style={{ marginTop: '20px' }}>
 
             <Typography variant="h6" style={{ color: '#3D50AC', textAlign: 'center' }}>
-              <b>Train Schedules for {selectedTrain}</b>
+              <b>Available schedules for </b>
             </Typography>
-            {trainSchedules.map((schedule, index) => (
+            {schedules.map((schedule, index) => (
               <div key={index} style={{ marginTop: '10px' }}>
 
                 <Paper key={index} elevation={5} style={{ marginBottom: '10px', padding: '10px', borderRadius: '10px' }}>            

@@ -58,6 +58,16 @@ const addTrainSchedule = async (startStationId,endStationId,startingTime,
     
 };
 
+const deleteSchedule = async(scheduleID) => {
+    const scheduleid = parseInt(scheduleID);
+
+    return await prisma.schedule.delete({
+        where: {
+            scheduleId: scheduleid
+        }
+    });
+}
+
 //Gets all schedules by trainID
 const getSchedulebytrainID = async(trainID) => {
     const train = parseInt(trainID);
@@ -68,14 +78,12 @@ const getSchedulebytrainID = async(trainID) => {
         },
     });
 
-    let newschedules = [];
-
-    for(let t of temp){
-        const startS = await getStationName(t.start);
-        t.start = startS;
-        const endS = await getStationName(t.end);
-        t.end = endS;
-    }
+    // for(let t of temp){
+    //     const startS = await getStationName(t.start);
+    //     t.start = startS;
+    //     const endS = await getStationName(t.end);
+    //     t.end = endS;
+    // }
 
     return temp;
     
@@ -165,5 +173,6 @@ module.exports = {
     addTrainSchedule,
     getScheduleID,
     getSchedulebytrainID,
-    scheduleStations
+    scheduleStations,
+    deleteSchedule
 };

@@ -17,6 +17,7 @@ import { Paper,
  } from "@mui/material";
 import '../../css/cc_addTrainSchedule.css';
 import { Repeat } from "@mui/icons-material";
+import { padding } from "@mui/system";
 
 const AddSchedule = () =>{
 
@@ -236,6 +237,29 @@ const AddSchedule = () =>{
         
     };
 
+    const handleDelete = async (scheduleId) => {
+        try{
+            console.log(scheduleId);
+            const accessToken = localStorage.getItem("accessToken");
+            const headers = {
+                Authorization: `Bearer ${accessToken}`,
+            };
+
+            const response = await axios.post(
+                "http://localhost:5000/api/delete-train-Schedule",
+                { scheduleID: scheduleId },
+                { headers }
+                );
+            console.log("responeseeefefrfr");
+            
+            if(response.status === 200){
+                fetchSchedules(trainID);
+            }
+        }catch(error){
+            console.error("Error fetching schedules:", error);
+        }
+    }
+
     return(
         <Container maxWidth="xl" className="secnd-main-container" 
         style={{
@@ -252,22 +276,86 @@ const AddSchedule = () =>{
                 <br></br>
                 
                 {schedules.map((element) => (
-                    <Paper>
-                        <div style={{display: 'flex'}}>
-                            <Typography variant="h5" style={{color: '#3D50AC'}}>
-                                Schedule ID : 
+                    <Paper style={{marginBottom: '10px', padding: '10px', display: 'flex'}}>
+                        <div>
+                            <div style={{display: 'flex'}}>
+                                <Typography variant="h5" style={{color: '#3D50AC'}}>
+                                    <b>Schedule ID : </b>
+                                </Typography>
+
+                                <Typography variant="h5">
+                                    {element.scheduleId}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Starting Station :</b> 
+                                </Typography>
+
+                                <Typography>
+                                    {element.start}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Starting Time :</b> 
+                                </Typography>
+
+                                <Typography>
+                                    {element.startTime}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                                <Typography style={{color: '#3D50AC'}}>
+                                    <b>Ending Station :</b>
+                                </Typography>
+
+                                <Typography>
+                                    {element.end}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: 'flex'}}>
+                            <Typography style={{color: '#3D50AC'}}>
+                                <b>Ending time :</b> 
                             </Typography>
 
-                            <Typography variant="subtitle1">
-                                {element}
+                            <Typography>
+                                {element.endTime}
                             </Typography>
                         </div>
-                        
 
-                        <Typography variant="h5" style={{color: '#3D50AC'}}>
-                            Starting Station
-                        </Typography>
+                        <div style={{display: 'flex'}}>
+                            <Typography style={{color: '#3D50AC'}}>
+                                <b>Available Days :</b> 
+                            </Typography>
+
+                            <Typography>
+                                {element.workingDays}
+                            </Typography>
+                        </div>
+                            
+                        </div>
+
+                        <div>
+                            <Button style={{backgroundColor : 'Maroon', 
+                            color: 'White', 
+                            borderRadius: '10px',
+                            marginLeft: '100px',
+                            marginTop: '100px'
+                            }}
+                            onClick={() => handleDelete(element.scheduleId)}
+                            >
+                                Delete
+                            </Button>
+                        </div>
+
                     </Paper>
+
+                    
                 ))}
 
                 {/* {schedules.map((s) => (

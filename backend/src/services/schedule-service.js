@@ -1,5 +1,5 @@
 
-const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkingday } = require("../reposiotries/schedule-repository");
+const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkingday, deleteSchedule } = require("../reposiotries/schedule-repository");
 const { getStationId } = require('../reposiotries/station-repository')
 const { getStationName } = require("../reposiotries/station-repository");
 const { getTrain } = require("../reposiotries/trainRepository");
@@ -42,7 +42,17 @@ const addSchedule = async (startingStation, startingTime, destination, finishing
 
 }
 
-
+const deleteSchedulebyID = async (scheduleId) => 
+{
+    try
+    {
+        const isDeleted = await deleteSchedule(scheduleId);
+        return isDeleted;
+    }catch(err){
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
 
 const getAllScheduleStations = async (scheduleId) =>
 {
@@ -225,5 +235,6 @@ module.exports = {
     getScheduleByTrip,
     addSchedule,
     getAllScheduleStations,
-    getAllSchedulebyID
+    getAllSchedulebyID,
+    deleteSchedulebyID
 }

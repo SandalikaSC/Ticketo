@@ -16,6 +16,21 @@ const getAllScheduleStations = async (req, res) =>
     return res.status(200).json({ stations });
 }
 
+const deleteTrainSchedule = async (req,res) => {
+    console.log(req.body);
+    const {scheduleID} = req.body;
+    console.log(scheduleID);
+
+    if (!scheduleID) {
+        console.log("scheduleId missing");
+        return res.status(400).json({ message: 'Schedule Id is missing in the request' });
+    }
+
+    const isDeleted = await scheduleService.deleteSchedulebyID(scheduleID);
+    return res.status(200).json({ isDeleted });
+
+}
+
 const getTrainSchedules = async (req, res) => {
     try {
 
@@ -45,5 +60,6 @@ const getTrainSchedules = async (req, res) => {
 module.exports = {
     getGuardSchedules,
     getAllScheduleStations,
-    getTrainSchedules
+    getTrainSchedules,
+    deleteTrainSchedule
 };
