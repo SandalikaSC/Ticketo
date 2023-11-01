@@ -27,7 +27,7 @@ const TrainDelays = () => {
     <div className="train-delays-container">
       <h1>Train Delays</h1>
       <div className="sorting-options">
-        <label htmlFor="sort-select">Sort the order you want to see-</label>
+        <label htmlFor="sort-select"> Select the order you want to see:</label>
         <select
           id="sort-select"
           value={sortOption}

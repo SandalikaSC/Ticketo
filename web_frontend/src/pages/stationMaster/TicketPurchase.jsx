@@ -93,7 +93,7 @@ const TicketPurchase = () => {
     <Container style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
       <Card style={{ flex: 1, padding: '20px', marginRight: '20px' }}>
         <Typography variant="h6" gutterBottom>
-          Ticket Purchasing
+          <b>Ticket Purchasing</b>
         </Typography>
         <div style={{ display: 'flex', marginBottom: '20px' }}>
           <div
