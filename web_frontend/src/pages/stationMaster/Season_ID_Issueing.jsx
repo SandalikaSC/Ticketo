@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
-import { Button, Form} from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Button, Form } from 'react-bootstrap';
 import '../../css/seasonCardRequests.css'; // Make sure the CSS file path is correct
 import ApplicationData from '../../components/stationMaster/SeasonCardRequest_Data';
-
 
 const SeasonCardRequests = () => {
     const [selectedType, setSelectedType] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('');
     const [selectedCard, setSelectedCard] = useState(null);
+    const [cardsData, setCardsData] = useState([]);
 
-   
     const handleTabClick = (selectedTabType) => {
         setSelectedType(selectedTabType);
         setSelectedStatus(''); // Clear selected status
         setSelectedTimePeriod('');
         setSelectedCard(null); // Reset selected card when changing tabs
     };
-
-    const resetSortingSelectBoxes = () => {
-        setSelectedTimePeriod('');
-    };
-
 
     const handleTypeChange = (event) => {
         const type = event.target.value;
@@ -35,95 +30,66 @@ const SeasonCardRequests = () => {
         const timePeriod = event.target.value;
         setSelectedTimePeriod(timePeriod);
     };
+
     const handleViewMoreClick = (card) => {
         setSelectedCard(card);
     };
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem("accessToken");
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        axios.get('http://localhost:5000/api/season/getallseasonrequests', { headers })
+            .then(response => {
+                setCardsData(response.data);
+                console.log(response.data); // Log the received data
+            })
+            .catch(error => {
+                console.error('Error fetching data', error)
+            });
+
+    }, []);
+
     const renderCards = () => {
-        // Simulated data for demonstration
-        const cardsData = [
-            {
-                name: 'Nimal Supun Banadara',
-                type: 'Government',
-                email: 'nimal88sp@gmail.com',
-                phoneNumber: '091-2236585',
-                status: 'Pending',
-            
-            },
-            {
-                name: 'Sithmi Nirasha Weerawardhana',
-                type: 'Private',
-                email: 'sithmiweera99@gmail.com',
-                phoneNumber: '076-5241325',
-                status: 'Approved',
-                
-            },
-            {
-                name: 'Anirudh Weerachandar',
-                type: 'Government',
-                email: 'anichandr97@gmail.com',
-                phoneNumber: '070-2635596',
-                status: 'Pending',
-                
-            },
-            {
-                name: 'Sandalika Imesha',
-                type: 'Private',
-                email: 'sandai00@gmail.com',
-                phoneNumber: '077-5263569',
-                status: 'Approved',
-                
-            },
-            {
-                name: 'Sunil Vithana',
-                type: 'Government',
-                email: 'sunilvithanagalle@gmail.com',
-                phoneNumber: '077-5263449',
-                status: 'Approved',
-                
-            },
+        return (
+            <div className="tc-card-list">
+                {cardsData.map((card, index) => (
+                    <div className={`tc-card ${selectedCard === card ? 'selected' : ''}`} key={index}>
+                        <div className="tc-card-body">
+                            <div className="tc-card-info">
+                                <span className="tc-card-label">Name:</span>
+                                <span>{card.user.firstName}</span>
+                            </div>
 
-           
-        ];
+                            <div className="tc-card-info">
+                                <span className="tc-card-label">Type:</span>
+                                <span>{card.designation}</span>
+                            </div>
 
-        // Filter cards based on selected type
-        const filteredCards = selectedType
-        ? cardsData.filter(card => card.type === selectedType && (selectedStatus === '' || card.status === selectedStatus))
-        : cardsData;
+                            <div className="tc-card-info">
+                                <span className="tc-card-label">Email:</span>
+                                <span>{card.user.email}</span>
+                            </div>
 
-        
-        return filteredCards.map((card, index) => (
-            <div className={`tc-card ${selectedCard === card ? 'selected' : ''}`} key={index}>
-            <div className="tc-card-body">
-            <div className="tc-card-info">
-                    <span className="tc-card-label">Name:</span>
-                    <span>{card.name}</span>
+                            <div className="tc-card-info">
+                                <span className="tc-card-label">Phone Number:</span>
+                                <span>{card.user.mobileNumber}</span>
+                            </div>
+
+                            <div className="tc-card-info">
+                                <span className="tc-card-label">Status:</span>
+                                <span style={{ color: card.approvedStatus === 'Pending' || card.status === 'Approved' ? '#3D51A9' : 'inherit' }}>{card.approvedStatus}</span>
+                            </div>
+                        </div>
+                        <Button variant="danger" className="tc-approve-button" onClick={() => handleViewMoreClick(card)}>
+                            View More
+                        </Button>
+                    </div>
+                ))}
             </div>
-                
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Type:</span>
-                        <span>{card.type}</span>
-                    </div>
-        
-                 
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Email:</span>
-                        <span>{card.email}</span>
-                    </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Phone Number:</span>
-                        <span>{card.phoneNumber}</span>
-                    </div>
-                    <div className="tc-card-info">
-                        <span className="tc-card-label">Status:</span>
-                        <span style={{ color: card.status === 'Pending' || card.status === 'Approved' ? '#3D51A9' : 'inherit' }}>{card.status}</span>
-                    </div>
-                 
-                </div>
-                <Button variant="danger" className="tc-approve-button" onClick={() => handleViewMoreClick(card)}>
-                    View More
-                </Button>
-            </div>
-        ));
+        );
     };
 
     return (
@@ -171,17 +137,12 @@ const SeasonCardRequests = () => {
                                     </Form.Control>
                                 </Form.Group>
                             </div>
-                            <div className="tc-card-container">
-                                <div className="tc-card-list">
-                                    {renderCards()}
-                                </div>
-                            </div>
+                            {renderCards()}
                         </div>
                     </div>
                     <div className="tc-application-container"  >
-        <ApplicationData data={selectedCard ||{} }/>
-    </div>
-                     
+                        <ApplicationData data={selectedCard || {}}/>
+                    </div>
                 </div>
             </div>
         </div>

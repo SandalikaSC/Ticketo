@@ -121,10 +121,45 @@ const paySeason = async (req, res) => {
     }
 
 }
+
+// const getAllSeasonRequests = async(req, res)=>{
+
+//     try{
+//         const seasonRequests = await seasonService.getAllSeasonRequests();
+
+//         if(seasonRequests){
+//             return res.status(200).json(seasonRequests);
+//         }else{
+//             return res.status(404).json({ message:"No season card requests found"});
+//         }
+//        } catch (err) {
+//         return res.status(500).json({message:err.message});
+//     }
+      
+// };
+
+
+const getAllSeasonRequests = async(req, res) =>{
+    try{
+        const cardsData = await seasonService.getAllSeasons();
+        console.log(cardsData);
+        if(cardsData){
+                        return res.status(200).json(cardsData);
+                    }else{
+                        return res.status(404).json({ message:"No season card requests found"});
+                    }
+       
+    }catch (error){
+        console.error('Error fetching data:',error);
+       return res.status(500).json({error:'Internal Server Error'})
+    }
+};
+
 module.exports = {
     addSeasonRequest,
     getSeason,
     getSeasonRequest,
     deleteSeason,
-    paySeason
+    paySeason,
+    getAllSeasonRequests
 };
