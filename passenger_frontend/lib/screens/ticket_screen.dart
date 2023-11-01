@@ -6,6 +6,7 @@ import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/screens/seasonPage.dart';
 import 'package:passenger_frontend/services/ticket_service.dart';
 import 'package:passenger_frontend/widgets/Normalticket.dart';
+import 'package:passenger_frontend/widgets/shortdetail%20copy.dart';
 import 'package:passenger_frontend/widgets/shortdetail.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
@@ -232,7 +233,7 @@ class TicketScreenState extends State<TicketScreen> {
                     onTap: () {
                       _showTicketDetails(context, ticket);
                     },
-                    child: shortdetailTicket(
+                    child: ReservationticketDetail(
                         start: ticket['start'],
                         end: ticket['end'],
                         classname: ticket['className'],
@@ -244,7 +245,6 @@ class TicketScreenState extends State<TicketScreen> {
                   );
                 }).toList(),
               ),
-
             ),
             Center(
               child: SeasonPage(),
