@@ -1,5 +1,6 @@
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
+import 'package:employee_frontend/screens/train_guard/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/landing': (context) => const LandingPage(),
         '/guardHome': (context) => const TrainGuardHomePage(),
+        NotificationPage.routeName: (context) => const NotificationPage(),
       },
       initialRoute: '/login',
     );
