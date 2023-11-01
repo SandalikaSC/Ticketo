@@ -868,7 +868,7 @@ class _ToggleButtonGroupState extends State<ToggleButtonGroup> {
         ),
         IconTextToggleButton(
           icon: Icons.compare_arrows_sharp,
-          label: 'Round trip',
+          label: ' ',
           isSelected: _selectedIndex == 1,
         ),
       ],

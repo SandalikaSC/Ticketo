@@ -202,30 +202,31 @@ class TicketScreenState extends State<TicketScreen> {
         ),
         body: TabBarView(
           children: [
-            Center(
-              child: isLoading
-                  ? CircularProgressIndicator() // Show loading indicator
-                  : SingleChildScrollView(
-                      child: Column(
-                        children: tickets.map((ticket) {
-                          return GestureDetector(
-                            onTap: () {
-                              _showTicketDetails(context, ticket);
-                            },
-                            child: shortdetailTicket(
-                                start: ticket['start'],
-                                end: ticket['end'],
-                                classname: ticket['className'],
-                                passengers: ticket['noOfPassengers'],
-                                price: ticket['price'].toDouble(),
-                                status: ticket['journeyStatus'],
-                                ticketNo: ticket['ticketNumber'],
-                                tripType: ticket['tripType']),
-                          );
-                        }).toList(),
-                      ),
+            // Center(
+            // SizedBox(height: 5),
+            isLoading
+                ? CircularProgressIndicator() // Show loading indicator
+                : SingleChildScrollView(
+                    child: Column(
+                      children: tickets.map((ticket) {
+                        return GestureDetector(
+                          onTap: () {
+                            _showTicketDetails(context, ticket);
+                          },
+                          child: shortdetailTicket(
+                              start: ticket['start'],
+                              end: ticket['end'],
+                              classname: ticket['className'],
+                              passengers: ticket['noOfPassengers'],
+                              price: ticket['price'].toDouble(),
+                              status: ticket['journeyStatus'],
+                              ticketNo: ticket['ticketNumber'],
+                              tripType: ticket['tripType']),
+                        );
+                      }).toList(),
                     ),
-            ),
+                  ),
+            // ),
             Center(
               child: Column(
                 children: tickets.map((ticket) {
