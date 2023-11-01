@@ -54,7 +54,7 @@ const getTickets = async (req, res) => {
     const user = req.user;
     try {
         const tickets = await ticketService.getTicketsByuser(user.id);
-
+        console.log(tickets);
         if (tickets) {
             return res.status(200).json(tickets);
         } else {
