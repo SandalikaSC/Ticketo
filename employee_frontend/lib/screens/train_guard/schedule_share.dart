@@ -93,6 +93,37 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
     }
   }
 
+  void showJourneyEndMessage(BuildContext context) {
+    if (nextStationIndex >= stationDataList.length) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Journey has ended successfully!'),
+        ),
+      );
+    }
+  }
+  void showJourneyEndDialog(BuildContext context) {
+    if (nextStationIndex >= stationDataList.length) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Journey Ended Successfully'),
+            content: const Text('Congratulations, your journey has ended successfully!'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   void fetchScheduleStations(int scheduleId) async {
     final baseUrl = dotenv.env['BASE_URL'];
     final Uri uri = Uri.parse('$baseUrl/trainguard/get-all-stations');
@@ -186,7 +217,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
   }
 
 
-  Future<void> handleArriveButtonClick() async {
+  Future<void> handleArriveButtonClick(BuildContext context) async {
     //int id = 0;
     if (nextStationIndex < stationDataList.length) {
       StationData currentStation = stationDataList[nextStationIndex];
@@ -272,6 +303,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           if (kDebugMode) {
             print("\n\n\nafter updating next index $nextStationIndex\n\n\n");
           }// Move to the next station
+
         }
       }
       // if (nextStationIndex >= stationDataList.length) {
@@ -290,7 +322,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
       print("\n\nbefore incrementing $nextStationIndex\n\n");
     }
     nextStationIndex++;
-
+    showJourneyEndDialog(context);
   }
 
   @override
@@ -399,7 +431,7 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
           ElevatedButton(
             onPressed: () {
               setState(() {
-                handleArriveButtonClick();
+                handleArriveButtonClick(context);
                 isArrival = !isArrival;
                 showReasonTextField = true;
               });

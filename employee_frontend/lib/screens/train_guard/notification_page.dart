@@ -45,7 +45,7 @@ class _NotificationPageState extends State<NotificationPage> {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = json.decode(response.body);
       final List<dynamic> data = responseData['notifications'];
-      
+
       setState(() {
         notifications = data.map((notification) {
           final delay = notification['delay'];
