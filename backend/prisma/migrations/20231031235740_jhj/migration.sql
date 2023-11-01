@@ -2,7 +2,7 @@
 CREATE TYPE "userType" AS ENUM ('ADMIN', 'CONTROL_CENTRE', 'STATION_MASTER', 'DRIVER', 'TICKET_CLERK', 'TICKET_CHECKER', 'PASSENGER');
 
 -- CreateEnum
-CREATE TYPE "approvedStatus" AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+CREATE TYPE "approvedStatus" AS ENUM ('PENDING', 'APPROVED', 'PAID', 'REJECTED', 'DELETED');
 
 -- CreateEnum
 CREATE TYPE "seasonType" AS ENUM ('Government', 'Private');
@@ -319,6 +319,15 @@ CREATE TABLE "SeatReservation" (
 );
 
 -- CreateTable
+CREATE TABLE "Seats" (
+    "seatID" SERIAL NOT NULL,
+    "seatCode" INTEGER NOT NULL,
+    "SeatReservationID" INTEGER NOT NULL,
+
+    CONSTRAINT "Seats_pkey" PRIMARY KEY ("seatID")
+);
+
+-- CreateTable
 CREATE TABLE "_DependentToUser" (
     "A" INTEGER NOT NULL,
     "B" TEXT NOT NULL
@@ -473,6 +482,9 @@ ALTER TABLE "SeatReservation" ADD CONSTRAINT "SeatReservation_scheduleId_fkey" F
 
 -- AddForeignKey
 ALTER TABLE "SeatReservation" ADD CONSTRAINT "SeatReservation_coachArrangementId_fkey" FOREIGN KEY ("coachArrangementId") REFERENCES "CoachArrangement"("arrangementId") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Seats" ADD CONSTRAINT "Seats_SeatReservationID_fkey" FOREIGN KEY ("SeatReservationID") REFERENCES "SeatReservation"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_DependentToUser" ADD CONSTRAINT "_DependentToUser_A_fkey" FOREIGN KEY ("A") REFERENCES "Dependent"("dependentId") ON DELETE CASCADE ON UPDATE CASCADE;

@@ -6,10 +6,9 @@ const prisma = new PrismaClient();
 const getResevationSchedules = async (req, res) => {
 
 
-    const { startStation, endStation } = req.body;
+    const { startStation, endStation, departureDate, returnDate } = req.body;
     // // Validate startStation, endStation, tripType, startDate, returnDate, passengers, and classname
-    var departureDate = new Date();
-    var returnDate = new Date();
+
 
     if (!startStation || !endStation || !departureDate) {
         console.log(startStation, endStation, departureDate);
@@ -60,8 +59,35 @@ const addTrainSchedule = async (req, res) => {
         console.error("Error fetching schedules:", error);
     }
 }
+const getReservationSchedule = async (req, res) => {
 
+
+    const { scheduleId, classname, depatureDate } = req.body;
+    // // Validate startStation, endStation, tripType, startDate, returnDate, passengers, and classname
+
+    if (!scheduleId || !depatureDate || !classname) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        console.log("err");
+        const coachArrangements = await scheduleService.getReservationSchedule(scheduleId, classname, depatureDate);
+
+        if (coachArrangements) {
+            return res.status(200).json({ coachArrangements });
+        } else {
+            return res.status(400).json({ message: "Not coachArrangements" });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+
+
+}
 module.exports = {
     getResevationSchedules,
-    addTrainSchedule
+    addTrainSchedule,
+    getReservationSchedule
 };

@@ -8,6 +8,9 @@ const {
 const {
     getLocations
 } = require("../controllers/location-controller");
+const {
+    getReservationSchedule
+} = require("../controllers/schedule-controller");
 const { verifyToken } = require("../middleware/authenticate");
 
 scheduleRouter.use(verifyToken);
@@ -18,4 +21,7 @@ scheduleRouter.use(verifyToken);
 scheduleRouter.get('/get-schedule', getGuardSchedules);
 scheduleRouter.post('/get-all-stations', getAllScheduleStations);
 scheduleRouter.post('/get-locations', getLocations);
+scheduleRouter.post('/getReservationSchedule', getReservationSchedule);
+
+
 module.exports = scheduleRouter;

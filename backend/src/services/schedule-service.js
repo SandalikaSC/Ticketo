@@ -2,8 +2,10 @@
 const { getSchedule, scheduleStations, getTripSchedules, getAllSchedulesByWorkingday } = require("../reposiotries/schedule-repository");
 const { getStationId } = require('../reposiotries/station-repository')
 const { getStationName } = require("../reposiotries/station-repository");
+const { getReservedSeats } = require("../reposiotries/reservation-repository");
 const { getTrain } = require("../reposiotries/trainRepository");
-const { addTrainSchedule, getScheduleID, getSchedulebytrainID } = require("../reposiotries/schedule-repository");
+const { getReservationCoaches } = require("../reposiotries/coach-repository");
+const { addTrainSchedule, getScheduleID, getSchedulebytrainID, getTrainBySchedule } = require("../reposiotries/schedule-repository");
 
 function formatTime(time) {
     const date = new Date(time);
@@ -17,7 +19,6 @@ function formatTime(time) {
 
     return timeString;
 }
-
 
 //Add train Schedule
 const addSchedule = async (startingStation, startingTime, destination, finishingTime, workingDays, stations, trainID) => {
@@ -39,7 +40,6 @@ const addSchedule = async (startingStation, startingTime, destination, finishing
     return addedSchedule;
 
 }
-
 
 
 const getAllScheduleStations = async (scheduleId) => {
@@ -207,11 +207,58 @@ const selectSchedules = async (startStation, endStation, workingdays) => {
     }
 
 }
+const getReservationSchedule = async (scheduleId, classname, depatureDate) => {
+    try {
+        const firstCoaches = [5, 6, 7];
+        const secondCoaches = [8];
+        const thirdCoaches = [3, 4];
+        let coaches;
+        if (classname == 'First Class') {
+            coaches = firstCoaches;
+        } else if (classname == 'Second Class') {
+            coaches = secondCoaches;
+        } else {
+            coaches = thirdCoaches;
+        }
 
+        const trainId = await getTrainBySchedule(scheduleId);
+        const coachArrangements = await getReservationCoaches(trainId.trainId, coaches);
+
+        coachArrangements.forEach(async (coachArrangement) => {
+            const { arrangementId, code, trainId, /* ... other properties ... */ } = coachArrangement;
+
+            const seats = await getReservedSeats(arrangementId, parseCustomDate(depatureDate), scheduleId);
+            coachArrangement.seats = seats;
+
+            console.log(coachArrangement);
+            console.log("next")
+        });
+        // console.log()
+
+
+        return coachArrangements;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
+function parseCustomDate(dateString) {
+    const months = {
+        Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11
+    };
+
+    const parts = dateString.split(' ');
+    const day = parseInt(parts[0], 10);
+    const month = months[parts[1]];
+    const year = parseInt(parts[2], 10);
+
+    return new Date(year, month, day);
+}
 module.exports = {
     getGuardSchedule,
     getScheduleByTrip,
     addSchedule,
     getAllScheduleStations,
-    getAllSchedulebyID
+    getAllSchedulebyID,
+    getReservationSchedule
 }
