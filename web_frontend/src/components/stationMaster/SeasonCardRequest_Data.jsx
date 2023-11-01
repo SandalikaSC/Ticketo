@@ -2,17 +2,18 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import '../../css/seasonRequest_displayForm.css';
 
+
 const ApplicationData = ({ data }) => {
     return (
         <Card className="tc-application-form">
             <Card.Body className='tc-app-card-body'>
                 <h3 className="tc-form-heading">Season ID Card Request Information</h3>
                 <div className="tc-data-field">
-                    <strong>Full Name:</strong> {data.name}
+                    <strong>First Name:</strong> {data.firstName}
                 </div>
             
                 <div className="tc-data-field">
-                    <strong>Telephone Number:</strong> {data.phoneNumber}
+                    <strong>Telephone Number:</strong> {data.mobileNumber}
                 </div>
                 <div className="tc-data-field">
                     <strong>Email:</strong> {data.email}
@@ -20,18 +21,18 @@ const ApplicationData = ({ data }) => {
                 <div className="tc-data-field">
                     <strong>Designation:</strong> {data.designation}
                 </div>
-                <div className="tc-data-field">
-                    <strong>Permanent Address:</strong> {data.permanent_address}
-                </div>
+                {/* <div className="tc-data-field">
+                    <strong>Workplace Address:</strong> {data.workPlaceAddress}
+                </div> */}
               
                 <div className="tc-data-field">
                     <strong>National Identity Card No:</strong> {data.nic}
                 </div>
                 <div className="tc-data-field">
-                    <strong>Institution/Work Place:</strong> {data.work_place}
+                    <strong>Institution/Work Place:</strong> {data.workplace}
                 </div>
                 <div className="tc-data-field">
-                    <strong>Institution/Work Place Address:</strong> {data.work_place_address}
+                    <strong>Institution/Work Place Address:</strong> {data.workplaceAddress}
                 </div>
 
                 {/* <div className="tc-data-field">

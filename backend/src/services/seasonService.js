@@ -1,10 +1,11 @@
 
-const { addSeasonRequest, getUserSeason, getUserSeasonRequest, paySeason, deleteRequeset } = require("../reposiotries/season-repository")
+const { addSeasonRequest, getUserSeason, getUserSeasonRequest, paySeason, deleteRequeset,getSeasonRepo } = require("../reposiotries/season-repository")
 const { getStationId, getStationName } = require("../reposiotries/station-repository")
 const { getJourneyPrice } = require("../reposiotries/journey-rerpositary")
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const qr = require('qrcode');
+const { getSeasonRequest } = require("../controllers/seasonController");
 
 const makeSeasonRequest = async (
     userId, duration, startStation, endStation, designation, workplace, workplaceAddress, seasonType, seasonClass, applicationForm
@@ -171,11 +172,45 @@ const getAppliedSeasonMonth = async (currentDate) => {
 
         return (currentMonthName + " " + currentYear);
     }
+
 }
+
+
+
+// const getAllSeasonRequests =async () =>{
+//     try{
+//         const seasonRequests =await getSeasonRequestbyUser(); //to implement in repository
+        
+//         return seasonRequests;   
+//     } catch(err){
+//         throw new Error(err.message);
+//     }
+// }
+
+const getAllSeasons = async ()=>{
+    try{
+        const cardsData = await getSeasonRepo();
+        return cardsData;
+    } catch(error){
+        throw error;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
 module.exports = {
     makeSeasonRequest,
     getSeasonbyUser,
     getSeasonRequestbyUser,
     deleteSeasonRequest,
-    PayForSeason
+    PayForSeason,
+    getAllSeasons,
 };
