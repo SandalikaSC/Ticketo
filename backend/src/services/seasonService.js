@@ -197,10 +197,31 @@ const getAllSeasons = async ()=>{
     }
 }
 
+const rejectSeasonRequest = async (seasonId) => {
+    try {
 
 
+        const status = await rejectRequeset(seasonId);
+
+        return status;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
+
+const acceptSeasonRequest = async (seasonId) => {
+    try {
 
 
+        const status = await acceptRequeset(seasonId);
+
+        return status;
+    } catch (err) {
+        console.log(err);
+        throw new Error(err.message);
+    }
+}
 
 
 
@@ -213,4 +234,6 @@ module.exports = {
     deleteSeasonRequest,
     PayForSeason,
     getAllSeasons,
+    acceptSeasonRequest,
+    rejectSeasonRequest
 };
