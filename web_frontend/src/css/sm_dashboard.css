@@ -194,7 +194,7 @@
 /* TotalCard.css */
 
 .total-card {
-  background-color: whitesmoke;
+  background-color: rgb(224, 223, 223);
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -265,7 +265,7 @@
   /* Change the flex direction to column */
   padding: 20px;
   /* Increase padding for more height */
-  background-color: #fff;
+  background-color: rgb(224, 223, 223);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 44%;
