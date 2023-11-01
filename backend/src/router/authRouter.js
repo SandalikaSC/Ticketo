@@ -18,10 +18,10 @@ const {
   addTrainSchedule
 } = require("../controllers/schedule-controller");
 
-const { addUser } = require("../controllers/user-controller");
+const { addUser, addDriver,addGuard } = require("../controllers/user-controller");
 const { scanData } = require("../controllers/ticketChecker/scanData-controller");
 const {
-  addTrain, getAllTrains
+  addTrain, getAllTrains, getalldrivers
 } = require("../controllers/train-controller");
 
 const{
@@ -59,12 +59,15 @@ router.post("/verify-otp", verifyOtp);
 router.post("/getresevationschedules", getResevationSchedules);
 router.get("/allstations", getAllStations);
 router.get("/alltrains", getAllTrains);
+router.get("/alldrivers", getalldrivers);
 router.post("/add-train", addTrain);
 router.post("/scan-data", scanData);
 router.post("/add-user", addUser);
 router.post("/add-schedule", addTrainSchedule);
 router.post("/get-schedule-for-train", getTrainSchedules);
 router.post("/delete-train-Schedule", deleteTrainSchedule);
+router.post("/add-driver", addDriver);
+router.post("/add-guard", addGuard);
 
 router.get("/get-delays", getDelays);
 module.exports = router;

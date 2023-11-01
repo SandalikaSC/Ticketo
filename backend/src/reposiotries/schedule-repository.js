@@ -7,7 +7,7 @@ const addTrainSchedule = async (startStationId,endStationId,startingTime,
     finishingTime,workingDays,trainID,notWorkingDays, stations) => 
     {  
 
-        console.log(stations);
+        //console.log(stations);
 
         //Convert trainID to int
         trainIdInteger = parseInt(trainID);
@@ -166,6 +166,18 @@ const getScheduleDetails = async (scheduleId) =>
     });
 };
 
+const updateSchedule = async (driverId, scheduleId) => {
+    console.log("ïnside schedule repo",driverId);
+    const updatedSchedule = await prisma.schedule.update({
+        where: {
+          scheduleId: scheduleId,
+        },
+        data: {
+          driverId: driverId,
+        },
+      });
+      return updatedSchedule;
+}
 module.exports = {
     getSchedule,
     getTripSchedules,
@@ -174,5 +186,6 @@ module.exports = {
     getScheduleID,
     getSchedulebytrainID,
     scheduleStations,
-    deleteSchedule
+    deleteSchedule,
+    updateSchedule
 };

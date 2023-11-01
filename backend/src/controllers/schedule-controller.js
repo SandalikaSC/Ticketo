@@ -35,13 +35,20 @@ const getResevationSchedules = async (req, res) => {
 //Adding schedules to trains
 const addTrainSchedule = async (req, res) => {
     console.log("reached controller");
+        
     let { startingStation, startingTime, destination, finishingTime, workingDays, stations, trainID } = req.body;
     if (!startingStation || !destination || !startingTime || !finishingTime) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
     try{
-        console.log("test1");
+        console.log(startingStation);
+        console.log(startingTime);
+        console.log(destination);
+        console.log(finishingTime);
+        console.log(workingDays);
+        console.log(stations);
+        console.log(trainID);
         const authHeader = req.headers.authorization;
         const submittedUser = await authService.verifyToken(authHeader);
         const id = submittedUser.id;

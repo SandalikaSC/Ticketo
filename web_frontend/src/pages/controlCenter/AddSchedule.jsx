@@ -21,6 +21,8 @@ import { padding } from "@mui/system";
 
 const AddSchedule = () =>{
 
+    let loadSchedules = false;
+
     //Get the train ID and train Name here
     const location = useLocation();
     const search = location.search;
@@ -39,6 +41,21 @@ const AddSchedule = () =>{
         data[index][event.target.name] = event.target.value;
         setFormFields(data);
     }
+
+    useEffect(() => {
+        if (formFields) {
+            setFormData((prevData) => ({
+                ...prevData,
+                stations: formFields,
+            }));
+        }
+      }, [formFields]);
+
+    useEffect(() => {
+    if (loadSchedules) {
+        fetchSchedules(trainID);
+    }
+    }, [loadSchedules]);
 
     const addFields = () => {
         let object = {
@@ -88,7 +105,7 @@ const AddSchedule = () =>{
                 { trainId: trainID },
                 { headers }
                 );
-            console.log("responeseeefefrfr");
+            //console.log("responeseeefefrfr");
             setSchedules(response.data.schedules);
         }catch(error){
             console.error("Error fetching schedules:", error);
@@ -201,20 +218,20 @@ const AddSchedule = () =>{
         }));
 
         //Check if values are properly set
-        console.log(formData.startingStation);
-        console.log(formData.startingTime);
-        console.log(formData.destination);
-        console.log(formData.finishingTime);
-        console.log(formData.workingDays);
+        // console.log(formData.startingStation);
+        // console.log(formData.startingTime);
+        // console.log(formData.destination);
+        // console.log(formData.finishingTime);
+        // console.log(formData.workingDays);
         
-
+        //Setting the middle stations
         setFormData((prevData) => ({
             ...prevData,
             stations: formFields,
         }));
 
         //Check if intermediate stations are properly set
-        console.log(1);
+        console.log(formData.stations);
 
         if(validateForm()){
 
@@ -229,6 +246,20 @@ const AddSchedule = () =>{
                 formData,
                 { headers }
                 );
+
+                if (response.status === 201) {
+                    // Clear form data after successful submission
+                    setFormData({
+                      startingStation: "",
+                      startingTime: "",
+                      destination: "",
+                      finishingTime: "",
+                      workingDays: [],
+                      stations: []
+                    });
+
+                    handleChange = true;
+                }
 
             }catch(error){
                 console.error("Error submitting form" , error);
@@ -267,6 +298,8 @@ const AddSchedule = () =>{
             gridTemplateColumns: '1fr 1fr',
             gap: '20px'
         }}>
+
+            {/* Viewing existing schedules */}
             <Paper elevation={3} className="existing-schedules">
                 <Typography variant="h4" style={{color: '#3D50AC', flex: 4 }}>
                     <b>Existing Schedules for {trainName}</b>
@@ -520,20 +553,6 @@ const AddSchedule = () =>{
                                         ))}
                                     </select>
                                 </Grid>
-                                
-
-                                {/* <Grid item xs={6}>
-                                    <InputLabel>Select station</InputLabel>
-                                    <TextField
-                                    label="Station Name"
-                                    type="text"
-                                    name={'stationName'}
-                                    onChange={event => handleFormChange(event,index)}
-                                    value={form.name}
-                                    fullWidth
-                                    style={{marginRight: "20px" }}
-                                    />
-                                </Grid> */}
 
                                 <Grid item xs={6}>
                                     <InputLabel>Arrival Time</InputLabel>

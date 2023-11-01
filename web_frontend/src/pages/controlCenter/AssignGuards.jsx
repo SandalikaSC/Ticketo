@@ -27,7 +27,8 @@ const AssignGuards = () => {
     email: "",
     nic: "",
     mobile: "",
-    train: ""
+    train: "",
+    scheduleID: []
   });
 
   const [errors, setErrors] = useState({}); 
@@ -35,7 +36,54 @@ const AssignGuards = () => {
   const handleSave = async(event) => {
     event.preventDefault();
 
+    console.log(formData.firstName);
+    console.log(formData.lastName);
+    console.log(formData.email);
+    console.log(formData.nic);
+    console.log(formData.mobile);
+    console.log(formData.scheduleID);
     console.log("AYO!!");
+
+    try{
+      const accessToken = localStorage.getItem("accessToken");
+      const headers = {
+          Authorization: `Bearer ${accessToken}`,
+      };
+
+      const response = await axios.post(
+      "http://localhost:5000/api/add-guard",
+      formData,
+      { headers }
+      );
+
+      if(response.status === 201){
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          nic: "",
+          mobile: ""
+        });
+
+        setIsPopupOpen(true);
+      }
+
+    }catch(error){
+        console.error("Error submitting form" , error);
+    }
+  }
+
+  const [drivers, setDrivers] = useState({}); 
+
+  const fetchDrivers = async(event) => {
+    try{
+      const response = await axios.get("http://localhost:5000/api/alldrivers");
+      setDrivers(response.data.drivers);
+      console.log(response);
+    }
+    catch(error){
+      console.error("Error submitting form" , error);
+    }
   }
 
 const handleChange = (event) => {
@@ -52,10 +100,6 @@ const handleChange = (event) => {
   });
 };
 
-  const handleButtonClick = () => {
-    setIsPopupOpen(true);
-  };
-
   const handleClosePopup = () => {
     setIsPopupOpen(false);
   };
@@ -69,30 +113,18 @@ const handleChange = (event) => {
     }
   ];
 
-  const trainSchedules = [
-    {
-      start: 'Beliatta',
-      destination: 'Maradana',
-      startTime: '04:00',
-      finishTime: '10:00',
-      route: 'Coastal Line',
-      isSelected: false
-    },
-    {
-      start: 'Maradana',
-      destination: 'Beliatta',
-      startTime: '14:00',
-      finishTime: '20:00',
-      route: 'Coastal Line',
-      isSelected: false
-    }
-  ];
-
   const [trains, setTrains] = useState([]);
 
   useEffect(() => {
     fetchTrains();
+    fetchDrivers();
   }, []);
+
+  useEffect(() => {
+    if (formData.train) {
+      fetchSchedules(formData.train);
+    }
+  }, [formData.train]);
 
   const fetchTrains = async () => {
     try {
@@ -133,9 +165,12 @@ const handleChange = (event) => {
 
   const [selectedSchedules, setSelectedSchedules] = useState([]);
   const handleSelectSchedule = (index) => {
-    const updatedSchedules = [...trainSchedules];
-    updatedSchedules[index].isSelected = !updatedSchedules[index].isSelected;
-    setSelectedSchedules(updatedSchedules);
+    // console.log(index);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      scheduleID: [...prevFormData.scheduleID, index]
+    }));
+
   };  
 
   const handleAddGuardClick = () => {
@@ -156,7 +191,10 @@ const handleChange = (event) => {
         <Typography variant="h4" style={{ marginBottom: '20px', color: '#3D50AC', textAlign: 'center' }}>
           <b>All Train Guards</b>
         </Typography>
-        {guards.map((guard, index) => (
+
+        {/* To be edited */}
+
+        {drivers.map((guard, index) => (
           <Paper key={index} elevation={5} style={{ marginBottom: '10px', padding: '10px', borderRadius: '10px' }}>            
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <div style={{ display: 'flex' }}>
@@ -167,17 +205,17 @@ const handleChange = (event) => {
                 <div style={{ flex: 4,marginLeft: '20px' }}>
                   <div style={{ display: 'flex', marginBottom: '10px' }}>
                     <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 1 }}>Name:</div>
-                    <div style={{flex: 2}}>{guard.name}</div>
+                    <div style={{flex: 2}}>{guard.firstName} {guard.lastName}</div>
                   </div>
 
                   <div style={{ display: 'flex', marginBottom: '10px' }}>
                     <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 1  }}>NIC:</div>
-                    <div style={{flex: 2}}>{guard.NIC}</div>
+                    <div style={{flex: 2}}>{guard.nic}</div>
                   </div>
 
                   <div style={{ display: 'flex', marginBottom: '10px' }}>
                     <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 1  }}>Phone:</div>
-                    <div style={{ flex: 2 }}>{guard.phone}</div>
+                    <div style={{ flex: 2 }}>{guard.mobileNumber}</div>
                   </div>
 
                   <div style={{ display: 'flex', marginBottom: '10px'  }}>
@@ -280,14 +318,15 @@ const handleChange = (event) => {
         </form>
 
         {/* Display train schedules based on selectedTrain */}
-        {fetchSchedules(formData.train)}
+        
         {formData.train && (
           <div style={{ marginTop: '20px' }}>
 
             <Typography variant="h6" style={{ color: '#3D50AC', textAlign: 'center' }}>
-              <b>Available schedules for </b>
+              <b>Available schedules for {formData.train}</b>
             </Typography>
             {schedules.map((schedule, index) => (
+              
               <div key={index} style={{ marginTop: '10px' }}>
 
                 <Paper key={index} elevation={5} style={{ marginBottom: '10px', padding: '10px', borderRadius: '10px' }}>            
@@ -296,13 +335,18 @@ const handleChange = (event) => {
 
                     <div style={{ flex: 4 }}>
                       <div style={{ display: 'flex', marginBottom: '10px' }}>
+                        <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2 }}>Schedule ID:</div>
+                        <div style={{flex: 2}}>{schedule.scheduleId}</div>
+                      </div>
+
+                      <div style={{ display: 'flex', marginBottom: '10px' }}>
                         <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2 }}>Start:</div>
                         <div style={{flex: 2}}>{schedule.start}</div>
                       </div>
 
                       <div style={{ display: 'flex', marginBottom: '10px' }}>
                         <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2  }}>Destination:</div>
-                        <div style={{flex: 2}}>{schedule.destination}</div>
+                        <div style={{flex: 2}}>{schedule.end}</div>
                       </div>
 
                       <div style={{ display: 'flex', marginBottom: '10px' }}>
@@ -312,27 +356,21 @@ const handleChange = (event) => {
 
                       <div style={{ display: 'flex', marginBottom: '10px' }}>
                         <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2  }}>Finishing Time:</div>
-                        <div style={{ flex: 2 }}>{schedule.finishTime}</div>
+                        <div style={{ flex: 2 }}>{schedule.endTime}</div>
                       </div>
 
                       <div style={{ display: 'flex', marginBottom: '10px' }}>
-                        <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2  }}>Route:</div>
-                        <div style={{ flex: 2 }}>{schedule.route}</div>
+                        <div style={{ fontWeight: 'bold', minWidth: '100px', flex: 2  }}>working Days:</div>
+                        <div style={{ flex: 2 }}>{schedule.WorkingDays[0]}</div>
                       </div>
 
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                      <Button variant="contained" color="primary" style={{ marginLeft: '10px', marginBottom: '10px' }} onClick={() => handleSelectSchedule(index)}>
-                        {schedule.isSelected ? (
-                          <Checkbox
-                            checked={schedule.isSelected}
-                            onChange={() => handleSelectSchedule(index)}
-                            color="primary"
-                          />
-                        ) : (
-                          "Select Schedule"
-                        )}
+                      <Button variant="contained" color="primary" style={{ marginLeft: '10px', marginBottom: '10px' }} 
+                      onClick={() => handleSelectSchedule(schedule.scheduleId)}
+                      >
+                        Select Schedule
                       </Button>
                     </div>
 
@@ -346,7 +384,8 @@ const handleChange = (event) => {
         )}
 
 
-        <Button variant="contained" color="primary" fullWidth onClick={handleButtonClick}>
+        <Button variant="contained" color="primary" fullWidth 
+        onClick={handleSave}>
           Add Guard
         </Button>
         
