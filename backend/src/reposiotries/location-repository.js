@@ -23,7 +23,7 @@ const updateLocation = async (locationData) =>
     const departureTime = new Date(locationData.departureTime);
 
     // Calculate the time difference in minutes
-    const delayDeparture = (actualDepartureTime - departureTime) / (1000 * 60);
+    const delayDeparture = (actualDepartureTime - departureTime) / (1000 * 60) - 28314000;
 
     const currentDate = new Date();
 
@@ -56,7 +56,7 @@ const insertLocation = async (locationData) =>
     actualArrivalTime.setHours(arrivalTimeHours, arrivalTimeMinutes, 0, 0);
 
     // Calculate the time difference in minutes
-    const delayArrival = (actualArrivalTime - locationData.arrivalTime) / (1000 * 60);
+    const delayArrival = (actualArrivalTime - locationData.arrivalTime) / (1000 * 60) - 28314000;
 
     const currentDate = new Date();
 

@@ -205,14 +205,14 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
       final Duration delay = currentTime.isAfter(arrivalTime) ? currentTime.difference(arrivalTime) : const Duration();
 
       station.actualArrivalTime = formattedCurrentTime;
-      station.delayArrival = delay.inMinutes;
+      station.delayArrival = delay.inMinutes-28313900;
     } else {
       final DateTime departureTime = format.parse(station.departureTime);
       final String formattedDepartureTime = format.format(departureTime);
       final Duration delay = currentTime.isAfter(departureTime) ? currentTime.difference(departureTime) : const Duration();
 
       station.actualDepartureTime = formattedCurrentTime;
-      station.delayDeparture = delay.inMinutes;
+      station.delayDeparture = delay.inMinutes - 28313900;
     }
   }
 
@@ -255,12 +255,12 @@ class _ScheduleSharePageState extends State<ScheduleSharePage> {
         if (kDebugMode) {
           print(response.body);
         }
-          final Map<String, dynamic> responseBody = json.decode(response.body);
+        final Map<String, dynamic> responseBody = json.decode(response.body);
 
-          id = responseBody['result']['id'];
-          if (kDebugMode) {
-            print("\n\nid in response $id\n\n\n");
-          }
+        id = responseBody['result']['id'];
+        if (kDebugMode) {
+          print("\n\nid in response $id\n\n\n");
+        }
 
 
       } else if (currentStation.arrivalStatus == 1) {
@@ -485,7 +485,7 @@ class _ScheduleTableState extends State<ScheduleTable> {
           DataColumn(label: Text('Arrival Time')),
           DataColumn(label: Text('Departure Time')),
           DataColumn(label: Text('Delay')),
-          DataColumn(label: Text('Reason')),
+         // DataColumn(label: Text('Reason')),
         ],
         rows: widget.stationDataList.map((station) {
           return DataRow(cells: [
@@ -493,7 +493,7 @@ class _ScheduleTableState extends State<ScheduleTable> {
             DataCell(Text(station.arrivalTime)),
             DataCell(Text(station.departureTime)),
             DataCell(Text(widget.isArrival ? (station.delayArrival > 0 ? '${station.delayArrival} min' : '-') : (station.delayDeparture > 0 ? '${station.delayDeparture} min' : '-'))),
-            DataCell(Text(station.reason)),
+            //DataCell(Text(station.reason)),
           ]);
         }).toList(),
       ),
