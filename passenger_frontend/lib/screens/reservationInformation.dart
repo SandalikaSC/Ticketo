@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 import 'package:passenger_frontend/modals/ReservationTicket.dart';
 import 'package:passenger_frontend/modals/Traveller.dart';
+import 'package:passenger_frontend/screens/bottom_bar.dart';
+import 'package:passenger_frontend/services/trainScheduleService.dart';
+import 'package:passenger_frontend/utils/error_handler.dart';
 import 'package:passenger_frontend/widgets/ReservationConfirm.dart';
+import 'package:passenger_frontend/widgets/customSnackBar.dart';
 
 class ReservationInformationScreen extends StatefulWidget {
   final String selectedCoach;
@@ -88,32 +93,47 @@ class _ReservationInformationScreenState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Reservation Details Section
-            Card(
-              elevation: 2.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0),
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Reservation Details',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+            Center(
+              child: Card(
+                color: Color.fromARGB(255, 231, 242, 255),
+                elevation: 2.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0),
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Reservation Details',
+                        style: TextStyle(
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Text('Coach: ${widget.selectedCoach}'),
-                    Text('Schedule ID: ${widget.scheduleID}'),
-                    Text('Seats:'),
-                    for (int row = 0; row < widget.selectedSeats.length; row++)
-                      for (int col = 0;
-                          col < widget.selectedSeats[row].length;
-                          col++)
-                        if (widget.selectedSeats[row][col] == 1)
-                          Text('${String.fromCharCode(row + 65)}${col + 1}'),
-                  ],
+                      SizedBox(height: 10.0),
+                      Text(
+                        'Coach  ${widget.selectedCoach}',
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey),
+                      ),
+                      // Text('Schedule ID: ${widget.scheduleID}'),
+                      Text('Seats ',
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey)),
+                      Text(
+                        '${getSelectedSeats(widget.selectedSeats).toString()}',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Styles.secondaryColor,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -204,10 +224,11 @@ class _ReservationInformationScreenState
                     if (_validateTravelerInformation()) {
                       ConfirmationDialog.showConfirmationDialog(
                         context,
-                        seats: "C2, C3",
-                        coachData: "Coach A",
-                        startDestination:
-                            widget.reservationTicket.startStation!.name,
+                        seats:
+                            getSelectedSeats(widget.selectedSeats).toString(),
+                        coachData: widget.selectedCoach,
+                        start: widget.reservationTicket.startStation!.name,
+                        destination: widget.reservationTicket.endStation!.name,
                         trainName: "Galu Kumari Train",
                         onConfirm: () {
                           // Add your confirmation logic here
@@ -226,12 +247,20 @@ class _ReservationInformationScreenState
                     // Example usage of the ConfirmationDialog
                     ConfirmationDialog.showConfirmationDialog(
                       context,
-                      seats: "C2, C3",
-                      coachData: "Coach A",
-                      startDestination:
-                          widget.reservationTicket.startStation!.name,
+                      seats: getSelectedSeats(widget.selectedSeats).toString(),
+                      coachData: widget.selectedCoach,
+                      start: widget.reservationTicket.startStation!.name,
+                      destination: widget.reservationTicket.endStation!.name,
                       trainName: "Galu Kumari Train",
                       onConfirm: () {
+                        Navigator.of(context).pop();
+                        showCustomToast(
+                            context, "success", "Reservation Completed");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const BottomBar()),
+                        );
                         // Add your confirmation logic here
                         // This code will be executed when the "Confirm" button is pressed.
                       },
@@ -245,5 +274,36 @@ class _ReservationInformationScreenState
         ),
       ),
     );
+  }
+  // void saveReservation() async {
+  //   try {
+  //     final TrainScheduleService trainScheduleService = TrainScheduleService();
+
+  //     final response = await trainScheduleService.saveReservation();
+
+  //     final responseData = json.decode(response.body);
+
+  //     if (response.statusCode == 200) {
+  //       final dynamic decodedResponse = json.decode(response.body);
+  //       if (decodedResponse != null) {
+  //       } else {}
+  //     } else {}
+  //   } catch (e) {
+  //     print('Error occurred: $e'); // Print the exception details
+  //     ErrorHandler.showErrorSnackBar(
+  //         context, 'Unknown error occurred. Please try again later.');
+  //   }
+  // }
+
+  List<String> getSelectedSeats(List<List<int>> selectedSeats) {
+    List<String> result = [];
+    for (int row = 0; row < selectedSeats.length; row++) {
+      for (int col = 0; col < selectedSeats[row].length; col++) {
+        if (selectedSeats[row][col] == 1) {
+          result.add('${String.fromCharCode(row + 65)}${col + 1}');
+        }
+      }
+    }
+    return result;
   }
 }

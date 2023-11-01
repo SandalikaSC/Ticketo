@@ -12,13 +12,13 @@ import 'package:passenger_frontend/screens/topupWalletPage.dart';
 import 'package:passenger_frontend/services/WalletService.dart';
 import 'package:passenger_frontend/utils/error_handler.dart';
 
-class WalletPage extends StatefulWidget{
+class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
   @override
   _WalletPageState createState() => _WalletPageState();
 }
 
-class _WalletPageState extends State<WalletPage>{
+class _WalletPageState extends State<WalletPage> {
   final WalletService walletService = WalletService();
   String walletId = '';
   String userId = '';
@@ -26,15 +26,15 @@ class _WalletPageState extends State<WalletPage>{
   double holdValue = 0.0;
   double available = 0.0;
   List<Payment> paymentList = [];
-  NumberFormat numberFormat = NumberFormat("0.00", "en_US"); // "0.00" means two decimal places
-
+  NumberFormat numberFormat =
+      NumberFormat("0.00", "en_US"); // "0.00" means two decimal places
 
   @override
   void initState() {
     super.initState();
     LoadWalletInfo();
-
   }
+
   Future<void> LoadWalletInfo() async {
     if (!mounted) return; // Check if the widget is still mounted
 
@@ -45,22 +45,20 @@ class _WalletPageState extends State<WalletPage>{
       if (response.statusCode == 200) {
         final dynamic decodedResponse = json.decode(response.body);
         if (decodedResponse != null) {
-
-
           setState(() {
             walletId = decodedResponse['walletId'];
             userId = decodedResponse['userId'];
-            walletBalance = (decodedResponse['walletBalance'] * 100).round() / 100.0;
+            walletBalance =
+                (decodedResponse['walletBalance'] * 100).round() / 100.0;
             holdValue = (decodedResponse['holdValue'] * 100).round() / 100.0;
             paymentList = (decodedResponse['payment'] as List)
                 .map((paymentJson) => Payment.fromJson(paymentJson))
                 .toList();
             // payments = decodedResponse['payment']
-               ;
+            ;
           });
           setState(() {
-
-            available=  ((walletBalance-holdValue) * 100).round() / 100.0;
+            available = ((walletBalance - holdValue) * 100).round() / 100.0;
           });
         }
       }
@@ -70,6 +68,7 @@ class _WalletPageState extends State<WalletPage>{
           context, 'Unknown error occurred. Please try again later.$e');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,7 +230,7 @@ class _WalletPageState extends State<WalletPage>{
                               ),
                               SizedBox(height: 8),
                               Text(
-                             'Rs. $available',
+                                'Rs. $available',
                                 style: TextStyle(
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold,
@@ -342,27 +341,27 @@ class _WalletPageState extends State<WalletPage>{
                             ],
                           ),
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFF3D50AC),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  // Add your statistics logic here
-                                },
-                                icon: const Icon(
-                                  Icons.show_chart,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            const Text('Statistics'),
-                          ],
-                        ),
+                        // Column(
+                        //   children: [
+                        //     Container(
+                        //       decoration: const BoxDecoration(
+                        //         shape: BoxShape.circle,
+                        //         color: Color(0xFF3D50AC),
+                        //       ),
+                        //       child: IconButton(
+                        //         onPressed: () {
+                        //           // Add your statistics logic here
+                        //         },
+                        //         icon: const Icon(
+                        //           Icons.show_chart,
+                        //           size: 30,
+                        //           color: Colors.white,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     const Text('Statistics'),
+                        //   ],
+                        // ),
                         Column(
                           children: [
                             Container(
@@ -376,7 +375,8 @@ class _WalletPageState extends State<WalletPage>{
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => PaymentHistory(paymentList: paymentList),
+                                      builder: (context) => PaymentHistory(
+                                          paymentList: paymentList),
                                     ),
                                   );
                                 },
@@ -428,15 +428,20 @@ class _WalletPageState extends State<WalletPage>{
                   ),
                   Expanded(
                     // Add horizontal padding here
-                   child: ListView.builder(
-                      itemCount: min(3, paymentList.length), // Display the first 3 items or less
+                    child: ListView.builder(
+                      itemCount: min(
+                          3,
+                          paymentList
+                              .length), // Display the first 3 items or less
                       itemBuilder: (context, index) {
                         // Build your list item here using payments[index]
-                        Payment payment = paymentList[index]; // Access the payment object
+                        Payment payment =
+                            paymentList[index]; // Access the payment object
 
                         return ClipRRect(
                           // Wrap Card with ClipRRect for border radius
-                          borderRadius: BorderRadius.circular(50.0), // Set the desired border radius
+                          borderRadius: BorderRadius.circular(
+                              50.0), // Set the desired border radius
                           child: Card(
                             // elevation: 2,
                             color: Colors.white,
@@ -452,13 +457,16 @@ class _WalletPageState extends State<WalletPage>{
                                   const SizedBox(width: 20),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                         payment.relatedName ?? '', // Access payment-related data
+                                          payment.relatedName ??
+                                              '', // Access payment-related data
                                           style: TextStyle(
                                             fontFamily: "poppins",
-                                            color: Color.fromARGB(255, 91, 88, 88),
+                                            color:
+                                                Color.fromARGB(255, 91, 88, 88),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                           ),
@@ -491,9 +499,6 @@ class _WalletPageState extends State<WalletPage>{
                         );
                       },
                     ),
-
-
-
                   )
                 ],
               ),
@@ -504,4 +509,3 @@ class _WalletPageState extends State<WalletPage>{
     );
   }
 }
-

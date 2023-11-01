@@ -185,7 +185,9 @@ class _RequestInformationCardState extends State<RequestInformationCard> {
                       ),
                       child: Text('Delete'),
                     ),
-                  if (status != 'REJECTED' || status != 'PAID')
+                  if (status != 'REJECTED' ||
+                      status != 'PAID' ||
+                      status != 'PENDING')
                     ElevatedButton(
                       onPressed: () {
                         displayGateway(price ?? 200.00);
@@ -243,7 +245,7 @@ class _RequestInformationCardState extends State<RequestInformationCard> {
       print("One Time Payment Failed. Error: $error");
       showCustomToast(context, "error", error);
     }, () {
-      showCustomToast(context, "error", "dissmisses");
+      // showCustomToast(context, "error", "dissmisses");
       paySeason(seasonId);
     });
   }
