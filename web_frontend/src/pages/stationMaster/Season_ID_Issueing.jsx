@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Form } from 'react-bootstrap';
 import '../../css/seasonCardRequests.css'; // Make sure the CSS file path is correct
+import '../../css/seasonRequest_displayForm.css';
+
 import ApplicationData from '../../components/stationMaster/SeasonCardRequest_Data';
 
 const SeasonCardRequests = () => {
@@ -77,6 +79,7 @@ const SeasonCardRequests = () => {
                                 <span className="tc-card-label">Phone Number:</span>
                                 <span>{card.user.mobileNumber}</span>
                             </div>
+                            
 
                             <div className="tc-card-info">
                                 <span className="tc-card-label">Status:</span>
@@ -141,7 +144,7 @@ const SeasonCardRequests = () => {
                         </div>
                     </div>
                     <div className="tc-application-container"  >
-                        <ApplicationData data={selectedCard || {}}/>
+<ApplicationData data={selectedCard ? { ...selectedCard, user: selectedCard.user || {} } : { user: {} }} />
                     </div>
                 </div>
             </div>
