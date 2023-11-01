@@ -45,7 +45,7 @@ router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
 router.use('/wallet', walletRouter);
 router.use('/season', seasonRouter);
-
+router.use('/schedule', scheduleRouter);
 
 router.post("/login", login);
 router.post("/signup", signup);

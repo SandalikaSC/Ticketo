@@ -34,14 +34,18 @@ class TrainScheduleService {
     }
   }
 
-  Future<http.Response> getTrainInfo(scheduleId, depatureDate) async {
+  Future<http.Response> getTrainInfo(
+      scheduleId, classname, depatureDate) async {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
       var uri = Uri.parse(
-          '$baseUrl/reservation/getReservationTrainInfo'); // Make sure the URL is correct
+          '$baseUrl/schedule/getReservationSchedule'); // Make sure the URL is correct
 
       final Map<String, dynamic> requestData = {
         'scheduleId': scheduleId,
+        'classname': classname,
         'depatureDate': depatureDate
       };
 
@@ -49,6 +53,7 @@ class TrainScheduleService {
         uri,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
         },
         body: jsonEncode(requestData), // Encode the data as JSON
       );

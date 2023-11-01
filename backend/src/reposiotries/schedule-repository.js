@@ -10,7 +10,7 @@ const addTrainSchedule = async (startStationId, endStationId, startingTime,
     // console.log(endStationId);    
     // console.log(startingTime);    
     // console.log(finishingTime);    
-    // console.log(workingDays);    
+    // console.log(workingDays);     
     // console.log(trainID);    
     return await prisma.schedule.create({
         data: {
@@ -115,7 +115,16 @@ const getScheduleDetails = async (scheduleId) => {
         },
     });
 };
-
+const getTrainBySchedule = async (scheduleId) => {
+    return await prisma.schedule.findUnique({
+        where: {
+            scheduleId: scheduleId,
+        },
+        include: {
+            Train: true, // Include the associated Train
+        },
+    });
+}
 module.exports = {
     getSchedule,
     getTripSchedules,
@@ -125,4 +134,5 @@ module.exports = {
     getSchedulebytrainID,
     getScheduleDetails,
     scheduleStations,
+    getTrainBySchedule
 };
