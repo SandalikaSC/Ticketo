@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationPage extends StatefulWidget {
@@ -25,24 +27,46 @@ class _NotificationPageState extends State<NotificationPage> {
     fetchNotifications();
   }
 
+
   Future<void> fetchNotifications() async {
     final baseUrl = dotenv.env['BASE_URL'];
     final Uri uri = Uri.parse('$baseUrl/trainguard/get-notification');
     final sharedPreferences = await SharedPreferences.getInstance();
     final accessToken = sharedPreferences.getString('accessToken') ?? '';
 
-    final response = await http.get(uri);
+    final response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+
     if (response.statusCode == 200) {
-      final List<dynamic> data = json.decode(response.body);
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      final List<dynamic> data = responseData['notifications'];
+      
       setState(() {
-        notifications = data
-            .map((notification) => NotificationItem(
-          name: notification['name'],
-          dateTime: notification['dateTime'],
-          description: notification['description'],
-        ))
-            .toList();
+        notifications = data.map((notification) {
+          final delay = notification['delay'];
+
+          final delayText = (delay == 'NaN' || delay == '0' || delay == 'null')
+              ? 'with no delay'
+              : '$delay minutes late';
+
+          final dateFormatter = DateFormat("yyyy-MM-dd hh.mm a");
+          final formattedDate = dateFormatter.format(DateTime.parse(notification['date']));
+
+          return NotificationItem(
+            name: notification['trainName'],
+            dateTime: formattedDate,
+            description: notification['currentLocation'],
+            delay: delayText,
+          );
+        }).toList();
       });
+
+
     }
   }
 
@@ -55,9 +79,9 @@ class _NotificationPageState extends State<NotificationPage> {
       body: FutureBuilder(
         future: fetchNotifications(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator(); // Loading indicator while fetching data
-          }
+          // if (snapshot.connectionState == ConnectionState.waiting) {
+          //   return const CircularProgressIndicator(); // Loading indicator while fetching data
+          // }
 
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -65,6 +89,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
           return ListView.builder(
             itemCount: notifications.length,
+
             itemBuilder: (context, index) {
               return Container(
                 decoration: BoxDecoration(
@@ -99,13 +124,14 @@ class _NotificationPageState extends State<NotificationPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            notifications[index].description,
+                            'Arrived ${notifications[index].description} ${notifications[index].delay} ',
                             style: const TextStyle(
                               fontSize: 14,
                               color: Color(0xFFFA6F5D),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+
                         ],
                       ),
                       const Icon(
@@ -130,10 +156,11 @@ class NotificationItem {
   final String name;
   final String dateTime;
   final String description;
+  final String delay;
 
   NotificationItem({
     required this.name,
     required this.dateTime,
-    required this.description,
+    required this.description, required this.delay,
   });
 }
