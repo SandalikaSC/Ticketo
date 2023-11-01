@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { getSeason } = require('../controllers/seasonController');
 const prisma = new PrismaClient();
 
 async function addSeasonRequest(userId, duration, startStation, endStation, designation, workplace, workplaceAddress, seasonType, seasonClass, price, applicationForm) {
@@ -28,9 +29,87 @@ async function addSeasonRequest(userId, duration, startStation, endStation, desi
     return seasonRequest;
 
 }
+async function getUserSeason(userId) {
+    return await prisma.seasonCard.findFirst({
+        where: {
+            userId: userId,
+            approvedStatus: "PAID",
+        },
+        orderBy: {
+            dateIssued: 'desc' // Sort by most recent one
+        },
+    });
 
+}
+async function getUserSeasonRequest(userId) {
+    return await prisma.seasonCard.findFirst({
+        where: {
+            userId: userId,
+            approvedStatus: {
+                in: ['APPROVED', 'PENDING', 'REJECTED']
+            },
+        },
+        orderBy: {
+            dateIssued: 'desc' // Sort by most recent one
+        },
+    });
+
+}
+async function deleteRequeset(userId, seasonId) {
+    return await prisma.seasonCard.delete({
+        where: {
+            userId,
+            seasonId,
+        },
+    });
+}
+async function paySeason(userId, seasonId) {
+    return await prisma.seasonCard.update({
+        where: {
+
+            seasonId: seasonId
+        },
+        data: {
+            approvedStatus: 'PAID',
+        },
+    });
+}
+
+async function getSeasonRepo()  {
+    // const getSeasonRepo = async (userId) => {
+        
+    try {
+        const seasonCards = await prisma.seasonCard.findMany({
+          include: {
+            user: {
+              select: {
+                firstName: true,
+                lastName:true,
+                email: true,
+                mobileNumber: true,
+                nic: true,
+              }
+            }
+          }
+        });
+  
+        return seasonCards;
+      } catch (error) {
+        throw new Error(`Error fetching season cards: ${error.message}`);
+      }
+    }
+  
+
+// async function getSeasonRequests(){
+//     return await prisma.seasonCard.findMany();
+// }
 module.exports = {
-    addSeasonRequest
+    addSeasonRequest,
+    getUserSeasonRequest,
+    getUserSeason,
+    deleteRequeset,
+    paySeason,
+    getSeasonRepo
 };
 
 

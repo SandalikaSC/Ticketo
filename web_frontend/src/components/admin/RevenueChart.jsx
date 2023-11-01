@@ -8,6 +8,16 @@ const RevenueChart = () => {
     { month: 'Mar', revenue: 100000 },
     { month: 'Apr', revenue: 150000 },
     { month: 'May', revenue: 240000 },
+    { month: 'Jun', revenue: 260000 },
+    { month: 'Jul', revenue: 290000 },
+    { month: 'Aug', revenue: 310000 },
+    { month: 'Sep', revenue: 340000 },
+    { month: 'Oct', revenue: 385000 },
+
+
+
+
+
 
 
     // Add more data points here

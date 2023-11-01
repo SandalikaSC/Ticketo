@@ -114,6 +114,7 @@ model SeasonCard {
 enum approvedStatus {
   PENDING
   APPROVED
+  PAID
   REJECTED
   DELETED
 }
@@ -388,7 +389,7 @@ model Coach {
 // CoachArrangement table
 model CoachArrangement {
   arrangementId Int    @id @default(autoincrement()) // Primary Key 
-  Code          String //A B C ...
+  code          String //A B C ...
   coachId       Int // Foreign Key to Coach
   trainId       Int // Foreign Key to Train
   // Relationship 
@@ -425,7 +426,16 @@ model SeatReservation {
   scheduleId         Int?
   coachArrangementId Int?
   // // Relationships  
+  Seats              Seats[]
   Reservation        Reservation?      @relation("reservationSeats", fields: [ticketId], references: [ticketId])
   Schedule           Schedule?         @relation("reservationSchedule", fields: [scheduleId], references: [scheduleId])
   CoachArrangement   CoachArrangement? @relation("reservationCoachArrange", fields: [coachArrangementId], references: [arrangementId])
+}
+
+model Seats {
+  seatID   Int @id @default(autoincrement())
+  seatCode Int
+
+  SeatReservation   SeatReservation @relation(fields: [SeatReservationID], references: [id])
+  SeatReservationID Int
 }

@@ -1,7 +1,7 @@
-/* .tc-season-container {
-  width: 102%;
+ .tc-season-container {
+  overflow: hidden;
 
-} */
+} 
 
 .tc-season-cards {
   margin: 20px 10px;
@@ -120,10 +120,10 @@
   margin-bottom: 5px;
 }
 
-.tc-application-container {
+/* .tc-application-container {
   flex: '0 0 30%';
   margin-left: 20px;
-}
+} */
 
 .tc-approve-button {
   background-color: #FA6F5D;

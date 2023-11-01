@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const { parse } = require('path');
 const prisma = new PrismaClient();
+
 const { getStationId, getStationName } = require("../reposiotries/station-repository");
  
 const addTrainSchedule = async (startStationId,endStationId,startingTime,
@@ -14,6 +15,7 @@ const addTrainSchedule = async (startStationId,endStationId,startingTime,
 
     const added = await prisma.schedule.create({
         data:{ 
+
             startTime: startingTime,
             endTime: finishingTime,
             start: startStationId,
@@ -69,6 +71,7 @@ const deleteSchedule = async(scheduleID) => {
 }
 
 //Gets all schedules by trainID
+
 const getSchedulebytrainID = async(trainID) => {
     const train = parseInt(trainID);
 
@@ -87,9 +90,26 @@ const getSchedulebytrainID = async(trainID) => {
 
     return temp;
     
+// const getSchedulebytrainID = async (trainID) => {
+//     try {
+//         const schedules = await prisma.stationSchedule.findMany({
+//             where: {
+//                 schedule: {
+//                     train: {
+//                         id: trainID,
+//                     },
+//                 },
+//             },
+//         });
+
+//         return schedules;
+//     } catch (error) {
+//         throw new Error(`Error retrieving schedules for train ID ${trainID}: ${error.message}`);
+//     }
+
 }
 
-const getScheduleID = async (startStationId,endStationId,startingTime) => {
+const getScheduleID = async (startStationId, endStationId, startingTime) => {
     return await prisma.station.findUnique({
         where: {
             start: startStationId,
@@ -103,8 +123,7 @@ const getScheduleID = async (startStationId,endStationId,startingTime) => {
     });
 }
 
-const getSchedule = async (userId) =>
-{
+const getSchedule = async (userId) => {
     return await prisma.schedule.findMany({
         where: {
             driverId: userId,
@@ -112,8 +131,7 @@ const getSchedule = async (userId) =>
     });
 };
 
-const getTripSchedules = async (startStation, endStation, working) =>
-{
+const getTripSchedules = async (startStation, endStation, working) => {
     return await prisma.schedule.findMany({
         where: {
             startStation: {
@@ -129,15 +147,14 @@ const getTripSchedules = async (startStation, endStation, working) =>
     });
 
 };
-const getAllSchedulesByWorkingday = async (workingday) =>
-{
+const getAllSchedulesByWorkingday = async (workingday) => {
 
     return await prisma.schedule.findMany({
-        // where: {
-        //     WorkingDays: {
-        //         has: workingday, // You can use 'equals' or 'contains' based on your data structure
-        //     },
-        // },
+        where: {
+            WorkingDays: {
+                has: workingday, // You can use 'equals' or 'contains' based on your data structure
+            },
+        },
         include: {
             Train: true,
             StationSchedule: true,
@@ -145,19 +162,20 @@ const getAllSchedulesByWorkingday = async (workingday) =>
     });
 };
 
+
 const scheduleStations = async (trainID) =>
 {
 
     //Have to get the individual stations
     return await prisma.schedule.findMany({
+
         where: {
             trainId: trainID,
         },
     });
 };
 
-const getScheduleDetails = async (scheduleId) =>
-{
+const getScheduleDetails = async (scheduleId) => {
     const sId = parseInt(scheduleId);
     return await prisma.schedule.findMany({
         where: {
@@ -165,6 +183,7 @@ const getScheduleDetails = async (scheduleId) =>
         },
     });
 };
+
 
 const updateSchedule = async (driverId, scheduleId) => {
     console.log("ïnside schedule repo",driverId);
@@ -178,6 +197,17 @@ const updateSchedule = async (driverId, scheduleId) => {
       });
       return updatedSchedule;
 }
+
+const getTrainBySchedule = async (scheduleId) => {
+    return await prisma.schedule.findUnique({
+        where: {
+            scheduleId: scheduleId,
+        },
+        include: {
+            Train: true, // Include the associated Train
+        },
+    });
+}
 module.exports = {
     getSchedule,
     getTripSchedules,
@@ -187,5 +217,10 @@ module.exports = {
     getSchedulebytrainID,
     scheduleStations,
     deleteSchedule,
-    updateSchedule
+    updateSchedule,
+
+    getScheduleDetails,
+    
+    getTrainBySchedule
+
 };

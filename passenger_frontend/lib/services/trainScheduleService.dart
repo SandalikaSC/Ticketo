@@ -10,12 +10,12 @@ class TrainScheduleService {
     try {
       var baseUrl = dotenv.env['BASE_URL'];
       var uri = Uri.parse(
-          '$baseUrl/getresevationschedules/'); // Make sure the URL is correct
+          '$baseUrl/getresevationschedules'); // Make sure the URL is correct
 
       final Map<String, dynamic> requestData = {
-        'startStation': reservationTicket.startStation!.stationId.toString(),
-        'endStation': reservationTicket.endStation!.stationId.toString(),
-        'departureDate': reservationTicket.depatureDate.toString(),
+        'startStation': reservationTicket.startStation!.stationId,
+        'endStation': reservationTicket.endStation!.stationId,
+        'departureDate': reservationTicket.depatureDate,
         'returnDate': reservationTicket.returnDate.toString(),
       };
 
@@ -26,7 +26,38 @@ class TrainScheduleService {
         },
         body: jsonEncode(requestData), // Encode the data as JSON
       );
-      // print(json.decode(response.body));
+      print(json.decode(response.body));
+      return response;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<http.Response> getTrainInfo(
+      scheduleId, classname, depatureDate) async {
+    try {
+      var baseUrl = dotenv.env['BASE_URL'];
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final accessToken = sharedPreferences.getString('accessToken') ?? '';
+      var uri = Uri.parse(
+          '$baseUrl/schedule/getReservationSchedule'); // Make sure the URL is correct
+
+      final Map<String, dynamic> requestData = {
+        'scheduleId': scheduleId,
+        'classname': classname,
+        'depatureDate': depatureDate
+      };
+
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: jsonEncode(requestData), // Encode the data as JSON
+      );
+      print(json.decode(response.body));
       return response;
     } catch (e) {
       print(e);

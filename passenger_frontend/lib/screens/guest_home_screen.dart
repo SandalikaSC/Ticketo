@@ -354,20 +354,22 @@ class _GuestHomeScreenState extends State<GuestHomeScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Validation successful, handle form submission
-                        ReservationTicket reservationTicket=ReservationTicket(
-                            startStation: _selectedStartStation,
-                            endStation: _selectedEndtStation,
-                            depatureDate: _startDateController.text,
-                            returnDate: _endDateController.text,
-                            passengers: _passengerController.text,
-                            classname: _selectedClass
+                        ReservationTicket reservationTicket = ReservationTicket(
+                          startStation: _selectedStartStation,
+                          endStation: _selectedEndtStation,
+                          depatureDate: _startDateController.text,
+                          returnDate: _endDateController.text,
+                          passengers: _passengerController.text,
+                          classname: _selectedClass,
+                          tripType: _toggleButtonGroupState._selectedIndex,
                         );
 
                         // _loadSchedules(reservationTicket);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => GuestTrainSchedule(reservationTicket: reservationTicket)),
+                              builder: (context) => GuestTrainSchedule(
+                                  reservationTicket: reservationTicket)),
                         );
                       }
                     },

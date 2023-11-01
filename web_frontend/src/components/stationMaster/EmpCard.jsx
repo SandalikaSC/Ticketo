@@ -1,5 +1,5 @@
 import React from 'react';
-// import './EmpCard.css';
+ import "../../css/emp_card.css";
 
 const EmpCard = ({ employee }) => {
   return (
@@ -10,7 +10,14 @@ const EmpCard = ({ employee }) => {
       <p>NIC: {employee.nic}</p>
       <p>Email: {employee.email}</p>
       <p>Phone: {employee.phone}</p>
+
+      <button variant="contained" color="primary">
+        Edit
+      </button>
+      
     </div>
+
+    
   );
 };
 

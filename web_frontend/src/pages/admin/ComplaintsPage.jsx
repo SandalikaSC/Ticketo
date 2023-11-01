@@ -61,7 +61,7 @@ const ComplaintsPage = () => {
                   id="022"
                   complaintBy="Lalith De Silva"
                   userImage={require('../../assets/user2.png')}
-                  date="2023/08/10"
+                  date="2023/10/30"
                   complaint="Delayed train .Not informed"
                   onResolve={() => handleResolveClick("022")}
                 />
@@ -69,7 +69,7 @@ const ComplaintsPage = () => {
                   id="023"
                   complaintBy="Krishan Perera"
                   userImage={require('../../assets/user7.png')}
-                  date="2023/08/06"
+                  date="2023/10/30"
                   complaint="Train schedule not loaded."
                   onResolve={() => handleResolveClick("023")}
                 />
@@ -77,7 +77,7 @@ const ComplaintsPage = () => {
                   id="024"
                   complaintBy="Kesara De Silva"
                   userImage={require('../../assets/user3.png')}
-                  date="2023/08/06"
+                  date="2023/10/30"
                   complaint="Train delay not notified"
                   onResolve={() => handleResolveClick("022")}
                 />
@@ -85,7 +85,7 @@ const ComplaintsPage = () => {
                   id="025"
                   complaintBy="Ashen Perera"
                   userImage={require('../../assets/user4.png')}
-                  date="2023/08/06"
+                  date="2023/10/29"
                   complaint="Train schedule not loaded."
                   onResolve={() => handleResolveClick("021")}
                 />
@@ -93,7 +93,7 @@ const ComplaintsPage = () => {
                   id="026"
                   complaintBy="Jesika Fernando"
                   userImage={require('../../assets/user5.png')}
-                  date="2023/08/10"
+                  date="2023/10/29"
                   complaint="Delayed train .Not informed"
                   onResolve={() => handleResolveClick("022")}
                 />
@@ -106,7 +106,7 @@ const ComplaintsPage = () => {
               id="002"
               complaintBy="Jehan Smith"
               imageUrl={require('../../assets/user7.png')}
-              date="2023/08/03"
+              date="2023/10/23"
               complaint="Ticket refund not received."
               actionTaken="Processed refund and notified the user."
             />
@@ -114,7 +114,7 @@ const ComplaintsPage = () => {
               id="004"
               complaintBy="Subod Chathuraj"
               imageUrl={require('../../assets/user8.png')}
-              date="2023/07/14"
+              date="2023/10/14"
               complaint="Unauthorized transaction."
               actionTaken="Investigated and refunded the amount."
             />
@@ -122,7 +122,7 @@ const ComplaintsPage = () => {
               id="005"
               complaintBy="Chamari Jayasekara"
               imageUrl={require('../../assets/user5.png')}
-              date="2023/07/24"
+              date="2023/10/14"
               complaint="Ticket refund not received."
               actionTaken="Investigated and refunded the amount."
 
@@ -132,7 +132,7 @@ const ComplaintsPage = () => {
               id="007"
               complaintBy="Hilmi Mohomed"
               imageUrl={require('../../assets/user3.png')}
-              date="2023/08/01"
+              date="2023/10/01"
               complaint="Ticket refund not received."
               actionTaken="Processed refund and notified the user."
             />

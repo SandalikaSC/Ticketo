@@ -8,14 +8,15 @@ const getResevationSchedules = async (req, res) => {
 
     const { startStation, endStation, departureDate, returnDate } = req.body;
     // // Validate startStation, endStation, tripType, startDate, returnDate, passengers, and classname
+
+
     if (!startStation || !endStation || !departureDate) {
         console.log(startStation, endStation, departureDate);
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-
     try {
-
+        console.log("err");
         const schedules = await scheduleService.getScheduleByTrip(startStation, endStation, departureDate, returnDate);
 
         if (schedules) {
@@ -24,6 +25,7 @@ const getResevationSchedules = async (req, res) => {
             return res.status(400).json({ message: "Not schedules" });
         }
     } catch (err) {
+        console.log(err);
         return res.status(500).json({ message: "Internal Server Error" });
     }
 
@@ -40,7 +42,6 @@ const addTrainSchedule = async (req, res) => {
     if (!startingStation || !destination || !startingTime || !finishingTime) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
-
     try{
         console.log(startingStation);
         console.log(startingTime);
@@ -95,13 +96,39 @@ const addTrainSchedule = async (req, res) => {
                 res.status(201).json({ message: "Schedule added successfully", addTrainSchedules });
             }
         }
-    }catch(error)
-    {
+    } catch (error) {
         console.error("Error fetching schedules:", error);
     }
 }
+const getReservationSchedule = async (req, res) => {
 
+
+    const { scheduleId, classname, depatureDate } = req.body;
+    // // Validate startStation, endStation, tripType, startDate, returnDate, passengers, and classname
+
+    if (!scheduleId || !depatureDate || !classname) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        console.log("err");
+        const coachArrangements = await scheduleService.getReservationSchedule(scheduleId, classname, depatureDate);
+
+        if (coachArrangements) {
+            return res.status(200).json({ coachArrangements });
+        } else {
+            return res.status(400).json({ message: "Not coachArrangements" });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Internal Server Error" });
+    }
+
+
+
+}
 module.exports = {
     getResevationSchedules,
-    addTrainSchedule
+    addTrainSchedule,
+    getReservationSchedule
 };

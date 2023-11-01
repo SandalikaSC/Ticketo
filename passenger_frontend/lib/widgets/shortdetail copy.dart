@@ -2,41 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:passenger_frontend/constants/app_styles.dart';
 
-class scheduleWidget extends StatelessWidget {
-  final String date;
-  final String endTime;
-  final String? StartTime;
-  final String name;
+class ReservationticketDetail extends StatelessWidget {
+  final int ticketNo;
+  final int passengers;
+  final String status;
+  final String? tripType;
+  final double price;
   final String? start;
   final String? end;
   final String? classname;
-  final String? startingStation;
-  final String? endingStation;
 
-  const scheduleWidget(
+  const ReservationticketDetail(
       {Key? key,
-      required this.date,
-      required this.endTime,
-      required this.StartTime,
-      required this.name,
+      required this.ticketNo,
+      required this.passengers,
+      required this.status,
+      required this.tripType,
+      required this.price,
       required this.start,
       required this.end,
-      required this.classname,
-      required this.startingStation,
-      required this.endingStation})
+      required this.classname})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 35, right: 35, top: 18, bottom: 8),
+      padding: EdgeInsets.only(left: 16, right: 16, top: 18, bottom: 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 195, 207, 234),
+                color: Color.fromARGB(255, 240, 209, 148),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
                     topRight: Radius.circular(24))),
@@ -47,7 +45,7 @@ class scheduleWidget extends StatelessWidget {
                     Text(
                       "Start",
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.indigo),
                     ),
@@ -102,7 +100,7 @@ class scheduleWidget extends StatelessWidget {
                             Center(
                               child: Icon(
                                 CupertinoIcons.tram_fill,
-                                color: Color.fromARGB(255, 255, 255, 255),
+                                color: Styles.secondaryColor,
                                 size: 24,
                               ),
                             )
@@ -131,7 +129,7 @@ class scheduleWidget extends StatelessWidget {
                     Text(
                       "End",
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.pink),
                     )
@@ -144,15 +142,13 @@ class scheduleWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(
-                        // width: 100,
+                        width: 100,
                         child: Text(
-                      "$start", //start station
+                          "$start", //start station
 
-                      ///start station
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 0, 0, 0)),
-                    )),
+                          ///start station
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        )),
                     // Text(
                     //   "6H 30M",
                     //   style: TextStyle(
@@ -161,14 +157,12 @@ class scheduleWidget extends StatelessWidget {
                     //       color: Colors.black),
                     // ),
                     SizedBox(
-                        // width: 100,
+                        width: 100,
                         child: Text(
-                      "$end", //end startion
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: const Color.fromARGB(255, 0, 0, 0)),
-                    )),
+                          "$end", //end startion
+                          textAlign: TextAlign.end,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        )),
                   ],
                 ),
                 SizedBox(
@@ -178,37 +172,17 @@ class scheduleWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      "$StartTime", //trip type
+                      "$tripType", //trip type
                       style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "$endTime", //journey status
+                      "$classname", //journey status
                       style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "$startingStation", //trip type
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "$endingStation", //journey status
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
+                          color: Styles.secondaryColor,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -218,7 +192,7 @@ class scheduleWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      "", // number of passengers
+                      "Passengers $passengers", // number of passengers
                       style: TextStyle(
                           fontSize: 12,
                           color: const Color.fromARGB(255, 82, 78, 78)),
@@ -226,7 +200,11 @@ class scheduleWidget extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Text(
-                          "$date", //ticket number
+                          "Ticket No : ",
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        Text(
+                          "$ticketNo", //ticket number
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -306,7 +284,7 @@ class scheduleWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 236, 238, 244),
                       borderRadius: BorderRadius.circular(20)),
-                  child: Icon(CupertinoIcons.tag_circle_fill,
+                  child: Icon(CupertinoIcons.tickets_fill,
                       color: Styles.secondaryColor),
                 ),
                 SizedBox(
@@ -318,7 +296,14 @@ class scheduleWidget extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Colors.grey)),
                 Expanded(
-                    child: Text("$name", //name
+                    child: Text("$status",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 118, 165, 219)))),
+                Expanded(
+                    child: Text("Rs. $price", //price
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: 18,

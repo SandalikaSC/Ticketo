@@ -24,16 +24,18 @@ const {
   addTrain, getAllTrains, getalldrivers
 } = require("../controllers/train-controller");
 
+
 const{
   getTrainSchedules,
   deleteTrainSchedule
+
 } = require("../controllers/trainGuard/guard-schedule-controller");
 
 const { verifyToken } = require("../middleware/authenticate");
 const { verifyOtp } = require("../util/otp");
 const { resetPassword } = require("../services/auth-service");
 const { getStationMasters } = require("../controllers/stationMasterController");
-const { getDelays } = require("../controllers/location-controller");
+const { getDelays, getAllUpdates } = require("../controllers/location-controller");
 
 const ticketRouter = require('./ticketRouter');
 const scheduleRouter = require('./scheduleRouter');
@@ -46,7 +48,7 @@ router.use('/ticket', ticketRouter);
 router.use('/trainguard', scheduleRouter);
 router.use('/wallet', walletRouter);
 router.use('/season', seasonRouter);
-
+router.use('/schedule', scheduleRouter);
 
 router.post("/login", login);
 router.post("/signup", signup);
@@ -70,4 +72,6 @@ router.post("/add-driver", addDriver);
 router.post("/add-guard", addGuard);
 
 router.get("/get-delays", getDelays);
+router.get("/get-all-updates", getAllUpdates);
+
 module.exports = router;
