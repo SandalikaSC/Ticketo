@@ -18,4 +18,5 @@ scheduleRouter.use(verifyToken);
 scheduleRouter.get('/get-schedule', getGuardSchedules);
 scheduleRouter.post('/get-all-stations', getAllScheduleStations);
 scheduleRouter.post('/get-locations', getLocations);
+scheduleRouter.get('/get-notification',);
 module.exports = scheduleRouter;
