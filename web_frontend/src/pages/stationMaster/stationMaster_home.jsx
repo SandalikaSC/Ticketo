@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 //import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AddCheckerClerk from "./addCheckerClerk";
+//import EditEmpDetails from "./editCheckerClerkDetails";
 import CheckerClerkCard from "./checkerClerkCard";
 //import DetailCheckerClerk from "./detailsCheckersClerks";
 import DisplayCheckersClerks from "./displayCheckersClerks";

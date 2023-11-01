@@ -2,7 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-async function main() {
+async function main()
+{
     const userData = [
         {
             id: '1',
@@ -293,7 +294,8 @@ async function main() {
             userType: ["ADMIN"],
         },
     ];
-    for (const data of userData) {
+    for (const data of userData)
+    {
         await prisma.user.create({
             data
         });
@@ -382,460 +384,463 @@ async function main() {
         }
 
     ];
-    for (const data of wallets) {
+    for (const data of wallets)
+    {
         await prisma.Wallet.create({
             data
         });
     }
+
     const stationData = [
         {
             name: 'Maradana',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.92955,
+            longitude: 79.86592,
+            contactNumber: '0112695722',
         },
         {
             name: 'Colombo Fort',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.93410,
+            longitude: 79.84986,
+            contactNumber: '0112434215',
         },
         {
             name: 'Secretariat Halt',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.93226,
+            longitude: 79.84606,
+            contactNumber: '0000000000',
         },
         {
             name: 'Slave Island',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.92420,
+            longitude: 79.84937,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kollupitiya',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.91133,
+            longitude: 79.84834,
+            contactNumber: '0000000000',
         },
         {
             name: 'Bambalapitiya',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.89438,
+            longitude: 79.85300,
+            contactNumber: '0112584503',
         },
         {
             name: 'Wellawatte',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.87524,
+            longitude: 79.85749,
+            contactNumber: '0000000000',
         },
         {
-            name: 'Mount Laviniya',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            name: 'Mount Lavinia',
+            latitude: 6.83223,
+            longitude: 79.86291,
+            contactNumber: '0769127523',
         },
         {
             name: 'Rathmalana',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.81558,
+            longitude: 79.86704,
+            contactNumber: '0112635271',
         },
         {
             name: 'Angulana',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.79950,
+            longitude: 79.87264,
+            contactNumber: '0112605256',
         },
         {
             name: 'Lunawa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.78747,
+            longitude: 79.87542,
+            contactNumber: '0000000000',
         },
         {
             name: 'Moratuwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.77486,
+            longitude: 79.88193,
+            contactNumber: '0112645264',
         },
         {
             name: 'Koralawella',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.76276,
+            longitude: 79.88528,
+            contactNumber: '0000000000',
         },
         {
             name: 'Egoda Uyana',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.74397,
+            longitude: 79.89169,
+            contactNumber: '0112657336',
         },
         {
             name: 'Panadura',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.71291,
+            longitude: 79.90455,
+            contactNumber: '0000000000',
         },
         {
             name: 'Pinwatte',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.68680,
+            longitude: 79.91580,
+            contactNumber: '0000000000',
         },
         {
             name: 'Wadduwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.66270,
+            longitude: 79.92861,
+            contactNumber: '0382232571',
         },
         {
             name: 'Train Halt 01',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.63304,
+            longitude: 79.93940,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kaluthara North',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.60134,
+            longitude: 79.95419,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kaluthara South',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.58415,
+            longitude: 79.95903,
+            contactNumber: '0342222271',
         },
         {
             name: 'Katukurunda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.56007,
+            longitude: 79.96605,
+            contactNumber: '0000000000',
         },
         {
             name: 'Payagala North',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.53159,
+            longitude: 79.97502,
+            contactNumber: '0000000000',
         },
         {
             name: 'Payagala South',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.52167,
+            longitude: 79.97887,
+            contactNumber: '0342233760',
         },
         {
             name: 'Maggona',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.50480,
+            longitude: 79.98140,
+            contactNumber: '0000000000',
         },
         {
             name: 'Beruwala',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.47699,
+            longitude: 79.98359,
+            contactNumber: '0342276371',
         },
         {
             name: 'Hettimulla',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.45808,
+            longitude: 79.99077,
+            contactNumber: '0000000000',
         },
         {
             name: 'Aluthgama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.43296,
+            longitude: 80.00024,
+            contactNumber: '0342275282',
         },
         {
             name: 'Bentota',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.42216,
+            longitude: 79.99663,
+            contactNumber: '0000000000',
         },
         {
             name: 'Induruwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.38751,
+            longitude: 80.00859,
+            contactNumber: '0000000000',
         },
         {
             name: 'Maha Induruwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.36427,
+            longitude: 80.01400,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kosgoda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.33845,
+            longitude: 80.02945,
+            contactNumber: '0000000000',
         },
         {
             name: 'Piyagama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.32749,
+            longitude: 80.03407,
+            contactNumber: '0000000000',
         },
         {
             name: 'Ahungalle',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.31267,
+            longitude: 80.03763,
+            contactNumber: '0000000000',
         },
         {
             name: 'Patagamgoda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.29637,
+            longitude: 80.04165,
+            contactNumber: '0000000000',
         },
         {
             name: 'Balapitiya',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.27663,
+            longitude: 80.04340,
+            contactNumber: '0000000000',
         },
         {
             name: 'Andadola',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.26611,
+            longitude: 80.04698,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kandegoda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.25015,
+            longitude: 80.05295,
+            contactNumber: '0000000000',
         },
         {
             name: 'Ambalangoda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.23533,
+            longitude: 80.05496,
+            contactNumber: '0912258271',
         },
         {
             name: 'Madampagama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.21267,
+            longitude: 80.06109,
+            contactNumber: '0000000000',
         },
         {
             name: 'Akurala',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.19207,
+            longitude: 80.06487,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kahawa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.18324,
+            longitude: 80.07395,
+            contactNumber: '0000000000',
         },
         {
             name: 'Telwatte',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.16912,
+            longitude: 80.08897,
+            contactNumber: '0000000000',
         },
         {
             name: 'Seenigama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.15876,
+            longitude: 80.09474,
+            contactNumber: '0000000000',
         },
         {
             name: 'Hikkaduwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.14219,
+            longitude: 80.10008,
+            contactNumber: '0000000000',
         },
         {
             name: 'Thirangama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.12224,
+            longitude: 80.11444,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kumarakanda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.11234,
+            longitude: 80.12423,
+            contactNumber: '0000000000',
         },
         {
             name: 'Dodanduwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.09830,
+            longitude: 80.13283,
+            contactNumber: '0912264279',
         },
         {
             name: 'Rathgama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.09332,
+            longitude: 80.13996,
+            contactNumber: '0000000000',
         },
         {
             name: 'Boossa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.07398,
+            longitude: 80.16105,
+            contactNumber: '0000000000',
         },
         {
             name: 'Ginthota',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.06072,
+            longitude: 80.17936,
+            contactNumber: '0912234272',
         },
         {
             name: 'Piyadigama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.05366,
+            longitude: 80.19084,
+            contactNumber: '0000000000',
         },
         {
             name: 'Richmond Hill',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.05394,
+            longitude: 80.20466,
+            contactNumber: '0000000000',
         },
         {
             name: 'Galle',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.03335,
+            longitude: 80.21435,
+            contactNumber: '0912232271',
         },
         {
             name: 'Katugoda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.03270,
+            longitude: 80.24011,
+            contactNumber: '0000000000',
         },
         {
             name: 'Unawatuna',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.02203,
+            longitude: 80.24912,
+            contactNumber: '0000000000',
         },
         {
             name: 'Talpe',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.99849,
+            longitude: 80.28009,
+            contactNumber: '0000000000',
         },
         {
             name: 'Habaraduwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.99406,
+            longitude: 80.30728,
+            contactNumber: '0000000000',
         },
         {
             name: 'Koggala',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.98600,
+            longitude: 80.33163,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kathaluwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.98357,
+            longitude: 80.33796,
+            contactNumber: '0000000000',
         },
         {
             name: 'Ahangama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.97321,
+            longitude: 80.36383,
+            contactNumber: '0912283271',
         },
         {
             name: 'Midigama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.96519,
+            longitude: 80.39149,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kumbalgama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.96360,
+            longitude: 80.40964,
+            contactNumber: '0000000000',
         },
         {
             name: 'Weligama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.97564,
+            longitude: 80.42962,
+            contactNumber: '0412250271',
         },
         {
             name: 'Polwathumodara',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.96428,
+            longitude: 80.45740,
+            contactNumber: '0000000000',
         },
         {
             name: 'Mirissa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.95684,
+            longitude: 80.47336,
+            contactNumber: '0000000000',
         },
         {
             name: 'Kamburugamuwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.94353,
+            longitude: 80.49579,
+            contactNumber: '0000000000',
         },
         {
             name: 'Walgama',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.94546,
+            longitude: 80.51417,
+            contactNumber: '0000000000',
         },
         {
             name: 'Matara',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.95181,
+            longitude: 80.54352,
+            contactNumber: '0000000000',
         },
         {
             name: 'Piliduwa',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.95369,
+            longitude: 80.55665,
+            contactNumber: '0000000000',
         },
         {
             name: 'Weherahena',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.95705,
+            longitude: 80.57766,
+            contactNumber: '0413134331',
         },
         {
             name: 'Kekanadura',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.96068,
+            longitude: 80.59895,
+            contactNumber: '0000000000',
         },
         {
             name: 'Bambaranda',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.97066,
+            longitude: 80.66051,
+            contactNumber: '0000000000',
         },
         {
             name: 'Wewurukannala',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 5.97935,
+            longitude: 80.69741,
+            contactNumber: '0413134332',
         },
         {
             name: 'Beliatta',
-            latitude: 7.9191593978269585,
-            longitude: 7.9191593978269585,
-            contactNumber: '0253891292',
+            latitude: 6.04270,
+            longitude: 80.73663,
+            contactNumber: '0000000000',
         },
         // Add more station data here...
     ];
 
-    for (const data of stationData) {
+    for (const data of stationData)
+    {
         await prisma.station.create({
             data
         });
@@ -898,7 +903,8 @@ async function main() {
         },
 
     ];
-    for (const data of employeedata) {
+    for (const data of employeedata)
+    {
         await prisma.Employee.create({
             data
         });
@@ -972,7 +978,8 @@ async function main() {
         // Add more train data...
     ];
 
-    for (const data of trainData) {
+    for (const data of trainData)
+    {
         await prisma.train.create({
             data,
         });
@@ -1013,7 +1020,8 @@ async function main() {
         // Add more schedule data...
     ];
 
-    for (const data of scheduleData) {
+    for (const data of scheduleData)
+    {
         await prisma.schedule.create({
             data,
         });
@@ -1469,7 +1477,8 @@ async function main() {
         // Add more station schedule data...
     ];
 
-    for (const data of stationScheduleData) {
+    for (const data of stationScheduleData)
+    {
         await prisma.stationSchedule.create({
             data,
         });
@@ -1488,7 +1497,8 @@ async function main() {
     ];
 
 
-    for (const data of classData) {
+    for (const data of classData)
+    {
         await prisma.class.create({
             data,
         });
@@ -1507,6 +1517,7 @@ async function main() {
         // Add more coach data here...
     ];
 
+ 
     const coachArrangement = [
         { code: 'A', coachId: 5, trainId: 3 },
         { code: 'B', coachId: 5, trainId: 3 },
@@ -1522,7 +1533,7 @@ async function main() {
         { code: 'F', coachId: 3, trainId: 2 },
         // Add more coach data here...
     ];
-    for (const data of coachData) {
+    for (const data of coachData) { 
         await prisma.coach.create({
             data,
         });
@@ -1535,11 +1546,14 @@ async function main() {
     }
     const uniqueStationPairs = generateUniqueStationPairs(stationData);
 
-    function generateUniqueStationPairs(stationData) {
+    function generateUniqueStationPairs(stationData)
+    {
         const stationPairs = [];
 
-        for (let i = 1; i <= stationData.length; i++) {
-            for (let j = i + 1; j < stationData.length; j++) {
+        for (let i = 1; i <= stationData.length; i++)
+        {
+            for (let j = i + 1; j < stationData.length; j++)
+            {
                 stationPairs.push({ start: i, end: j });
             }
         }
@@ -1559,14 +1573,16 @@ async function main() {
         privateThird: getRandomFloat(1000, 2000),
     }));
 
-    for (const data of dummyJourneyPrices) {
+    for (const data of dummyJourneyPrices)
+    {
         await prisma.Journey.create({
             data,
         });
     }
 
 
-    function getRandomFloat(min, max) {
+    function getRandomFloat(min, max)
+    {
         return parseFloat(((Math.random() * (max - min)) + min).toFixed(2));;
     }
 
@@ -1575,9 +1591,11 @@ async function main() {
 }
 
 main()
-    .catch((e) => {
+    .catch((e) =>
+    {
         throw e;
     })
-    .finally(async () => {
+    .finally(async () =>
+    {
         await prisma.$disconnect();
-    });
+    });

@@ -10,7 +10,14 @@ const EmpCard = ({ employee }) => {
       <p>NIC: {employee.nic}</p>
       <p>Email: {employee.email}</p>
       <p>Phone: {employee.phone}</p>
+
+      <button variant="contained" color="primary">
+        Edit
+      </button>
+      
     </div>
+
+    
   );
 };
 
