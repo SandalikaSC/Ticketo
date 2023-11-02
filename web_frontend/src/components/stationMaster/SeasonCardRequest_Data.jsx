@@ -1,9 +1,76 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 import '../../css/seasonRequest_displayForm.css';
 
-const ApplicationData = ({ data }) => {
-    const isPending = data.approvedStatus === 'PENDING';
+const ApplicationData = ({ data  }) => {
+   
+
+    // useEffect(() => {
+    //     const accessToken = localStorage.getItem('accessToken');
+    //     const headers = {
+    //         Authorization: `Bearer ${accessToken}`,
+    //     };
+
+    //     axios
+    //         .get('http://localhost:5000/api/season/getallseasonrequests', { headers })
+    //         .then((response) => {
+    //             setCardsData(response.data);
+    //             console.log(response.data);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error fetching data', error);
+    //         });
+    // }, []);
+
+
+        const handleApproveClick = async () => {
+            try {
+                const accessToken = localStorage.getItem("accessToken");
+                const headers = {Authorization: `Bearer ${accessToken}`,
+        };                    console.log(data.seasonId);
+   
+                const response = await axios.post('http://localhost:5000/api/season/seasonaccept', { 
+                    seasonId: data.seasonId,
+                }, { headers });
+    
+                if (response.status === 200) {
+                    Swal.fire('Success', 'Successfully approved', 'success');
+                } else {
+                    Swal.fire('Error', 'Failed to approve', 'error');
+                }
+            } catch (error) {
+                console.error('Error approving season:', error);
+                Swal.fire('Error', 'Failed to approve', 'error');
+            }
+        };
+    
+        const handleRejectClick = async () => {
+            try {
+                
+                const accessToken = localStorage.getItem("accessToken");
+                const headers = {Authorization: `Bearer ${accessToken}`,
+        };
+
+                const response = await axios.post('http://localhost:5000/api/season/seasonreject', {
+                    seasonId: data.seasonId,
+                },{ headers });
+    
+                if (response.status === 200) {
+                    Swal.fire('Success', 'Successfully rejected', 'success');
+                } else {
+                    Swal.fire('Error', 'Failed to reject', 'error');
+                }
+            } catch (error) {
+                console.error('Error rejecting season:', error);
+                Swal.fire('Error', 'Failed to reject', 'error');
+            }
+        };
+    
+
+
+    
     console.log(data);
     return (
         <Card className="tc-application-form">
@@ -47,11 +114,19 @@ const ApplicationData = ({ data }) => {
                 </div> */}
                 
             </Card.Body>
-           <Card.Footer  className="tc-app-card-footer">
-                <Button variant="danger" className="tc-form-approve-button" disabled={!isPending}>
+            <Card.Footer  className="tc-app-card-footer">
+                <Button 
+                    variant="danger" 
+                    className="tc-form-approve-button"
+                    onClick={handleApproveClick}
+                >
                     Approve
                 </Button>
-                <Button variant="outline-danger" className="tc-form-reject-button">
+                <Button 
+                    variant="outline-danger" 
+                    className="tc-form-reject-button"
+                    onClick={handleRejectClick}
+                >
                     Reject
                 </Button>
             </Card.Footer>        
