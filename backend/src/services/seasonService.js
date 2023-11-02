@@ -1,5 +1,5 @@
 
-const { addSeasonRequest, getUserSeason, getUserSeasonRequest, paySeason, deleteRequeset,getSeasonRepo } = require("../reposiotries/season-repository")
+const { addSeasonRequest, getUserSeason, getUserSeasonRequest, paySeason, deleteRequeset,getSeasonRepo,acceptRequeset,rejectRequeset } = require("../reposiotries/season-repository")
 const { getStationId, getStationName } = require("../reposiotries/station-repository")
 const { getJourneyPrice } = require("../reposiotries/journey-rerpositary")
 const { PrismaClient } = require("@prisma/client");
@@ -201,7 +201,7 @@ const rejectSeasonRequest = async (seasonId) => {
     try {
 
 
-        const status = await rejectRequeset(seasonId);
+        const status = await rejectRequeset(seasonId.toString());
 
         return status;
     } catch (err) {
@@ -214,7 +214,7 @@ const acceptSeasonRequest = async (seasonId) => {
     try {
 
 
-        const status = await acceptRequeset(seasonId);
+        const status = await acceptRequeset(seasonId.toString());
 
         return status;
     } catch (err) {
